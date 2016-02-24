@@ -4,8 +4,8 @@ AUTHOR = "Scott Ware"
 LICENSE = "ECL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
-DEPENDS = "nodejs node-red"
-RDEPENDS_${PN} = "bash"
+DEPENDS = "nodejs"
+RDEPENDS_${PN} = "bash nodejs node-red"
 
 inherit npm
 

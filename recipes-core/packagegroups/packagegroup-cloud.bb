@@ -3,12 +3,15 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
+PROVIDES = "${PACKAGES}"
+
 PACKAGES = "\
 	packagegroup-ibm-cloud \
 "
 
-DEPENDS_packagegroup-ibm-cloud = "\
+RDEPENDS_packagegroup-ibm-cloud = "\
 	iotf-embeddedc \
+	iotf-embeddedc-dev \
 	iot-nodered \
 	python-ibmiotf \
 "
