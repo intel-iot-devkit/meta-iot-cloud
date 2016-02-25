@@ -1,6 +1,5 @@
 DESCRIPTION = "IBM Internet of Things Foundation Client for Python"
 HOMEPAGE = "https://github.com/ibm-messaging/iot-python"
-AUTHOR = "Scott Ware"
 LICENSE = "ECL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=8e63150e06ca345cebdd9a63642ac49d"
 
