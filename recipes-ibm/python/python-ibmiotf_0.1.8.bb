@@ -7,7 +7,7 @@ inherit setuptools
 
 SRCNAME = "ibmiotf"
 
-RDEPENDS_${PN} += "${PYTHON_PN}-requests ${PYTHON_PN}-paho-mqtt ${PYTHON_PN}-iso8601 ${PYTHON_PN}-pytz"
+RDEPENDS_${PN} += "${PYTHON_PN}-requests ${PYTHON_PN}-paho-mqtt ${PYTHON_PN}-iso8601 ${PYTHON_PN}-pytz ${PYTHON_PN}-json ${PYTHON_PN}-datetime ${PYTHON_PN}-threading ${PYTHON_PN}-netclient"
 
 SRC_URI = "https://pypi.python.org/packages/source/i/${SRCNAME}/${SRCNAME}-${PV}.zip"
 
