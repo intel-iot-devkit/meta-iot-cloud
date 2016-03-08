@@ -8,5 +8,5 @@ inherit pypi
 
 RDEPENDS_${PN} += "groff less ${PYTHON_PN}-docutils ${PYTHON_PN}-colorama ${PYTHON_PN}-botocore ${PYTHON_PN}-rsa ${PYTHON_PN}-s3transfer ${PYTHON_PN}-argparse ${PYTHON_PN}-difflib ${PYTHON_PN}-subprocess ${PYTHON_PN}-ctypes ${PYTHON_PN}-misc"
 
-SRC_URI[md5sum] = "a656168d2d38dd7555c4cb7b7b7e005c"
-SRC_URI[sha256sum] = "3b6ef8da43117e17527ad974ab89fb47c4a78f8a9a1b419e4b54c3e6da940f21"
+SRC_URI[md5sum] = "6ec35cc8da5957d623c45f560e9dc5c3"
+SRC_URI[sha256sum] = "5794cc065ab664e696aa953ef654c43cb0a48b351314cf90540afeb35ab41b6c"
