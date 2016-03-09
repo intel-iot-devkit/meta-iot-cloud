@@ -10,6 +10,7 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-docutils \
 	${PYTHON_PN}-dateutil \
 	${PYTHON_PN}-jmespath \
+	${PYTHON_PN}-six \
 	${PYTHON_PN}-shell \
 	${PYTHON_PN}-netserver \
 	${PYTHON_PN}-email \
