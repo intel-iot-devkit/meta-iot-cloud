@@ -5,7 +5,17 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1e01b26bacfc2232046c90a330332b3"
 
 inherit setuptools
 
-RDEPENDS_${PN} += "${PYTHON_PN}-botocore ${PYTHON_PN}-futures ${PYTHON_PN}-math ${PYTHON_PN}-lang ${PYTHON_PN}-logging ${PYTHON_PN}-io ${PYTHON_PN}-threading ${PYTHON_PN}-stringold ${PYTHON_PN}-pkgutil"
+RDEPENDS_${PN} = "\
+	${PYTHON_PN}-botocore \
+	${PYTHON_PN}-futures \
+	${PYTHON_PN}-math \
+	${PYTHON_PN}-lang \
+	${PYTHON_PN}-logging \
+	${PYTHON_PN}-io \
+	${PYTHON_PN}-threading \
+	${PYTHON_PN}-stringold \
+	${PYTHON_PN}-pkgutil \
+"
 
 SRC_NAME = "s3transfer"
 

@@ -13,8 +13,14 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * python-ibmiotf
 * `packagegroup-cloud-aws`
     * python-awscli
+    * python-boto3
 * `paho-mqtt-c`
 * `node-red`
+
+## Dependencies
+This layer depends on packages provided by the following layers:
+* `meta-openembedded` [http://cgit.openembedded.org/meta-openembedded/]
+* `meta-nodejs` [https://github.com/imyller/meta-nodejs]
 
 Installation
 ============
@@ -23,10 +29,12 @@ Installation
 ```bitbake
 	BBLAYERS += "path/to/meta-iot-cloud"
 ```
-## Dependencies
-This layer depends on packages provided by the following layers:
-* `meta-openembedded` [http://cgit.openembedded.org/meta-openembedded/]
-* `meta-nodejs` [https://github.com/imyller/meta-nodejs]
+3. Add dependency layers to `conf/bblayers.conf`
+```bitbake
+	BBLAYERS += "path/to/meta-openembedded/meta-oe"
+	BBLAYERS += "path/to/meta-openembedded/meta-python"
+	BBLAYERS += "path/to/meta-nodejs"
+```
 
 Usage
 =====
