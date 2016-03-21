@@ -22,7 +22,7 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "botocore"
 
 SRC_URI = "https://pypi.python.org/packages/source/b/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "abdaa3db4132d046e826ad01bfc364db"
-SRC_URI[sha256sum] = "3391e31ad3df0b4a0f05c82bdfd33c7fa7b052071bd5b57980e504d8770c6d86"
+SRC_URI[md5sum] = "8ada0254ab3f080a0a7f5035c958403c"
+SRC_URI[sha256sum] = "d83d6623d9eba2d2e2474c35b6180809d3f4c36321006a49a8d1dd6f652a93c3"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
