@@ -15,8 +15,8 @@ SRC_URI = "https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zi
 	   file://${PN}.service \
 "
 
-SRC_URI[md5sum] = "c7941812e6e0b2cd7d4187b55cb9d07a"
-SRC_URI[sha256sum] = "4b346097482cbf10c3215c4f6b30f1a3dc549df071c3089f16e73245a11e5ebc"
+SRC_URI[md5sum] = "442c28584892617bbf300456bc6f1ac9"
+SRC_URI[sha256sum] = "badddaebb0ebc9cdc47372b88050a83117b55fb28437f58c5696c5669261db1e"
 
 S = "${WORKDIR}/${PN}-${PV}"
 
