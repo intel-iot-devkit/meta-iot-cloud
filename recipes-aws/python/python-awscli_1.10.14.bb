@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "awscli"
 
 SRC_URI = "https://pypi.python.org/packages/source/a/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "b6cb403e07065cd72e807f34dab7a944"
-SRC_URI[sha256sum] = "c792ae655ca4e43643539026798d51bd65b2f5eee48bfaf048fe1c4c715f9467"
+SRC_URI[md5sum] = "77768345ef3e27704220b7499def466d"
+SRC_URI[sha256sum] = "68355a6e86a25596939b98ce1902b9778cbce327b1d98e211bb1dd69e7a2cdf2"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
