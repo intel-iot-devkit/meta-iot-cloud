@@ -20,7 +20,7 @@ SRC_NAME = "ibmiotf"
 
 SRC_URI = "https://pypi.python.org/packages/source/i/${SRC_NAME}/${SRC_NAME}-${PV}.zip"
 
-SRC_URI[md5sum] = "4694ddd89f4a127ef32e090d77b54c70"
-SRC_URI[sha256sum] = "13b38010a9ae0cd845c17f14bbc5d9fa68bbb15ef0f7805f222a0bd5277ea33b"
+SRC_URI[md5sum] = "fb29e562fc9ed22fc926c0ed34e383be"
+SRC_URI[sha256sum] = "330fca8e9b98f85620f0fa09e6e4b36deca92c14d34ace1bd586bcfe7391da3a"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
