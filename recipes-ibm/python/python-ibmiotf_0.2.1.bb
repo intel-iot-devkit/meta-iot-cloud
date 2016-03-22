@@ -13,7 +13,8 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-json \
 	${PYTHON_PN}-datetime \
 	${PYTHON_PN}-threading \
-	${PYTHON_PN}-netclient\
+	${PYTHON_PN}-netclient \
+	${PYTHON_PN}-distribute \
 "
 
 SRC_NAME = "ibmiotf"
