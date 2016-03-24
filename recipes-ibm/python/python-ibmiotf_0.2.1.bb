@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8e63150e06ca345cebdd9a63642ac49d"
 
 inherit setuptools
 
+PR = "r2"
+
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-requests \
 	${PYTHON_PN}-paho-mqtt \
@@ -15,6 +17,7 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-threading \
 	${PYTHON_PN}-netclient \
 	${PYTHON_PN}-distribute \
+	${PYTHON_PN}-contextlib \
 "
 
 SRC_NAME = "ibmiotf"
