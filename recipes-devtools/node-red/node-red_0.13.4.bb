@@ -7,8 +7,6 @@ RDEPENDS_${PN} = "bash python nodejs"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-inherit npm-install
-
 PR = "r1"
 
 SRC_URI = "https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
@@ -21,9 +19,21 @@ SRC_URI[sha256sum] = "badddaebb0ebc9cdc47372b88050a83117b55fb28437f58c5696c56692
 S = "${WORKDIR}/${PN}-${PV}"
 
 NODE_MODULES_DIR = "${libdir}/node_modules/"
-NPM_INSTALL_FLAGS = "--production --no-optional"
+NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
+NPM_REGISTRY ?= "https://registry.npmjs.org/"
+NPM_INSTALL_FLAGS ?= "--production --no-optional --verbose"
 
-do_install_append() {
+do_compile() {
+	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
+	
+	# Clear cache
+	npm cache clear
+
+	# Install
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+}
+
+do_install() {
 	install -d ${D}${NODE_MODULES_DIR}${PN}
     	cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
 	
@@ -35,6 +45,8 @@ inherit systemd
 
 SYSTEMD_AUTO_ENABLE = "enable"
 SYSTEMD_SERVICE_${PN} = "${PN}.service"
+
+PACKAGES = "${PN}"
 
 FILES_${PN} += "${NODE_MODULES_DIR}${PN} \
 		${systemd_unitdir}/system"
