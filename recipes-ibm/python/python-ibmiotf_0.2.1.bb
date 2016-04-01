@@ -17,7 +17,6 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-threading \
 	${PYTHON_PN}-netclient \
 	${PYTHON_PN}-distribute \
-	${PYTHON_PN}-contextlib \
 "
 
 SRC_NAME = "ibmiotf"
