@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2ca72265eb92b3fca5dfb60428bd071"
 
 inherit setuptools
 
+PR = "r1"
+
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-docutils \
 	${PYTHON_PN}-dateutil \

@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash nodejs node-red"
 
-SRC_URI = "git://github.com/ibm-messaging/iot-nodered.git;branch=master"
+SRCNAME = "iot-nodered"
+
+SRC_URI = "git://github.com/ibm-messaging/${SRCNAME}.git;branch=master"
 SRCREV = "${AUTOREV}"
 
 PR = "r1"

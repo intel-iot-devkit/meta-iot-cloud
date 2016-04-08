@@ -3,9 +3,13 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
+PR = "r1"
+
 RDEPENDS_${PN} = "\
-	iotf-embeddedc \
-	iotf-embeddedc-dev \
-	iot-nodered \
+	ibm-iotf-embeddedc \
+	ibm-iotf-embeddedc-dev \
+	ibm-iot-nodered \
 	python-ibmiotf \
 "
+
+PACKAGES = "${PN}"

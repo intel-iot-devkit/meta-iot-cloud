@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=14d0b64047ed8f510b51ce0495995358"
 
 inherit setuptools
 
+PR = "r1"
+
 SRC_NAME = "colorama"
 
 SRC_URI = "https://pypi.python.org/packages/source/c/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"

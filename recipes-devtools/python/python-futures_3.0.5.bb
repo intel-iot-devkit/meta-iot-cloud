@@ -6,6 +6,8 @@ HOMEPAGE = "https://github.com/agronholm/pythonfutures"
 
 DEPENDS = "python"
 
+PR = "r1"
+
 SRC_NAME = "futures"
 
 SRC_URI = "https://pypi.python.org/packages/source/f/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"

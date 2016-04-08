@@ -5,6 +5,8 @@ SRCNAME = "paho-mqtt"
 
 inherit setuptools
 
+PR = "r1"
+
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-math \
         ${PYTHON_PN}-io \

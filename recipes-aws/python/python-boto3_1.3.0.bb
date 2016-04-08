@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=28780bb911646a2c7c13693a646f4efb"
 
 inherit setuptools
 
+PR = "r1"
+
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-botocore \
 	${PYTHON_PN}-jmespath \

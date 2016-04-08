@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 inherit cmake pkgconfig
 
-SRC_URI = "git://github.com/srware/iotf-embeddedc.git;branch=cmake"
+SRCNAME = "iotf-embeddedc"
+
+SRC_URI = "git://github.com/srware/${SRCNAME}.git;branch=cmake"
 SRCREV = "${AUTOREV}"
 
 PR = "r1"

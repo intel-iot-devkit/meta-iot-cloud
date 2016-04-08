@@ -10,7 +10,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 PR = "r1"
 
 SRC_URI = "https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
-	   file://${PN}.service \
+	   file://node-red.service \
 "
 
 SRC_URI[md5sum] = "442c28584892617bbf300456bc6f1ac9"
@@ -49,6 +49,7 @@ SYSTEMD_SERVICE_${PN} = "${PN}.service"
 PACKAGES = "${PN}"
 
 FILES_${PN} += "${NODE_MODULES_DIR}${PN} \
-		${systemd_unitdir}/system"
+		${systemd_unitdir} \
+"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

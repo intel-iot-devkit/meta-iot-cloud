@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=425e62320d430219736139b134db2fc4"
 
 inherit setuptools
 
+PR = "r1"
+
 SRC_NAME = "pyasn1"
 
 SRC_URI = "https://pypi.python.org/packages/source/p/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"

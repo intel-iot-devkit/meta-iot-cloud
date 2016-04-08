@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a1d27014d3d0d7ae5fb973adab04ee30"
 
 inherit setuptools
 
+PR = "r1"
+
 RDEPENDS_${PN} = "${PYTHON_PN}-pyasn1"
 
 SRC_NAME = "rsa"

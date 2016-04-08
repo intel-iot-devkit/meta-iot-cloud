@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1b30762855ee41c1072f34f754f44c70"
 
 inherit setuptools
 
+PR = "r1"
+
 RDEPENDS_${PN} = "\
 	groff \
 	less \
