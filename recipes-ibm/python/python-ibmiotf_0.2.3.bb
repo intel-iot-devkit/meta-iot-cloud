@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8e63150e06ca345cebdd9a63642ac49d"
 
 inherit setuptools
 
-PR = "r2"
+PR = "r1"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-requests \
@@ -23,7 +23,7 @@ SRC_NAME = "ibmiotf"
 
 SRC_URI = "https://pypi.python.org/packages/source/i/${SRC_NAME}/${SRC_NAME}-${PV}.zip"
 
-SRC_URI[md5sum] = "fb29e562fc9ed22fc926c0ed34e383be"
-SRC_URI[sha256sum] = "330fca8e9b98f85620f0fa09e6e4b36deca92c14d34ace1bd586bcfe7391da3a"
+SRC_URI[md5sum] = "f6dc538da9b8f2e122a6bd0f407adcd1"
+SRC_URI[sha256sum] = "959325559f09d38c67fec1bba99626278206c7ac90ba7b445d08ab86f45d4de2"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
