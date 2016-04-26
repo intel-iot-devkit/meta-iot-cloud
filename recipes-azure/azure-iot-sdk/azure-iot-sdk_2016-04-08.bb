@@ -1,4 +1,4 @@
-DESCRIPTION = "Microsoft Azure IoT device SDK for C"
+DESCRIPTION = "Microsoft Azure IoT device SDK"
 HOMEPAGE = "https://github.com/Azure/azure-iot-sdks"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
@@ -21,6 +21,7 @@ B = "${WORKDIR}/build"
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-python ${PN}-python-dbg"
 
 do_recursive_submodule_init() {
+	export GIT_SSL_NO_VERIFY=1
 	cd ${S}
 	git submodule update --init --recursive
 }

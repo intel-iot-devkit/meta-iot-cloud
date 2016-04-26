@@ -23,10 +23,10 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-misc \
 "
 
-SRC_NAME = "awscli"
+SRC_NAME = "aws-cli"
 
-SRC_URI = "https://pypi.python.org/packages/source/a/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "77768345ef3e27704220b7499def466d"
-SRC_URI[sha256sum] = "68355a6e86a25596939b98ce1902b9778cbce327b1d98e211bb1dd69e7a2cdf2"
+SRC_URI = "https://github.com/aws/${SRC_NAME}/archive/${PV}.tar.gz"
+SRC_URI[md5sum] = "591ab3e1ff3a8493bcca3443f934ea7b"
+SRC_URI[sha256sum] = "594b1cf49847cbe5287bcd69eb6a149837a5aa61bc52c3c4103769c27e3c642d"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
