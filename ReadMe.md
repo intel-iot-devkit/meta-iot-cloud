@@ -5,7 +5,7 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 ## Supported Platforms
 * [IBM Bluemix](https://console.ng.bluemix.net/)
 * [Amazon Web Services](https://aws.amazon.com/)
-* [Microsoft Azure](https://https://azure.microsoft.com/)
+* [Microsoft Azure](https://azure.microsoft.com/)
 
 ## Available Packages
 * `packagegroup-cloud-ibm`
