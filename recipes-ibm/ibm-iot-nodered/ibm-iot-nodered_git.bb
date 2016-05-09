@@ -18,7 +18,7 @@ S = "${WORKDIR}/git"
 # Modules
 IBM_WATSON_IOT = "${S}/node-red-contrib-ibm-watson-iot"
 
-NODE_MODULES_DIR = "${libdir}/node_modules"
+NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "https://registry.npmjs.org/"
 NPM_INSTALL_FLAGS = "--production"

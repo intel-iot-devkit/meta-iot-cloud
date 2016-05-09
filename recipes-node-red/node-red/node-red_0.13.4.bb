@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "badddaebb0ebc9cdc47372b88050a83117b55fb28437f58c5696c56692
 
 S = "${WORKDIR}/${PN}-${PV}"
 
-NODE_MODULES_DIR = "${libdir}/node_modules/"
+NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "https://registry.npmjs.org/"
 NPM_INSTALL_FLAGS ?= "--production --no-optional --verbose"
