@@ -8,7 +8,7 @@ PR = "r1"
 RDEPENDS_${PN} = "\
 	ibm-iotf-embeddedc \
 	ibm-iotf-embeddedc-dev \
-	ibm-iot-nodered \
+	node-red-contrib-ibm-watson-iot \
 	python-ibmiotf \
 "
 

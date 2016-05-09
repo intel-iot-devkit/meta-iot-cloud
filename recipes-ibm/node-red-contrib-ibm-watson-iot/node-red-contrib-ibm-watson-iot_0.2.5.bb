@@ -1,4 +1,4 @@
-DESCRIPTION = "Node-RED nodes for connecting to the IBM Internet of Things Foundation"
+DESCRIPTION = "Node-RED nodes for connecting to the IBM Watson platform"
 HOMEPAGE = "https://github.com/ibm-messaging/iot-nodered"
 LICENSE = "ECL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
@@ -9,7 +9,7 @@ RDEPENDS_${PN} = "bash nodejs node-red"
 SRCNAME = "iot-nodered"
 
 SRC_URI = "git://github.com/ibm-messaging/${SRCNAME}.git;branch=master"
-SRCREV = "${AUTOREV}"
+SRCREV = "1cab3a91578ac4afea31bf6a282af8433fafaca0"
 
 PR = "r2"
 
