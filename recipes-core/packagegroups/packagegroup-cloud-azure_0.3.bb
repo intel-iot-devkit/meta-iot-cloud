@@ -8,7 +8,7 @@ PR = "r1"
 RDEPENDS_${PN} = "\
 	azure-iot-sdk \
 	azure-iot-sdk-dev \
-	azure-iot-sdk-python \
+	python-azure-iot-sdk \
 	node-red-contrib-azureiothubnode \
 "
 
