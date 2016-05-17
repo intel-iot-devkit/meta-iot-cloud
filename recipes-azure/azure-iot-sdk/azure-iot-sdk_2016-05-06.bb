@@ -11,7 +11,7 @@ RPROVIDES_python-${PN} += "iothub_client.so"
 inherit cmake python-dir
 
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
-SRCREV = "0513e97aaf2ad36e134f0403d612da8118f16a8b"
+SRCREV = "32f18aca88faa669e7d56023739900f94b65b607"
 
 PR = "r1"
 
@@ -30,7 +30,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/c/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-	    sed -i '485s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+	    sed -i '630s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
@@ -38,7 +38,7 @@ addtask recursive_submodule_init after do_unpack before do_configure
 addtask patch_linked_libraries after do_recursive_submodule_init before do_configure
 
 PACKAGECONFIG ??= "python"
-PACKAGECONFIG[python] = "-Dbuild_python:STRING=ON, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
+PACKAGECONFIG[python] = "-Dbuild_python:STRING=2.7, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
 
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests=OFF -Duse_amqp:BOOL=ON -Duse_http:BOOL=ON -Duse_mqtt:BOOL=ON -Dskip_unittests:BOOL=ON -Dbuild_javawrapper:STRING=OFF"
