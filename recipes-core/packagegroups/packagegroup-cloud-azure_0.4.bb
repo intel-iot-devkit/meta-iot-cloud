@@ -10,6 +10,7 @@ RDEPENDS_${PN} = "\
 	azure-iot-sdk-dev \
 	python-azure-iot-sdk \
 	node-red-contrib-azureiothubnode \
+	node-azure-iot-device \
 "
 
 PACKAGES = "${PN}"
