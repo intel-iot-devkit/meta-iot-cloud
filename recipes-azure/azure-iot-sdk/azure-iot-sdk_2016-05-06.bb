@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 DEPENDS = "curl util-linux"
 
-inherit cmake pkgconfig python-dir
+inherit cmake pkgconfig python-dir java
 
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
 SRCREV = "32f18aca88faa669e7d56023739900f94b65b607"
@@ -15,7 +15,7 @@ PR = "r1"
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-## Node ##
+## Node/Node-RED ##
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "https://registry.npmjs.org/"
@@ -25,7 +25,12 @@ NODE_PN = "azure-iot-device"
 NODE_RED_SRC_DIR = "${S}/node/device/node-red"
 NODE_RED_PN = "node-red-contrib-azureiothubnode"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg python-${PN} python-${PN}-dbg node-${NODE_PN} ${NODE_RED_PN}"
+## Java ##
+JAVA_SRC_DIR = "${S}/java/device"
+JAVA_DEST_DIR = "${JAVA_SRC_DIR}/iothub-java-client/target"
+JAVA_PN = "iothub-java-device-client"
+
+PACKAGES = "${PN} ${PN}-dev ${PN}-dbg python-${PN} python-${PN}-dbg node-${NODE_PN} ${NODE_RED_PN} ${JAVA_PN}"
 
 do_recursive_submodule_init() {
 	export GIT_SSL_NO_VERIFY=1
@@ -44,11 +49,11 @@ do_patch_linked_libraries() {
 addtask recursive_submodule_init after do_unpack before do_configure
 addtask patch_linked_libraries after do_recursive_submodule_init before do_configure
 
-PACKAGECONFIG ??= "python nodejs node-red"
+PACKAGECONFIG ??= "python nodejs node-red java"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=2.7, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
 PACKAGECONFIG[nodejs] = ",, nodejs nodejs-native"
 PACKAGECONFIG[node-red] = ",, node-red"
-
+PACKAGECONFIG[java] = ",, maven-native icedtea7-native"
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests=OFF -Duse_amqp:BOOL=ON -Duse_http:BOOL=ON -Duse_mqtt:BOOL=ON -Dskip_unittests:BOOL=ON -Dbuild_javawrapper:STRING=OFF"
 
@@ -73,6 +78,13 @@ do_compile_append() {
 
 	# Install
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+    fi
+
+    if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
+	export JAVA_HOME="${STAGING_LIBDIR_JVM_NATIVE}/icedtea7-native"
+	export M3_HOME="${STAGING_DIR_NATIVE}/usr/bin/maven-native"
+	cd ${JAVA_SRC_DIR}
+	mvn install
     fi
 }
 
@@ -104,6 +116,13 @@ do_install() {
     # Node-RED
     install -d ${D}${NODE_MODULES_DIR}/${NODE_RED_PN}
     cp -r ${NODE_RED_SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${NODE_RED_PN}
+
+    # Java
+    if [ -e ${JAVA_DEST_DIR} ]; then
+	cd ${JAVA_DEST_DIR}
+	jar_version=$(ls iothub-java-client-*-with-deps.jar | cut -d '-' -f4) 
+        oe_jarinstall -r ${JAVA_PN}-${jar_version}.jar ${JAVA_DEST_DIR}/iothub-java-client-${jar_version}-with-deps.jar ${JAVA_PN}.jar
+    fi
 }
 
 ## C ##
@@ -132,6 +151,11 @@ FILES_node-${NODE_PN} += "${NODE_MODULES_DIR}${NODE_PN}"
 RDEPENDS_${NODE_RED_PN} += "nodejs node-red"
 
 FILES_${NODE_RED_PN} += "${NODE_MODULES_DIR}${NODE_RED_PN}"
+
+## Java ##
+RDEPENDS_${JAVA_PN} = "java2-runtime"
+
+FILES_${JAVA_PN} += "${datadir_java}"
 
 RRECOMMENDS_${PN}-dev = "glibc-dev util-linux-dev util-linux-libuuid-dev libcurl-dev curl-dev"
 RRECOMMENDS_${PN}-dev[nodeprrecs] = "1"
