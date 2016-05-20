@@ -1,22 +1,19 @@
-DESCRIPTION = "Node-RED nodes for connecting to the IBM Watson platform"
-HOMEPAGE = "https://github.com/ibm-messaging/iot-nodered"
+DESCRIPTION = "A library for developing device and application clients for IBM Internet of Things Foundation"
+HOMEPAGE = "https://github.com/ibm-messaging/iot-nodejs"
 LICENSE = "ECL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 DEPENDS = "nodejs"
-RDEPENDS_${PN} = "bash nodejs node-red"
+RDEPENDS_${PN} = "bash nodejs"
 
-SRCNAME = "iot-nodered"
+SRCNAME = "iot-nodejs"
 
 SRC_URI = "git://github.com/ibm-watson-iot/${SRCNAME}.git;branch=master"
-SRCREV = "1cab3a91578ac4afea31bf6a282af8433fafaca0"
+SRCREV = "07a67720b04946938accaaa3e0ce4dc6e70ca73f"
 
-PR = "r2"
+PR = "r1"
 
 S = "${WORKDIR}/git"
-
-# Modules
-IBM_WATSON_IOT = "${S}/node-red-contrib-ibm-watson-iot"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
@@ -29,13 +26,13 @@ do_compile() {
 	# Clear cache
 	npm cache clear
 
-	cd ${IBM_WATSON_IOT}
-	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} install
+	npm prune ${NPM_INSTALL_FLAGS}
 }
 
 do_install() {
-	install -d ${D}${NODE_MODULES_DIR}
-	cp -r ${IBM_WATSON_IOT} ${D}${NODE_MODULES_DIR}/
+	install -d ${D}${NODE_MODULES_DIR}/ibmiotf
+	cp -r * ${D}${NODE_MODULES_DIR}/ibmiotf
 }
 
 PACKAGES = "${PN}"
