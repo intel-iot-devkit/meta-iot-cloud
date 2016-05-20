@@ -11,6 +11,7 @@ RDEPENDS_${PN} = "\
 	node-red-contrib-ibm-watson-iot \
 	python-ibmiotf \
 	node-ibmiotf \
+	ibm-iotf-java \
 "
 
 PACKAGES = "${PN}"
