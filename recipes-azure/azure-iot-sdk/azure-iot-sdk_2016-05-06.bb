@@ -11,7 +11,7 @@ SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git \
 "
 SRCREV = "32f18aca88faa669e7d56023739900f94b65b607"
 
-PR = "r3"
+PR = "r4"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -127,8 +127,6 @@ do_install() {
     # IoT Hub Explorer
     install -d ${D}${NODE_MODULES_DIR}/${IOTHUB_EXPLORER_PN}
     cp -r ${IOTHUB_EXPLORER_SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${IOTHUB_EXPLORER_PN}
-    install -d ${D}${bindir}
-    ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${D}${bindir}/${IOTHUB_EXPLORER_PN}
 
     # Java
     if [ -e ${JAVA_DEST_DIR} ]; then
@@ -136,6 +134,14 @@ do_install() {
 	jar_version=$(ls iothub-java-client-*-with-deps.jar | cut -d '-' -f4) 
         oe_jarinstall -r ${JAVA_PN}-${jar_version}.jar ${JAVA_DEST_DIR}/iothub-java-client-${jar_version}-with-deps.jar ${JAVA_PN}.jar
     fi
+}
+
+pkg_postinst_node-${IOTHUB_EXPLORER_PN}() {
+        #!/bin/sh
+        # Post installation script
+
+        ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${bindir}/${IOTHUB_EXPLORER_PN}
+	chmod 755 ${bindir}/${IOTHUB_EXPLORER_PN}
 }
 
 ## C ##
@@ -163,9 +169,7 @@ INHIBIT_PACKAGE_DEBUG_SPLIT_${NODE_RED_PN} = "1"
 
 ## IoT Hub Explorer ##
 RDEPENDS_node-${IOTHUB_EXPLORER_PN} += "nodejs"
-FILES_node-${IOTHUB_EXPLORER_PN} += "${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN} \
-				     ${bindir} \
-"
+FILES_node-${IOTHUB_EXPLORER_PN} += "${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT_node-${IOTHUB_EXPLORER_PN} = "1"
 
 ## Java ##
