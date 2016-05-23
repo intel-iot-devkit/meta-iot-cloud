@@ -7,7 +7,7 @@ RDEPENDS_${PN} = "bash python nodejs"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
 	   file://node-red.service \
