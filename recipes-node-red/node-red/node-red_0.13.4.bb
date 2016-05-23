@@ -39,6 +39,10 @@ do_install() {
 	
 	install -d ${D}${systemd_unitdir}/system/
 	install -m 0644 ${WORKDIR}/${PN}.service ${D}${systemd_unitdir}/system/
+
+	# Executable
+	install -d ${D}${bindir}
+	ln -s ${NODE_MODULES_DIR}${PN}/red.js ${D}${bindir}/node-red
 }
 
 inherit systemd
@@ -48,8 +52,9 @@ SYSTEMD_SERVICE_${PN} = "${PN}.service"
 
 PACKAGES = "${PN}"
 
-FILES_${PN} += "${NODE_MODULES_DIR}${PN} \
+FILES_${PN} = "${NODE_MODULES_DIR}${PN} \
 		${systemd_unitdir} \
+		${bindir} \
 "
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

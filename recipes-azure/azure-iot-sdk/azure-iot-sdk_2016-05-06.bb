@@ -7,7 +7,8 @@ DEPENDS = "curl util-linux"
 
 inherit cmake pkgconfig python-dir java
 
-SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
+SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git \
+"
 SRCREV = "32f18aca88faa669e7d56023739900f94b65b607"
 
 PR = "r3"
@@ -126,6 +127,8 @@ do_install() {
     # IoT Hub Explorer
     install -d ${D}${NODE_MODULES_DIR}/${IOTHUB_EXPLORER_PN}
     cp -r ${IOTHUB_EXPLORER_SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${IOTHUB_EXPLORER_PN}
+    install -d ${D}${bindir}
+    ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${D}${bindir}/${IOTHUB_EXPLORER_PN}
 
     # Java
     if [ -e ${JAVA_DEST_DIR} ]; then
@@ -137,7 +140,7 @@ do_install() {
 
 ## C ##
 RDEPENDS_${PN} = "curl"
-FILES_${PN} += "${libdir}/*.so"
+FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev += "${includedir}/*"
 INSANE_SKIP_${PN} += "rpaths"
 
@@ -160,7 +163,9 @@ INHIBIT_PACKAGE_DEBUG_SPLIT_${NODE_RED_PN} = "1"
 
 ## IoT Hub Explorer ##
 RDEPENDS_node-${IOTHUB_EXPLORER_PN} += "nodejs"
-FILES_node-${IOTHUB_EXPLORER_PN} += "${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}"
+FILES_node-${IOTHUB_EXPLORER_PN} += "${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN} \
+				     ${bindir} \
+"
 INHIBIT_PACKAGE_DEBUG_SPLIT_node-${IOTHUB_EXPLORER_PN} = "1"
 
 ## Java ##
