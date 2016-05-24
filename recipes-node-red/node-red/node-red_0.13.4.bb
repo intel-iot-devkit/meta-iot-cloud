@@ -42,11 +42,20 @@ do_install() {
 }
 
 pkg_postinst_${PN}() {
-        #!/bin/sh
-        # Post installation script
+#!/bin/sh
+# Post installation script
 
-        ln -s ${NODE_MODULES_DIR}${PN}/red.js ${bindir}/${PN}
-	chmod 755 ${bindir}/${PN}
+ln -s ${NODE_MODULES_DIR}${PN}/red.js ${bindir}/${PN}
+chmod 755 ${bindir}/${PN}
+
+}
+
+pkg_prerm_${PN}() {
+#!/bin/sh
+# Pre removal script
+
+rm ${bindir}/${PN}
+
 }
 
 inherit systemd

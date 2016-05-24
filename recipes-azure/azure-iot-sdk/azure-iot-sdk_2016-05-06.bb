@@ -137,11 +137,20 @@ do_install() {
 }
 
 pkg_postinst_node-${IOTHUB_EXPLORER_PN}() {
-        #!/bin/sh
-        # Post installation script
+#!/bin/sh
+# Post installation script
 
-        ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${bindir}/${IOTHUB_EXPLORER_PN}
-	chmod 755 ${bindir}/${IOTHUB_EXPLORER_PN}
+ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${bindir}/${IOTHUB_EXPLORER_PN}
+chmod 755 ${bindir}/${IOTHUB_EXPLORER_PN}
+
+}
+
+pkg_prerm-node-${IOTHUB_EXPLORER_PN}() {
+#!/bin/sh
+# Pre removal script
+
+rm ${bindir}/${IOTHUB_EXPLORER_PN}
+
 }
 
 ## C ##
