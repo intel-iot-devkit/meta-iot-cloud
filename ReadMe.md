@@ -10,16 +10,23 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 ## Available Packages
 * `packagegroup-cloud-ibm`
     * ibm-iotf-embeddedc
-    * ibm-iot-nodered
+    * ibm-iotf-java
+    * node-ibmiotf
+    * node-red-contrib-ibm-watson-iot
     * python-ibmiotf
 * `packagegroup-cloud-aws`
     * python-awscli
     * python-boto3
 * `packagegroup-cloud-azure`
     * azure-iot-sdk
-    * azure-iot-sdk-python
+    * python-azure-iot-sdk
+    * node-azure-iot-device
+    * node-red-contrib-azureiothubnode
+    * node-iothub-explorer
+    * iothub-java-device-client
 * `paho-mqtt-c`
 * `node-red`
+* `node-red-contrib-upm`
 
 ## Dependencies
 This layer depends on packages provided by the following layers:
