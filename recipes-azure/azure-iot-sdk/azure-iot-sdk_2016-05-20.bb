@@ -9,9 +9,9 @@ inherit cmake pkgconfig python-dir java
 
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git \
 "
-SRCREV = "32f18aca88faa669e7d56023739900f94b65b607"
+SRCREV = "c175eefbf2dcf4a7b6f2b8a37e374202ab3cec79"
 
-PR = "r4"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -21,13 +21,24 @@ NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "https://registry.npmjs.org/"
 NPM_INSTALL_FLAGS ?= "--production --no-optional --verbose"
 
+## C ##
+C_SAMPLES_DIR = "${B}/iothub_client/samples"
+AMQP_SAMPLES_DIR = "${B}/azure-uamqp-c/samples"
+MQTT_SAMPLES_DIR = "${B}/azure-umqtt-c/samples"
+SERIALIZER_SAMPLES_DIR = "${B}/serializer/samples"
+
 ## Node ##
 NODE_SRC_DIR = "${S}/node/device/core"
+NODE_SAMPLES_DIR = "${S}/node/device/samples"
+NODE_TRANSPORT_DIR = "${S}/node/device/transport"
 NODE_PN = "azure-iot-device"
 
 ## Node-RED ##
 NODE_RED_SRC_DIR = "${S}/node/device/node-red"
 NODE_RED_PN = "node-red-contrib-azureiothubnode"
+
+## Python ##
+PYTHON_SRC_DIR = "${S}/python/device"
 
 ## Java ##
 JAVA_SRC_DIR = "${S}/java/device"
@@ -38,7 +49,7 @@ JAVA_PN = "iothub-java-device-client"
 IOTHUB_EXPLORER_SRC_DIR = "${S}/tools/iothub-explorer"
 IOTHUB_EXPLORER_PN = "iothub-explorer"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg python-${PN} python-${PN}-dbg node-${NODE_PN} ${NODE_RED_PN} node-${IOTHUB_EXPLORER_PN} ${JAVA_PN}"
+PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples python-${PN} python-${PN}-dbg node-${NODE_PN} node-${NODE_PN}-amqp node-${NODE_PN}-amqp-ws node-${NODE_PN}-http node-${NODE_PN}-mqtt ${NODE_RED_PN} node-${IOTHUB_EXPLORER_PN} ${JAVA_PN}"
 
 do_recursive_submodule_init() {
 	export GIT_SSL_NO_VERIFY=1
@@ -50,7 +61,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/c/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-	    sed -i '630s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+	    sed -i '623s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
@@ -59,7 +70,7 @@ addtask patch_linked_libraries after do_recursive_submodule_init before do_confi
 
 PACKAGECONFIG ??= "python nodejs node-red java"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=2.7, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
-PACKAGECONFIG[nodejs] = ",, nodejs nodejs-native"
+PACKAGECONFIG[nodejs] = ",, nodejs-native"
 PACKAGECONFIG[node-red] = ",, node-red"
 PACKAGECONFIG[java] = ",, maven-native icedtea7-native"
 
@@ -70,8 +81,28 @@ do_compile_append() {
     export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 
     if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
-	# NODE IoT SDK
+	# Node Device SDK
 	cd ${NODE_SRC_DIR}
+	npm cache clear
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+
+	# Node AMQP Transport
+	cd ${NODE_TRANSPORT_DIR}/amqp
+	npm cache clear
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+
+	# Node AMQP-WS Transport
+	cd ${NODE_TRANSPORT_DIR}/amqp-ws
+	npm cache clear
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+
+	# Node HTTP Transport
+	cd ${NODE_TRANSPORT_DIR}/http
+	npm cache clear
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+
+	# Node MQTT Transport
+	cd ${NODE_TRANSPORT_DIR}/mqtt
 	npm cache clear
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
 
@@ -96,6 +127,7 @@ do_compile_append() {
 }
 
 do_install() {
+    # C
     install -d ${D}${libdir}
     oe_libinstall -C ${B}/azure-c-shared-utility/ -so libaziotsharedutil ${D}${libdir}
     oe_libinstall -C ${B}/azure-uamqp-c/ -so libuamqp ${D}${libdir}
@@ -106,9 +138,15 @@ do_install() {
     oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_mqtt_transport ${D}${libdir}
     oe_libinstall -C ${B}/serializer/ -so libserializer ${D}${libdir}
 
-    install -d ${D}${includedir}/azureiotsdk
-    install -m 0644 ${S}/c/iothub_client/inc/*.h ${D}${includedir}/azureiotsdk
-    install -m 0644 ${S}/c/serializer/inc/*.h ${D}${includedir}/azureiotsdk
+    install -d ${D}${includedir}
+    install -d ${D}${includedir}/azure_c_shared_utility
+    install -d ${D}${includedir}/azure_uamqp_c
+    install -d ${D}${includedir}/azure_umqtt_c
+    install -m 0644 ${S}/c/iothub_client/inc/*.h ${D}${includedir}
+    install -m 0644 ${S}/c/serializer/inc/*.h ${D}${includedir}
+    install -m 0644 ${S}/c/azure-c-shared-utility/inc/azure_c_shared_utility/*.h ${D}${includedir}/azure_c_shared_utility
+    install -m 0644 ${S}/c/azure-uamqp-c/inc/azure_uamqp_c/*.h ${D}${includedir}/azure_uamqp_c
+    install -m 0644 ${S}/c/azure-umqtt-c/inc/azure_umqtt_c/*.h ${D}${includedir}/azure_umqtt_c
 
     # Python
     if [ -e ${B}/python/src/iothub_client.so ]; then
@@ -118,7 +156,15 @@ do_install() {
 
     # Node
     install -d ${D}${NODE_MODULES_DIR}/${NODE_PN}
+    install -d ${D}${NODE_MODULES_DIR}/${NODE_PN}-amqp
+    install -d ${D}${NODE_MODULES_DIR}/${NODE_PN}-amqp-ws
+    install -d ${D}${NODE_MODULES_DIR}/${NODE_PN}-http
+    install -d ${D}${NODE_MODULES_DIR}/${NODE_PN}-mqtt
     cp -r ${NODE_SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${NODE_PN}
+    cp -r ${NODE_TRANSPORT_DIR}/amqp/* ${D}${NODE_MODULES_DIR}/${NODE_PN}-amqp
+    cp -r ${NODE_TRANSPORT_DIR}/amqp-ws/* ${D}${NODE_MODULES_DIR}/${NODE_PN}-amqp-ws
+    cp -r ${NODE_TRANSPORT_DIR}/http/* ${D}${NODE_MODULES_DIR}/${NODE_PN}-http
+    cp -r ${NODE_TRANSPORT_DIR}/mqtt/* ${D}${NODE_MODULES_DIR}/${NODE_PN}-mqtt
 
     # Node-RED
     install -d ${D}${NODE_MODULES_DIR}/${NODE_RED_PN}
@@ -133,6 +179,13 @@ do_install() {
 	cd ${JAVA_DEST_DIR}
 	jar_version=$(ls iothub-java-client-*-with-deps.jar | cut -d '-' -f4) 
         oe_jarinstall -r ${JAVA_PN}-${jar_version}.jar ${JAVA_DEST_DIR}/iothub-java-client-${jar_version}-with-deps.jar ${JAVA_PN}.jar
+	
+    # Java Samples
+    install -d ${D}${datadir}/azureiotsdk/samples/java/device
+    install -m 0755 ${JAVA_SRC_DIR}/samples/handle-messages/target/handle-messages-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/handle-messages.jar
+    install -m 0755 ${JAVA_SRC_DIR}/samples/send-event/target/send-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-event.jar
+    install -m 0755 ${JAVA_SRC_DIR}/samples/send-receive-sample/target/send-receive-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-receive-sample.jar
+    install -m 0755 ${JAVA_SRC_DIR}/samples/send-serialized-event/target/send-serialized-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-serialized-event.jar
     fi
 }
 
@@ -156,7 +209,7 @@ rm ${bindir}/${IOTHUB_EXPLORER_PN}
 ## C ##
 RDEPENDS_${PN} = "curl"
 FILES_${PN} = "${libdir}/*.so"
-FILES_${PN}-dev += "${includedir}/*"
+FILES_${PN}-dev += "${includedir}"
 INSANE_SKIP_${PN} += "rpaths"
 
 ## Python ##
@@ -169,6 +222,10 @@ INSANE_SKIP_python-${PN} += "rpaths"
 ## Node ##
 RDEPENDS_node-${NODE_PN} += "nodejs"
 FILES_node-${NODE_PN} += "${NODE_MODULES_DIR}${NODE_PN}"
+FILES_node-${NODE_PN}-amqp += "${NODE_MODULES_DIR}${NODE_PN}-amqp"
+FILES_node-${NODE_PN}-amqp-ws += "${NODE_MODULES_DIR}${NODE_PN}-amqp-ws"
+FILES_node-${NODE_PN}-http += "${NODE_MODULES_DIR}${NODE_PN}-http"
+FILES_node-${NODE_PN}-mqtt += "${NODE_MODULES_DIR}${NODE_PN}-mqtt"
 INHIBIT_PACKAGE_DEBUG_SPLIT_node-${NODE_PN} = "1"
 
 ## Node-RED ##
@@ -183,6 +240,10 @@ INHIBIT_PACKAGE_DEBUG_SPLIT_node-${IOTHUB_EXPLORER_PN} = "1"
 
 ## Java ##
 FILES_${JAVA_PN} += "${datadir_java}"
+
+## Samples ##
+FILES_${PN}-samples += "${datadir}/azureiotsdk/samples/java \
+"
 
 RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev util-linux-dev util-linux-libuuid-dev libcurl-dev curl-dev"
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
