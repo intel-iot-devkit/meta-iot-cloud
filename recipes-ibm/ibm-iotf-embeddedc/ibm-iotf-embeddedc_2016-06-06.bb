@@ -10,9 +10,8 @@ inherit cmake
 
 SRCNAME = "iotf-embeddedc"
 
-#SRC_URI = "git://github.com/ibm-watson-iot/iot-embeddedc.git"
-SRC_URI = "git://github.com/srware/iotf-embeddedc.git;branch=cmake_fixes"
-SRCREV = "4d931ec6a621350a07fd3b98018188a5af033ab0"
+SRC_URI = "git://github.com/ibm-watson-iot/iot-embeddedc.git"
+SRCREV = "6750b115dbfa60d698a13be559d56512191032cf"
 
 PR = "r0"
 
@@ -21,15 +20,11 @@ S = "${WORKDIR}/git"
 PACKAGES = "${PN} ${PN}-dbg ${PN}-dev ${PN}-samples"
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_tests:BOOL=OFF"
+OECMAKE_C_FLAGS_append = " -lm"
 
 do_configure_prepend() {
 	cd ${S}
 	./setup.sh
-}
-
-do_compile_append() {
-	cd ${S}/samples
-	./build.sh
 }
 
 do_install() {
@@ -46,9 +41,9 @@ do_install() {
 
 	# Samples
 	install -d ${D}${datadir}/ibmiotfsdk/samples/c
-    	install -m 0755 ${S}/samples/helloWorld ${D}${datadir}/ibmiotfsdk/samples/c/
-	install -m 0755 ${S}/samples/sampleDevice ${D}${datadir}/ibmiotfsdk/samples/c/
-	install -m 0755 ${S}/samples/sampleGateway ${D}${datadir}/ibmiotfsdk/samples/c/
+    	install -m 0755 ${WORKDIR}/build/samples/helloWorld ${D}${datadir}/ibmiotfsdk/samples/c/
+	install -m 0755 ${WORKDIR}/build/samples/sampleDevice ${D}${datadir}/ibmiotfsdk/samples/c/
+	install -m 0755 ${WORKDIR}/build/samples/sampleGateway ${D}${datadir}/ibmiotfsdk/samples/c/
 	install -m 0644 ${S}/samples/device.cfg ${D}${datadir}/ibmiotfsdk/samples/c/
 	install -m 0644 ${S}/samples/gateway.cfg ${D}${datadir}/ibmiotfsdk/samples/c/
 }
@@ -83,4 +78,5 @@ FILES_${PN}-samples += "${datadir}/ibmiotfsdk/samples/c/helloWorld \
 FILES_${PN}-dbg += "${datadir}/ibmiotfsdk/samples/c/.debug"
 
 INSANE_SKIP_${PN} += "rpaths"
+INSANE_SKIP_${PN}-samples += "rpaths"
 
