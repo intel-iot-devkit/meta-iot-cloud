@@ -1,6 +1,6 @@
 DESCRIPTION = "A library for developing device and application clients for IBM Internet of Things Foundation"
 HOMEPAGE = "https://github.com/ibm-messaging/iot-nodejs"
-LICENSE = "ECL-1.0"
+LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 DEPENDS = "nodejs"

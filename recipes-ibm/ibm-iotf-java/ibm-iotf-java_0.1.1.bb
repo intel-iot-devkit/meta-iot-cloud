@@ -1,6 +1,6 @@
 DESCRIPTION = "Java Client Library can be used to simplify interactions with the IBM Watson IoT Platform"
 HOMEPAGE = "https://github.com/ibm-watson-iot/iot-java"
-LICENSE = "ECL-1.0"
+LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 DEPENDS = "maven-native icedtea7-native"

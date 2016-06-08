@@ -1,6 +1,6 @@
 DESCRIPTION = "Node-RED nodes for connecting to the IBM Watson platform"
 HOMEPAGE = "https://github.com/ibm-messaging/iot-nodered"
-LICENSE = "ECL-1.0"
+LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 DEPENDS = "nodejs"

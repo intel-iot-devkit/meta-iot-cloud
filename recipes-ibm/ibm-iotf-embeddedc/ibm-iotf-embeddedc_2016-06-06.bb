@@ -1,6 +1,6 @@
 DESCRIPTION = "Embedded C client for interacting with the IBM Watson Internet of Things Platform"
 HOMEPAGE = "https://github.com/ibm-messaging/iotf-embeddedc"
-LICENSE = "ECL-1.0"
+LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 DEPENDS = "cjson"
