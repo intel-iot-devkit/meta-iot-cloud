@@ -13,7 +13,7 @@ PAHO_VERSION = "1.0.3-SNAPSHOT"
 SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git \
 	   https://repo.eclipse.org/content/repositories/paho-snapshots/org/eclipse/paho/org.eclipse.paho.client.mqttv3/${PAHO_VERSION}/${PAHO_DEPENDENCY}.jar;unpack=0 \
 "
-SRCREV = "3b138ceedfff8b821c1cb122b5d27625dad58f6f"
+SRCREV = "3a9dbc4adce2df3efccd907b5a9c284085f0f7b9"
 SRC_URI[md5sum] = "50fdc31436fac7294526a61afe6ce625"
 SRC_URI[sha256sum] = "fe490f3eeeff36a32fe8448df1f759482d41ea30429eb1db3d6cf9c9f6bdcb60"
 
