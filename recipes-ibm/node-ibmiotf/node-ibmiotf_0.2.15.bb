@@ -9,9 +9,9 @@ RDEPENDS_${PN} = "bash nodejs"
 SRCNAME = "iot-nodejs"
 
 SRC_URI = "git://github.com/ibm-watson-iot/${SRCNAME}.git;branch=master"
-SRCREV = "07a67720b04946938accaaa3e0ce4dc6e70ca73f"
+SRCREV = "aa9ed7d7d5763a81423147d646a4d3418cb73de3"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 
