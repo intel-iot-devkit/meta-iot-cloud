@@ -7,9 +7,8 @@ DEPENDS = "curl util-linux"
 
 inherit cmake pkgconfig python-dir java
 
-SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git \
-"
-SRCREV = "c175eefbf2dcf4a7b6f2b8a37e374202ab3cec79"
+SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
+SRCREV = "1fc274afdea4d248706d205bdfbe272615939634"
 
 PR = "r0"
 
@@ -61,7 +60,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/c/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-	    sed -i '623s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+	    sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
@@ -144,6 +143,7 @@ do_install() {
     install -d ${D}${includedir}/azure_umqtt_c
     install -m 0644 ${S}/c/iothub_client/inc/*.h ${D}${includedir}
     install -m 0644 ${S}/c/serializer/inc/*.h ${D}${includedir}
+    install -m 0644 ${S}/c/parson/*.h ${D}${includedir}
     install -m 0644 ${S}/c/azure-c-shared-utility/inc/azure_c_shared_utility/*.h ${D}${includedir}/azure_c_shared_utility
     install -m 0644 ${S}/c/azure-uamqp-c/inc/azure_uamqp_c/*.h ${D}${includedir}/azure_uamqp_c
     install -m 0644 ${S}/c/azure-umqtt-c/inc/azure_umqtt_c/*.h ${D}${includedir}/azure_umqtt_c
