@@ -6,12 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=187ed96789675b0c4f200a7070d2a5c1"
 DEPENDS = "node-red nodejs nodejs-native"
 RDEPENDS_${PN} = "node-red nodejs"
 
-PR = "r1"
+PR = "r0"
 
-SRC_NAME = "Node-Red-Node-UPM"
-
-SRC_URI = "git://github.com/w4ilun/${SRC_NAME}.git"
-SRCREV = "d5c2080279d3f90828afb134dbee29cfc943d892"
+SRC_URI = "git://github.com/intel-iot-devkit/${PN}.git"
+SRCREV = "74c427c0fa028baf2f799892c11adccc13de2d0b"
 
 S = "${WORKDIR}/git"
 
