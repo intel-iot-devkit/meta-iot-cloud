@@ -24,7 +24,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * node-red-contrib-azureiothubnode
     * node-iothub-explorer
     * iothub-java-device-client
-* `paho-mqtt-c`
 * `node-red`
 * `node-red-contrib-upm`
 
