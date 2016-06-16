@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1e01b26bacfc2232046c90a330332b3"
 
 inherit setuptools
 
-PR = "r1"
+PR = "r0"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-botocore \

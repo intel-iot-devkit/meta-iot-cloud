@@ -8,7 +8,7 @@ RDEPENDS_${PN} = "glib-2.0 curl"
 
 inherit cmake pkgconfig
 
-SRC_URI = "gitsm://github.com/Azure/azure-iot-gateway-sdk.git"
+SRC_URI = "git://github.com/Azure/azure-iot-gateway-sdk.git"
 SRCREV = "${AUTOREV}"
 
 PR = "r1"

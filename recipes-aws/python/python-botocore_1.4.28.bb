@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2ca72265eb92b3fca5dfb60428bd071"
 
 inherit setuptools
 
-PR = "r1"
+PR = "r0"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-docutils \
@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "botocore"
 
 SRC_URI = "https://github.com/boto/${SRC_NAME}/archive/${PV}.tar.gz"
-SRC_URI[md5sum] = "efa853b83afa53089579b538a77f3a3e"
-SRC_URI[sha256sum] = "1a135b691789ce4010e44ae4c612a8ba7d796617e54836af85ef61e4f36f21ac"
+SRC_URI[md5sum] = "bf1ef8f290c3bb1f86f45575d1bdbb76"
+SRC_URI[sha256sum] = "2be3edd49980fbb4a69259f82dc865ab85f2cb1533f1ddc2d3d380d850dbf2b6"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"

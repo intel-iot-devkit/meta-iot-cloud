@@ -5,9 +5,8 @@ inherit packagegroup
 
 RDEPENDS_${PN} = "\
 	python-awscli \
-	python-boto3 \
 "
 
-PR = "r1"
+PR = "r0"
 
 PACKAGES = "${PN}"
