@@ -7,22 +7,27 @@ CC = gcc
 #remove @ for no make command prints
 DEBUG=@
 
-# Sample directory
+# Sample Directory
 APP_DIR=sample_apps/shadow_sample
+
 APP_INCLUDE_DIRS += -I $(APP_DIR)
 
 #IoT client directory
 IOT_CLIENT_DIR=aws_iot_src
+PLATFORM_DIR = $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux/openssl
+PLATFORM_COMMON_DIR = $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux/common
+
 IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/protocol/mqtt
 IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper
 IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux
 IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux/common
 IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux/openssl
 IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/utils
+IOT_INCLUDE_DIRS += -I $(IOT_CLIENT_DIR)/shadow
 
-PLATFORM_DIR = $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux/openssl
-PLATFORM_COMMON_DIR = $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/platform_linux/common
 IOT_SRC_FILES += $(IOT_CLIENT_DIR)/protocol/mqtt/aws_iot_embedded_client_wrapper/aws_iot_mqtt_embedded_client_wrapper.c
+IOT_SRC_FILES += $(shell find $(IOT_CLIENT_DIR)/utils/ -name '*.c')
+IOT_SRC_FILES += $(shell find $(IOT_CLIENT_DIR)/shadow/ -name '*.c')
 IOT_SRC_FILES += $(shell find $(PLATFORM_DIR)/ -name '*.c')
 IOT_SRC_FILES += $(shell find $(PLATFORM_COMMON_DIR)/ -name '*.c')
 
@@ -36,7 +41,6 @@ MQTT_INCLUDE_DIR += -I $(MQTT_C_DIR)
 
 MQTT_SRC_FILES += $(shell find $(MQTT_EMB_DIR)/ -name '*.c')
 MQTT_SRC_FILES += $(MQTT_C_DIR)/MQTTClient.c
-
 
 #TLS - openSSL
 TLS_LIB_DIR = /usr/lib/

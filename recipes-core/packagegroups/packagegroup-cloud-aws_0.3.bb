@@ -4,6 +4,7 @@ LICENSE = "MIT"
 inherit packagegroup
 
 RDEPENDS_${PN} = "\
+	aws-iot-device-sdk-embedded-c \
 	python-awscli \
 "
 
