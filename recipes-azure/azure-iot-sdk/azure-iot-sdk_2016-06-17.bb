@@ -8,9 +8,9 @@ DEPENDS = "curl util-linux"
 inherit cmake pkgconfig python-dir java
 
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
-SRCREV = "1fc274afdea4d248706d205bdfbe272615939634"
+SRCREV = "867fad9254f3fb633aed732b650c322795014b6c"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -60,7 +60,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/c/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-		sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+		sed -i '671s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
