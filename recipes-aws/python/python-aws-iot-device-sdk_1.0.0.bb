@@ -1,4 +1,4 @@
-DESCRIPTION = "The AWS IoT Device SDK for Python allows developers to write Python script to use their devices to access the AWS IoT platform through MQTT or MQTT over the WebSocket protocol."
+DESCRIPTION = "SDK for connecting to AWS IoT from a device using Python."
 HOMEPAGE = "https://github.com/aws/aws-iot-device-sdk-python"
 AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"

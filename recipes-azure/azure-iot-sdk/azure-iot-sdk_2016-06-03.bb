@@ -10,7 +10,7 @@ inherit cmake pkgconfig python-dir java
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
 SRCREV = "1fc274afdea4d248706d205bdfbe272615939634"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -60,7 +60,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/c/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-	    sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+		sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
@@ -109,12 +109,19 @@ do_compile_append() {
 	cd ${IOTHUB_EXPLORER_SRC_DIR}
 	npm cache clear
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+
+	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
+	find ${S}/node/device -type f -name "switch-bench.js" -exec rm -f {} \;
+	find ${S}/tools/iothub-explorer -type f -name "switch-bench.js" -exec rm -f {} \;
     fi
 
     if ${@bb.utils.contains('PACKAGECONFIG','node-red','true','false',d)}; then
 	cd ${NODE_RED_SRC_DIR}
 	npm cache clear
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+
+	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
+	find . -type f -name "switch-bench.js" -exec rm -f {} \;
     fi
 
     if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
@@ -220,7 +227,11 @@ FILES_python-${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug"
 INSANE_SKIP_python-${PN} += "rpaths"
 
 ## Node ##
-RDEPENDS_node-${NODE_PN} += "nodejs"
+RDEPENDS_node-${NODE_PN} += "nodejs bash"
+RDEPENDS_node-${NODE_PN}-amqp += "nodejs bash"
+RDEPENDS_node-${NODE_PN}-amqp-ws += "nodejs bash"
+RDEPENDS_node-${NODE_PN}-http += "nodejs bash"
+RDEPENDS_node-${NODE_PN}-mqtt += "nodejs bash"
 FILES_node-${NODE_PN} += "${NODE_MODULES_DIR}${NODE_PN}"
 FILES_node-${NODE_PN}-amqp += "${NODE_MODULES_DIR}${NODE_PN}-amqp"
 FILES_node-${NODE_PN}-amqp-ws += "${NODE_MODULES_DIR}${NODE_PN}-amqp-ws"
@@ -234,7 +245,7 @@ FILES_${NODE_RED_PN} += "${NODE_MODULES_DIR}${NODE_RED_PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT_${NODE_RED_PN} = "1"
 
 ## IoT Hub Explorer ##
-RDEPENDS_node-${IOTHUB_EXPLORER_PN} += "nodejs"
+RDEPENDS_node-${IOTHUB_EXPLORER_PN} += "nodejs bash"
 FILES_node-${IOTHUB_EXPLORER_PN} += "${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT_node-${IOTHUB_EXPLORER_PN} = "1"
 
@@ -242,8 +253,7 @@ INHIBIT_PACKAGE_DEBUG_SPLIT_node-${IOTHUB_EXPLORER_PN} = "1"
 FILES_${JAVA_PN} += "${datadir_java}"
 
 ## Samples ##
-FILES_${PN}-samples += "${datadir}/azureiotsdk/samples/java \
-"
+FILES_${PN}-samples += "${datadir}/azureiotsdk/samples/java"
 
 RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev util-linux-dev util-linux-libuuid-dev libcurl-dev curl-dev"
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
