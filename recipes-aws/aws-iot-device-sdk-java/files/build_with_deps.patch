@@ -1,0 +1,39 @@
+From ace5eef2d0eaa1c2f53555a621503c1621889a31 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott2.ware@gmail.com>
+Date: Mon, 4 Jul 2016 18:52:17 +0100
+Subject: [PATCH] Build jar with dependencies
+
+---
+ aws-iot-device-sdk-java/pom.xml | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/aws-iot-device-sdk-java/pom.xml b/aws-iot-device-sdk-java/pom.xml
+index a6ac904..cd029ec 100644
+--- a/aws-iot-device-sdk-java/pom.xml
++++ b/aws-iot-device-sdk-java/pom.xml
+@@ -101,6 +101,22 @@
+           </execution>
+         </executions>
+       </plugin>
++      <plugin>
++        <artifactId>maven-shade-plugin</artifactId>
++        <version>2.4</version>
++        <executions>
++          <execution>
++            <phase>package</phase>
++            <goals>
++              <goal>shade</goal>
++            </goals>
++            <configuration>
++              <shadedArtifactAttached>true</shadedArtifactAttached>
++              <shadedClassifierName>with-deps</shadedClassifierName>
++            </configuration>
++          </execution>
++        </executions>
++      </plugin>
+     </plugins>
+   </build>
+ </project>
+-- 
+1.9.1
+
