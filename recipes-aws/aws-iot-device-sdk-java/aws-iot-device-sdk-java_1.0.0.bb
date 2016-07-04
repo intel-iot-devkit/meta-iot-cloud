@@ -30,7 +30,7 @@ do_compile() {
 }
 
 do_install() {
-	oe_jarinstall -r ${PN}-${PV}.jar ${PN}-${PV}-with-deps.jar ${PN}.jar ${PN}.jar
+	oe_jarinstall -r ${PN}-${PV}.jar ${PN}-${PV}-with-deps.jar ${PN}.jar
 }
 
 PACKAGES = "${PN}"
