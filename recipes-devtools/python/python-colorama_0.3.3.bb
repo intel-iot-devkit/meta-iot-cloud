@@ -9,8 +9,7 @@ PR = "r0"
 
 SRC_NAME = "colorama"
 
-SRC_URI = "https://github.com/tartley/${SRC_NAME}/archive/v${PV}.tar.gz"
-SRC_URI[md5sum] = "395439c56c4a74878f3ecf4b331575e3"
-SRC_URI[sha256sum] = "b746a9b360e6b0793fe9efc7dbbcf4250ced96351312d8939e075d5149cd6346"
+SRC_URI = "git://github.com/tartley/${SRC_NAME}.git"
+SRCREV = "5906b2604223f3a3bdf4497244fc8861b89dbda6"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"

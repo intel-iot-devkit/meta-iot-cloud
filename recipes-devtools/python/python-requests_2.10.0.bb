@@ -10,9 +10,7 @@ PR = "r0"
 
 SRC_NAME = "requests"
 
-SRC_URI = "https://github.com/kennethreitz/${SRC_NAME}/archive/v${PV}.tar.gz"
+SRC_URI = "git://github.com/kennethreitz/${SRC_NAME}.git"
+SRCREV = "efb4af01271c8c0ddf49457c7096a5bc91edbdad"
 
-SRC_URI[md5sum] = "03000b031eabe33c579248e1c78aea60"
-SRC_URI[sha256sum] = "53547040c63eb514638203c8211de6eb9b7db370535db4a5dc3801692c2c3f8b"
-
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"
