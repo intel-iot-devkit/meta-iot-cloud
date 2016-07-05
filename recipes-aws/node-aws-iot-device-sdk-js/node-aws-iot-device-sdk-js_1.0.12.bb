@@ -6,13 +6,15 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1431d1446b43adc38d1445e89c8b61ff"
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash nodejs"
 
-SRC_URI = "https://github.com/aws/${PN}/archive/v${PV}.tar.gz"
+SRC_NAME = "aws-iot-device-sdk-js"
+
+SRC_URI = "https://github.com/aws/${SRC_NAME}/archive/v${PV}.tar.gz"
 SRC_URI[md5sum] = "10c5d6ac1a00bab24d43e83f01a4ee44"
 SRC_URI[sha256sum] = "3f6dcbd0c394d4ae8e37731aba7a1454f19a70e84d1d9477cf93de48fb27cc9e"
 
 PR = "r0"
 
-S = "${WORKDIR}/${PN}-${PV}"
+S = "${WORKDIR}/${SRC_NAME}-${PV}"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
