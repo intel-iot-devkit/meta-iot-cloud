@@ -8,13 +8,12 @@ RDEPENDS_${PN} = "bash nodejs"
 
 SRC_NAME = "aws-iot-device-sdk-js"
 
-SRC_URI = "https://github.com/aws/${SRC_NAME}/archive/v${PV}.tar.gz"
-SRC_URI[md5sum] = "10c5d6ac1a00bab24d43e83f01a4ee44"
-SRC_URI[sha256sum] = "3f6dcbd0c394d4ae8e37731aba7a1454f19a70e84d1d9477cf93de48fb27cc9e"
+SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
+SRCREV = "aaec88d362df2c5c274dc130aaf299eda654e319"
 
 PR = "r0"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"

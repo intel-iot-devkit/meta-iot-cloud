@@ -8,18 +8,14 @@ inherit setuptools
 
 PR = "r0"
 
-RDEPENDS_${PN} = "\
-"
-
 PACKAGES = "${PN} ${PN}-samples"
 
 SRC_NAME = "aws-iot-device-sdk-python"
 
-SRC_URI = "https://github.com/aws/${SRC_NAME}/archive/v${PV}.tar.gz"
-SRC_URI[md5sum] = "f57a0576d1ba67c9b38b10032bb24edd"
-SRC_URI[sha256sum] = "b40ce9facdce21e6f3da31c5ced00644227d83dbb24103aa985382059810949d"
+SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
+SRCREV = "0d5bcba4d44e22bde1036fabe24025a23e13dbe6"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"
 
 do_install_append() {
 	# Samples

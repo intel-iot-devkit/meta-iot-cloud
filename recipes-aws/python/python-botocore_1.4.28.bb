@@ -23,8 +23,7 @@ RDEPENDS_${PN} = "\
 
 SRC_NAME = "botocore"
 
-SRC_URI = "https://github.com/boto/${SRC_NAME}/archive/${PV}.tar.gz"
-SRC_URI[md5sum] = "bf1ef8f290c3bb1f86f45575d1bdbb76"
-SRC_URI[sha256sum] = "2be3edd49980fbb4a69259f82dc865ab85f2cb1533f1ddc2d3d380d850dbf2b6"
+SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
+SRCREV = "8087e8aec3e103cd192bbe25bfba831b26d09e45"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"
