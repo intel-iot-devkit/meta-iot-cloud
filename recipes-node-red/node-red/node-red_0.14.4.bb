@@ -7,21 +7,21 @@ RDEPENDS_${PN} = "bash python nodejs"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PR = "r2"
+PR = "r0"
 
 SRC_URI = "https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
 	   file://node-red.service \
 "
 
-SRC_URI[md5sum] = "442c28584892617bbf300456bc6f1ac9"
-SRC_URI[sha256sum] = "badddaebb0ebc9cdc47372b88050a83117b55fb28437f58c5696c5669261db1e"
+SRC_URI[md5sum] = "042bda2a7a6f67d769b8f0d580b7d475"
+SRC_URI[sha256sum] = "3f720874629d93e62b6833f8e0397286e8268a3b876e712c4d7f69bd340ca96c"
 
 S = "${WORKDIR}/${PN}-${PV}"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "https://registry.npmjs.org/"
-NPM_INSTALL_FLAGS ?= "--production --no-optional --verbose"
+NPM_INSTALL_FLAGS ?= "--production --no-optional"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -31,6 +31,7 @@ do_compile() {
 
 	# Install
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+	npm prune --production
 }
 
 do_install() {
