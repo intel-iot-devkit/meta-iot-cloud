@@ -21,8 +21,7 @@ RDEPENDS_${PN} = "\
 
 SRC_NAME = "s3transfer"
 
-SRC_URI = "https://github.com/boto/${SRC_NAME}/archive/${PV}.tar.gz"
-SRC_URI[md5sum] = "d7e50c1f8fa21801334562e93246c26e"
-SRC_URI[sha256sum] = "41f31e669e0e260a903d77f59ae20cd6b47e9117956093328c91f3eff20f683b"
+SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
+SRCREV = "e9b5c6f9164f73146f01ccd0a15bdf9f02a5eec9"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"

@@ -6,10 +6,8 @@ inherit setuptools
 
 PR = "r1"
 
-SRC_NAME = "${PN}"
-
-SRC_URI = "https://github.com/dateutil/dateutil/releases/download/${PV}/${SRC_NAME}-${PV}.tar.gz"
+SRC_URI = "https://github.com/dateutil/dateutil/releases/download/${PV}/${PN}-${PV}.tar.gz"
 SRC_URI[md5sum] = "05ffc6d2cc85a7fd93bb245807f715ef"
 SRC_URI[sha256sum] = "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/${PN}-${PV}"

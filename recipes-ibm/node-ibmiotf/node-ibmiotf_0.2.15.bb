@@ -6,9 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash nodejs"
 
-SRCNAME = "iot-nodejs"
+SRC_NAME = "iot-nodejs"
 
-SRC_URI = "git://github.com/ibm-watson-iot/${SRCNAME}.git;branch=master"
+SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git;branch=master"
 SRCREV = "aa9ed7d7d5763a81423147d646a4d3418cb73de3"
 
 PR = "r0"

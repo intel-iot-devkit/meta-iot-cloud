@@ -8,9 +8,9 @@ RDEPENDS_${PN} = "cjson"
 
 inherit cmake
 
-SRCNAME = "iotf-embeddedc"
+SRC_NAME = "iot-embeddedc"
 
-SRC_URI = "git://github.com/ibm-watson-iot/iot-embeddedc.git"
+SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git"
 SRCREV = "6750b115dbfa60d698a13be559d56512191032cf"
 
 PR = "r0"

@@ -25,8 +25,7 @@ RDEPENDS_${PN} = "\
 
 SRC_NAME = "aws-cli"
 
-SRC_URI = "https://github.com/aws/${SRC_NAME}/archive/${PV}.tar.gz"
-SRC_URI[md5sum] = "bea51579fe3e505510d7f44fc16c660c"
-SRC_URI[sha256sum] = "7085c3c0be921803266e6262e5757b7e3980e232679e4bac0ec76af8a78383ca"
+SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
+SRCREV = "9fd8eb3fe443929dbdd4c4dfe69a8d875a320d25"
 
-S = "${WORKDIR}/${SRC_NAME}-${PV}"
+S = "${WORKDIR}/git"
