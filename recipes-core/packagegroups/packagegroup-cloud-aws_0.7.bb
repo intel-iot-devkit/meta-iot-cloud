@@ -9,6 +9,7 @@ RDEPENDS_${PN} = "\
 	python-aws-iot-device-sdk \
 	python-aws-iot-device-sdk-samples \
 	aws-iot-device-sdk-java \
+	aws-iot-device-sdk-java-samples \
 	node-aws-iot-device-sdk-js \
 	python-awscli \
 "
