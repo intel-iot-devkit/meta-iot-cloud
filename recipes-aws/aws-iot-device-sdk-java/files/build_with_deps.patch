@@ -1,14 +1,42 @@
-From ace5eef2d0eaa1c2f53555a621503c1621889a31 Mon Sep 17 00:00:00 2001
+From 61702cf348b83ee115647f4e6d0c005ea62000b4 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott2.ware@gmail.com>
-Date: Mon, 4 Jul 2016 18:52:17 +0100
-Subject: [PATCH] Build jar with dependencies
+Date: Tue, 19 Jul 2016 12:39:25 +0100
+Subject: [PATCH 1/2] Build jar files with dependencies
 
 ---
- aws-iot-device-sdk-java/pom.xml | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ aws-iot-device-sdk-java-samples/pom.xml | 16 ++++++++++++++++
+ aws-iot-device-sdk-java/pom.xml         | 16 ++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
+diff --git a/aws-iot-device-sdk-java-samples/pom.xml b/aws-iot-device-sdk-java-samples/pom.xml
+index 4cc9507..76ff405 100644
+--- a/aws-iot-device-sdk-java-samples/pom.xml
++++ b/aws-iot-device-sdk-java-samples/pom.xml
+@@ -54,6 +54,22 @@
+           </execution>
+         </executions>
+       </plugin>
++      <plugin>
++        <artifactId>maven-shade-plugin</artifactId>
++        <version>2.4</version>
++        <executions>
++          <execution>
++            <phase>package</phase>
++            <goals>
++              <goal>shade</goal>
++            </goals>
++            <configuration>
++              <shadedArtifactAttached>true</shadedArtifactAttached>
++              <shadedClassifierName>with-deps</shadedClassifierName>
++            </configuration>
++          </execution>
++        </executions>
++      </plugin>
+     </plugins>
+   </build>
+ </project>
 diff --git a/aws-iot-device-sdk-java/pom.xml b/aws-iot-device-sdk-java/pom.xml
-index a6ac904..cd029ec 100644
+index c524958..c0778c2 100644
 --- a/aws-iot-device-sdk-java/pom.xml
 +++ b/aws-iot-device-sdk-java/pom.xml
 @@ -101,6 +101,22 @@
@@ -34,6 +62,40 @@ index a6ac904..cd029ec 100644
      </plugins>
    </build>
  </project>
+-- 
+1.9.1
+
+
+From 468b5584432ea93b4f6dca0ba2b1d2d7fbb80958 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott2.ware@gmail.com>
+Date: Tue, 19 Jul 2016 15:41:13 +0100
+Subject: [PATCH 2/2] Add filters for jar with dependencies
+
+---
+ aws-iot-device-sdk-java-samples/pom.xml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/aws-iot-device-sdk-java-samples/pom.xml b/aws-iot-device-sdk-java-samples/pom.xml
+index 76ff405..ceb2d78 100644
+--- a/aws-iot-device-sdk-java-samples/pom.xml
++++ b/aws-iot-device-sdk-java-samples/pom.xml
+@@ -64,6 +64,16 @@
+               <goal>shade</goal>
+             </goals>
+             <configuration>
++              <filters>
++                <filter>
++                  <artifact>*:*</artifact>
++                  <excludes>
++                    <exclude>META-INF/*.SF</exclude>
++                    <exclude>META-INF/*.DSA</exclude>
++                    <exclude>META-INF/*.RSA</exclude>
++                  </excludes>
++                </filter>
++              </filters>
+               <shadedArtifactAttached>true</shadedArtifactAttached>
+               <shadedClassifierName>with-deps</shadedClassifierName>
+             </configuration>
 -- 
 1.9.1
 

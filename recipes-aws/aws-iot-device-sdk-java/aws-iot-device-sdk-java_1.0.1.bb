@@ -13,12 +13,14 @@ inherit java
 SRC_URI = "git://github.com/aws/${PN}.git \
 	   file://build_with_deps.patch \
 "
-SRCREV = "683ad635d2c11286465619d70093e09b305ca6c1"
+SRCREV = "e14223a34133e2db6284eda8dad5adb17d64b64e"
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${S}/${PN}/target"
+
+SAMPLES_BUILD_DIR = "${S}/${PN}-samples/target"
 
 do_compile() {
 	cd ${S}
@@ -30,8 +32,13 @@ do_compile() {
 
 do_install() {
 	oe_jarinstall -r ${PN}-${PV}.jar ${PN}-${PV}-with-deps.jar ${PN}.jar
+
+	# Samples
+	install -d ${D}${datadir}/awsiotsdk/samples/java
+    	install -m 0755 ${SAMPLES_BUILD_DIR}/${PN}-samples-${PV}-with-deps.jar ${D}${datadir}/awsiotsdk/samples/java/${PN}-samples-${PV}.jar
 }
 
-PACKAGES = "${PN}"
+PACKAGES = "${PN} ${PN}-samples"
 
 FILES_${PN} += "${datadir_java}"
+FILES_${PN}-samples += "${datadir}/awsiotsdk/samples/java"
