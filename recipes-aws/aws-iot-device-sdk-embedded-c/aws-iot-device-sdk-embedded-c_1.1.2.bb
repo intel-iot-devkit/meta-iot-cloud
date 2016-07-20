@@ -16,7 +16,7 @@ SRC_URI = "https://s3.amazonaws.com/aws-iot-device-sdk-embedded-c/linux_mqtt_ope
 SRC_URI[md5sum] = "2793b89b6fdb68bc66f9f9c99f8f027f"
 SRC_URI[sha256sum] = "35014b6625da9ac53536d6638531c2245b916bb813f8620c9fbb9ecb3ca1da63"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}"
 SAMPLE_APPS = "${S}/sample_apps"
