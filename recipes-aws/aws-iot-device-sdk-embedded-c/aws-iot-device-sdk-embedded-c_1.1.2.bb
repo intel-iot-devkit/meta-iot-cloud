@@ -55,3 +55,6 @@ FILES_${PN}-samples += "${datadir}/awsiotsdk/samples/c/shadow_sample \
 			${datadir}/awsiotsdk/samples/c/shadow_console_echo \
 			${datadir}/awsiotsdk/samples/c/subscribe_publish_sample \
 "
+
+RRECOMMENDS_aws-iot-device-sdk-embedded-c-dev = "openssl-dev glibc-dev"
+RRECOMMENDS_aws-iot-device-sdk-embedded-c-dev[nodeprrecs] = "1"
