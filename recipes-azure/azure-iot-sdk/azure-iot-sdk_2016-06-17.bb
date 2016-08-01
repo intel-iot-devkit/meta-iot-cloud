@@ -255,5 +255,5 @@ FILES_${JAVA_PN} += "${datadir_java}"
 ## Samples ##
 FILES_${PN}-samples += "${datadir}/azureiotsdk/samples/java"
 
-RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev util-linux-dev util-linux-libuuid-dev libcurl-dev curl-dev"
+RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev util-linux-dev util-linux-libuuid-dev curl-dev"
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
