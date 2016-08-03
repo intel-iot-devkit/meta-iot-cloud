@@ -24,6 +24,6 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "botocore"
 
 SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
-SRCREV = "8087e8aec3e103cd192bbe25bfba831b26d09e45"
+SRCREV = "ddc838cd82493400a102fbd12519dac23ce2f336"
 
 S = "${WORKDIR}/git"

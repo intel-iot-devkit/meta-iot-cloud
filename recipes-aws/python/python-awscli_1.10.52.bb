@@ -26,6 +26,6 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "aws-cli"
 
 SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
-SRCREV = "9fd8eb3fe443929dbdd4c4dfe69a8d875a320d25"
+SRCREV = "8fff17eebb524363648f64489d92de3ba488336f"
 
 S = "${WORKDIR}/git"

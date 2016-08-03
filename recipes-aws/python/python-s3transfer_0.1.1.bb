@@ -22,6 +22,6 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "s3transfer"
 
 SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
-SRCREV = "e9b5c6f9164f73146f01ccd0a15bdf9f02a5eec9"
+SRCREV = "4520f4f1b05c4fe4bec7f90f850c33a31edc2f74"
 
 S = "${WORKDIR}/git"

@@ -10,6 +10,6 @@ PR = "r0"
 SRC_NAME = "colorama"
 
 SRC_URI = "git://github.com/tartley/${SRC_NAME}.git"
-SRCREV = "5906b2604223f3a3bdf4497244fc8861b89dbda6"
+SRCREV = "9f5a28369c4528502b9faa76088df965f6ac103d"
 
 S = "${WORKDIR}/git"
