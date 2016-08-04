@@ -11,7 +11,7 @@ inherit cmake
 SRC_NAME = "iot-embeddedc"
 
 SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git"
-SRCREV = "6750b115dbfa60d698a13be559d56512191032cf"
+SRCREV = "faf6a55db206b64a75184b3b1108188f8082c6e8"
 
 PR = "r0"
 
