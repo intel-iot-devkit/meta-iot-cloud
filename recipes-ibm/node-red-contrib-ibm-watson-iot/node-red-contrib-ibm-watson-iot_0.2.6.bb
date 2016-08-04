@@ -9,9 +9,9 @@ RDEPENDS_${PN} = "bash nodejs node-red"
 SRC_NAME = "iot-nodered"
 
 SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git;branch=master"
-SRCREV = "1cab3a91578ac4afea31bf6a282af8433fafaca0"
+SRCREV = "aa4a3c4a3d3a1d0d7f36f85adb26522d4868bc0e"
 
-PR = "r2"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 
