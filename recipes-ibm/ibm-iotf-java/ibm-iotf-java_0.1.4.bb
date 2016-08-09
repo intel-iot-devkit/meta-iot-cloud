@@ -9,16 +9,9 @@ DEPENDS = "maven-native icedtea7-native"
 
 inherit java
 
-PAHO_DEPENDENCY = "org.eclipse.paho.client.mqttv3-1.0.3-20160519.041515-412"
-PAHO_VERSION = "1.0.3-SNAPSHOT"
-
 SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git \
-	   https://repo.eclipse.org/content/repositories/paho-snapshots/org/eclipse/paho/org.eclipse.paho.client.mqttv3/${PAHO_VERSION}/${PAHO_DEPENDENCY}.jar;unpack=0 \
-	   file://build_with_deps.patch \
 "
-SRCREV = "3cf1fd384bbfa547e68d2f6e22f97ac8af8777da"
-SRC_URI[md5sum] = "50fdc31436fac7294526a61afe6ce625"
-SRC_URI[sha256sum] = "fe490f3eeeff36a32fe8448df1f759482d41ea30429eb1db3d6cf9c9f6bdcb60"
+SRCREV = "5035be6d6a93ee77656aa1de6226e163a5bb18d2"
 
 PR = "r0"
 
@@ -29,7 +22,6 @@ do_compile() {
 	cd ${S}
 	export JAVA_HOME="${STAGING_LIBDIR_JVM_NATIVE}/icedtea7-native"
 	export M3_HOME="${STAGING_DIR_NATIVE}/usr/bin/maven-native"
-	mvn install:install-file -Dfile=${WORKDIR}/${PAHO_DEPENDENCY}.jar -DgroupId=org.eclipse.paho -DartifactId=org.eclipse.paho.client.mqttv3 -Dversion=${PAHO_VERSION} -Dpackaging=jar
 	mvn install -Dgpg.skip -DskipTests
 }
 
