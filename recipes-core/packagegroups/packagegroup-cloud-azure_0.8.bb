@@ -18,6 +18,10 @@ RDEPENDS_${PN} = "\
 	node-azure-iot-device-mqtt \
 	node-iothub-explorer \
 	iothub-java-device-client \
+	azure-iot-gateway-sdk \
+	azure-iot-gateway-sdk-dev \
+	azure-iot-gateway-sdk-modules \
+	azure-iot-gateway-sdk-java-binding \
 "
 
 PACKAGES = "${PN}"
