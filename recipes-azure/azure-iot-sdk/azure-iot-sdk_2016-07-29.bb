@@ -187,12 +187,12 @@ do_install() {
 	jar_version=$(ls iothub-java-client-*-with-deps.jar | cut -d '-' -f4) 
         oe_jarinstall -r ${JAVA_PN}-${jar_version}.jar ${JAVA_DEST_DIR}/iothub-java-client-${jar_version}-with-deps.jar ${JAVA_PN}.jar
 	
-    # Java Samples
-    install -d ${D}${datadir}/azureiotsdk/samples/java/device
-    install -m 0755 ${JAVA_SRC_DIR}/samples/handle-messages/target/handle-messages-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/handle-messages.jar
-    install -m 0755 ${JAVA_SRC_DIR}/samples/send-event/target/send-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-event.jar
-    install -m 0755 ${JAVA_SRC_DIR}/samples/send-receive-sample/target/send-receive-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-receive-sample.jar
-    install -m 0755 ${JAVA_SRC_DIR}/samples/send-serialized-event/target/send-serialized-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-serialized-event.jar
+        # Java Samples
+        install -d ${D}${datadir}/azureiotsdk/samples/java/device
+        install -m 0755 ${JAVA_SRC_DIR}/samples/handle-messages/target/handle-messages-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/handle-messages.jar
+        install -m 0755 ${JAVA_SRC_DIR}/samples/send-event/target/send-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-event.jar
+        install -m 0755 ${JAVA_SRC_DIR}/samples/send-receive-sample/target/send-receive-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-receive-sample.jar
+        install -m 0755 ${JAVA_SRC_DIR}/samples/send-serialized-event/target/send-serialized-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-serialized-event.jar
     fi
 }
 
