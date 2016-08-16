@@ -62,7 +62,7 @@ addtask recursive_submodule_init after do_unpack before do_configure
 addtask patch_linked_libraries after do_recursive_submodule_init before do_configure
 
 PACKAGECONFIG ??= "java"
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON, -Denable_java_binding:BOOL=OFF, maven-native icedtea7-native openjdk-8"
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, maven-native icedtea7-native openjdk-8"
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=ON -Dskip_unittests:BOOL=ON"
 
@@ -70,7 +70,6 @@ do_configure_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${STAGING_LIBDIR_JVM}/java-8-openjdk"
-		export JDK_ARCH="${JDK_ARCH}"
 	fi
 }
 

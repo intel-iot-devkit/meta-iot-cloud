@@ -1,8 +1,8 @@
 From 334678cd249377ee49a290ff5d63fcb4de78facd Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Tue, 16 Aug 2016 14:28:06 +0100
-Subject: [PATCH] Handle JDK architectures other than 'amd64' using environment
- variable
+Subject: [PATCH 1/3] Handle JDK architectures other than 'amd64' using
+ environment variable
 
 ---
  bindings/java/CMakeLists.txt | 13 ++++++++++---
@@ -41,3 +41,75 @@ index bd9ebc3..b37da33 100644
 
 -- 
 1.9.1
+
+
+From 5d65f3c3a7e0f4be982b67e77cdd6e9ae658ac88 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 16 Aug 2016 14:32:17 +0100
+Subject: [PATCH 2/3] Small copy & paste typo fix
+
+---
+ bindings/java/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bindings/java/CMakeLists.txt b/bindings/java/CMakeLists.txt
+index b37da33..8cb5c37 100644
+--- a/bindings/java/CMakeLists.txt
++++ b/bindings/java/CMakeLists.txt
+@@ -4,7 +4,7 @@
+ cmake_minimum_required(VERSION 2.8.11)
+ #this is CMakeLists for java binding
+ 
+-# Check if the environment variables NODE_INCLUDE and NODE_LIB exist
++# Check if the environment variable JAVA_HOME exists
+ if(
+     (NOT (DEFINED ENV{JAVA_HOME}))
+   )
+-- 
+1.9.1
+
+
+From 7ab227129275d0d595ec879d078505dad2f9e6b9 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 16 Aug 2016 18:56:13 +0100
+Subject: [PATCH 3/3] Change JDK_ARCH to a CMake variable
+
+---
+ bindings/java/CMakeLists.txt | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/bindings/java/CMakeLists.txt b/bindings/java/CMakeLists.txt
+index 8cb5c37..f423a73 100644
+--- a/bindings/java/CMakeLists.txt
++++ b/bindings/java/CMakeLists.txt
+@@ -12,11 +12,11 @@ if(
+                       "JAVA_HOME to point to the location of the JDK.")
+ endif()
+ 
+-# Check if the environment variable JDK_ARCH exists and if not set it to 'amd64' by default
++# Check if the variable JDK_ARCH exists and if not set it to 'amd64' by default
+ if(
+-    (NOT (DEFINED ENV{JDK_ARCH}))
++    (NOT (DEFINED JDK_ARCH))
+   )
+-  set( ENV{JDK_ARCH} amd64 )
++  set( JDK_ARCH amd64 )
+ endif()
+ 
+ set(java_module_host_manager_sources
+@@ -82,10 +82,10 @@ elseif(LINUX)
+         $ENV{JAVA_HOME}/include/linux
+     )
+     set(java_link_dirs
+-        $ENV{JAVA_HOME}/jre/lib/$ENV{JDK_ARCH}/server
++        $ENV{JAVA_HOME}/jre/lib/${JDK_ARCH}/server
+     )
+     set(java_libs
+-        $ENV{JAVA_HOME}/jre/lib/$ENV{JDK_ARCH}/server/libjvm.so
++        $ENV{JAVA_HOME}/jre/lib/${JDK_ARCH}/server/libjvm.so
+     )
+ endif()
+ 
+-- 
+1.9.1
+
