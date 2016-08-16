@@ -3,14 +3,19 @@ HOMEPAGE = "https://github.com/Azure/azure-iot-gateway-sdk"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://License.txt;md5=9cc1d02a339a3e756ac7975262cf739d"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 DEPENDS = "glib-2.0 curl util-linux azure-iot-sdk"
 
 inherit cmake pkgconfig java
 
-SRC_URI = "git://github.com/Azure/azure-iot-gateway-sdk.git"
+SRC_URI = "git://github.com/Azure/azure-iot-gateway-sdk.git \
+	   file://fix_jdk_arch.patch \
+	   file://fix_static_libs.patch \
+"
 SRCREV = "1362b3b9dcde50811aef63956d3f5cb4521a50fd"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -18,10 +23,26 @@ B = "${WORKDIR}/build"
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-modules ${PN}-java-binding"
 
 ## Java ##
+def get_jdk_arch(d):
+    import bb
+
+    jdk_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, 1)
+    if jdk_arch == "x86-64":
+        jdk_arch = "amd64"
+    elif jdk_arch == "powerpc":
+        jdk_arch = "ppc"
+    elif jdk_arch == "powerpc64":
+        jdk_arch = "ppc64"
+    elif (jdk_arch == "i486" or jdk_arch == "i586" or jdk_arch == "i686"):
+        jdk_arch = "i386"
+
+    return jdk_arch
+
 JAVA_SRC_DIR = "${S}/bindings/java/gateway-java-binding"
 JAVA_LIB_DIR = "${B}/bindings/java/"
 JAVA_JAR_DIR = "${JAVA_SRC_DIR}/target"
 JAVA_PN = "gateway-java-binding"
+JDK_ARCH = "${@get_jdk_arch(d)}"
 
 do_recursive_submodule_init() {
 	export GIT_SSL_NO_VERIFY=1
@@ -33,7 +54,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/deps/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-	    sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+		sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
@@ -41,14 +62,15 @@ addtask recursive_submodule_init after do_unpack before do_configure
 addtask patch_linked_libraries after do_recursive_submodule_init before do_configure
 
 PACKAGECONFIG ??= "java"
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON, -Denable_java_binding:BOOL=OFF, maven-native icedtea7-native"
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON, -Denable_java_binding:BOOL=OFF, maven-native icedtea7-native openjdk-8"
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=ON -Dskip_unittests:BOOL=ON"
 
 do_configure_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${STAGING_LIBDIR_JVM_NATIVE}/icedtea7-native"
+		export JAVA_HOME="${STAGING_LIBDIR_JVM}/java-8-openjdk"
+		export JDK_ARCH="${JDK_ARCH}"
 	fi
 }
 
@@ -154,14 +176,21 @@ FILES_${PN}-dbg += "${libdir}/azureiot/bindings/java/.debug \
 "
 
 RDEPENDS_${PN}-modules += "bluez5"
-FILES_${PN}-modules += "${libdir}/azureiot/modules/ble/*.so \
-			${libdir}/azureiot/modules/hello_world/*.so \
-			${libdir}/azureiot/modules/identitymap/*.so \
-			${libdir}/azureiot/modules/iothubhttp/*.so \
-			${libdir}/azureiot/modules/logger/*.so \
-			${libdir}/azureiot/modules/simulated_device/*.so \
+FILES_${PN}-modules += "${libdir}/azureiot/modules/ble/libble.so \
+			${libdir}/azureiot/modules/ble/libble_hl.so \
+			${libdir}/azureiot/modules/hello_world/libhello_world.so \
+			${libdir}/azureiot/modules/hello_world/libhello_world_hl.so \
+			${libdir}/azureiot/modules/identitymap/libidentity_map.so \
+			${libdir}/azureiot/modules/identitymap/libidentity_map_hl.so \
+			${libdir}/azureiot/modules/iothubhttp/libiothubhttp.so \
+			${libdir}/azureiot/modules/iothubhttp/libiothubhttp_hl.so \
+			${libdir}/azureiot/modules/logger/liblogger.so \
+			${libdir}/azureiot/modules/logger/liblogger_hl.so \
+			${libdir}/azureiot/modules/simulated_device/libsimulated_device.so \
+			${libdir}/azureiot/modules/simulated_device/libsimulated_device_hl.so \
 "
 
+RDEPENDS_${PN}-java-binding += "openjdk-8-common"
 FILES_${PN}-java-binding += "${libdir}/azureiot/bindings/java/*.so \
 			     ${datadir_java} \
 "

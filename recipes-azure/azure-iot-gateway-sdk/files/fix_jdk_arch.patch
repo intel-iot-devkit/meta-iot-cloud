@@ -1,0 +1,43 @@
+From 334678cd249377ee49a290ff5d63fcb4de78facd Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 16 Aug 2016 14:28:06 +0100
+Subject: [PATCH] Handle JDK architectures other than 'amd64' using environment
+ variable
+
+---
+ bindings/java/CMakeLists.txt | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/bindings/java/CMakeLists.txt b/bindings/java/CMakeLists.txt
+index bd9ebc3..b37da33 100644
+--- a/bindings/java/CMakeLists.txt
++++ b/bindings/java/CMakeLists.txt
+@@ -12,6 +12,13 @@ if(
+                       "JAVA_HOME to point to the location of the JDK.")
+ endif()
+ 
++# Check if the environment variable JDK_ARCH exists and if not set it to 'amd64' by default
++if(
++    (NOT (DEFINED ENV{JDK_ARCH}))
++  )
++  set( ENV{JDK_ARCH} amd64 )
++endif()
++
+ set(java_module_host_manager_sources
+     ./src/java_module_host_manager.c
+ )
+@@ -75,10 +82,10 @@ elseif(LINUX)
+         $ENV{JAVA_HOME}/include/linux
+     )
+     set(java_link_dirs
+-        $ENV{JAVA_HOME}/jre/lib/amd64/server
++        $ENV{JAVA_HOME}/jre/lib/$ENV{JDK_ARCH}/server
+     )
+     set(java_libs
+-        $ENV{JAVA_HOME}/jre/lib/amd64/server/libjvm.so
++        $ENV{JAVA_HOME}/jre/lib/$ENV{JDK_ARCH}/server/libjvm.so
+     )
+ endif()
+
+-- 
+1.9.1
