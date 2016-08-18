@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/Azure/azure-iot-gateway-sdk.git \
 "
 SRCREV = "1362b3b9dcde50811aef63956d3f5cb4521a50fd"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -194,6 +194,8 @@ FILES_${PN}-java-binding += "${libdir}/azureiot/bindings/java/*.so \
 			     ${datadir_java} \
 "
 
+RRECOMMENDS_azure-iot-gateway-sdk-dev = "glibc-dev util-linux-dev curl-dev bluez5-dev glib-2.0-dev azure-iot-sdk-dev"
+RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_${PN} += "rpaths"
 INSANE_SKIP_${PN}-modules += "rpaths"

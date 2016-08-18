@@ -3,7 +3,6 @@ require recipes-connectivity/bluez5/bluez5.inc
 SRC_URI[md5sum] = "33177e5743e24b2b3738f72be64e3ffb"
 SRC_URI[sha256sum] = "c14ba9ddcb0055522073477b8fd8bf1ddf5d219e75fdfd4699b7e0ce5350d6b0"
 
-# to get bluetooth.conf
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/:"
 
 SRC_URI = "\
@@ -14,6 +13,8 @@ SRC_URI = "\
 "
 
 RDEPENDS_${PN} += "glibc-gconv-utf-16"
+
+PR = "r1"
 
 PACKAGECONFIG[alsa] = ""
 
@@ -40,4 +41,7 @@ do_install_append() {
 		install -m 644 ${S}/obexd/src/obex.service ${D}/${systemd_unitdir}/system/
 	fi
 }
+
+RRECOMMENDS_bluez5-dev = "glibc-dev libcheck-dev glib-2.0-dev"
+RRECOMMENDS_bluez5-dev[nodeprrecs] = "1"
 
