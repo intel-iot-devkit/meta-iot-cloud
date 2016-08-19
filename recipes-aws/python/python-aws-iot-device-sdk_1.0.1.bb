@@ -13,7 +13,7 @@ PACKAGES = "${PN} ${PN}-samples"
 SRC_NAME = "aws-iot-device-sdk-python"
 
 SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
-SRCREV = "0d5bcba4d44e22bde1036fabe24025a23e13dbe6"
+SRCREV = "cb67058517681d2ffddc8064b1439988c78ee822"
 
 S = "${WORKDIR}/git"
 
