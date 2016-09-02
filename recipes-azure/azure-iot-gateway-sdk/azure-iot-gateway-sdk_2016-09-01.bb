@@ -3,19 +3,15 @@ HOMEPAGE = "https://github.com/Azure/azure-iot-gateway-sdk"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://License.txt;md5=9cc1d02a339a3e756ac7975262cf739d"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-
 DEPENDS = "glib-2.0 curl util-linux azure-iot-sdk"
 
 inherit cmake pkgconfig java
 
 SRC_URI = "git://github.com/Azure/azure-iot-gateway-sdk.git \
-	   file://fix_jdk_arch.patch \
-	   file://fix_static_libs.patch \
 "
-SRCREV = "1362b3b9dcde50811aef63956d3f5cb4521a50fd"
+SRCREV = "d749101c43baa8885f3ba7bf0d64d095de8d2d82"
 
-PR = "r2"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -54,7 +50,7 @@ do_recursive_submodule_init() {
 do_patch_linked_libraries() {
 	cd ${S}/deps/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
-		sed -i '622s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
+		sed -i '730s/.*/    target_link_libraries(aziotsharedutil pthread uuid)/' CMakeLists.txt
 	fi
 }
 
@@ -121,13 +117,13 @@ do_install() {
     install -d ${D}${includedir}/azureiot/modules/identitymap
     install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${includedir}/azureiot/modules/identitymap
 
-    # IoT Hub HTTP Module
-    install -d ${D}${libdir}/azureiot/modules/iothubhttp
-    oe_libinstall -C ${B}/modules/iothubhttp/ -so libiothubhttp ${D}${libdir}/azureiot/modules/iothubhttp/
-    oe_libinstall -C ${B}/modules/iothubhttp/ -so libiothubhttp_hl ${D}${libdir}/azureiot/modules/iothubhttp/
+    # IoT Hub Module
+    install -d ${D}${libdir}/azureiot/modules/iothub
+    oe_libinstall -C ${B}/modules/iothub/ -so libiothub ${D}${libdir}/azureiot/modules/iothub/
+    oe_libinstall -C ${B}/modules/iothub/ -so libiothub_hl ${D}${libdir}/azureiot/modules/iothub/
 
-    install -d ${D}${includedir}/azureiot/modules/iothubhttp
-    install -m 0644 ${S}/modules/iothubhttp/inc/*.h ${D}${includedir}/azureiot/modules/iothubhttp
+    install -d ${D}${includedir}/azureiot/modules/iothub
+    install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${includedir}/azureiot/modules/iothub
 
     # Logger Module
     install -d ${D}${libdir}/azureiot/modules/logger
@@ -169,7 +165,7 @@ FILES_${PN}-dbg += "${libdir}/azureiot/bindings/java/.debug \
 		    ${libdir}/azureiot/modules/ble/.debug \
 		    ${libdir}/azureiot/modules/hello_world/.debug \
 		    ${libdir}/azureiot/modules/identitymap/.debug \
-		    ${libdir}/azureiot/modules/iothubhttp/.debug \
+		    ${libdir}/azureiot/modules/iothub/.debug \
 		    ${libdir}/azureiot/modules/logger/.debug \
 		    ${libdir}/azureiot/modules/simulated_device/.debug \
 "
@@ -181,8 +177,8 @@ FILES_${PN}-modules += "${libdir}/azureiot/modules/ble/libble.so \
 			${libdir}/azureiot/modules/hello_world/libhello_world_hl.so \
 			${libdir}/azureiot/modules/identitymap/libidentity_map.so \
 			${libdir}/azureiot/modules/identitymap/libidentity_map_hl.so \
-			${libdir}/azureiot/modules/iothubhttp/libiothubhttp.so \
-			${libdir}/azureiot/modules/iothubhttp/libiothubhttp_hl.so \
+			${libdir}/azureiot/modules/iothub/libiothub.so \
+			${libdir}/azureiot/modules/iothub/libiothub_hl.so \
 			${libdir}/azureiot/modules/logger/liblogger.so \
 			${libdir}/azureiot/modules/logger/liblogger_hl.so \
 			${libdir}/azureiot/modules/simulated_device/libsimulated_device.so \
