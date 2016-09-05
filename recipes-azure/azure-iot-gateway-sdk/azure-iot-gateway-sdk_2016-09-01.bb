@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/Azure/azure-iot-gateway-sdk.git \
 "
 SRCREV = "d749101c43baa8885f3ba7bf0d64d095de8d2d82"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -95,6 +95,7 @@ do_install() {
     # BLE Module
     install -d ${D}${libdir}/azureiot/modules/ble
     oe_libinstall -C ${B}/modules/ble/ -so libble ${D}${libdir}/azureiot/modules/ble/
+    oe_libinstall -C ${B}/modules/ble/ -so libble_c2d ${D}${libdir}/azureiot/modules/ble/
     oe_libinstall -C ${B}/modules/ble/ -so libble_hl ${D}${libdir}/azureiot/modules/ble/
 
     install -d ${D}${includedir}/azureiot/modules/ble
@@ -172,6 +173,7 @@ FILES_${PN}-dbg += "${libdir}/azureiot/bindings/java/.debug \
 
 RDEPENDS_${PN}-modules += "bluez5"
 FILES_${PN}-modules += "${libdir}/azureiot/modules/ble/libble.so \
+			${libdir}/azureiot/modules/ble/libble_c2d.so \
 			${libdir}/azureiot/modules/ble/libble_hl.so \
 			${libdir}/azureiot/modules/hello_world/libhello_world.so \
 			${libdir}/azureiot/modules/hello_world/libhello_world_hl.so \
