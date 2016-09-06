@@ -1,0 +1,39 @@
+From e119df18c58546d0df7477eec563fa6ee8977287 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 6 Sep 2016 16:03:02 +0100
+Subject: [PATCH] Fix cmake lib install directory
+
+---
+ CMakeLists.txt | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 146af6a..33ba748 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -73,7 +73,11 @@ option(compileOption_C "passes a string to the command line of the C compiler" O
+ option(compileOption_CXX "passes a string to the command line of the C++ compiler" OFF)
+ 
+ # Start of variables used during install
+-set (LIB_INSTALL_DIR lib CACHE PATH "Library object file directory")
++if (CMAKE_INSTALL_LIBDIR)
++  set (LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}" CACHE PATH "Library object file directory")
++else ()
++  set (LIB_INSTALL_DIR "lib" CACHE PATH "Library object file directory")
++endif ()
+ 
+ #Use solution folders. 
+ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+@@ -741,7 +745,7 @@ endif()
+ 
+ if(WIN32)
+ else()
+-    install (TARGETS aziotsharedutil DESTINATION lib)
+-    install (FILES ${source_h_files} DESTINATION include/azureiot/azure_c_shared_utility)
++    install (TARGETS aziotsharedutil DESTINATION ${LIB_INSTALL_DIR})
++    install (FILES ${source_h_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/azureiot/azure_c_shared_utility)
+ endif (WIN32)
+ 
+-- 
+1.9.1
+

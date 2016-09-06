@@ -10,7 +10,7 @@ inherit cmake pkgconfig python-dir java
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
 SRCREV = "0a559430fa22575d4e98c227ad4c251e273e7342"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -56,7 +56,7 @@ do_recursive_submodule_init() {
 	git submodule update --init --recursive
 }
 
-# FIXME: This is a nasty hack and needs fixing upstream
+# FIXME: This is a nasty hack
 do_patch_linked_libraries() {
 	cd ${S}/c/azure-c-shared-utility
 	if [ -e CMakeLists.txt ]; then
@@ -135,7 +135,6 @@ do_compile_append() {
 do_install() {
     # C
     install -d ${D}${libdir}
-    oe_libinstall -C ${B}/azure-c-shared-utility/ -so libaziotsharedutil ${D}${libdir}
     oe_libinstall -C ${B}/azure-uamqp-c/ -so libuamqp ${D}${libdir}
     oe_libinstall -C ${B}/azure-umqtt-c/ -so libumqtt ${D}${libdir}
     oe_libinstall -C ${B}/iothub_client/ -so libiothub_client ${D}${libdir}
@@ -145,13 +144,11 @@ do_install() {
     oe_libinstall -C ${B}/serializer/ -so libserializer ${D}${libdir}
 
     install -d ${D}${includedir}
-    install -d ${D}${includedir}/azure_c_shared_utility
     install -d ${D}${includedir}/azure_uamqp_c
     install -d ${D}${includedir}/azure_umqtt_c
     install -m 0644 ${S}/c/iothub_client/inc/*.h ${D}${includedir}
     install -m 0644 ${S}/c/serializer/inc/*.h ${D}${includedir}
     install -m 0644 ${S}/c/parson/*.h ${D}${includedir}
-    install -m 0644 ${S}/c/azure-c-shared-utility/inc/azure_c_shared_utility/*.h ${D}${includedir}/azure_c_shared_utility
     install -m 0644 ${S}/c/azure-uamqp-c/inc/azure_uamqp_c/*.h ${D}${includedir}/azure_uamqp_c
     install -m 0644 ${S}/c/azure-umqtt-c/inc/azure_umqtt_c/*.h ${D}${includedir}/azure_umqtt_c
 
