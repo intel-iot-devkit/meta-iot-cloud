@@ -1,0 +1,73 @@
+From 79b01657c79fee11c3e0dada4b8f817bb464e6c4 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 7 Sep 2016 15:22:47 +0100
+Subject: [PATCH] Fix install directories Skip building shared util library if
+ provided
+
+---
+ CMakeLists.txt | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ee02db6..2f93efe 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -126,7 +126,18 @@ if(${use_wsio})
+ 	endif()
+ endif()
+ 
+-add_subdirectory(azure-c-shared-utility)
++find_library (SHARED_UTIL_LIB_PATH NAMES aziotsharedutil)
++
++# Check if shared utils library is already provided
++if (SHARED_UTIL_LIB_PATH AND SHARED_UTIL_INCLUDE_DIR)
++    set(SHARED_UTIL_FOUND 1)
++endif()
++
++if (NOT SHARED_UTIL_FOUND)
++    add_subdirectory(azure-c-shared-utility)
++    set(SHARED_UTIL_LIB_PATH aziotsharedutil)
++    set(SHARED_UTIL_INCLUDE_DIR ${SHARED_UTIL_INC_FOLDER})
++endif()
+ 
+ enable_testing()
+ #if any compiler has a command line switch called "OFF" then it will need special care
+@@ -171,7 +182,7 @@ endmacro(compileAsC11)
+ 
+ option(memory_trace "set memory_trace to ON if memory usage is to be used, set to OFF to not use it" ON)
+ 
+-include_directories(${CMAKE_CURRENT_LIST_DIR}/inc ${SHARED_UTIL_INC_FOLDER})
++include_directories(${CMAKE_CURRENT_LIST_DIR}/inc ${SHARED_UTIL_INCLUDE_DIR})
+ 
+ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ 
+@@ -268,6 +279,8 @@ add_library(uamqp
+     ${socketlistener_c_files}
+     )
+ 
++target_link_libraries(uamqp ${SHARED_UTIL_LIB_PATH})
++
+ if (NOT ${ARCHITECTURE} STREQUAL "ARM")
+     add_subdirectory(samples)
+ endif()
+@@ -280,8 +293,15 @@ endif()
+ set(UAMQP_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "This is the include folder for UAMQP" FORCE)
+ set(UAMQP_SRC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "This is the lib folder for UAMQP" FORCE)
+ 
++# Overridable install variables
++if (CMAKE_INSTALL_LIBDIR)
++    set (LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}" CACHE PATH "Library object file directory")
++else ()
++    set (LIB_INSTALL_DIR "lib" CACHE PATH "Library object file directory")
++endif ()
++
+ if(WIN32) 
+ else() 
+-    install (TARGETS uamqp DESTINATION lib) 
+-    install (FILES ${uamqp_h_files} DESTINATION include/azureiot/azure_uamqp_c) 
++    install (TARGETS uamqp DESTINATION ${LIB_INSTALL_DIR}) 
++    install (FILES ${uamqp_h_files} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/azureiot/azure_uamqp_c) 
+ endif (WIN32) 
+-- 
+1.9.1
+
