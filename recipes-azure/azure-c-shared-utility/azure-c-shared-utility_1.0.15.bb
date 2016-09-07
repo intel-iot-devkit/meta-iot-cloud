@@ -4,7 +4,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 DEPENDS = "curl"
-RDEPENDS_${PN} = "libcrypto libssl"
+RDEPENDS_${PN} = "libcrypto libssl util-linux-libuuid"
 
 inherit cmake pkgconfig
 
@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git \
 "
 SRCREV = "75fa05efbb7e5b72f65fcc0d5c92eec030705f42"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
