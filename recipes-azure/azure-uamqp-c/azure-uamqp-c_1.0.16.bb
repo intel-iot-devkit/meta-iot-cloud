@@ -1,10 +1,9 @@
-DESCRIPTION = "Azure C Shared Utility"
-HOMEPAGE = "https://github.com/Azure/azure-c-shared-utility"
+DESCRIPTION = "uAMQP is a general purpose C library for AMQP"
+HOMEPAGE = "https://github.com/Azure/azure-uamqp-c"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 DEPENDS = "azure-c-shared-utility"
-RDEPENDS_${PN} = ""
 
 inherit cmake pkgconfig
 

@@ -3,14 +3,14 @@ HOMEPAGE = "https://github.com/Azure/azure-iot-sdks"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
-DEPENDS = "curl util-linux"
+DEPENDS = "azure-c-shared-utility"
 
 inherit cmake pkgconfig python-dir java
 
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
 SRCREV = "0a559430fa22575d4e98c227ad4c251e273e7342"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -67,14 +67,17 @@ do_patch_linked_libraries() {
 addtask recursive_submodule_init after do_unpack before do_configure
 addtask patch_linked_libraries after do_recursive_submodule_init before do_configure
 
-PACKAGECONFIG ??= "python nodejs node-red java"
+PACKAGECONFIG ??= "python nodejs node-red java http amqp mqtt"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=2.7, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
 PACKAGECONFIG[nodejs] = ",, nodejs-native"
 PACKAGECONFIG[node-red] = ",, node-red"
 PACKAGECONFIG[java] = ",, maven-native icedtea7-native"
+PACKAGECONFIG[http] = "-Duse_http:BOOL=ON,-Duse_http:BOOL=OFF,"
+PACKAGECONFIG[amqp] = "-Duse_amqp:BOOL=ON,-Duse_amqp:BOOL=OFF, azure-uamqp-c"
+PACKAGECONFIG[mqtt] = "-Duse_mqtt:BOOL=ON,-Duse_mqtt:BOOL=OFF, azure-umqtt-c"
 
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/c"
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests=OFF -Duse_amqp:BOOL=ON -Duse_http:BOOL=ON -Duse_mqtt:BOOL=ON -Dskip_unittests:BOOL=ON -Dbuild_javawrapper:STRING=OFF"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests=OFF -Dskip_unittests:BOOL=ON -Dbuild_javawrapper:STRING=OFF"
 
 do_compile_append() {
     export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -135,22 +138,28 @@ do_compile_append() {
 do_install() {
     # C
     install -d ${D}${libdir}
-    oe_libinstall -C ${B}/azure-uamqp-c/ -so libuamqp ${D}${libdir}
-    oe_libinstall -C ${B}/azure-umqtt-c/ -so libumqtt ${D}${libdir}
     oe_libinstall -C ${B}/iothub_client/ -so libiothub_client ${D}${libdir}
-    oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_amqp_transport ${D}${libdir}
-    oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_http_transport ${D}${libdir}
-    oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_mqtt_transport ${D}${libdir}
     oe_libinstall -C ${B}/serializer/ -so libserializer ${D}${libdir}
 
+    # HTTP
+    if [ -e ${B}/iothub_client/libiothub_client_http_transport.so ]; then
+    	oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_http_transport ${D}${libdir}
+    fi
+
+    # AMQP
+    if [ -e ${B}/iothub_client/libiothub_client_amqp_transport.so ]; then
+    	oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_amqp_transport ${D}${libdir}
+    fi
+
+    # MQTT
+    if [ -e ${B}/iothub_client/libiothub_client_mqtt_transport.so ]; then
+    	oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_mqtt_transport ${D}${libdir}
+    fi
+
     install -d ${D}${includedir}
-    install -d ${D}${includedir}/azure_uamqp_c
-    install -d ${D}${includedir}/azure_umqtt_c
     install -m 0644 ${S}/c/iothub_client/inc/*.h ${D}${includedir}
     install -m 0644 ${S}/c/serializer/inc/*.h ${D}${includedir}
     install -m 0644 ${S}/c/parson/*.h ${D}${includedir}
-    install -m 0644 ${S}/c/azure-uamqp-c/inc/azure_uamqp_c/*.h ${D}${includedir}/azure_uamqp_c
-    install -m 0644 ${S}/c/azure-umqtt-c/inc/azure_umqtt_c/*.h ${D}${includedir}/azure_umqtt_c
 
     # Python
     if [ -e ${B}/python/src/iothub_client.so ]; then
@@ -211,7 +220,6 @@ rm ${bindir}/${IOTHUB_EXPLORER_PN}
 }
 
 ## C ##
-RDEPENDS_${PN} = "curl"
 FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev += "${includedir}"
 INSANE_SKIP_${PN} += "rpaths"
