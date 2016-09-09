@@ -7,14 +7,17 @@ DEPENDS = "azure-c-shared-utility"
 
 inherit cmake pkgconfig python-dir java
 
-SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git"
+SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git \
+	   file://cmake_fixes.patch \
+"
 SRCREV = "0a559430fa22575d4e98c227ad4c251e273e7342"
 
-PR = "r2"
+PR = "r3"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
+## NPM ##
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "https://registry.npmjs.org/"
@@ -25,6 +28,7 @@ C_SAMPLES_DIR = "${B}/iothub_client/samples"
 AMQP_SAMPLES_DIR = "${B}/azure-uamqp-c/samples"
 MQTT_SAMPLES_DIR = "${B}/azure-umqtt-c/samples"
 SERIALIZER_SAMPLES_DIR = "${B}/serializer/samples"
+AZURE_INCLUDE_DIR = "${STAGING_INCDIR}/azureiot"
 
 ## Node ##
 NODE_SRC_DIR = "${S}/node/device/core"
@@ -48,36 +52,22 @@ JAVA_PN = "iothub-java-device-client"
 IOTHUB_EXPLORER_SRC_DIR = "${S}/tools/iothub-explorer"
 IOTHUB_EXPLORER_PN = "iothub-explorer"
 
+# List of packages to build
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples python-${PN} python-${PN}-dbg node-${NODE_PN} node-${NODE_PN}-amqp node-${NODE_PN}-amqp-ws node-${NODE_PN}-http node-${NODE_PN}-mqtt ${NODE_RED_PN} node-${IOTHUB_EXPLORER_PN} ${JAVA_PN}"
 
-do_recursive_submodule_init() {
-	export GIT_SSL_NO_VERIFY=1
-	cd ${S}
-	git submodule update --init --recursive
-}
-
-# FIXME: This is a nasty hack
-do_patch_linked_libraries() {
-	cd ${S}/c/azure-c-shared-utility
-	if [ -e CMakeLists.txt ]; then
-		sed -i '730s/.*/    target_link_libraries(aziotsharedutil pthread m uuid)/' CMakeLists.txt
-	fi
-}
-
-addtask recursive_submodule_init after do_unpack before do_configure
-addtask patch_linked_libraries after do_recursive_submodule_init before do_configure
-
+# Package configuration options
 PACKAGECONFIG ??= "python nodejs node-red java http amqp mqtt"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=2.7, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
 PACKAGECONFIG[nodejs] = ",, nodejs-native"
 PACKAGECONFIG[node-red] = ",, node-red"
 PACKAGECONFIG[java] = ",, maven-native icedtea7-native"
 PACKAGECONFIG[http] = "-Duse_http:BOOL=ON,-Duse_http:BOOL=OFF,"
-PACKAGECONFIG[amqp] = "-Duse_amqp:BOOL=ON,-Duse_amqp:BOOL=OFF, azure-uamqp-c"
-PACKAGECONFIG[mqtt] = "-Duse_mqtt:BOOL=ON,-Duse_mqtt:BOOL=OFF, azure-umqtt-c"
+PACKAGECONFIG[amqp] = "-Duse_amqp:BOOL=ON -DUAMQP_INCLUDE_DIR=${AZURE_INCLUDE_DIR},-Duse_amqp:BOOL=OFF, azure-uamqp-c"
+PACKAGECONFIG[mqtt] = "-Duse_mqtt:BOOL=ON -DMQTT_INCLUDE_DIR=${AZURE_INCLUDE_DIR},-Duse_mqtt:BOOL=OFF, azure-umqtt-c"
 
+## CMake ##
 OECMAKE_SOURCEPATH = "${WORKDIR}/git/c"
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests=OFF -Dskip_unittests:BOOL=ON -Dbuild_javawrapper:STRING=OFF"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -DSHARED_UTIL_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests=OFF -Dskip_unittests:BOOL=ON -Dbuild_javawrapper:STRING=OFF"
 
 do_compile_append() {
     export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -135,32 +125,7 @@ do_compile_append() {
     fi
 }
 
-do_install() {
-    # C
-    install -d ${D}${libdir}
-    oe_libinstall -C ${B}/iothub_client/ -so libiothub_client ${D}${libdir}
-    oe_libinstall -C ${B}/serializer/ -so libserializer ${D}${libdir}
-
-    # HTTP
-    if [ -e ${B}/iothub_client/libiothub_client_http_transport.so ]; then
-    	oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_http_transport ${D}${libdir}
-    fi
-
-    # AMQP
-    if [ -e ${B}/iothub_client/libiothub_client_amqp_transport.so ]; then
-    	oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_amqp_transport ${D}${libdir}
-    fi
-
-    # MQTT
-    if [ -e ${B}/iothub_client/libiothub_client_mqtt_transport.so ]; then
-    	oe_libinstall -C ${B}/iothub_client/ -so libiothub_client_mqtt_transport ${D}${libdir}
-    fi
-
-    install -d ${D}${includedir}
-    install -m 0644 ${S}/c/iothub_client/inc/*.h ${D}${includedir}
-    install -m 0644 ${S}/c/serializer/inc/*.h ${D}${includedir}
-    install -m 0644 ${S}/c/parson/*.h ${D}${includedir}
-
+do_install_append() {
     # Python
     if [ -e ${B}/python/src/iothub_client.so ]; then
 	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
@@ -202,23 +167,6 @@ do_install() {
     fi
 }
 
-pkg_postinst_node-${IOTHUB_EXPLORER_PN}() {
-#!/bin/sh
-# Post installation script
-
-ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${bindir}/${IOTHUB_EXPLORER_PN}
-chmod 755 ${bindir}/${IOTHUB_EXPLORER_PN}
-
-}
-
-pkg_prerm-node-${IOTHUB_EXPLORER_PN}() {
-#!/bin/sh
-# Pre removal script
-
-rm ${bindir}/${IOTHUB_EXPLORER_PN}
-
-}
-
 ## C ##
 FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev += "${includedir}"
@@ -254,11 +202,28 @@ RDEPENDS_node-${IOTHUB_EXPLORER_PN} += "nodejs bash"
 FILES_node-${IOTHUB_EXPLORER_PN} += "${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}"
 INHIBIT_PACKAGE_DEBUG_SPLIT_node-${IOTHUB_EXPLORER_PN} = "1"
 
+pkg_postinst_node-${IOTHUB_EXPLORER_PN}() {
+#!/bin/sh
+# Post installation script
+
+ln -s ${NODE_MODULES_DIR}${IOTHUB_EXPLORER_PN}/${IOTHUB_EXPLORER_PN}.js ${bindir}/${IOTHUB_EXPLORER_PN}
+chmod 755 ${bindir}/${IOTHUB_EXPLORER_PN}
+
+}
+
+pkg_prerm-node-${IOTHUB_EXPLORER_PN}() {
+#!/bin/sh
+# Pre removal script
+
+rm ${bindir}/${IOTHUB_EXPLORER_PN}
+
+}
+
 ## Java ##
 FILES_${JAVA_PN} += "${datadir_java}"
 
 ## Samples ##
 FILES_${PN}-samples += "${datadir}/azureiotsdk/samples/java"
 
-RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev util-linux-dev util-linux-libuuid-dev curl-dev"
+RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev azure-c-shared-utility-dev azure-uamqp-c azure-umqtt-c"
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
