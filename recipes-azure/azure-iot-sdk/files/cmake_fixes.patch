@@ -1,10 +1,11 @@
-From 567a91339fb2aeb1011dcbf858dbfa1502cdf6d6 Mon Sep 17 00:00:00 2001
+From 7f4c1395fda30b8213441f714d78a0553592ed22 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 9 Sep 2016 13:15:34 +0100
-Subject: [PATCH 1/4] Use GNU install directory variables to determine where to
+Subject: [PATCH 1/5] Use GNU install directory variables to determine where to
  install files Attempt to find libraries on the target before building from
  scratch
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  c/CMakeLists.txt                                   | 51 ++++++++++++++++++----
  c/iothub_client/CMakeLists.txt                     | 14 +++---
@@ -339,11 +340,12 @@ index 3daa3bd..d2eeeb5 100644
 1.9.1
 
 
-From 50948812656359331cf56fd945920cfd5cd11b17 Mon Sep 17 00:00:00 2001
+From 4b5eb4559abd77ba4f73efa8f50189a637efdb22 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 9 Sep 2016 13:28:57 +0100
-Subject: [PATCH 2/4] Fix incorrect variable name
+Subject: [PATCH 2/5] Fix incorrect variable name
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  c/CMakeLists.txt | 15 +++++++++------
  1 file changed, 9 insertions(+), 6 deletions(-)
@@ -395,11 +397,12 @@ index c9e80c5..eb120db 100644
 1.9.1
 
 
-From 8e308514c0f250baa6f48fa74f0873846063a068 Mon Sep 17 00:00:00 2001
+From 98a86dd8c27ea354f0c0b070095b8c2603917e63 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 9 Sep 2016 14:51:50 +0100
-Subject: [PATCH 3/4] Actually skip unit tests if requested
+Subject: [PATCH 3/5] Actually skip unit tests if requested
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  c/iothub_client/CMakeLists.txt         | 5 ++---
  c/iothub_service_client/CMakeLists.txt | 4 ++--
@@ -441,11 +444,12 @@ index 827499e..698b3c6 100644
 1.9.1
 
 
-From 2f94ca605f832becfea98de9176c366604202e9b Mon Sep 17 00:00:00 2001
+From 096dd86a76c05e7909f2b21b81b7358171e3228a Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 9 Sep 2016 14:57:48 +0100
-Subject: [PATCH 4/4] Skip unit tests if requested
+Subject: [PATCH 4/5] Skip unit tests if requested
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  c/serializer/CMakeLists.txt                       | 6 +++---
  python/device/iothub_client_python/CMakeLists.txt | 5 ++++-
@@ -481,6 +485,46 @@ index 01c052b..3b36b57 100644
 +if(NOT ${skip_unittests})
 +	add_subdirectory(test)
 +endif()
+-- 
+1.9.1
+
+
+From ba5b551bb48b17100e4659bc648fb6935da1cd45 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Sep 2016 15:13:30 +0100
+Subject: [PATCH 5/5] Add install profile for iothub service client
+
+---
+ c/iothub_service_client/CMakeLists.txt | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/c/iothub_service_client/CMakeLists.txt b/c/iothub_service_client/CMakeLists.txt
+index 698b3c6..2e64159 100644
+--- a/c/iothub_service_client/CMakeLists.txt
++++ b/c/iothub_service_client/CMakeLists.txt
+@@ -49,7 +49,7 @@ ENDIF(WIN32)
+ 
+ add_library(iothub_service_client ${iothub_service_client_c_files} ${iothub_service_client_h_files})
+ 
+-target_link_libraries(iothub_service_client uamqp)
++target_link_libraries(iothub_service_client ${UAMQP_LIB_PATH})
+ 
+ if (NOT ${ARCHITECTURE} STREQUAL "ARM")
+ 	add_subdirectory(samples)
+@@ -60,3 +60,13 @@ if(NOT IN_OPENWRT AND NOT ${skip_unittests})
+ 	add_subdirectory(tests)
+ endif()
+ 
++if(WIN32)
++else()
++    install (TARGETS 
++        iothub_service_client
++        DESTINATION ${CMAKE_INSTALL_LIBDIR})
++    install (FILES 
++        ${iothub_service_client_h_files} 
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/azureiot)
++endif (WIN32)
++
 -- 
 1.9.1
 

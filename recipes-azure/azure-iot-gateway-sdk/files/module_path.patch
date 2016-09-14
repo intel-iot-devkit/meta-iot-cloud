@@ -1,0 +1,152 @@
+From 10b9b98cefc893a341643341dde04208d112fe90 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Sep 2016 18:30:42 +0100
+Subject: [PATCH] Specify module path in json configuration files
+
+---
+ samples/ble_gateway_hl/src/gateway_sample.json           | 16 ++++++++--------
+ samples/hello_world/src/hello_world_lin.json             |  4 ++--
+ .../src/simulated_device_cloud_upload_lin.json           | 12 ++++++------
+ 5 files changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/samples/ble_gateway_hl/src/gateway_sample.json b/samples/ble_gateway_hl/src/gateway_sample.json
+index 13b6768..42bebfe 100644
+--- a/samples/ble_gateway_hl/src/gateway_sample.json
++++ b/samples/ble_gateway_hl/src/gateway_sample.json
+@@ -2,7 +2,7 @@
+   "modules": [
+     {
+       "module name": "IoTHub",
+-      "module path": "<</path/to/libiothub_hl.so>>",
++      "module path": "/usr/lib/azureiot/modules/iothub/libiothub_hl.so",
+       "args": {
+         "IoTHubName": "<<Azure IoT Hub Name>>",
+         "IoTHubSuffix": "<<Azure IoT Hub Suffix>>",
+@@ -11,12 +11,12 @@
+     },
+     {
+       "module name": "BLE Printer",
+-      "module path": "<</path/to/libble_printer.so>>",
++      "module path": "libble_printer.so",
+       "args": null
+     },
+     {
+       "module name": "mapping",
+-      "module path": "<</path/to/libidentity_map_hl.so>>",
++      "module path": "/usr/lib/azureiot/modules/identitymap/libidentity_map_hl.so",
+       "args": [
+         {
+           "macAddress": "AA:BB:CC:DD:EE:FF",
+@@ -27,12 +27,12 @@
+     },
+     {
+       "module name": "BLEC2D",
+-      "module path": "<</path/to/libble_c2d.so>>",
++      "module path": "/usr/lib/azureiot/modules/ble/libble_c2d.so",
+       "args": null
+     },
+     {
+       "module name": "SensorTag",
+-      "module path": "<</path/to/libble_hl.so>>",
++      "module path": "/usr/lib/azureiot/modules/ble/libble_hl.so",
+       "args": {
+         "controller_index": 0,
+         "device_mac_address": "<<AA:BB:CC:DD:EE:FF>>",
+@@ -81,10 +81,10 @@
+     },
+     {
+       "module name": "Logger",
+-      "module path" : "<</path/to/liblogger_hl.so>>",
++      "module path" : "/usr/lib/azureiot/modules/logger/liblogger_hl.so",
+       "args":
+       {
+-        "filename": "<</path/to/log-file.log>>"
++        "filename": "log-file.log"
+       }
+     }
+   ],
+@@ -97,4 +97,4 @@
+     {"source" : "mapping", "sink" : "BLEC2D" },
+     {"source" : "BLEC2D", "sink" : "SensorTag"}
+   ]
+-}
+\ No newline at end of file
++}
+diff --git a/samples/hello_world/src/hello_world_lin.json b/samples/hello_world/src/hello_world_lin.json
+index cba6819..9ce3b55 100644
+--- a/samples/hello_world/src/hello_world_lin.json
++++ b/samples/hello_world/src/hello_world_lin.json
+@@ -3,12 +3,12 @@
+     [
+         {
+             "module name" : "logger_hl",
+-            "module path" : "./modules/logger/liblogger_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/logger/liblogger_hl.so",
+             "args" : {"filename":"log.txt"}
+         },
+         {
+             "module name" : "hello_world",
+-            "module path" : "./modules/hello_world/libhello_world_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/hello_world/libhello_world_hl.so",
+             "args" : null
+         }
+     ],
+diff --git a/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json b/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
+index 1c57025..74b6a5c 100644
+--- a/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
++++ b/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
+@@ -3,7 +3,7 @@
+     [ 
+         {
+             "module name" : "IotHub",
+-            "module path" : "./modules/iothub/libiothub_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/iothub/libiothub_hl.so",
+             "args" : 
+             {
+                 "IoTHubName" : "<<insert here IoTHubName>>",
+@@ -13,7 +13,7 @@
+         },
+         {
+             "module name" : "mapping",
+-            "module path" : "./modules/identitymap/libidentity_map_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/identitymap/libidentity_map_hl.so",
+             "args" : 
+             [
+                 {
+@@ -30,7 +30,7 @@
+         },
+         {
+             "module name":"BLE1",
+-            "module path" : "./modules/simulated_device/libsimulated_device_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/simulated_device/libsimulated_device_hl.so",
+             "args":
+             {
+                 "macAddress" : "01:01:01:01:01:01"
+@@ -38,7 +38,7 @@
+         },
+         {
+             "module name":"BLE2",
+-            "module path" : "./modules/simulated_device/libsimulated_device_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/simulated_device/libsimulated_device_hl.so",
+             "args":
+             {
+                 "macAddress" : "02:02:02:02:02:02"
+@@ -46,7 +46,7 @@
+         },
+         {
+             "module name":"Logger",
+-            "module path" : "./modules/logger/liblogger_hl.so",
++            "module path" : "/usr/lib/azureiot/modules/logger/liblogger_hl.so",
+             "args":
+             {
+                 "filename":"deviceCloudUploadGatewaylog.log"
+@@ -59,4 +59,4 @@
+         { "source" : "BLE2", "sink" : "mapping" },
+         { "source" : "mapping", "sink" : "IotHub" }
+     ]
+-}
+\ No newline at end of file
++}
+-- 
+1.9.1
+

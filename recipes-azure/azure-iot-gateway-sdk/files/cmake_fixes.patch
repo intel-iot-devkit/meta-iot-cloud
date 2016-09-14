@@ -1,0 +1,695 @@
+From 53c8bb8e6d5573eb7803437ae9d9a62b227d69c7 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Sep 2016 14:45:15 +0100
+Subject: [PATCH 1/4] Build from provided libs Use GNU install directories
+
+---
+ CMakeLists.txt                                     | 58 +++++++++++++++++++---
+ bindings/dotnet/CMakeLists.txt                     |  8 +--
+ bindings/java/CMakeLists.txt                       |  6 ++-
+ bindings/nodejs/CMakeLists.txt                     |  4 +-
+ core/CMakeLists.txt                                | 10 ++--
+ core/deps/CMakeLists.txt                           |  7 +--
+ modules/ble/CMakeLists.txt                         | 12 +++--
+ modules/hello_world/CMakeLists.txt                 |  4 +-
+ modules/identitymap/CMakeLists.txt                 |  8 +--
+ modules/iothub/CMakeLists.txt                      | 26 +++++-----
+ modules/logger/CMakeLists.txt                      | 10 ++--
+ modules/simulated_device/CMakeLists.txt            |  4 +-
+ samples/callbacks_sample/CMakeLists.txt            |  4 +-
+ samples/hello_world/CMakeLists.txt                 |  4 +-
+ samples/java_sample/CMakeLists.txt                 |  4 +-
+ .../simulated_device_cloud_upload/CMakeLists.txt   |  4 +-
+ 18 files changed, 116 insertions(+), 61 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ff94173..97655bb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8.11)
+ project(azure_iot_gateway_sdk)
+ 
+ #the following variables are project-wide and can be used with cmake-gui
++option(skip_unittests "set skip_unittests to ON to skip unittests (default is OFF)[if possible, they are always build]" OFF)
+ option(run_e2e_tests "set run_e2e_tests to ON to run e2e tests (default is OFF) [if possible, they are always build]" OFF)
+ option(install_executables "should cmake run cmake's install function (that includes dynamic link libraries) [it does for yocto]" OFF)
+ option(enable_java_binding "set enable_java_binding to ON to enable building of Java binding (default is OFF)" OFF)
+@@ -124,17 +125,60 @@ endmacro(compileAsC11)
+ enable_testing()
+ compileAsC99()
+ 
+-#this adds the C shared utility
+-add_subdirectory(./deps/azure-c-shared-utility)
++find_library (SHARED_UTIL_LIB_PATH NAMES aziotsharedutil)
++find_library (IOTHUB_CLIENT_LIB_PATH NAMES iothub_client)
++find_library (IOTHUB_SERVICE_CLIENT_LIB_PATH NAMES iothub_service_client)
++find_library (IOTHUB_CLIENT_HTTP_LIB_PATH NAMES iothub_client_http_transport)
++find_library (IOTHUB_CLIENT_MQTT_LIB_PATH NAMES iothub_client_mqtt_transport)
++find_library (IOTHUB_CLIENT_AMQP_LIB_PATH NAMES iothub_client_amqp_transport)
+ 
+-#this adds the C IoTHubClient
+-add_subdirectory(./deps/azure-iot-sdks/c)
++# Check if shared utils library is already provided
++if (SHARED_UTIL_LIB_PATH AND SHARED_UTIL_INCLUDE_DIR)
++    set(SHARED_UTIL_FOUND 1)
++
++    # Disable unit tests
++    set(skip_unittests ON)
++endif()
++
++if (NOT SHARED_UTIL_FOUND)
++    add_subdirectory(./deps/azure-c-shared-utility)
++    set(SHARED_UTIL_LIB_PATH aziotsharedutil)
++    set(SHARED_UTIL_INCLUDE_DIR ${SHARED_UTIL_INC_FOLDER})
++endif()
++
++# Check if IoTHub Client libs are provided
++if (IOTHUB_CLIENT_LIB_PATH AND IOTHUB_SERVICE_CLIENT_LIB_PATH AND IOTHUB_CLIENT_INCLUDE_DIR)
++    set(IOTHUB_CLIENT_FOUND 1)
++
++    # Check which transports are available
++    if (IOTHUB_CLIENT_HTTP_LIB_PATH)
++	set(use_http ON)
++    endif()
++
++    if (IOTHUB_CLIENT_MQTT_LIB_PATH)
++	set(use_mqtt ON)
++    endif()
++
++    if (IOTHUB_CLIENT_AMQP_LIB_PATH)
++	set(use_amqp ON)
++    endif()
++endif()
++
++if (NOT IOTHUB_CLIENT_FOUND)
++    add_subdirectory(./deps/azure-iot-sdks/c)
++    set(IOTHUB_CLIENT_LIB_PATH iothub_client)
++    set(IOTHUB_SERVICE_CLIENT_LIB_PATH iothub_service_client)
++    set(IOTHUB_CLIENT_HTTP_LIB_PATH iothub_client_http_transport)
++    set(IOTHUB_CLIENT_MQTT_LIB_PATH iothub_client_mqtt_transport)
++    set(IOTHUB_CLIENT_AMQP_LIB_PATH iothub_client_amqp_transport)
++    set(IOTHUB_CLIENT_INCLUDE_DIR ${IOTHUB_CLIENT_INC_FOLDER})
++endif()
+ 
+ #this makes available from now on the includes of azure-c-shared-utility
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
+ function(linkSharedUtil whatIsBuilding)
+-  target_link_libraries(${whatIsBuilding} aziotsharedutil)
++  target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB_PATH})
+ endfunction(linkSharedUtil)
+ 
+ #this adds parson
+@@ -214,4 +258,4 @@ add_subdirectory(modules)
+ 
+ add_subdirectory(samples)
+ 
+-add_subdirectory(bindings)
+\ No newline at end of file
++add_subdirectory(bindings)
+diff --git a/bindings/dotnet/CMakeLists.txt b/bindings/dotnet/CMakeLists.txt
+index b19eaa8..9b7c8c7 100644
+--- a/bindings/dotnet/CMakeLists.txt
++++ b/bindings/dotnet/CMakeLists.txt
+@@ -38,10 +38,10 @@ set(dotnet_hl_static_headers
+ 
+ include_directories(./inc)
+ include_directories(${GW_INC})
+-include_directories(${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(${IOTHUB_CLIENT_INCLUDE_DIR})
+ 
+ #this builds the dotnet dynamic library
+-add_library(dotnet MODULE ${dotnet_sources}  ${dotnet_headers})
++add_library(dotnet MODULE ${dotnet_sources} ${dotnet_headers})
+ target_link_libraries(dotnet gateway mscoree)
+ 
+ #this builds the dotnet static library
+@@ -63,6 +63,8 @@ linkSharedUtil(dotnet_static)
+ linkSharedUtil(dotnet_hl)
+ linkSharedUtil(dotnet_hl_static)
+ 
+-add_subdirectory(tests)
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+ 
+ add_module_to_solution(dotnet)
+diff --git a/bindings/java/CMakeLists.txt b/bindings/java/CMakeLists.txt
+index 11f8f6f..bc660d6 100644
+--- a/bindings/java/CMakeLists.txt
++++ b/bindings/java/CMakeLists.txt
+@@ -95,7 +95,7 @@ endif()
+ 
+ set(LIBS ${java_libs} gateway)
+ 
+-include_directories(./inc ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(./inc ${IOTHUB_CLIENT_INCLUDE_DIR})
+ include_directories(${GW_INC})
+ include_directories(${java_include_dirs})
+ link_directories(${java_link_dirs})
+@@ -125,7 +125,9 @@ linkSharedUtil(java_module_host_hl_static)
+ 
+ add_module_to_solution(java_module_host)
+ 
+-add_subdirectory(tests)
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+ 
+ if(install_executables)
+     install(TARGETS java_module_host LIBRARY DESTINATION lib)
+diff --git a/bindings/nodejs/CMakeLists.txt b/bindings/nodejs/CMakeLists.txt
+index 61c64ef..f0c53cc 100644
+--- a/bindings/nodejs/CMakeLists.txt
++++ b/bindings/nodejs/CMakeLists.txt
+@@ -151,4 +151,6 @@ target_include_directories(nodejs_binding_hl_static PUBLIC $ENV{NODE_INCLUDE})
+ 
+ add_module_to_solution(nodejs_binding)
+ 
+-add_subdirectory(tests)
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index 92932b3..3764712 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -81,6 +81,8 @@ include_directories(./inc)
+ add_library(gateway
+     ${gateway_c_sources}
+     ${gateway_h_sources}
++    ${parson_c_sources}
++    ${parson_h_sources}
+ )
+ 
+ if(WIN32)
+@@ -92,8 +94,10 @@ else()
+     target_link_libraries(gateway uuid)
+ endif()
+ 
+-target_link_libraries(gateway aziotsharedutil parson ${dynamic_loader_library})
++target_link_libraries(gateway ${SHARED_UTIL_LIB_PATH} ${dynamic_loader_library})
+ link_broker(gateway)
+-#this adds the tests to the build process
+ 
+-add_subdirectory(tests)
++#this adds the tests to the build process
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+diff --git a/core/deps/CMakeLists.txt b/core/deps/CMakeLists.txt
+index 6c3aa13..56cdbfc 100644
+--- a/core/deps/CMakeLists.txt
++++ b/core/deps/CMakeLists.txt
+@@ -15,9 +15,4 @@ set(parson_h_sources
+ 
+ include_directories(../../deps/parson)
+ 
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS) 
+-
+-add_library(parson
+-    ${parson_c_sources}
+-    ${parson_h_sources}
+-)
+\ No newline at end of file
++remove_definitions(-D_CRT_SECURE_NO_WARNINGS)
+diff --git a/modules/ble/CMakeLists.txt b/modules/ble/CMakeLists.txt
+index a730e7b..d6b7e45 100644
+--- a/modules/ble/CMakeLists.txt
++++ b/modules/ble/CMakeLists.txt
+@@ -128,7 +128,7 @@ linkSharedUtil(ble)
+ # build ble as a static library
+ add_library(ble_static STATIC ${ble_static_sources} ${ble_static_headers})
+ target_compile_definitions(ble_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+-target_link_libraries(ble_static ${LIBS} iothub_service_client)
++target_link_libraries(ble_static ${LIBS} ${IOTHUB_SERVICE_CLIENT_LIB_PATH})
+ linkSharedUtil(ble_static)
+ 
+ # build ble HL as a dynamic library
+@@ -144,19 +144,21 @@ linkSharedUtil(ble_c2d)
+ # build ble HL as a static library
+ add_library(ble_hl_static STATIC ${ble_hl_static_sources} ${ble_hl_static_headers})
+ target_compile_definitions(ble_hl_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+-target_link_libraries(ble_hl_static ble_static ${LIBS} iothub_service_client)
++target_link_libraries(ble_hl_static ble_static ${LIBS} ${IOTHUB_SERVICE_CLIENT_LIB_PATH})
+ linkSharedUtil(ble_hl_static)
+ 
+ # build ble C2D as a static library
+ add_library(ble_c2d_static STATIC ${ble_c2d_static_sources} ${ble_c2d_static_headers})
+ target_compile_definitions(ble_c2d_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+-target_link_libraries(ble_c2d_static ${LIBS} iothub_service_client)
++target_link_libraries(ble_c2d_static ${LIBS} ${IOTHUB_SERVICE_CLIENT_LIB_PATH})
+ linkSharedUtil(ble_c2d_static)
+ 
+ add_module_to_solution(ble)
+ 
+-add_subdirectory(tests)
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+ 
+ if(install_executables)
+-    install(TARGETS ble LIBRARY DESTINATION lib) 
++    install(TARGETS ble LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
+ endif()
+diff --git a/modules/hello_world/CMakeLists.txt b/modules/hello_world/CMakeLists.txt
+index 8c902ac..a948ee7 100644
+--- a/modules/hello_world/CMakeLists.txt
++++ b/modules/hello_world/CMakeLists.txt
+@@ -64,7 +64,7 @@ linkSharedUtil(hello_world_hl_static)
+ 
+ add_module_to_solution(hello_world)
+ if(install_executables)
+-	install(TARGETS hello_world LIBRARY DESTINATION lib) 
+-    install(TARGETS hello_world_hl LIBRARY DESTINATION lib) 
++	install(TARGETS hello_world LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
++	install(TARGETS hello_world_hl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
+ endif()
+ 
+diff --git a/modules/identitymap/CMakeLists.txt b/modules/identitymap/CMakeLists.txt
+index 6458579..c42866d 100644
+--- a/modules/identitymap/CMakeLists.txt
++++ b/modules/identitymap/CMakeLists.txt
+@@ -65,8 +65,10 @@ linkSharedUtil(identity_map_hl_static)
+ add_module_to_solution(identity_map)
+ 
+ if(install_executables)
+-	install(TARGETS identity_map LIBRARY DESTINATION lib) 
+-    install(TARGETS identity_map_hl LIBRARY DESTINATION lib) 
++	install(TARGETS identity_map LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
++	install(TARGETS identity_map_hl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
+ endif()
+ 
+-add_subdirectory(tests)
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+diff --git a/modules/iothub/CMakeLists.txt b/modules/iothub/CMakeLists.txt
+index 4f32b54..d8bc5f5 100644
+--- a/modules/iothub/CMakeLists.txt
++++ b/modules/iothub/CMakeLists.txt
+@@ -22,7 +22,7 @@ set(iothub_hl_headers
+ 
+ include_directories(./inc)
+ include_directories(${GW_INC})
+-include_directories(${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(${IOTHUB_CLIENT_INCLUDE_DIR})
+ 
+ #this builds the iothub dynamic library
+ add_library(iothub MODULE
+@@ -31,7 +31,7 @@ add_library(iothub MODULE
+ )
+ target_link_libraries(iothub
+     gateway
+-    iothub_client
++    ${IOTHUB_CLIENT_LIB_PATH}
+ )
+ 
+ #this builds the iothub static library
+@@ -42,7 +42,7 @@ add_library(iothub_static STATIC
+ target_compile_definitions(iothub_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+ target_link_libraries(iothub_static
+     gateway
+-    iothub_client
++    ${IOTHUB_CLIENT_LIB_PATH}
+ )
+ 
+ #this builds the iothub_HL dynamic library (by default it uses IoTHub Module linked statically)
+@@ -65,8 +65,8 @@ target_link_libraries(iothub_hl_static
+ )
+ 
+ if(${use_amqp})
+-	target_link_libraries(iothub_static iothub_client_amqp_transport)
+-	target_link_libraries(iothub iothub_client_amqp_transport)
++	target_link_libraries(iothub_static ${IOTHUB_CLIENT_AMQP_LIB_PATH})
++	target_link_libraries(iothub ${IOTHUB_CLIENT_AMQP_LIB_PATH})
+ 	linkUAMQP(iothub_static)
+ 	linkUAMQP(iothub)
+ else()
+@@ -74,8 +74,8 @@ else()
+ endif()
+ 
+ if(${use_http})
+-	target_link_libraries(iothub_static iothub_client_http_transport)
+-	target_link_libraries(iothub iothub_client_http_transport)
++	target_link_libraries(iothub_static ${IOTHUB_CLIENT_HTTP_LIB_PATH})
++	target_link_libraries(iothub ${IOTHUB_CLIENT_HTTP_LIB_PATH})
+ 	linkHttp(iothub_static)
+ 	linkHttp(iothub)
+ else()
+@@ -83,8 +83,8 @@ else()
+ endif()
+ 
+ if(${use_mqtt})
+-	target_link_libraries(iothub_static iothub_client_mqtt_transport)
+-	target_link_libraries(iothub iothub_client_mqtt_transport)
++	target_link_libraries(iothub_static ${IOTHUB_CLIENT_MQTT_LIB_PATH})
++	target_link_libraries(iothub ${IOTHUB_CLIENT_MQTT_LIB_PATH})
+ 	linkMqttLibrary(iothub_static)
+ 	linkMqttLibrary(iothub)
+ else()
+@@ -96,9 +96,11 @@ linkSharedUtil(iothub_static)
+ 
+ add_module_to_solution(iothub)
+ 
+-add_subdirectory(tests)
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+ 
+ if(install_executables)
+-	install(TARGETS iothub LIBRARY DESTINATION lib) 
+-    install(TARGETS iothub_hl LIBRARY DESTINATION lib) 
++	install(TARGETS iothub LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
++	install(TARGETS iothub_hl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
+ endif()
+diff --git a/modules/logger/CMakeLists.txt b/modules/logger/CMakeLists.txt
+index 73ac173..ceb8578 100644
+--- a/modules/logger/CMakeLists.txt
++++ b/modules/logger/CMakeLists.txt
+@@ -64,12 +64,12 @@ linkSharedUtil(logger_hl_static)
+ 
+ add_module_to_solution(logger)
+ 
+-add_subdirectory(tests)
+-
+-
++if(NOT skip_unittests)
++	add_subdirectory(tests)
++endif()
+ 
+ if(install_executables)
+-	install(TARGETS logger LIBRARY DESTINATION lib) 
+-    install(TARGETS logger_hl LIBRARY DESTINATION lib) 
++	install(TARGETS logger LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
++	install(TARGETS logger_hl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
+ endif()
+ 
+diff --git a/modules/simulated_device/CMakeLists.txt b/modules/simulated_device/CMakeLists.txt
+index e8dbf4d..ce9da55 100644
+--- a/modules/simulated_device/CMakeLists.txt
++++ b/modules/simulated_device/CMakeLists.txt
+@@ -65,7 +65,7 @@ linkSharedUtil(simulated_device_hl_static)
+ add_module_to_solution(simulated_device)
+ 
+ if(install_executables)
+-	install(TARGETS simulated_device LIBRARY DESTINATION lib) 
+-    install(TARGETS simulated_device_hl LIBRARY DESTINATION lib) 
++	install(TARGETS simulated_device LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
++	install(TARGETS simulated_device_hl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}) 
+ endif()
+ 
+diff --git a/samples/callbacks_sample/CMakeLists.txt b/samples/callbacks_sample/CMakeLists.txt
+index 0e2f0d7..6aebf00 100644
+--- a/samples/callbacks_sample/CMakeLists.txt
++++ b/samples/callbacks_sample/CMakeLists.txt
+@@ -11,7 +11,7 @@ set(callbacks_sources
+ set(callbacks_headers
+ )
+ 
+-include_directories(./inc ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(./inc ${IOTHUB_CLIENT_INCLUDE_DIR})
+ include_directories(${GW_INC})
+ 
+ add_executable(callbacks_sample ${callbacks_headers} ${modules_path_file} ${callbacks_sources})
+@@ -20,4 +20,4 @@ add_executable(callbacks_sample ${callbacks_headers} ${modules_path_file} ${call
+ target_link_libraries(callbacks_sample gateway)
+ linkSharedUtil(callbacks_sample)
+ 
+-add_sample_to_solution(callbacks_sample)
+\ No newline at end of file
++add_sample_to_solution(callbacks_sample)
+diff --git a/samples/hello_world/CMakeLists.txt b/samples/hello_world/CMakeLists.txt
+index f411934..2de94f5 100644
+--- a/samples/hello_world/CMakeLists.txt
++++ b/samples/hello_world/CMakeLists.txt
+@@ -24,7 +24,7 @@ endif()
+ set(hello_world_headers
+ )
+ 
+-include_directories(./inc ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(./inc ${IOTHUB_CLIENT_INCLUDE_DIR})
+ include_directories(${GW_INC})
+ include_directories(../../modules/common)
+ 
+@@ -36,4 +36,4 @@ target_link_libraries(hello_world_sample gateway nanomsg)
+ linkSharedUtil(hello_world_sample)
+ install_broker(hello_world_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
+ 
+-add_sample_to_solution(hello_world_sample)
+\ No newline at end of file
++add_sample_to_solution(hello_world_sample)
+diff --git a/samples/java_sample/CMakeLists.txt b/samples/java_sample/CMakeLists.txt
+index 4158c28..bf4d55b 100644
+--- a/samples/java_sample/CMakeLists.txt
++++ b/samples/java_sample/CMakeLists.txt
+@@ -24,7 +24,7 @@ endif()
+ set(java_sample_headers
+ )
+ 
+-include_directories(./inc ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(./inc ${IOTHUB_CLIENT_INCLUDE_DIR})
+ include_directories(${GW_INC})
+ include_directories(../../modules/common)
+ 
+@@ -35,4 +35,4 @@ linkSharedUtil(java_sample)
+ install_broker(java_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
+ 
+ 
+-add_sample_to_solution(java_sample)
+\ No newline at end of file
++add_sample_to_solution(java_sample)
+diff --git a/samples/simulated_device_cloud_upload/CMakeLists.txt b/samples/simulated_device_cloud_upload/CMakeLists.txt
+index a528940..7a6cd15 100644
+--- a/samples/simulated_device_cloud_upload/CMakeLists.txt
++++ b/samples/simulated_device_cloud_upload/CMakeLists.txt
+@@ -28,7 +28,7 @@ else()
+     set(modules_service_c_file ./src/module_service_config_disabled.c)
+ endif()
+ 
+-include_directories(./inc ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(./inc ${IOTHUB_CLIENT_INCLUDE_DIR})
+ include_directories(${GW_INC})
+ include_directories(../../modules/common)
+ 
+@@ -49,4 +49,4 @@ add_sample_to_solution(simulated_device_cloud_upload_sample)
+ 
+ if(install_executables)
+ 	install(TARGETS simulated_device_cloud_upload_sample DESTINATION bin)
+-endif()
+\ No newline at end of file
++endif()
+-- 
+1.9.1
+
+
+From 6cf5e2ff8b4493413e950d182bdffa77edb73220 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Sep 2016 15:51:08 +0100
+Subject: [PATCH 2/4] Add missing functions
+
+---
+ CMakeLists.txt | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 97655bb..8074271 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -131,6 +131,8 @@ find_library (IOTHUB_SERVICE_CLIENT_LIB_PATH NAMES iothub_service_client)
+ find_library (IOTHUB_CLIENT_HTTP_LIB_PATH NAMES iothub_client_http_transport)
+ find_library (IOTHUB_CLIENT_MQTT_LIB_PATH NAMES iothub_client_mqtt_transport)
+ find_library (IOTHUB_CLIENT_AMQP_LIB_PATH NAMES iothub_client_amqp_transport)
++find_library (UAMQP_LIB_PATH NAMES uamqp)
++find_library (MQTT_LIB_PATH NAMES umqtt)
+ 
+ # Check if shared utils library is already provided
+ if (SHARED_UTIL_LIB_PATH AND SHARED_UTIL_INCLUDE_DIR)
+@@ -174,6 +176,26 @@ if (NOT IOTHUB_CLIENT_FOUND)
+     set(IOTHUB_CLIENT_INCLUDE_DIR ${IOTHUB_CLIENT_INC_FOLDER})
+ endif()
+ 
++# Check if uAMQP library is already provided
++if (UAMQP_LIB_PATH AND UAMQP_INCLUDE_DIR AND IOTHUB_CLIENT_FOUND)
++    set(UAMQP_FOUND 1)
++endif()
++
++if (NOT UAMQP_FOUND)
++    set(UAMQP_LIB_PATH uamqp)
++    set(UAMQP_INCLUDE_DIR ${UAMQP_INC_FOLDER})
++endif()
++
++# Check if uMQTT library is already provided
++if (MQTT_LIB_PATH AND MQTT_INCLUDE_DIR AND IOTHUB_CLIENT_FOUND)
++    set(MQTT_FOUND 1)
++endif()
++
++if (NOT MQTT_FOUND)
++    set(MQTT_LIB_PATH uamqp)
++    set(MQTT_INCLUDE_DIR ${MQTT_INC_FOLDER})
++endif()
++
+ #this makes available from now on the includes of azure-c-shared-utility
+ include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
+@@ -206,6 +228,57 @@ foreach(nanomsgTarget IN LISTS NANOMSG_TARGETS)
+   set_target_properties(${nanomsgTarget} PROPERTIES FOLDER "Nanomsg_Projects")
+ endforeach(nanomsgTarget)
+ 
++function(linkUAMQP whatExecutableIsBuilding)
++    include_directories(${UAMQP_INCLUDE_DIR})
++    
++    if(WIN32)
++        #windows needs this define
++        add_definitions(-D_CRT_SECURE_NO_WARNINGS)
++        add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
++
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ws2_32 secur32)
++
++        if(use_openssl)
++            target_link_libraries(${whatExecutableIsBuilding} $ENV{OpenSSLDir}/lib/ssleay32.lib $ENV{OpenSSLDir}/lib/libeay32.lib)
++        
++            file(COPY $ENV{OpenSSLDir}/bin/libeay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
++            file(COPY $ENV{OpenSSLDir}/bin/ssleay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
++        endif()
++    else()
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ssl crypto)
++    endif()
++endfunction(linkUAMQP)
++
++function(includeMqtt)
++    include_directories(${MQTT_INCLUDE_DIR})
++endfunction(includeMqtt)
++
++function(linkMqttLibrary whatExecutableIsBuilding)
++    includeMqtt()
++    target_link_libraries(${whatExecutableIsBuilding} ${MQTT_LIB_PATH})
++endfunction(linkMqttLibrary)
++
++function(includeHttp)
++endfunction(includeHttp)
++
++function(linkHttp whatExecutableIsBuilding)
++    includeHttp()
++    if(WIN32)
++        if(WINCE)
++              target_link_libraries(${whatExecutableIsBuilding} crypt32.lib)
++          target_link_libraries(${whatExecutableIsBuilding} ws2.lib)
++        else()
++            target_link_libraries(${whatExecutableIsBuilding} winhttp.lib)
++        endif()
++    else()
++        target_link_libraries(${whatExecutableIsBuilding} curl)
++    endif()
++endfunction(linkHttp)
++
++function(linkSharedUtil whatIsBuilding)
++    target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB_PATH})
++endfunction(linkSharedUtil)
++
+ function(link_broker whatIsBuilding)
+   if (GW_BROKER_TYPE STREQUAL "PubSub")
+     target_link_libraries(${whatIsBuilding} nanomsg )
+-- 
+1.9.1
+
+
+From 90bf0b7b447492048d71195a06717a33dd9bdfb4 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Sep 2016 16:57:53 +0100
+Subject: [PATCH 3/4] Include parson in gateway library
+
+---
+ core/CMakeLists.txt      |  5 +++--
+ core/deps/CMakeLists.txt | 18 ------------------
+ 2 files changed, 3 insertions(+), 20 deletions(-)
+ delete mode 100644 core/deps/CMakeLists.txt
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index 3764712..19aff5b 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -53,6 +53,7 @@ set(gateway_c_sources
+     ./src/internal/event_system.c
+     ./src/gateway_ll.c
+     ./src/gateway.c
++    ../deps/parson/parson.c
+     ${dynamic_library_c_file}
+ )
+ 
+@@ -66,6 +67,7 @@ set(gateway_h_sources
+     ./inc/gateway.h
+     ./inc/module_loader.h
+     ./inc/dynamic_library.h
++    ../deps/parson/parson.h
+ )
+ 
+ if (GW_BROKER_TYPE STREQUAL "PubSub")
+@@ -77,12 +79,11 @@ if (GW_BROKER_TYPE STREQUAL "Broadcast")
+ endif()
+ 
+ include_directories(./inc)
++include_directories(../deps/parson)
+ 
+ add_library(gateway
+     ${gateway_c_sources}
+     ${gateway_h_sources}
+-    ${parson_c_sources}
+-    ${parson_h_sources}
+ )
+ 
+ if(WIN32)
+diff --git a/core/deps/CMakeLists.txt b/core/deps/CMakeLists.txt
+deleted file mode 100644
+index 56cdbfc..0000000
+--- a/core/deps/CMakeLists.txt
++++ /dev/null
+@@ -1,18 +0,0 @@
+-#Copyright (c) Microsoft. All rights reserved.
+-#Licensed under the MIT license. See LICENSE file in the project root for full license information.
+-
+-cmake_minimum_required(VERSION 2.8.11)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS)
+-
+-set(parson_c_sources
+-    ../../deps/parson/parson.c
+-)
+-
+-set(parson_h_sources
+-    ../../deps/parson/parson.h
+-)
+-
+-include_directories(../../deps/parson)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS)
+-- 
+1.9.1
+
+
+From c8ee3892d1150e764b79eb4e9fb71ed65b087672 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Sep 2016 17:02:22 +0100
+Subject: [PATCH 4/4] Remove core deps directory
+
+---
+ core/CMakeLists.txt | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index 19aff5b..0d724f6 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -3,8 +3,6 @@
+ 
+ cmake_minimum_required(VERSION 2.8.11)
+ 
+-add_subdirectory(deps)
+-
+ #this sets a global var that stores where the includes for GW are
+ set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
+ set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
+-- 
+1.9.1
+
