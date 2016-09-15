@@ -27,7 +27,7 @@ index 13b6768..42bebfe 100644
      {
        "module name": "BLE Printer",
 -      "module path": "<</path/to/libble_printer.so>>",
-+      "module path": "libble_printer.so",
++      "module path": "./libble_printer.so",
        "args": null
      },
      {

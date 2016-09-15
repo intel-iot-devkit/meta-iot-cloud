@@ -13,7 +13,7 @@ SRC_URI = "gitsm://github.com/Azure/azure-iot-gateway-sdk.git \
 "
 SRCREV = "d749101c43baa8885f3ba7bf0d64d095de8d2d82"
 
-PR = "r3"
+PR = "r4"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
