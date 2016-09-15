@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
-PR = "r1"
+PR = "r0"
 
 RDEPENDS_${PN} = "\
 	azure-iot-sdk \
@@ -22,6 +22,7 @@ RDEPENDS_${PN} = "\
 	azure-iot-gateway-sdk-dev \
 	azure-iot-gateway-sdk-modules \
 	azure-iot-gateway-sdk-java-binding \
+	azure-iot-gateway-sdk-samples \
 "
 
 PACKAGES = "${PN}"
