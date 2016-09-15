@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git \
 "
 SRCREV = "75fa05efbb7e5b72f65fcc0d5c92eec030705f42"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -25,3 +25,6 @@ EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_valgrind:BOOL=OFF -Dskip_unit
 FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev += "${includedir}"
 FILES_${PN}-dbg += "${libdir}/.debug"
+
+RRECOMMENDS_azure-c-shared-utility-dev = "glibc-dev util-linux-libuuid-dev libcurl-dev openssl-dev curl-dev cryptodev-linux-dev"
+RRECOMMENDS_azure-c-shared-utility-dev[nodeprrecs] = "1"
