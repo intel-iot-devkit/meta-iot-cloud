@@ -11,7 +11,7 @@ inherit java
 
 SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git \
 "
-SRCREV = "5035be6d6a93ee77656aa1de6226e163a5bb18d2"
+SRCREV = "c13c04888c0c01f7fbe57031072e6ef2abd55f80"
 
 PR = "r0"
 
