@@ -12,10 +12,8 @@ SRC_URI = "git://github.com/pyca/${SRC_NAME}.git;branch=1.5.x"
 SRCREV = "cad77746539f504d53eb1bf9b278ec081ab8040a"
 
 DEPENDS += " \
-    	${PYTHON_PN}-cffi \
-	${PYTHON_PN}-cffi-native \
-    	${PYTHON_PN}-pyasn1 \
-    	${PYTHON_PN}-six \
+    	openssl \
+    	libffi \
 "
 
 RDEPENDS_${PN} += " \
@@ -35,3 +33,5 @@ S = "${WORKDIR}/git"
 FILES_${PN}-dbg += "\
 	${PYTHON_SITEPACKAGES_DIR}/${SRC_NAME}/hazmat/bindings/.debug \
 "
+
+BBCLASSEXTEND = "native nativesdk"

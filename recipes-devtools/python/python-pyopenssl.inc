@@ -14,12 +14,12 @@ SRC_NAME = "pyopenssl"
 SRC_URI = "git://github.com/pyca/${SRC_NAME}.git"
 SRCREV = "c3b38e54183489a9afd11ce200bdb5317fc7ab75"
 
-RDEPENDS_${PN} = " \
-    ${PYTHON_PN}-cryptography \
-    ${PYTHON_PN}-six \
-    ${PYTHON_PN}-threading \
+RDEPENDS_${PN} += " \
+	${PYTHON_PN}-cryptography \
+	${PYTHON_PN}-six \
+	${PYTHON_PN}-threading \
 "
 
 S = "${WORKDIR}/git"
 
-BBCLASSEXTEND = "native nativesdk"
+BBCLASSEXTEND = "nativesdk"

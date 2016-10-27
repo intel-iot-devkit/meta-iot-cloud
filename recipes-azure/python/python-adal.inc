@@ -4,13 +4,6 @@ HOMEPAGE = "https://github.com/AzureAD/azure-activedirectory-library-for-python"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=bbfbc44677c93751d972e8b36751a695"
 
-DEPENDS += "\
-	${PYTHON_PN}-dateutil-native \
-	${PYTHON_PN}-requests-native \
-	${PYTHON_PN}-pyjwt-native \
-	${PYTHON_PN}-cryptography \
-"
-
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-requests \
 	${PYTHON_PN}-dateutil \
@@ -20,8 +13,8 @@ RDEPENDS_${PN} += "\
 
 SRC_NAME = "azure-activedirectory-library-for-python"
 
-SRC_URI = "git://github.com/AzureAD/${SRC_NAME}.git"
-SRCREV = "8fa05e06113e77f46e4c5f2f4f04acd14307e17e"
+SRC_URI = "git://github.com/AzureAD/${SRC_NAME}.git;branch=dev"
+SRCREV = "7c0a4fecd02f27b29ccf8a55e76622f9967d1033"
 
 S = "${WORKDIR}/git"
 

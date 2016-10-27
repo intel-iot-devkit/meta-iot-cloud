@@ -9,4 +9,4 @@ SRCREV = "fc1d646a3c0007de53d43405a9b4e871470a3d33"
 
 S = "${WORKDIR}/git"
 
-BBCLASSEXTEND = "native nativesdk"
+BBCLASSEXTEND = "nativesdk"
