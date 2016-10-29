@@ -4,7 +4,7 @@ AUTHOR = "Microsoft Corporation"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=34f8c1142fd6208a8be89399cb521df9"
 
-PR = "r1"
+PR = "r2"
 
 PACKAGES = "${PN} ${PN}-nspkg"
 

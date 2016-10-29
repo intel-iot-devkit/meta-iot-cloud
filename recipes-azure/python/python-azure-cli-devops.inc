@@ -6,4 +6,4 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-pyyaml \
 "
 
-SRC_DIR = "src/command_modules/azure-cli-context"
+SRC_DIR = "src/command_modules/azure-cli-devops"

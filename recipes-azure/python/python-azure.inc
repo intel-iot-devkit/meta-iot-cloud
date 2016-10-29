@@ -110,7 +110,7 @@ FILES_${PN}-mgmt-compute = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_compute-* \
 "
 
-RDEPENDS_${PN}-mgmt-compute = "\
+RDEPENDS_${PN}-mgmt-dns = "\
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 FILES_${PN}-mgmt-dns = "\
