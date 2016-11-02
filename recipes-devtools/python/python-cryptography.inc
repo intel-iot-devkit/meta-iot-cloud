@@ -12,6 +12,8 @@ SRC_URI = "git://github.com/pyca/${SRC_NAME}.git;branch=1.5.x"
 SRCREV = "cad77746539f504d53eb1bf9b278ec081ab8040a"
 
 DEPENDS += " \
+   	${PYTHON_PN}-cffi \
+    	${PYTHON_PN}-cffi-native \
     	openssl \
     	libffi \
 "
