@@ -20,4 +20,4 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-resource"
-SRCREV = "c194bf714b504b69da55e8e2d64b1d2e2ce2c215"
+SRCREV = "681c4002c69babb15348d4091405edd1254ddb72"
