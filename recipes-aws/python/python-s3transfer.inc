@@ -1,15 +1,13 @@
 DESCRIPTION = "An Amazon S3 Transfer Manager"
+HOMEPAGE = "https://github.com/boto/s3transfer/"
 AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1e01b26bacfc2232046c90a330332b3"
-
-inherit setuptools
 
 PR = "r0"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-botocore \
-	${PYTHON_PN}-futures \
 	${PYTHON_PN}-math \
 	${PYTHON_PN}-lang \
 	${PYTHON_PN}-logging \
@@ -22,6 +20,6 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "s3transfer"
 
 SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
-SRCREV = "61dd450e43432b016e55506cec3cf31c3c807e9b"
+SRCREV = "8ec5992a92021a3aa927ec1a07cb9b96055014dc"
 
 S = "${WORKDIR}/git"

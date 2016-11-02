@@ -4,15 +4,12 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2ca72265eb92b3fca5dfb60428bd071"
 
-inherit setuptools
-
 PR = "r0"
 
 RDEPENDS_${PN} = "\
-	${PYTHON_PN}-docutils \
-	${PYTHON_PN}-dateutil \
 	${PYTHON_PN}-jmespath \
-	${PYTHON_PN}-six \
+	${PYTHON_PN}-dateutil \
+	${PYTHON_PN}-docutils \
 	${PYTHON_PN}-shell \
 	${PYTHON_PN}-netserver \
 	${PYTHON_PN}-email \
@@ -24,6 +21,6 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "botocore"
 
 SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
-SRCREV = "334c996534cb5e04a7508f61edc48d3f38f0021c"
+SRCREV = "3ea228b928b219f3678fd4b3824e2c3647327170"
 
 S = "${WORKDIR}/git"
