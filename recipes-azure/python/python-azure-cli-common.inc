@@ -3,6 +3,8 @@ AUTHOR = "Microsoft Corporation"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f74e59e099e328d80285c9eba6d4a53f"
 
+PV = "0.1.0b8"
+
 SRC_NAME = "azure-cli"
 
 SRC_URI = "git://github.com/Azure/${SRC_NAME}.git"
