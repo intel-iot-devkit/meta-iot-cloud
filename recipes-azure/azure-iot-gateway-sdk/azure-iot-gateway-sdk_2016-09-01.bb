@@ -34,18 +34,20 @@ AZURE_INCLUDE_DIR = "${STAGING_INCDIR}/azureiot"
 
 ## Java ##
 def get_jdk_arch(d):
-	import bb
-	jdk_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, 1)
-	if jdk_arch == "x86-64":
-		jdk_arch = "amd64"
-	elif jdk_arch == "powerpc":
-		jdk_arch = "ppc"
-	elif jdk_arch == "powerpc64":
-		jdk_arch = "ppc64"
-	elif (jdk_arch == "i486" or jdk_arch == "i586" or jdk_arch == "i686"):
-		jdk_arch = "i386"
+    import bb
 
-	return jdk_arch
+    jdk_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, 1)
+
+    if jdk_arch == "x86-64":
+        jdk_arch = "amd64"
+    elif jdk_arch == "powerpc":
+        jdk_arch = "ppc"
+    elif jdk_arch == "powerpc64":
+        jdk_arch = "ppc64"
+    elif (jdk_arch == "i486" or jdk_arch == "i586" or jdk_arch == "i686"):
+        jdk_arch = "i386"
+
+    return jdk_arch
 
 JAVA_SRC_DIR = "${S}/bindings/java/gateway-java-binding"
 JAVA_LIB_DIR = "${B}/bindings/java/"
@@ -62,7 +64,7 @@ EXTRA_OECMAKE = "-DIOTHUB_CLIENT_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DSHARED_UTIL_
 do_configure_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${STAGING_LIBDIR}/jvm/java-8-openjdk"
+		export JAVA_HOME="${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native"
 	fi
 }
 
