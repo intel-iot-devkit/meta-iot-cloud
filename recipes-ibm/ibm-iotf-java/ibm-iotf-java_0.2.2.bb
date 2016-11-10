@@ -7,29 +7,30 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS = "maven-native icedtea7-native"
 
-inherit java
-
 SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git \
 "
 SRCREV = "c13c04888c0c01f7fbe57031072e6ef2abd55f80"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${S}/target"
 
+JAVA_DATADIR ?= "${datadir}/java"
+
 do_compile() {
 	cd ${S}
-	export JAVA_HOME="${STAGING_LIBDIR_JVM_NATIVE}/icedtea7-native"
+	export JAVA_HOME="${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native"
 	export M3_HOME="${STAGING_DIR_NATIVE}/usr/bin/maven-native"
 	mvn install -Dgpg.skip -DskipTests
 }
 
 do_install() {
-	oe_jarinstall ${B}/watson-iot-${PV}.jar watson-iot.jar
-	oe_jarinstall -r watson-iot-${PV}.jar watson-iot-${PV}-with-deps.jar watson-iot.jar
+	install -d ${D}${JAVA_DATADIR}
+	install -m 0644 ${B}/watson-iot-${PV}-with-deps.jar ${D}${JAVA_DATADIR}/watson-iot-${PV}.jar
+	ln -s watson-iot-${PV}.jar ${D}${JAVA_DATADIR}/watson-iot.jar
 }
 
 PACKAGES = "${PN}"
 
-FILES_${PN} += "${datadir_java}"
+FILES_${PN} += "${JAVA_DATADIR}"

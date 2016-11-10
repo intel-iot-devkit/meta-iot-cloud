@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
-PR = "r1"
+PR = "r2"
 
 RDEPENDS_${PN} = "\
 	ibm-iotf-embeddedc \
@@ -12,7 +12,14 @@ RDEPENDS_${PN} = "\
 	node-red-contrib-ibm-watson-iot \
 	python-ibmiotf \
 	node-ibmiotf \
-	ibm-iotf-java \
 "
 
 PACKAGES = "${PN}"
+
+PACKAGECONFIG ??= "java"
+PACKAGECONFIG[java] = "\
+	, \
+	, \
+	ibm-iotf-java \
+	, \
+"

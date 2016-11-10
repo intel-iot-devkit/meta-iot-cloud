@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 DEPENDS = "azure-c-shared-utility"
 
-inherit cmake pkgconfig python-dir java
+inherit cmake pkgconfig python-dir
 
 SRC_URI = "gitsm://github.com/Azure/azure-iot-sdks.git \
 	   file://cmake_fixes.patch \
 "
 SRCREV = "0a559430fa22575d4e98c227ad4c251e273e7342"
 
-PR = "r3"
+PR = "r4"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -47,19 +47,35 @@ PYTHON_SRC_DIR = "${S}/python/device"
 JAVA_SRC_DIR = "${S}/java/device"
 JAVA_DEST_DIR = "${JAVA_SRC_DIR}/iothub-java-client/target"
 JAVA_PN = "iothub-java-device-client"
+JAVA_DATADIR ?= "${datadir}/java"
 
 ## IoT Hub Explorer ##
 IOTHUB_EXPLORER_SRC_DIR = "${S}/tools/iothub-explorer"
 IOTHUB_EXPLORER_PN = "iothub-explorer"
 
 # List of packages to build
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples python-${PN} python-${PN}-dbg node-${NODE_PN} node-${NODE_PN}-amqp node-${NODE_PN}-amqp-ws node-${NODE_PN}-http node-${NODE_PN}-mqtt ${NODE_RED_PN} node-${IOTHUB_EXPLORER_PN} ${JAVA_PN}"
+PACKAGES = "\
+	${PN} \
+	${PN}-dev \
+	${PN}-dbg \
+	${PN}-samples \
+	python-${PN} \
+	python-${PN}-dbg \
+	node-${NODE_PN} \
+	node-${NODE_PN}-amqp \
+	node-${NODE_PN}-amqp-ws \
+	node-${NODE_PN}-http \
+	node-${NODE_PN}-mqtt \
+	${NODE_RED_PN} \
+	node-${IOTHUB_EXPLORER_PN} \
+	${JAVA_PN} \
+"
 
 # Package configuration options
 PACKAGECONFIG ??= "python nodejs node-red java http amqp mqtt"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=2.7, -Dbuild_python:STRING=OFF, ${PYTHON_PN} boost"
 PACKAGECONFIG[nodejs] = ",, nodejs-native"
-PACKAGECONFIG[node-red] = ",, node-red"
+PACKAGECONFIG[node-red] = ",,"
 PACKAGECONFIG[java] = ",, maven-native icedtea7-native"
 PACKAGECONFIG[http] = "-Duse_http:BOOL=ON,-Duse_http:BOOL=OFF,"
 PACKAGECONFIG[amqp] = "-Duse_amqp:BOOL=ON -DUAMQP_INCLUDE_DIR=${AZURE_INCLUDE_DIR},-Duse_amqp:BOOL=OFF, azure-uamqp-c"
@@ -118,7 +134,7 @@ do_compile_append() {
     fi
 
     if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-	export JAVA_HOME="${STAGING_LIBDIR_JVM_NATIVE}/icedtea7-native"
+	export JAVA_HOME="${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native"
 	export M3_HOME="${STAGING_DIR_NATIVE}/usr/bin/maven-native"
 	cd ${JAVA_SRC_DIR}
 	mvn install
@@ -155,8 +171,11 @@ do_install_append() {
     # Java
     if [ -e ${JAVA_DEST_DIR} ]; then
 	cd ${JAVA_DEST_DIR}
-	jar_version=$(ls iothub-java-client-*-with-deps.jar | cut -d '-' -f4) 
-        oe_jarinstall -r ${JAVA_PN}-${jar_version}.jar ${JAVA_DEST_DIR}/iothub-java-client-${jar_version}-with-deps.jar ${JAVA_PN}.jar
+	jar_version=$(ls iothub-java-client-*-with-deps.jar | cut -d '-' -f4)
+
+	install -d ${D}${JAVA_DATADIR}
+	install -m 0644 ${JAVA_DEST_DIR}/iothub-java-client-${jar_version}-with-deps.jar ${D}${JAVA_DATADIR}/${JAVA_PN}-${jar_version}.jar
+	ln -s ${JAVA_PN}-${jar_version}.jar ${D}${JAVA_DATADIR}/${JAVA_PN}.jar
 	
         # Java Samples
         install -d ${D}${datadir}/azureiotsdk/samples/java/device
@@ -173,7 +192,7 @@ FILES_${PN}-dev += "${includedir}"
 INSANE_SKIP_${PN} += "rpaths"
 
 ## Python ##
-RDEPENDS_python-${PN} += "python"
+RDEPENDS_python-${PN} += "python boost-python"
 RPROVIDES_python-${PN} += "iothub_client.so"
 FILES_python-${PN} += "${PYTHON_SITEPACKAGES_DIR}/*.so"
 FILES_python-${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug"
@@ -220,10 +239,15 @@ rm ${bindir}/${IOTHUB_EXPLORER_PN}
 }
 
 ## Java ##
-FILES_${JAVA_PN} += "${datadir_java}"
+FILES_${JAVA_PN} += "${JAVA_DATADIR}"
 
 ## Samples ##
 FILES_${PN}-samples += "${datadir}/azureiotsdk/samples/java"
 
-RRECOMMENDS_azure-iot-sdk-dev = "glibc-dev azure-c-shared-utility-dev azure-uamqp-c azure-umqtt-c"
+RRECOMMENDS_azure-iot-sdk-dev = "\
+	glibc-dev \
+	azure-c-shared-utility-dev \
+	azure-uamqp-c \
+	azure-umqtt-c \
+"
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
