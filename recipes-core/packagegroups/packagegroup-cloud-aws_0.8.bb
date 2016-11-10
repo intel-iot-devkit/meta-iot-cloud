@@ -21,7 +21,7 @@ PACKAGECONFIG ??= "java"
 PACKAGECONFIG[java] = "\
 	, \
 	, \
+	, \
 	aws-iot-device-sdk-java \
 	aws-iot-device-sdk-java-samples \
-	, \
 "

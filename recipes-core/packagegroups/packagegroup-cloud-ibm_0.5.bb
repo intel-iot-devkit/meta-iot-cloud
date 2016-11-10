@@ -20,6 +20,6 @@ PACKAGECONFIG ??= "java"
 PACKAGECONFIG[java] = "\
 	, \
 	, \
-	ibm-iotf-java \
 	, \
+	ibm-iotf-java \
 "

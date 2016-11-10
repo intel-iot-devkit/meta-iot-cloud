@@ -30,7 +30,7 @@ PACKAGECONFIG ??= "java"
 PACKAGECONFIG[java] = "\
 	, \
 	, \
+	, \
 	azure-iot-gateway-sdk-java-binding \
 	iothub-java-device-client \
-	, \
 "
