@@ -17,18 +17,17 @@ RDEPENDS_${PN} = "\
 inherit cmake pkgconfig
 
 SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git \
-	   file://cmake_lib_install.patch \
 "
-SRCREV = "75fa05efbb7e5b72f65fcc0d5c92eec030705f42"
+SRCREV = "686c3dfdf98991506b95d7575386bb7486b06e72"
 
-PR = "r3"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
 
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_valgrind:BOOL=OFF -Dskip_unittests:BOOL=ON -Duse_http:BOOL=ON -Duse_socketio:BOOL=ON -Duse_condition:BOOL=ON -Duse_openssl:BOOL=ON"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_valgrind:BOOL=OFF -Dskip_unittests:BOOL=ON -Duse_http:BOOL=ON -Duse_condition:BOOL=ON -Duse_wsio:BOOL=OFF -Dnuget_e2e_tests:BOOL=OFF -Duse_socketio:BOOL=ON"
 
 FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev += "${includedir}"

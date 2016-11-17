@@ -1,0 +1,74 @@
+From 63e9e8d2e68a036a42195d876dd07bfaf5439dea Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 16 Nov 2016 22:07:58 +0000
+Subject: [PATCH 4/4] Add missing cmake functions
+
+---
+ CMakeLists.txt | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fd8ee9e..ba96758 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -208,6 +208,57 @@ endif()
+ #this makes available from now on the includes of azure-c-shared-utility
+ include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
++function(linkUAMQP whatExecutableIsBuilding)
++    include_directories(${UAMQP_INCLUDE_DIR})
++    
++    if(WIN32)
++        #windows needs this define
++        add_definitions(-D_CRT_SECURE_NO_WARNINGS)
++        add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
++
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ws2_32 secur32)
++
++        if(${use_openssl} OR ${use_wsio})
++            target_link_libraries(${whatExecutableIsBuilding} $ENV{OpenSSLDir}/lib/ssleay32.lib $ENV{OpenSSLDir}/lib/libeay32.lib)
++        
++            file(COPY $ENV{OpenSSLDir}/bin/libeay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
++            file(COPY $ENV{OpenSSLDir}/bin/ssleay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
++        endif()
++    else()
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ssl crypto)
++    endif()
++    
++    if(${use_wsio})
++        target_link_libraries(${whatExecutableIsBuilding} websockets)
++    endif()
++endfunction(linkUAMQP)
++
++function(includeMqtt)
++    include_directories(${UMQTT_INCLUDE_DIR})
++endfunction(includeMqtt)
++
++function(linkMqttLibrary whatExecutableIsBuilding)
++    includeMqtt()
++    target_link_libraries(${whatExecutableIsBuilding} ${UMQTT_LIB_PATH})
++endfunction(linkMqttLibrary)
++
++function(includeHttp)
++endfunction(includeHttp)
++
++function(linkHttp whatExecutableIsBuilding)
++    includeHttp()
++    if(WIN32)
++        if(WINCE)
++              target_link_libraries(${whatExecutableIsBuilding} crypt32.lib)
++          target_link_libraries(${whatExecutableIsBuilding} ws2.lib)
++        else()
++            target_link_libraries(${whatExecutableIsBuilding} winhttp.lib)
++        endif()
++    else()
++        target_link_libraries(${whatExecutableIsBuilding} curl)
++    endif()
++endfunction(linkHttp)
++
+ function(linkSharedUtil whatIsBuilding)
+   target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB_PATH})
+ endfunction(linkSharedUtil)
+-- 
+1.9.1
+

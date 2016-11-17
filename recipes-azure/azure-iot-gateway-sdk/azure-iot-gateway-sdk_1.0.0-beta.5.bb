@@ -1,24 +1,25 @@
 DESCRIPTION = "Azure IoT Gateway SDK"
-HOMEPAGE = "https://github.com/Azure/azure-iot-gateway-sdk"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://License.txt;md5=9cc1d02a339a3e756ac7975262cf739d"
+
+require azure-iot-gateway-sdk.inc
+inherit cmake pkgconfig
 
 DEPENDS = "\
 	glib-2.0 \
 	azure-iot-sdk \
+	nanomsg \
 "
 
-inherit cmake pkgconfig
-
-SRC_URI = "gitsm://github.com/Azure/azure-iot-gateway-sdk.git \
-	   file://cmake_fixes.patch \
-	   file://module_path.patch \
+SRC_URI += "\
+	file://Update-sample-module-paths.patch \
+	file://Skip-build-deps-if-provided.patch \
+	file://Add-Parson-to-gateway-lib.patch \
+	file://Add-missing-cmake-functions.patch \
+	file://Fix-gateway-target.patch \
+	file://Skip-nanomsg-build-if-provided.patch \
 "
-SRCREV = "d749101c43baa8885f3ba7bf0d64d095de8d2d82"
 
-PR = "r5"
+PR = "r0"
 
-S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 PACKAGES = "\
@@ -27,10 +28,12 @@ PACKAGES = "\
 	${PN}-dbg \
 	${PN}-modules \
 	${PN}-samples \
-	${PN}-java-binding \
+	${PN}-samples-src \
+	${PN}-java \
 "
 
 AZURE_INCLUDE_DIR = "${STAGING_INCDIR}/azureiot"
+NN_INCLUDE_DIR = "${STAGING_INCDIR}/nanomsg"
 
 ## Java ##
 def get_jdk_arch(d):
@@ -49,32 +52,21 @@ def get_jdk_arch(d):
 
     return jdk_arch
 
-JAVA_SRC_DIR = "${S}/bindings/java/gateway-java-binding"
+## Java ##
 JAVA_LIB_DIR = "${B}/bindings/java/"
-JAVA_JAR_DIR = "${JAVA_SRC_DIR}/target"
-JAVA_PN = "gateway-java-binding"
 JDK_ARCH = "${@get_jdk_arch(d)}"
-JAVA_DATADIR ?= "${datadir}/java"
 
-PACKAGECONFIG ??= "java"
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, maven-native icedtea7-native"
+PACKAGECONFIG ??= "java bluetooth"
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, icedtea7-native"
+PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
-EXTRA_OECMAKE = "-DIOTHUB_CLIENT_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DSHARED_UTIL_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DMQTT_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DUAMQP_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=ON -Dskip_unittests:BOOL=ON"
+EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNN_INCLUDE_DIR=${NN_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=ON -Dskip_unittests:BOOL=ON"
 
 do_configure_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native"
 	fi
-}
-
-do_compile_append() {
-	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native"
-		export M3_HOME="${STAGING_DIR_NATIVE}/usr/bin/maven-native"
-		cd ${JAVA_SRC_DIR}
-		mvn clean install
-    	fi
 }
 
 do_install() {
@@ -84,27 +76,33 @@ do_install() {
 
 	install -d ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/*.h ${D}${includedir}/azureiot
-	install -m 0644 ${S}/core/inc/internal/*.h ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/linux/*.h ${D}${includedir}/azureiot
 
 	# Modules
 	install -d ${D}${includedir}/azureiot/modules/common
 	install -m 0644 ${S}/modules/common/*.h ${D}${includedir}/azureiot/modules/common
 
-	# BLE Module
-	install -d ${D}${exec_prefix}/lib/azureiot/modules/ble
-	oe_libinstall -C ${B}/modules/ble/ -so libble ${D}${exec_prefix}/lib/azureiot/modules/ble/
-	oe_libinstall -C ${B}/modules/ble/ -so libble_c2d ${D}${exec_prefix}/lib/azureiot/modules/ble/
-	oe_libinstall -C ${B}/modules/ble/ -so libble_hl ${D}${exec_prefix}/lib/azureiot/modules/ble/
+	# Azure Functions Module
+	install -d ${D}${exec_prefix}/lib/azureiot/modules/azure_functions
+	oe_libinstall -C ${B}/modules/azure_functions/ -so libazure_functions ${D}${exec_prefix}/lib/azureiot/modules/azure_functions/
 
-	install -d ${D}${includedir}/azureiot/modules/ble
-	install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiot/modules/ble
-	install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${includedir}/azureiot/modules/ble
+	install -d ${D}${includedir}/azureiot/modules/azure_functions
+	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${includedir}/azureiot/modules/azure_functions
+
+	# BLE Module
+	if [ -e ${B}/modules/ble/ ]; then
+		install -d ${D}${exec_prefix}/lib/azureiot/modules/ble
+		oe_libinstall -C ${B}/modules/ble/ -so libble ${D}${exec_prefix}/lib/azureiot/modules/ble/
+		oe_libinstall -C ${B}/modules/ble/ -so libble_c2d ${D}${exec_prefix}/lib/azureiot/modules/ble/
+
+		install -d ${D}${includedir}/azureiot/modules/ble
+		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiot/modules/ble
+		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${includedir}/azureiot/modules/ble
+	fi
 
 	# Hello World Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/hello_world
 	oe_libinstall -C ${B}/modules/hello_world/ -so libhello_world ${D}${exec_prefix}/lib/azureiot/modules/hello_world/
-	oe_libinstall -C ${B}/modules/hello_world/ -so libhello_world_hl ${D}${exec_prefix}/lib/azureiot/modules/hello_world/
 
 	install -d ${D}${includedir}/azureiot/modules/hello_world
 	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${includedir}/azureiot/modules/hello_world
@@ -112,7 +110,6 @@ do_install() {
 	# Identity Map Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/identitymap
 	oe_libinstall -C ${B}/modules/identitymap/ -so libidentity_map ${D}${exec_prefix}/lib/azureiot/modules/identitymap/
-	oe_libinstall -C ${B}/modules/identitymap/ -so libidentity_map_hl ${D}${exec_prefix}/lib/azureiot/modules/identitymap/
 	
 	install -d ${D}${includedir}/azureiot/modules/identitymap
 	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${includedir}/azureiot/modules/identitymap
@@ -120,7 +117,6 @@ do_install() {
 	# IoT Hub Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/iothub
 	oe_libinstall -C ${B}/modules/iothub/ -so libiothub ${D}${exec_prefix}/lib/azureiot/modules/iothub/
-	oe_libinstall -C ${B}/modules/iothub/ -so libiothub_hl ${D}${exec_prefix}/lib/azureiot/modules/iothub/
 
 	install -d ${D}${includedir}/azureiot/modules/iothub
 	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${includedir}/azureiot/modules/iothub
@@ -128,7 +124,6 @@ do_install() {
 	# Logger Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/logger
 	oe_libinstall -C ${B}/modules/logger/ -so liblogger ${D}${exec_prefix}/lib/azureiot/modules/logger/
-	oe_libinstall -C ${B}/modules/logger/ -so liblogger_hl ${D}${exec_prefix}/lib/azureiot/modules/logger/
 
 	install -d ${D}${includedir}/azureiot/modules/logger
 	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${includedir}/azureiot/modules/logger
@@ -136,42 +131,59 @@ do_install() {
 	# Simulated Device Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/simulated_device
 	oe_libinstall -C ${B}/modules/simulated_device/ -so libsimulated_device ${D}${exec_prefix}/lib/azureiot/modules/simulated_device/
-	oe_libinstall -C ${B}/modules/simulated_device/ -so libsimulated_device_hl ${D}${exec_prefix}/lib/azureiot/modules/simulated_device/
 
 	install -d ${D}${includedir}/azureiot/modules/simulated_device
 	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${includedir}/azureiot/modules/simulated_device
+
+	# Azure Functions Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions
+	install -m 0755 ${B}/samples/azure_functions_sample/azure_functions_sample ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions/azure_functions
+	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions/azure_functions.json
+
+	install -d ${D}${exec_prefix}/src/azureiot/samples/azure_functions/src
+	install -m 0644 ${S}/samples/azure_functions_sample/src/*.c ${D}${exec_prefix}/src/azureiot/samples/azure_functions/src/
+	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${exec_prefix}/src/azureiot/samples/azure_functions/src/azure_functions.json
 
 	# Hello World Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/hello_world
 	install -m 0755 ${B}/samples/hello_world/hello_world_sample ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world
 	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world.json
 
+	install -d ${D}${exec_prefix}/src/azureiot/samples/hello_world/src
+	install -m 0644 ${S}/samples/hello_world/src/*.c ${D}${exec_prefix}/src/azureiot/samples/hello_world/src/
+	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${exec_prefix}/src/azureiot/samples/hello_world/src/hello_world.json
+
 	# Simulated Device Cloud Upload Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload
 	install -m 0755 ${B}/samples/simulated_device_cloud_upload/simulated_device_cloud_upload_sample ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload
 	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload.json
 
+	install -d ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/src
+	install -d ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/inc
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/*.c ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/src/
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/inc/*.h ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/inc/
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload.json
+
 	# BLE Gateway Sample
-	install -d ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway_hl
-	install -m 0755 ${B}/samples/ble_gateway_hl/ble_gateway_hl ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway_hl/ble_gateway_hl
-	install -m 0644 ${B}/samples/ble_gateway_hl/ble_printer/libble_printer.so ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway_hl/
-	install -m 0644 ${S}/samples/ble_gateway_hl/src/gateway_sample.json ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway_hl/ble_gateway.json
+	if [ -e ${B}/samples/ble_gateway/ ]; then
+		install -d ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway
+		install -m 0755 ${B}/samples/ble_gateway/ble_gateway ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway/ble_gateway
+		install -m 0644 ${B}/samples/ble_gateway/ble_printer/libble_printer.so ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway/
+		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway/ble_gateway.json
+
+		install -d ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/src
+		install -d ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/src
+		install -d ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/inc
+		install -m 0644 ${S}/samples/ble_gateway/src/*.c ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/src/
+		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/src/gateway.json
+		install -m 0644 ${S}/samples/ble_gateway/ble_printer/src/*.c ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/src/
+		install -m 0644 ${S}/samples/ble_gateway/ble_printer/inc/*.h ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/inc/
+	fi
 
 	# Java
 	if [ -e ${JAVA_LIB_DIR} ]; then
 		install -d ${D}${exec_prefix}/lib/azureiot/bindings/java
     		oe_libinstall -C ${JAVA_LIB_DIR} -so libjava_module_host ${D}${exec_prefix}/lib/azureiot/bindings/java/
-		oe_libinstall -C ${JAVA_LIB_DIR} -so libjava_module_host_hl ${D}${exec_prefix}/lib/azureiot/bindings/java/
-
-		if [ -e ${JAVA_JAR_DIR} ]; then
-			cd ${JAVA_JAR_DIR}
-	    		jar_version=$(ls gateway-java-binding-*.jar | head -n 1 | cut -d '-' -f4)
-	    		jar_version="${jar_version%.jar}"
-
-			install -d ${D}${JAVA_DATADIR}
-			install -m 0644 ${JAVA_PN}-${jar_version}.jar ${D}${JAVA_DATADIR}
-			ln -s ${JAVA_PN}-${jar_version}.jar ${D}${JAVA_DATADIR}/${JAVA_PN}.jar
-        	fi
 	fi
 }
 
@@ -186,54 +198,53 @@ FILES_${PN}-dev += "\
 
 FILES_${PN}-dbg += "\
 	${exec_prefix}/lib/azureiot/bindings/java/.debug \
+	${exec_prefix}/lib/azureiot/modules/azure_functions/.debug \
 	${exec_prefix}/lib/azureiot/modules/ble/.debug \
 	${exec_prefix}/lib/azureiot/modules/hello_world/.debug \
 	${exec_prefix}/lib/azureiot/modules/identitymap/.debug \
 	${exec_prefix}/lib/azureiot/modules/iothub/.debug \
 	${exec_prefix}/lib/azureiot/modules/logger/.debug \
 	${exec_prefix}/lib/azureiot/modules/simulated_device/.debug \
-	${exec_prefix}/lib/azureiot/bindings/java/.debug \
-	${datadir}/azureiotgatewaysdk/samples/ble_gateway_hl/.debug \
+	${datadir}/azureiotgatewaysdk/samples/azure_functions/.debug \
+	${datadir}/azureiotgatewaysdk/samples/ble_gateway/.debug \
 	${datadir}/azureiotgatewaysdk/samples/hello_world/.debug \
 	${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/.debug \
 "
 
-RDEPENDS_${PN}-modules += "bluez5"
 FILES_${PN}-modules += "\
+	${exec_prefix}/lib/azureiot/modules/azure_functions/libazure_functions.so \
 	${exec_prefix}/lib/azureiot/modules/ble/libble.so \
 	${exec_prefix}/lib/azureiot/modules/ble/libble_c2d.so \
-	${exec_prefix}/lib/azureiot/modules/ble/libble_hl.so \
 	${exec_prefix}/lib/azureiot/modules/hello_world/libhello_world.so \
-	${exec_prefix}/lib/azureiot/modules/hello_world/libhello_world_hl.so \
 	${exec_prefix}/lib/azureiot/modules/identitymap/libidentity_map.so \
-	${exec_prefix}/lib/azureiot/modules/identitymap/libidentity_map_hl.so \
 	${exec_prefix}/lib/azureiot/modules/iothub/libiothub.so \
-	${exec_prefix}/lib/azureiot/modules/iothub/libiothub_hl.so \
 	${exec_prefix}/lib/azureiot/modules/logger/liblogger.so \
-	${exec_prefix}/lib/azureiot/modules/logger/liblogger_hl.so \
 	${exec_prefix}/lib/azureiot/modules/simulated_device/libsimulated_device.so \
-	${exec_prefix}/lib/azureiot/modules/simulated_device/libsimulated_device_hl.so \
 "
 
 RDEPENDS_${PN}-samples += "azure-iot-gateway-sdk-modules"
 FILES_${PN}-samples += "\
-	${datadir}/azureiotgatewaysdk/samples/ble_gateway_hl/* \
+	${datadir}/azureiotgatewaysdk/samples/azure_functions/* \
+	${datadir}/azureiotgatewaysdk/samples/ble_gateway/* \
 	${datadir}/azureiotgatewaysdk/samples/hello_world/* \
 	${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/* \
 "
 
-FILES_${PN}-java-binding += "\
+FILES_${PN}-samples-src += "\
+	${exec_prefix}/src/azureiot/ \
+"
+
+RDEPENDS_${PN}-java += "azure-iot-gateway-sdk-java-binding"
+FILES_${PN}-java += "\
 	${exec_prefix}/lib/azureiot/bindings/java/*.so \
-	${JAVA_DATADIR} \
 "
 
 RRECOMMENDS_azure-iot-gateway-sdk-dev = "\
 	glibc-dev \
 	util-linux-dev \
 	curl-dev \
-	bluez5-dev \
 	glib-2.0-dev \
-	azure-iot-sdk-dev \
+	azure-iot-sdk-c-dev \
 "
 RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
 
@@ -241,4 +252,4 @@ INSANE_SKIP_${PN} += "rpaths"
 INSANE_SKIP_${PN}-dbg += "libdir"
 INSANE_SKIP_${PN}-modules += "rpaths libdir"
 INSANE_SKIP_${PN}-samples += "rpaths libdir"
-INSANE_SKIP_${PN}-java-binding += "rpaths libdir"
+INSANE_SKIP_${PN}-java += "rpaths libdir"

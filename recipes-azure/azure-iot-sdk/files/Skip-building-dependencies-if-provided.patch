@@ -1,0 +1,706 @@
+From a74a9cda8800a1a9b3b355a8bdadecdad6cefdd6 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 16 Nov 2016 14:08:45 +0000
+Subject: [PATCH 2/3] Skip building dependencies if provided
+
+---
+ c/CMakeLists.txt                                   | 57 +++++++++++++++++-----
+ c/iothub_client/CMakeLists.txt                     | 10 ++--
+ .../iothub_client_sample_amqp/linux/CMakeLists.txt |  4 +-
+ .../iothub_client_sample_http/linux/CMakeLists.txt |  2 +-
+ .../iothub_client_sample_mqtt/linux/CMakeLists.txt |  4 +-
+ .../linux/CMakeLists.txt                           |  2 +-
+ .../iothub_client_sample_x509/linux/CMakeLists.txt |  2 +-
+ .../tests/iothubclient_amqp_e2e/CMakeLists.txt     |  6 +--
+ .../tests/iothubclient_amqp_ws_e2e/CMakeLists.txt  |  6 +--
+ .../tests/iothubclient_http_e2e/CMakeLists.txt     |  6 +--
+ .../tests/iothubclient_mqtt_e2e/CMakeLists.txt     |  6 +--
+ .../tests/longhaul_tests/CMakeLists.txt            |  6 +--
+ c/iothub_service_client/CMakeLists.txt             |  6 +--
+ .../linux/CMakeLists.txt                           |  2 +-
+ .../linux/CMakeLists.txt                           |  2 +-
+ .../linux/CMakeLists.txt                           |  4 +-
+ .../tests/connectionstringparser_ut/CMakeLists.txt |  4 +-
+ .../tests/iothub_srv_client_auth_ut/CMakeLists.txt |  4 +-
+ c/serializer/CMakeLists.txt                        |  3 +-
+ .../samples/simplesample_amqp/CMakeLists.txt       |  2 +-
+ .../samples/simplesample_http/CMakeLists.txt       |  4 +-
+ .../samples/simplesample_mqtt/CMakeLists.txt       |  2 +-
+ .../samples/temp_sensor_anomaly/CMakeLists.txt     |  2 +-
+ c/serializer/tests/serializer_e2e/CMakeLists.txt   |  6 +--
+ c/testtools/iothub_test/CMakeLists.txt             |  6 +--
+ .../iothub_client_javawrapper/CMakeLists.txt       |  8 ++--
+ python/device/iothub_client_python/CMakeLists.txt  |  6 +--
+ .../device/iothub_client_python/src/CMakeLists.txt |  2 +-
+ 28 files changed, 100 insertions(+), 71 deletions(-)
+
+diff --git a/c/CMakeLists.txt b/c/CMakeLists.txt
+index f513f4a..19ff45b 100644
+--- a/c/CMakeLists.txt
++++ b/c/CMakeLists.txt
+@@ -95,14 +95,49 @@ if(NOT "${compileOption_CXX}" STREQUAL "OFF")
+     set(CMAKE_CXX_FLAGS "${compileOption_CXX} ${CMAKE_CXX_FLAGS}")
+ endif()
+ 
+-add_subdirectory(c-utility)
+-add_subdirectory(uamqp)
+-add_subdirectory(umqtt)
++find_library (SHARED_UTIL_LIB_PATH NAMES aziotsharedutil)
++find_library (UAMQP_LIB_PATH NAMES uamqp)
++find_library (UMQTT_LIB_PATH NAMES umqtt)
+ 
+-enable_testing()
++# Check if shared utils library is already provided
++if (SHARED_UTIL_LIB_PATH AND AZURE_INCLUDE_DIR)
++    set(SHARED_UTIL_FOUND 1)
++    set(SHARED_UTIL_INCLUDE_DIR ${AZURE_INCLUDE_DIR})
++endif()
++
++if (NOT SHARED_UTIL_FOUND)
++    add_subdirectory(c-utility)
++    set(SHARED_UTIL_LIB_PATH aziotsharedutil)
++    set(SHARED_UTIL_INCLUDE_DIR ${SHARED_UTIL_INC_FOLDER})
++endif()
+ 
++# Check if uAMQP library is already provided
++if (UAMQP_LIB_PATH AND AZURE_INCLUDE_DIR)
++    set(UAMQP_FOUND 1)
++    set(UAMQP_INCLUDE_DIR ${AZURE_INCLUDE_DIR})
++endif()
++
++if (NOT UAMQP_FOUND)
++    add_subdirectory(uamqp)
++    set(UAMQP_LIB_PATH uamqp)
++    set(UAMQP_INCLUDE_DIR ${UAMQP_INC_FOLDER})
++endif()
++
++# Check if uMQTT library is already provided
++if (UMQTT_LIB_PATH AND AZURE_INCLUDE_DIR)
++    set(UMQTT_FOUND 1)
++    set(UMQTT_INCLUDE_DIR ${AZURE_INCLUDE_DIR})
++endif()
++
++if (NOT UMQTT_FOUND)
++    add_subdirectory(umqtt)
++    set(UMQTT_LIB_PATH umqtt)
++    set(UMQTT_INCLUDE_DIR ${MQTT_INC_FOLDER})
++endif()
++
++enable_testing()
+ 
+-include_directories(${SHARED_UTIL_INC_FOLDER}/azure_c_shared_utility)
++include_directories(${SHARED_UTIL_INCLUDE_DIR}/azure_c_shared_utility)
+ 
+ #this project uses several other projects that are build not by these CMakeFiles
+ #this project also targets several OSes
+@@ -138,14 +170,14 @@ endif()
+ message(STATUS "iothub architecture: ${ARCHITECTURE}")
+ 
+ function(linkUAMQP whatExecutableIsBuilding)
+-    include_directories(${UAMQP_INC_FOLDER})
++    include_directories(${UAMQP_INCLUDE_DIR})
+     
+     if(WIN32)
+         #windows needs this define
+         add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+         add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
+ 
+-        target_link_libraries(${whatExecutableIsBuilding} uamqp aziotsharedutil ws2_32 secur32)
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ws2_32 secur32)
+ 
+         if(${use_openssl} OR ${use_wsio})
+             target_link_libraries(${whatExecutableIsBuilding} $ENV{OpenSSLDir}/lib/ssleay32.lib $ENV{OpenSSLDir}/lib/libeay32.lib)
+@@ -154,7 +186,7 @@ function(linkUAMQP whatExecutableIsBuilding)
+             file(COPY $ENV{OpenSSLDir}/bin/ssleay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+         endif()
+     else()
+-        target_link_libraries(${whatExecutableIsBuilding} uamqp aziotsharedutil ssl crypto)
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ssl crypto)
+     endif()
+     
+     if(${use_wsio})
+@@ -163,12 +195,12 @@ function(linkUAMQP whatExecutableIsBuilding)
+ endfunction(linkUAMQP)
+ 
+ function(includeMqtt)
+-    include_directories(${MQTT_INC_FOLDER})
++    include_directories(${UMQTT_INCLUDE_DIR})
+ endfunction(includeMqtt)
+ 
+ function(linkMqttLibrary whatExecutableIsBuilding)
+     includeMqtt()
+-    target_link_libraries(${whatExecutableIsBuilding} umqtt)
++    target_link_libraries(${whatExecutableIsBuilding} ${UMQTT_LIB_PATH})
+ endfunction(linkMqttLibrary)
+ 
+ function(includeHttp)
+@@ -189,7 +221,7 @@ function(linkHttp whatExecutableIsBuilding)
+ endfunction(linkHttp)
+ 
+ function(linkSharedUtil whatIsBuilding)
+-    target_link_libraries(${whatIsBuilding} aziotsharedutil)
++    target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB_PATH})
+ endfunction(linkSharedUtil)
+ 
+ macro(compileAsC99)
+diff --git a/c/iothub_client/CMakeLists.txt b/c/iothub_client/CMakeLists.txt
+index 99a046e..e423110 100644
+--- a/c/iothub_client/CMakeLists.txt
++++ b/c/iothub_client/CMakeLists.txt
+@@ -136,8 +136,6 @@ if(${use_mqtt})
+ endif()
+ 
+ #these are the include folders
+-#the following "set" statetement exports across the project a global variable called SHARED_UTIL_INC_FOLDER that expands to whatever needs to included when using COMMON library
+-
+ if(${use_http})
+     set(IOTHUB_CLIENT_HTTP_TRANSPORT_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "this is what needs to be included if using iothub_client_http_transport lib" FORCE)
+ endif()
+@@ -156,10 +154,10 @@ if(NOT ${dont_use_uploadtoblob})
+     include_directories(../parson)
+ endif()
+ 
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
+ if (WINCE)
+-include_directories(${SHARED_UTIL_INC_FOLDER}/azure_c_shared_utility/windowsce) #windowsce SDK doesn't have stdbool.h
++include_directories(${SHARED_UTIL_INCLUDE_DIR}/azure_c_shared_utility/windowsce) #windowsce SDK doesn't have stdbool.h
+ ENDIF()
+ 
+ 
+@@ -193,7 +191,7 @@ if(${use_http})
+ endif()
+ 
+ if(${use_amqp})
+-    include_directories(${IOTHUB_CLIENT_AMQP_TRANSPORT_INC_FOLDER} ${UAMQP_INC_FOLDER})
++    include_directories(${IOTHUB_CLIENT_AMQP_TRANSPORT_INC_FOLDER} ${UAMQP_INCLUDE_DIR})
+     add_library(iothub_client_amqp_transport 
+         ${iothub_client_amqp_transport_c_files} 
+         ${iothub_client_amqp_transport_h_files}
+@@ -207,7 +205,7 @@ if(${use_amqp})
+ endif()
+ 
+ if(${use_mqtt})
+-    include_directories(${IOTHUB_CLIENT_MQTT_TRANSPORT_INC_FOLDER} ${MQTT_INC_FOLDER})
++    include_directories(${IOTHUB_CLIENT_MQTT_TRANSPORT_INC_FOLDER} ${UMQTT_INCLUDE_DIR})
+     add_library(iothub_client_mqtt_transport 
+         ${iothub_client_mqtt_transport_c_files} 
+         ${iothub_client_mqtt_transport_h_files}
+diff --git a/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
+index ea06da4..de58dfc 100644
+--- a/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
++++ b/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
+@@ -25,8 +25,8 @@ add_executable(iothub_client_sample_amqp ${iothub_client_sample_amqp_c_files} ${
+ target_link_libraries(iothub_client_sample_amqp
+     iothub_client
+     iothub_client_amqp_transport
+-    aziotsharedutil
+-    uamqp
++    ${SHARED_UTIL_LIB_PATH}
++    ${UAMQP_LIB_PATH}
+     pthread
+     curl
+     ssl
+diff --git a/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
+index 63293d0..aa81d8b 100644
+--- a/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
++++ b/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
+@@ -25,7 +25,7 @@ add_executable(iothub_client_sample_http ${iothub_client_sample_http_c_files} ${
+ target_link_libraries(iothub_client_sample_http
+     iothub_client
+     iothub_client_http_transport
+-    aziotsharedutil
++    ${SHARED_UTIL_LIB_PATH}
+     pthread
+     curl
+     ssl
+diff --git a/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
+index eaf8ac9..4a6b2b4 100644
+--- a/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
++++ b/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
+@@ -25,8 +25,8 @@ add_executable(iothub_client_sample_mqtt ${iothub_client_sample_mqtt_c_files} ${
+ target_link_libraries(iothub_client_sample_mqtt
+     iothub_client
+     iothub_client_mqtt_transport
+-    aziotsharedutil
+-    umqtt
++    ${SHARED_UTIL_LIB_PATH}
++    ${UMQTT_LIB_PATH}
+     pthread
+     curl
+     ssl
+diff --git a/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
+index cb26f99..64a0016 100644
+--- a/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
++++ b/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
+@@ -26,7 +26,7 @@ add_executable(iothub_client_sample_http ${iothub_client_sample_http_c_files} ${
+ target_link_libraries(iothub_client_sample_http
+     iothub_client
+     iothub_client_http_transport
+-    aziotsharedutil
++    ${SHARED_UTIL_LIB_PATH}
+     pthread
+     curl
+     ssl
+diff --git a/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
+index 8e0ec95..5965346 100644
+--- a/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
++++ b/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
+@@ -49,7 +49,7 @@ if(${use_mqtt})
+ endif()
+ 
+ target_link_libraries(iothub_client_sample_x509
+-    aziotsharedutil
++    ${SHARED_UTIL_LIB_PATH}
+     pthread
+     curl
+     ssl
+diff --git a/c/iothub_client/tests/iothubclient_amqp_e2e/CMakeLists.txt b/c/iothub_client/tests/iothubclient_amqp_e2e/CMakeLists.txt
+index d6686ca..e7b7ef5 100755
+--- a/c/iothub_client/tests/iothubclient_amqp_e2e/CMakeLists.txt
++++ b/c/iothub_client/tests/iothubclient_amqp_e2e/CMakeLists.txt
+@@ -44,7 +44,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_amqp_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			rpcrt4			
+ 		)
+ 		linkSharedUtil(${theseTestsName}_dll)
+@@ -57,7 +57,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_amqp_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			rpcrt4			
+ 		)
+ 		linkSharedUtil(${theseTestsName}_exe)
+@@ -78,7 +78,7 @@ else()
+ 			iothub_client
+ 			iothub_client_amqp_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 		)
+ 		target_link_libraries(${theseTestsName}_exe pthread uuid)
+ 		linkSharedUtil(${theseTestsName}_exe)
+diff --git a/c/iothub_client/tests/iothubclient_amqp_ws_e2e/CMakeLists.txt b/c/iothub_client/tests/iothubclient_amqp_ws_e2e/CMakeLists.txt
+index bd9f22d..192be3d 100755
+--- a/c/iothub_client/tests/iothubclient_amqp_ws_e2e/CMakeLists.txt
++++ b/c/iothub_client/tests/iothubclient_amqp_ws_e2e/CMakeLists.txt
+@@ -43,7 +43,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_amqp_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			rpcrt4			
+ 		)
+ 		linkSharedUtil(${theseTestsName}_dll)
+@@ -56,7 +56,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_amqp_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			rpcrt4			
+ 		)
+ 		linkSharedUtil(${theseTestsName}_exe)
+@@ -77,7 +77,7 @@ else()
+ 			iothub_client
+ 			iothub_client_amqp_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 		)
+ 		target_link_libraries(${theseTestsName}_exe pthread uuid)
+ 		linkSharedUtil(${theseTestsName}_exe)
+diff --git a/c/iothub_client/tests/iothubclient_http_e2e/CMakeLists.txt b/c/iothub_client/tests/iothubclient_http_e2e/CMakeLists.txt
+index 2829104..e0cd565 100644
+--- a/c/iothub_client/tests/iothubclient_http_e2e/CMakeLists.txt
++++ b/c/iothub_client/tests/iothubclient_http_e2e/CMakeLists.txt
+@@ -37,7 +37,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_http_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_http_transport
+ 			rpcrt4
+ 		)
+@@ -51,7 +51,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_http_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_http_transport
+ 			rpcrt4
+ 		)
+@@ -73,7 +73,7 @@ else()
+ 			iothub_client
+ 			iothub_client_http_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_http_transport
+ 		)
+ 		target_link_libraries(${theseTestsName}_exe pthread uuid)
+diff --git a/c/iothub_client/tests/iothubclient_mqtt_e2e/CMakeLists.txt b/c/iothub_client/tests/iothubclient_mqtt_e2e/CMakeLists.txt
+index a42f963..77945ba 100755
+--- a/c/iothub_client/tests/iothubclient_mqtt_e2e/CMakeLists.txt
++++ b/c/iothub_client/tests/iothubclient_mqtt_e2e/CMakeLists.txt
+@@ -43,7 +43,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_mqtt_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_mqtt_transport
+ 			rpcrt4
+ 		)
+@@ -57,7 +57,7 @@ if(WIN32)
+ 			iothub_client
+ 			iothub_client_mqtt_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_mqtt_transport
+ 			rpcrt4
+ 		)
+@@ -79,7 +79,7 @@ else()
+ 			iothub_client
+ 			iothub_client_mqtt_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_mqtt_transport
+ 		)
+ 		target_link_libraries(${theseTestsName}_exe pthread uuid)
+diff --git a/c/iothub_client/tests/longhaul_tests/CMakeLists.txt b/c/iothub_client/tests/longhaul_tests/CMakeLists.txt
+index 2c7e5cd..764281f 100644
+--- a/c/iothub_client/tests/longhaul_tests/CMakeLists.txt
++++ b/c/iothub_client/tests/longhaul_tests/CMakeLists.txt
+@@ -33,7 +33,7 @@ if(WIN32)
+ 			iothub_test
+ 			iothub_client
+ 			iothub_client_amqp_transport
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			rpcrt4
+ 		)
+ 		linkUAMQP(${theseTestsName}_dll)
+@@ -44,7 +44,7 @@ if(WIN32)
+ 			iothub_test
+ 			iothub_client
+ 			iothub_client_amqp_transport
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			rpcrt4
+ 		)
+ 		linkUAMQP(${theseTestsName}_exe)
+@@ -55,7 +55,7 @@ else()
+ 			iothub_test
+ 			iothub_client
+ 			iothub_client_amqp_transport
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			uuid
+ 		)
+ 		target_link_libraries(${theseTestsName}_exe pthread)
+diff --git a/c/iothub_service_client/CMakeLists.txt b/c/iothub_service_client/CMakeLists.txt
+index d2fc91a..bd38c2d 100644
+--- a/c/iothub_service_client/CMakeLists.txt
++++ b/c/iothub_service_client/CMakeLists.txt
+@@ -33,9 +33,9 @@ if(MSVC)
+ set_source_files_properties(../parson/parson.c PROPERTIES COMPILE_FLAGS "/wd4244 /wd4232")
+ endif()
+ 
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
+-include_directories(${UAMQP_INC_FOLDER})
++include_directories(${UAMQP_INCLUDE_DIR})
+ 
+ set(IOTHUB_SERVICE_CLIENT_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "This is the include folder for iothub_service_client" FORCE)
+ 
+@@ -50,7 +50,7 @@ ENDIF(WIN32)
+ add_library(iothub_service_client ${iothub_service_client_c_files} ${iothub_service_client_h_files})
+ 
+ if(NOT ${nuget_e2e_tests})
+-    target_link_libraries(iothub_service_client uamqp)
++    target_link_libraries(iothub_service_client ${UAMQP_LIB_PATH})
+ else()
+     target_link_libraries(iothub_service_client)
+ endif()
+diff --git a/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
+index a886d39..454f230 100644
+--- a/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
++++ b/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
+@@ -24,5 +24,5 @@ set(iothub_messaging_ll_sample_h_files
+ add_executable(iothub_messaging_ll_sample ${iothub_messaging_ll_sample_c_files} ${iothub_messaging_ll_sample_h_files})
+ 
+ target_link_libraries(iothub_messaging_ll_sample
+-    aziotsharedutil
++    ${SHARED_UTIL_LIB_PATH})
+ )
+diff --git a/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
+index 4bb3577..62052e0 100644
+--- a/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
++++ b/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
+@@ -24,5 +24,5 @@ set(iothub_registrymanager_sample_h_files
+ add_executable(iothub_registrymanager_sample ${iothub_registrymanager_sample_c_files} ${iothub_registrymanager_sample_h_files})
+ 
+ target_link_libraries(iothub_registrymanager_sample
+-    aziotsharedutil
++    ${SHARED_UTIL_LIB_PATH})
+ )
+diff --git a/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
+index 39a96a6..52d2c11 100644
+--- a/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
++++ b/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
+@@ -25,8 +25,8 @@ add_executable(iothub_service_client_sample ${iothub_service_client_sample_c_fil
+ 
+ target_link_libraries(iothub_service_client_sample
+     iothub_service_client
+-    aziotsharedutil
+-    uamqp
++    ${SHARED_UTIL_LIB_PATH})
++    ${UAMQP_LIB_PATH}
+     pthread
+     curl
+     ssl
+diff --git a/c/iothub_service_client/tests/connectionstringparser_ut/CMakeLists.txt b/c/iothub_service_client/tests/connectionstringparser_ut/CMakeLists.txt
+index 9f74d38..9a30816 100644
+--- a/c/iothub_service_client/tests/connectionstringparser_ut/CMakeLists.txt
++++ b/c/iothub_service_client/tests/connectionstringparser_ut/CMakeLists.txt
+@@ -17,6 +17,6 @@ set(${theseTestsName}_c_files
+ set(${theseTestsName}_h_files
+ )
+ 
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
+-build_test_artifacts(${theseTestsName} ON)
+\ No newline at end of file
++build_test_artifacts(${theseTestsName} ON)
+diff --git a/c/iothub_service_client/tests/iothub_srv_client_auth_ut/CMakeLists.txt b/c/iothub_service_client/tests/iothub_srv_client_auth_ut/CMakeLists.txt
+index e0a8248..7052a1f 100644
+--- a/c/iothub_service_client/tests/iothub_srv_client_auth_ut/CMakeLists.txt
++++ b/c/iothub_service_client/tests/iothub_srv_client_auth_ut/CMakeLists.txt
+@@ -17,6 +17,6 @@ set(${theseTestsName}_c_files
+ set(${theseTestsName}_h_files
+ )
+ 
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ 
+-build_test_artifacts(${theseTestsName} ON)
+\ No newline at end of file
++build_test_artifacts(${theseTestsName} ON)
+diff --git a/c/serializer/CMakeLists.txt b/c/serializer/CMakeLists.txt
+index cd049bc..0f0e636 100644
+--- a/c/serializer/CMakeLists.txt
++++ b/c/serializer/CMakeLists.txt
+@@ -48,10 +48,9 @@ set(serializer_h_files
+ )
+ 
+ #these are the include folders
+-#the following "set" statetement exports across the project a global variable called SHARED_UTIL_INC_FOLDER that expands to whatever needs to included when using COMMON library
+ set(SERIALIZER_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "this is what needs to be included if using serializer lib" FORCE)
+ 
+-include_directories(${SERIALIZER_INC_FOLDER} ${SHARED_UTIL_INC_FOLDER})
++include_directories(${SERIALIZER_INC_FOLDER} ${SHARED_UTIL_INCLUDE_DIR})
+ 
+ IF(WIN32)
+ 	#windows needs this define
+diff --git a/c/serializer/samples/simplesample_amqp/CMakeLists.txt b/c/serializer/samples/simplesample_amqp/CMakeLists.txt
+index 71b1298..27b8a2b 100644
+--- a/c/serializer/samples/simplesample_amqp/CMakeLists.txt
++++ b/c/serializer/samples/simplesample_amqp/CMakeLists.txt
+@@ -28,7 +28,7 @@ IF(WIN32)
+ 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ ENDIF(WIN32)
+ 
+-include_directories(. ${SHARED_UTIL_INC_FOLDER} ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(. ${SHARED_UTIL_INCLUDE_DIR} ${IOTHUB_CLIENT_INC_FOLDER})
+ link_directories(${whatIsBuilding}_dll ${SHARED_UTIL_LIB_DIR})
+ 
+ add_executable(simplesample_amqp ${simplesample_amqp_c_files} ${simplesample_amqp_h_files})
+diff --git a/c/serializer/samples/simplesample_http/CMakeLists.txt b/c/serializer/samples/simplesample_http/CMakeLists.txt
+index 6a49888..1958503 100644
+--- a/c/serializer/samples/simplesample_http/CMakeLists.txt
++++ b/c/serializer/samples/simplesample_http/CMakeLists.txt
+@@ -29,7 +29,7 @@ IF(WIN32)
+ 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ ENDIF(WIN32)
+ 
+-include_directories(. ${SHARED_UTIL_INC_FOLDER} ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(. ${SHARED_UTIL_INCLUDE_DIR} ${IOTHUB_CLIENT_INC_FOLDER})
+ link_directories(${whatIsBuilding}_dll ${SHARED_UTIL_LIB_DIR})
+ 
+ add_executable(simplesample_http ${simplesample_http_c_files} ${simplesample_http_h_files})
+@@ -41,4 +41,4 @@ target_link_libraries(simplesample_http
+ )
+ 
+ linkSharedUtil(simplesample_http)
+-linkHttp(simplesample_http)
+\ No newline at end of file
++linkHttp(simplesample_http)
+diff --git a/c/serializer/samples/simplesample_mqtt/CMakeLists.txt b/c/serializer/samples/simplesample_mqtt/CMakeLists.txt
+index bfcf391..6d6d25e 100644
+--- a/c/serializer/samples/simplesample_mqtt/CMakeLists.txt
++++ b/c/serializer/samples/simplesample_mqtt/CMakeLists.txt
+@@ -28,7 +28,7 @@ IF(WIN32)
+ 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ ENDIF(WIN32)
+ 
+-include_directories(. ${SHARED_UTIL_INC_FOLDER} ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(. ${SHARED_UTIL_INCLUDE_DIR} ${IOTHUB_CLIENT_INC_FOLDER})
+ #link_directories(${whatIsBuilding}_dll ${SHARED_UTIL_LIB_DIR})
+ 
+ add_executable(simplesample_mqtt ${simplesample_mqtt_c_files} ${simplesample_mqtt_h_files})
+diff --git a/c/serializer/samples/temp_sensor_anomaly/CMakeLists.txt b/c/serializer/samples/temp_sensor_anomaly/CMakeLists.txt
+index de96c65..ed9e927 100644
+--- a/c/serializer/samples/temp_sensor_anomaly/CMakeLists.txt
++++ b/c/serializer/samples/temp_sensor_anomaly/CMakeLists.txt
+@@ -20,7 +20,7 @@ IF(WIN32)
+ 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ ENDIF(WIN32)
+ 
+-include_directories(. ${SHARED_UTIL_INC_FOLDER} ${IOTHUB_CLIENT_INC_FOLDER})
++include_directories(. ${SHARED_UTIL_INCLUDE_DIR} ${IOTHUB_CLIENT_INC_FOLDER})
+ link_directories(${whatIsBuilding}_dll ${SHARED_UTIL_LIB_DIR})
+ 
+ add_executable(temp_sensor_anomaly ${temp_sensor_anomaly_c_files} ${temp_sensor_anomaly_h_files})
+diff --git a/c/serializer/tests/serializer_e2e/CMakeLists.txt b/c/serializer/tests/serializer_e2e/CMakeLists.txt
+index d1295bc..0bbec4c 100644
+--- a/c/serializer/tests/serializer_e2e/CMakeLists.txt
++++ b/c/serializer/tests/serializer_e2e/CMakeLists.txt
+@@ -40,7 +40,7 @@ if(WIN32)
+ 			iothub_client_amqp_transport
+ 			iothub_client_http_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_http_transport
+ 		)
+ 		linkSharedUtil(${theseTestsName}_dll)
+@@ -56,7 +56,7 @@ if(WIN32)
+ 			iothub_client_amqp_transport
+ 			iothub_client_http_transport
+ 			iothub_service_client
+-			aziotsharedutil
++			${SHARED_UTIL_LIB_PATH}
+ 			iothub_client_http_transport
+ 		)
+ 		linkSharedUtil(${theseTestsName}_exe)
+@@ -80,7 +80,7 @@ else()
+ 				iothub_client_amqp_transport
+ 				iothub_client_http_transport
+ 				iothub_service_client
+-				aziotsharedutil
++				${SHARED_UTIL_LIB_PATH}
+ 				iothub_client_http_transport
+ 			)
+ 		target_link_libraries(${theseTestsName}_exe pthread)
+diff --git a/c/testtools/iothub_test/CMakeLists.txt b/c/testtools/iothub_test/CMakeLists.txt
+index 25a3cef..7b2adc4 100644
+--- a/c/testtools/iothub_test/CMakeLists.txt
++++ b/c/testtools/iothub_test/CMakeLists.txt
+@@ -19,7 +19,7 @@ set(iothub_test_h_files
+ #the following "set" statetement exports across the project a global variable called IOTHUB_TEST_INC_FOLDER that expands to whatever needs to included when using iothub_test library
+ set(IOTHUB_TEST_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "this is what needs to be included if using iothub_test" FORCE)
+ 
+-include_directories(${IOTHUB_TEST_INC_FOLDER} ${SHARED_UTIL_INC_FOLDER} ${UAMQP_INC_FOLDER})
++include_directories(${IOTHUB_TEST_INC_FOLDER} ${SHARED_UTIL_INCLUDE_DIR} ${UAMQP_INCLUDE_DIR})
+ include_directories(${CMAKE_CURRENT_LIST_DIR}/../../iothub_client/inc)
+ include_directories(${IOTHUB_SERVICE_CLIENT_INC_FOLDER})
+ 
+@@ -32,7 +32,7 @@ ENDIF(WIN32)
+ add_library(iothub_test ${iothub_test_c_files} ${iothub_test_h_files})
+ 
+ if(NOT ${nuget_e2e_tests})
+-    target_link_libraries(iothub_test uamqp iothub_service_client)
++    target_link_libraries(iothub_test ${UAMQP_LIB_PATH} iothub_service_client)
+ else()
+     target_link_libraries(iothub_test iothub_service_client)
+-endif()
+\ No newline at end of file
++endif()
+diff --git a/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt b/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt
+index ccd7cdc..151534b 100644
+--- a/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt
++++ b/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt
+@@ -63,16 +63,16 @@ set(iothub_client_sample_h_files
+     
+ )
+ 
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ include_directories(${IOTHUB_CLIENT_INC_FOLDER})
+ if(${use_http})
+     include_directories(${IOTHUB_CLIENT_HTTP_TRANSPORT_INC_FOLDER})
+ endif()
+ if(${use_amqp})
+-    include_directories(${IOTHUB_CLIENT_AMQP_TRANSPORT_INC_FOLDER} ${UAMQP_INC_FOLDER})
++    include_directories(${IOTHUB_CLIENT_AMQP_TRANSPORT_INC_FOLDER} ${UAMQP_INCLUDE_DIR})
+ endif()
+ if(${use_mqtt})
+-    include_directories(${IOTHUB_CLIENT_MQTT_TRANSPORT_INC_FOLDER} ${MQTT_INC_FOLDER})
++    include_directories(${IOTHUB_CLIENT_MQTT_TRANSPORT_INC_FOLDER} ${UMQTT_INCLUDE_DIR})
+ endif()
+ 
+ include_directories(.)
+@@ -95,7 +95,7 @@ target_link_libraries(
+     iothub_client_http_transport
+     iothub_client_amqp_transport
+     iothub_client 
+-    uamqp
++    ${UAMQP_LIB_PATH}
+ )
+ 
+ target_link_libraries(   
+diff --git a/python/device/iothub_client_python/CMakeLists.txt b/python/device/iothub_client_python/CMakeLists.txt
+index d34747b..75d34a1 100644
+--- a/python/device/iothub_client_python/CMakeLists.txt
++++ b/python/device/iothub_client_python/CMakeLists.txt
+@@ -63,16 +63,16 @@ include_directories(${PYTHON_INCLUDE_DIRS})
+ link_directories(${PYTHON_LIBRARIES})
+ 
+ # get iothub_client and protocols
+-include_directories(${SHARED_UTIL_INC_FOLDER})
++include_directories(${SHARED_UTIL_INCLUDE_DIR})
+ include_directories(${IOTHUB_CLIENT_INC_FOLDER})
+ if(${use_http})
+     include_directories(${IOTHUB_CLIENT_HTTP_TRANSPORT_INC_FOLDER})
+ endif()
+ if(${use_amqp})
+-    include_directories(${IOTHUB_CLIENT_AMQP_TRANSPORT_INC_FOLDER} ${UAMQP_INC_FOLDER})
++    include_directories(${IOTHUB_CLIENT_AMQP_TRANSPORT_INC_FOLDER} ${UAMQP_INCLUDE_DIR})
+ endif()
+ if(${use_mqtt})
+-    include_directories(${IOTHUB_CLIENT_MQTT_TRANSPORT_INC_FOLDER} ${MQTT_INC_FOLDER})
++    include_directories(${IOTHUB_CLIENT_MQTT_TRANSPORT_INC_FOLDER} ${UMQTT_INCLUDE_DIR})
+ endif()
+ 
+ add_subdirectory(src)
+diff --git a/python/device/iothub_client_python/src/CMakeLists.txt b/python/device/iothub_client_python/src/CMakeLists.txt
+index 3daa3bd..b7596d1 100644
+--- a/python/device/iothub_client_python/src/CMakeLists.txt
++++ b/python/device/iothub_client_python/src/CMakeLists.txt
+@@ -31,7 +31,7 @@ target_link_libraries(
+     iothub_client_http_transport
+     iothub_client_amqp_transport
+     iothub_client 
+-    uamqp
++    ${UAMQP_LIB_PATH}
+     ${Boost_LIBRARIES}
+     ${PYTHON_LIBRARIES}
+ )
+-- 
+1.9.1
+

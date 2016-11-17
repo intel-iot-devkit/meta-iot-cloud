@@ -1,0 +1,100 @@
+From 46f63cbc6966538db13083a56fc4eed57edd5812 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 16 Nov 2016 21:54:37 +0000
+Subject: [PATCH 3/3] Add Parson to gateway lib
+
+---
+ core/CMakeLists.txt      | 13 +++++++------
+ core/deps/CMakeLists.txt | 29 -----------------------------
+ 2 files changed, 7 insertions(+), 35 deletions(-)
+ delete mode 100644 core/deps/CMakeLists.txt
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index 379959b..d5d36f3 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -3,8 +3,6 @@
+ 
+ cmake_minimum_required(VERSION 2.8.11)
+ 
+-add_subdirectory(deps)
+-
+ #this sets a global var that stores where the includes for GW are
+ set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
+ set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
+@@ -63,6 +61,7 @@ set(gateway_c_sources
+     ./src/gateway_createfromjson.c
+     ./src/broker.c
+     ${dynamic_library_c_file}
++    ../deps/parson/parson.c
+ )
+ 
+ 
+@@ -77,9 +76,11 @@ set(gateway_h_sources
+     ./inc/dynamic_loader.h
+     ./inc/dynamic_library.h
+     ./src/gateway_internal.h
++    ../deps/parson/parson.h
+ )
+ 
+ include_directories(./inc)
++include_directories(../deps/parson)
+ 
+ add_library(gateway
+     ${gateway_c_sources}
+@@ -96,12 +97,12 @@ set_target_properties(gateway_install PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
+ if(WIN32)
+     target_link_libraries(gateway_install debug "${CMAKE_CURRENT_BINARY_DIR}/../deps/c-utility/Debug/aziotsharedutil.lib" debug "${CMAKE_CURRENT_BINARY_DIR}/../deps/nanomsg/Debug/nanomsg.lib")
+     target_link_libraries(gateway_install optimized "${CMAKE_CURRENT_BINARY_DIR}/../deps/c-utility/Release/aziotsharedutil.lib" optimized "${CMAKE_CURRENT_BINARY_DIR}/../deps/nanomsg/Release/nanomsg.lib")
+-    target_link_libraries(gateway_install parson ${dynamic_loader_library})
++    target_link_libraries(gateway_install ${dynamic_loader_library})
+     
+-    target_link_libraries(gateway ${SHARED_UTIL_LIB_PATH} nanomsg parson ${dynamic_loader_library})
++    target_link_libraries(gateway ${SHARED_UTIL_LIB_PATH} nanomsg ${dynamic_loader_library})
+ else()
+-    target_link_libraries(gateway_install "${CMAKE_CURRENT_BINARY_DIR}/../deps/c-utility/libaziotsharedutil.a" "${CMAKE_CURRENT_BINARY_DIR}/../deps/nanomsg/libnanomsg.a" parson ${dynamic_loader_library})
+-    target_link_libraries(gateway ${SHARED_UTIL_LIB_PATH} nanomsg parson ${dynamic_loader_library})
++    target_link_libraries(gateway_install "${CMAKE_CURRENT_BINARY_DIR}/../deps/c-utility/libaziotsharedutil.a" "${CMAKE_CURRENT_BINARY_DIR}/../deps/nanomsg/libnanomsg.a" ${dynamic_loader_library})
++    target_link_libraries(gateway ${SHARED_UTIL_LIB_PATH} nanomsg ${dynamic_loader_library})
+     
+     nn_check_lib (anl getaddrinfo_a NN_HAVE_GETADDRINFO_A)
+     nn_check_lib (rt clock_gettime  NN_HAVE_CLOCK_GETTIME)
+diff --git a/core/deps/CMakeLists.txt b/core/deps/CMakeLists.txt
+deleted file mode 100644
+index ef317a9..0000000
+--- a/core/deps/CMakeLists.txt
++++ /dev/null
+@@ -1,29 +0,0 @@
+-#Copyright (c) Microsoft. All rights reserved.
+-#Licensed under the MIT license. See LICENSE file in the project root for full license information.
+-
+-cmake_minimum_required(VERSION 2.8.11)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS)
+-
+-set(parson_c_sources
+-    ../../deps/parson/parson.c
+-)
+-
+-set(parson_h_sources
+-    ../../deps/parson/parson.h
+-)
+-
+-include_directories(../../deps/parson)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS) 
+-
+-add_library(parson
+-    ${parson_c_sources}
+-    ${parson_h_sources}
+-)
+-
+-install(TARGETS parson EXPORT gatewayTargets
+-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}/../bin
+-)
+\ No newline at end of file
+-- 
+1.9.1
+

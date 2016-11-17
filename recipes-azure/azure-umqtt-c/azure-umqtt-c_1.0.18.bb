@@ -8,9 +8,10 @@ DEPENDS = "azure-c-shared-utility"
 inherit cmake pkgconfig
 
 SRC_URI = "gitsm://github.com/Azure/azure-umqtt-c.git \
-	   file://cmake_fixes.patch \
+	   file://Skip-building-shared-utilities-library-if-provided.patch \
+	   file://Use-GNU-install-directories.patch \
 "
-SRCREV = "3d3777f1b4cd515da987204deef02ebf71ea7c75"
+SRCREV = "a9445a36952d814693bd07910dbdb448bf37229b"
 
 PR = "r0"
 

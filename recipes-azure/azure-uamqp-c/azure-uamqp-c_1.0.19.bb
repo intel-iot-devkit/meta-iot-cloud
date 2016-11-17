@@ -8,9 +8,9 @@ DEPENDS = "azure-c-shared-utility"
 inherit cmake pkgconfig
 
 SRC_URI = "gitsm://github.com/Azure/azure-uamqp-c.git \
-	   file://cmake_fixes.patch \
+	   file://skip_build_deps_if_provided.patch \
 "
-SRCREV = "9b5f991757526472209f5da013f1deb805dd16d0"
+SRCREV = "20691a19b040dfc97b70359c9e7d11b397ab3d02"
 
 PR = "r0"
 
@@ -21,7 +21,7 @@ PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
 
 SHARED_UTIL_INCLUDE_DIR = "${STAGING_INCDIR}/azureiot"
 
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests:BOOL=OFF -Dskip_unittests:BOOL=ON -Duse_wsio:BOOL=OFF -Duse_openssl:BOOL=ON -DSHARED_UTIL_INCLUDE_DIR=${SHARED_UTIL_INCLUDE_DIR}"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_longhaul_tests:BOOL=OFF -Dskip_unittests:BOOL=ON -Duse_wsio:BOOL=OFF -DSHARED_UTIL_INCLUDE_DIR=${SHARED_UTIL_INCLUDE_DIR}"
 
 FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev += "${includedir}"

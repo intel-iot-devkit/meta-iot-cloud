@@ -1,0 +1,135 @@
+From b005c8456b24dbe5dfb4dae6b2d018c10ab8e560 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 17 Nov 2016 20:31:21 +0000
+Subject: [PATCH 8/8] Skip nanomsg build if provided
+
+---
+ CMakeLists.txt                     | 39 +++++++++++++++++++++++++-------------
+ samples/hello_world/CMakeLists.txt |  2 +-
+ 2 files changed, 27 insertions(+), 14 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ba96758..ebac141 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -138,6 +138,7 @@ find_library (IOTHUB_CLIENT_MQTT_LIB_PATH NAMES iothub_client_mqtt_transport)
+ find_library (IOTHUB_CLIENT_AMQP_LIB_PATH NAMES iothub_client_amqp_transport)
+ find_library (UAMQP_LIB_PATH NAMES uamqp)
+ find_library (UMQTT_LIB_PATH NAMES umqtt)
++find_library (NN_LIB_PATH NAMES nanomsg)
+ 
+ # Check if shared utils library is already provided
+ if (SHARED_UTIL_LIB_PATH AND AZURE_INCLUDE_DIR)
+@@ -266,21 +267,33 @@ endfunction(linkSharedUtil)
+ #this adds parson
+ include_directories(./deps/parson)
+ 
+-#this adds nanomsg
+-option(NN_ENABLE_DOC "" OFF )
+-if (WIN32)
+-  option(NN_STATIC_LIB "" OFF )
+-else()
+-  option(NN_STATIC_LIB "" ON )
+-  # This should be set with the NN_STATIC_LIB options
+-  add_definitions (-DNN_STATIC_LIB)
++# Check if nanomsg library is already provided
++if (NN_LIB_PATH AND NN_INCLUDE_DIR)
++    set(NN_FOUND 1)
++endif()
++
++if (NOT NN_FOUND)
++    #this adds nanomsg
++    option(NN_ENABLE_DOC "" OFF )
++    if (WIN32)
++        option(NN_STATIC_LIB "" OFF )
++    else()
++        option(NN_STATIC_LIB "" ON )
++        # This should be set with the NN_STATIC_LIB options
++        add_definitions (-DNN_STATIC_LIB)
++    endif()
++
++    option(NN_TESTS "" OFF )
++    option(NN_ENABLE_NANOCAT "" OFF)
++
++    add_subdirectory(./deps/nanomsg)
++    set(NN_LIB_PATH nanomsg)
++    set(NN_INCLUDE_DIR ./deps/nanomsg/src)
+ endif()
+ 
+-option(NN_TESTS "" OFF )
+-option(NN_ENABLE_NANOCAT "" OFF)
++include_directories(${NN_INCLUDE_DIR})
++
+ set(nanomsg_target_dll ${CMAKE_CURRENT_BINARY_DIR}/deps/nanomsg/$(Configuration)/nanomsg.dll CACHE INTERNAL "The location of the nanomsg.dll (windows)" FORCE)
+-add_subdirectory(./deps/nanomsg)
+-include_directories(./deps/nanomsg/src)
+ 
+ set(NANOMSG_TARGETS dist )
+ foreach(nanomsgTarget IN LISTS NANOMSG_TARGETS)
+@@ -289,7 +302,7 @@ endforeach(nanomsgTarget)
+ 
+ function(link_broker whatIsBuilding)
+ 
+-target_link_libraries(${whatIsBuilding} nanomsg )
++target_link_libraries(${whatIsBuilding} ${NN_LIB_PATH} )
+   
+ endfunction(link_broker)
+ 
+diff --git a/samples/hello_world/CMakeLists.txt b/samples/hello_world/CMakeLists.txt
+index 5569589..37525c7 100644
+--- a/samples/hello_world/CMakeLists.txt
++++ b/samples/hello_world/CMakeLists.txt
+@@ -28,7 +28,7 @@ add_executable(hello_world_sample ${hello_world_sources})
+ 
+ add_dependencies(hello_world_sample hello_world logger)
+ 
+-target_link_libraries(hello_world_sample gateway nanomsg)
++target_link_libraries(hello_world_sample gateway ${NN_LIB_PATH})
+ linkSharedUtil(hello_world_sample)
+ install_broker(hello_world_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
+ 
+-- 
+1.9.1
+
+
+From 90357709c24379542fb4e2d09a741bb933630535 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 17 Nov 2016 20:59:28 +0000
+Subject: [PATCH 10/10] Fix nanomsg
+
+---
+ CMakeLists.txt | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 226ef3b..3e8b561 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -289,17 +289,17 @@ if (NOT NN_FOUND)
+     add_subdirectory(./deps/nanomsg)
+     set(NN_LIB_PATH nanomsg)
+     set(NN_INCLUDE_DIR ./deps/nanomsg/src)
++
++    set(NANOMSG_TARGETS dist )
++    foreach(nanomsgTarget IN LISTS NANOMSG_TARGETS)
++        set_target_properties(${nanomsgTarget} PROPERTIES FOLDER "${NN_LIB_PATH} Targets")
++    endforeach(nanomsgTarget)
+ endif()
+ 
+ include_directories(${NN_INCLUDE_DIR})
+ 
+ set(nanomsg_target_dll ${CMAKE_CURRENT_BINARY_DIR}/deps/nanomsg/$(Configuration)/nanomsg.dll CACHE INTERNAL "The location of the nanomsg.dll (windows)" FORCE)
+ 
+-set(NANOMSG_TARGETS dist )
+-foreach(nanomsgTarget IN LISTS NANOMSG_TARGETS)
+-  set_target_properties(${nanomsgTarget} PROPERTIES FOLDER "nanomsg Targets")
+-endforeach(nanomsgTarget)
+-
+ function(link_broker whatIsBuilding)
+ 
+ target_link_libraries(${whatIsBuilding} ${NN_LIB_PATH} )
+-- 
+1.9.1
+
+
+

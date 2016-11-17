@@ -3,19 +3,13 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
-PR = "r2"
+PR = "r0"
 
 RDEPENDS_${PN} = "\
-	azure-iot-sdk \
-	azure-iot-sdk-dev \
-	azure-iot-sdk-samples \
+	azure-iot-sdk-c \
+	azure-iot-sdk-c-dev \
 	python-azure-iot-sdk \
 	node-red-contrib-azureiothubnode \
-	node-azure-iot-device \
-	node-azure-iot-device-amqp \
-	node-azure-iot-device-amqp-ws \
-	node-azure-iot-device-http \
-	node-azure-iot-device-mqtt \
 	node-iothub-explorer \
 	azure-iot-gateway-sdk \
 	azure-iot-gateway-sdk-dev \
@@ -31,6 +25,7 @@ PACKAGECONFIG[java] = "\
 	, \
 	, \
 	, \
-	azure-iot-gateway-sdk-java-binding \
-	iothub-java-device-client \
+	azure-iot-sdk-java \
+	azure-iot-gateway-sdk-java \
+	azure-iot-device-sdk-java \
 "
