@@ -18,7 +18,7 @@ SRC_URI += "\
 	file://Skip-nanomsg-build-if-provided.patch \
 "
 
-PR = "r0"
+PR = "r1"
 
 B = "${WORKDIR}/build"
 
@@ -60,7 +60,7 @@ PACKAGECONFIG ??= "java bluetooth"
 PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, openjdk-8-jdk azure-iot-gateway-sdk-java-binding"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
-EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNN_INCLUDE_DIR=${NN_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=ON -Dskip_unittests:BOOL=ON"
+EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNN_INCLUDE_DIR=${NN_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF -Dskip_unittests:BOOL=ON"
 
 do_configure_prepend() {
 	# Java
