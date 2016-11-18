@@ -23,11 +23,11 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 * `packagegroup-cloud-azure`
     * azure-iot-gateway-sdk
     * azure-iot-sdk
+    * azure-iot-device-sdk-java
     * python-azure-iot-sdk
-    * node-azure-iot-device
     * node-red-contrib-azureiothubnode
     * node-iothub-explorer
-    * iothub-java-device-client
+    * python-azure-cli
 * `node-red`
 * `node-red-contrib-upm`
 
