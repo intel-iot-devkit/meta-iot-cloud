@@ -57,7 +57,7 @@ JAVA_LIB_DIR = "${B}/bindings/java/"
 JDK_ARCH = "${@get_jdk_arch(d)}"
 
 PACKAGECONFIG ??= "java bluetooth"
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, icedtea7-native"
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8-jdk"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
 EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNN_INCLUDE_DIR=${NN_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=ON -Dskip_unittests:BOOL=ON"
@@ -65,7 +65,7 @@ EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNN_INCLUDE_DIR=${NN_
 do_configure_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${STAGING_LIBDIR_NATIVE}/jvm/icedtea7-native"
+		export JAVA_HOME="${STAGING_LIBDIR}/jvm/java-8-openjdk"
 	fi
 }
 
@@ -234,18 +234,13 @@ FILES_${PN}-samples-src += "\
 	${exec_prefix}/src/azureiot/ \
 "
 
-RDEPENDS_${PN}-java += "azure-iot-gateway-sdk-java-binding"
+RDEPENDS_${PN}-java += "openjdk-8-jdk azure-iot-gateway-sdk-java-binding"
 FILES_${PN}-java += "\
 	${exec_prefix}/lib/azureiot/bindings/java/*.so \
 "
 
-RRECOMMENDS_azure-iot-gateway-sdk-dev = "\
-	glibc-dev \
-	util-linux-dev \
-	curl-dev \
-	glib-2.0-dev \
-	azure-iot-sdk-c-dev \
-"
+RRECOMMENDS_azure-iot-gateway-sdk-dev = "glibc-dev util-linux-dev curl-dev glib-2.0-dev azure-iot-sdk-c-dev"
+
 RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_${PN} += "rpaths"

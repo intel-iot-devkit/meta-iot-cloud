@@ -90,10 +90,6 @@ FILES_${PN}-java += "\
 "
 INSANE_SKIP_${PN}-java += "rpaths"
 
-RRECOMMENDS_azure-iot-sdk-c-dev = "\
-	glibc-dev \
-	azure-c-shared-utility-dev \
-	azure-uamqp-c-dev \
-	azure-umqtt-c-dev \
-"
+RRECOMMENDS_azure-iot-sdk-c-dev = "glibc-dev azure-c-shared-utility-dev azure-uamqp-c-dev azure-umqtt-c-dev"
+
 RRECOMMENDS_azure-iot-sdk-c-dev[nodeprrecs] = "1"
