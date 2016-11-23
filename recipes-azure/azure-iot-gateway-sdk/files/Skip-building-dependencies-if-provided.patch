@@ -1,0 +1,261 @@
+From b7bb5a4a65620b55b4fa9ff16c38b24dd70e651b Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 23 Nov 2016 13:46:19 +0000
+Subject: [PATCH 2/2] Skip building dependencies if provided
+
+---
+ CMakeLists.txt                |  2 +-
+ core/CMakeLists.txt           |  4 +--
+ dependencies.cmake            | 27 +++++++++++-----
+ modules/ble/CMakeLists.txt    |  4 +--
+ modules/dependencies.cmake    | 72 +++++++++++++++++++++++++++++++------------
+ modules/iothub/CMakeLists.txt | 16 +++++-----
+ 6 files changed, 83 insertions(+), 42 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d3fe267..3f496ac 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -160,7 +160,7 @@ endif()
+ include(dependencies.cmake)
+ 
+ function(linkSharedUtil whatIsBuilding)
+-  target_link_libraries(${whatIsBuilding} aziotsharedutil)
++  target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB})
+ endfunction(linkSharedUtil)
+ 
+ #this adds parson
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index e52ac86..8d35076 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -7,8 +7,6 @@ if(POLICY CMP0054)
+ endif()
+ cmake_policy(SET CMP0022 NEW)
+ 
+-add_subdirectory(deps)
+-
+ #this sets a global var that stores where the includes for GW are
+ set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
+ set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
+@@ -148,7 +146,7 @@ add_library(gateway
+ if(WIN32)
+     target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
+ else()
+-    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway parson nanomsg ${SHARED_UTIL_LIB} ${dynamic_loader_library})
+ 
+     target_link_libraries(gateway ${NN_REQUIRED_LIBRARIES})
+     target_link_libraries(gateway m)
+diff --git a/dependencies.cmake b/dependencies.cmake
+index b961285..0a38812 100644
+--- a/dependencies.cmake
++++ b/dependencies.cmake
+@@ -10,13 +10,26 @@ include("gatewayFunctions.cmake")
+ ###############################################################################
+ ###################Find/Install/Build azure_c_shared_utility###################
+ ###############################################################################
+-findAndInstall(azure_c_shared_utility ${PROJECT_SOURCE_DIR}/deps/c-utility ${PROJECT_SOURCE_DIR}/deps/c-utility -Duse_installed_dependencies=ON -G "${CMAKE_GENERATOR}")
+-set(SHARED_UTIL_INC_FOLDER ${AZURE_C_SHARED_UTILITY_INCLUDE_DIR} CACHE INTERNAL "this is what needs to be included if using sharedLib lib" FORCE)
+-set(SHARED_UTIL_LIB_FOLDER ${AZURE_C_SHARED_LIBRARY_DIR} CACHE INTERNAL "this is what needs to be included if using sharedLib lib" FORCE)
+-set(SHARED_UTIL_LIB aziotsharedutil CACHE INTERNAL "this is what needs to be included if using sharedLib lib" FORCE)
+-set(SHARED_UTIL_SRC_FOLDER "${CMAKE_CURRENT_LIST_DIR}/deps/c-utility/src" CACHE INTERNAL "")
+-set(SHARED_UTIL_ADAPTER_FOLDER "${CMAKE_CURRENT_LIST_DIR}/deps/c-utility/adapters" CACHE INTERNAL "")
+-set_platform_files("${CMAKE_CURRENT_LIST_DIR}/deps/c-utility")
++find_library (SHARED_UTIL_LIB NAMES aziotsharedutil)
++if (SHARED_UTIL_LIB AND AZURE_INCLUDE_DIR)
++    set(SHARED_UTIL_FOUND 1)
++    set(SHARED_UTIL_INC_FOLDER ${AZURE_INCLUDE_DIR})
++
++    # Disable unit tests
++    set(skip_unittests ON)
++endif()
++
++if (NOT SHARED_UTIL_FOUND)
++    add_subdirectory(./deps/c-utility)
++    set(SHARED_UTIL_INC_FOLDER ${AZURE_C_SHARED_UTILITY_INCLUDE_DIR} CACHE INTERNAL "this is what needs to be included if using sharedLib lib" FORCE)
++    set(SHARED_UTIL_LIB_FOLDER ${AZURE_C_SHARED_LIBRARY_DIR} CACHE INTERNAL "this is what needs to be included if using sharedLib lib" FORCE)
++    set(SHARED_UTIL_LIB aziotsharedutil CACHE INTERNAL "this is what needs to be included if using sharedLib lib" FORCE)
++    set(SHARED_UTIL_SRC_FOLDER "${CMAKE_CURRENT_LIST_DIR}/deps/c-utility/src" CACHE INTERNAL "")
++    set(SHARED_UTIL_ADAPTER_FOLDER "${CMAKE_CURRENT_LIST_DIR}/deps/c-utility/adapters" CACHE INTERNAL "")
++    set_platform_files("${CMAKE_CURRENT_LIST_DIR}/deps/c-utility")
++endif()
++
++include_directories(${SHARED_UTIL_INC_FOLDER})
+ 
+ ###############################################################################
+ ##########################Find/Install/Build nanomsg###########################
+@@ -94,4 +105,4 @@ if(NOT EXISTS ${PROJECT_SOURCE_DIR}/deps/parson/parson.c)
+     if(${res})
+         message(FATAL_ERROR "Error pulling parson submodule: ${res}")
+     endif()
+-endif()
+\ No newline at end of file
++endif()
+diff --git a/modules/ble/CMakeLists.txt b/modules/ble/CMakeLists.txt
+index 9e284e5..5b49a1d 100644
+--- a/modules/ble/CMakeLists.txt
++++ b/modules/ble/CMakeLists.txt
+@@ -98,7 +98,7 @@ linkSharedUtil(ble)
+ # build ble as a static library
+ add_library(ble_static STATIC ${ble_sources} ${ble_headers})
+ target_compile_definitions(ble_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+-target_link_libraries(ble_static ${LIBS} iothub_service_client)
++target_link_libraries(ble_static ${LIBS} ${IOTHUB_SERVICE_CLIENT_LIB})
+ linkSharedUtil(ble_static)
+ 
+ # build ble C2D as a dynamic library
+@@ -109,7 +109,7 @@ linkSharedUtil(ble_c2d)
+ # build ble C2D as a static library
+ add_library(ble_c2d_static STATIC ${ble_c2d_sources} ${ble_c2d_headers})
+ target_compile_definitions(ble_c2d_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+-target_link_libraries(ble_c2d_static ${LIBS} iothub_service_client)
++target_link_libraries(ble_c2d_static ${LIBS} ${IOTHUB_SERVICE_CLIENT_LIB})
+ linkSharedUtil(ble_c2d_static)
+ 
+ add_module_to_solution(ble)
+diff --git a/modules/dependencies.cmake b/modules/dependencies.cmake
+index c71749d..469c1ec 100644
+--- a/modules/dependencies.cmake
++++ b/modules/dependencies.cmake
+@@ -6,34 +6,66 @@ include("../gatewayFunctions.cmake")
+ ###############################################################################
+ ###########################Find/Install/Build uamqp############################
+ ###############################################################################
+-findAndInstall(uamqp ${PROJECT_SOURCE_DIR}/deps/uamqp ${PROJECT_SOURCE_DIR}/deps/uamqp -Duse_installed_dependencies=ON -Dskip_unittests=ON -G "${CMAKE_GENERATOR}")
++find_library (UAMQP_LIB NAMES uamqp)
++
++# Check if uAMQP library is already provided
++if (UAMQP_LIB AND AZURE_INCLUDE_DIR AND IOTHUB_CLIENT_FOUND)
++    set(UAMQP_FOUND 1)
++    set(UAMQP_INC_FOLDER ${AZURE_INCLUDE_DIR})
++endif()
++
++if (NOT UAMQP_FOUND)
++    set(UAMQP_LIB uamqp)
++endif()
+ 
+ ###############################################################################
+ ###########################Find/Install/Build umqtt############################
+ ###############################################################################
+-findAndInstall(umqtt ${PROJECT_SOURCE_DIR}/deps/umqtt ${PROJECT_SOURCE_DIR}/deps/umqtt -Duse_installed_dependencies=ON -Dskip_unittests=ON -G "${CMAKE_GENERATOR}")
++find_library (MQTT_LIB NAMES umqtt)
++
++# Check if uMQTT library is already provided
++if (MQTT_LIB AND AZURE_INCLUDE_DIR AND IOTHUB_CLIENT_FOUND)
++    set(MQTT_FOUND 1)
++    set(MQTT_INC_FOLDER ${AZURE_INCLUDE_DIR})
++endif()
++
++if (NOT MQTT_FOUND)
++    set(MQTT_LIB umqtt)
++endif()
+ 
+ ###############################################################################
+ #######################Find/Install/Build azure_iot_sdks#######################
+ ###############################################################################
+-#The azure_iot_sdks repo requires special treatment. Parson submodule must be initialized.
+-if(NOT EXISTS ${PROJECT_SOURCE_DIR}/deps/iot-sdk/c/parson/README.md)
+-    execute_process(
+-        COMMAND git submodule update --init ${PROJECT_SOURCE_DIR}/deps/iot-sdk
+-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+-        RESULT_VARIABLE res
+-    
+-    )
+-    if(${res})
+-        message(FATAL_ERROR "Error pulling iot-sdk submodule: ${res}")
++find_library (IOTHUB_CLIENT_LIB NAMES iothub_client)
++find_library (IOTHUB_SERVICE_CLIENT_LIB NAMES iothub_service_client)
++find_library (IOTHUB_CLIENT_HTTP_LIB NAMES iothub_client_http_transport)
++find_library (IOTHUB_CLIENT_MQTT_LIB NAMES iothub_client_mqtt_transport)
++find_library (IOTHUB_CLIENT_AMQP_LIB NAMES iothub_client_amqp_transport)
++
++# Check if IoTHub Client libs are provided
++if (IOTHUB_CLIENT_LIB AND IOTHUB_SERVICE_CLIENT_LIB AND AZURE_INCLUDE_DIR)
++    set(IOTHUB_CLIENT_FOUND 1)
++    set(IOTHUB_CLIENT_INC_FOLDER ${AZURE_INCLUDE_DIR})
++
++    # Check which transports are available
++    if (IOTHUB_CLIENT_HTTP_LIB)
++	set(use_http ON)
+     endif()
+-    execute_process(
+-        COMMAND git submodule update --init c/parson
+-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/deps/iot-sdk
+-        RESULT_VARIABLE res
+-    )
+-    if(${res})
+-        message(FATAL_ERROR "Error pulling parson submodule: ${res}")
++
++    if (IOTHUB_CLIENT_MQTT_LIB)
++	set(use_mqtt ON)
+     endif()
++
++    if (IOTHUB_CLIENT_AMQP_LIB)
++	set(use_amqp ON)
++    endif()
++endif()
++
++if (NOT IOTHUB_CLIENT_FOUND)
++    add_subdirectory(./deps/iot-sdk/c)
++    set(IOTHUB_CLIENT_LIB iothub_client)
++    set(IOTHUB_SERVICE_CLIENT_LIB iothub_service_client)
++    set(IOTHUB_CLIENT_HTTP_LIB iothub_client_http_transport)
++    set(IOTHUB_CLIENT_MQTT_LIB iothub_client_mqtt_transport)
++    set(IOTHUB_CLIENT_AMQP_LIB iothub_client_amqp_transport)
+ endif()
+-findAndInstall(azure_iot_sdks ${PROJECT_SOURCE_DIR}/deps/iot-sdk ${PROJECT_SOURCE_DIR}/deps/iot-sdk/c -Duse_installed_dependencies=ON -Duse_openssl=OFF -Dskip_unittests=ON -G "${CMAKE_GENERATOR}")
+diff --git a/modules/iothub/CMakeLists.txt b/modules/iothub/CMakeLists.txt
+index 6a5aadb..01f605a 100644
+--- a/modules/iothub/CMakeLists.txt
++++ b/modules/iothub/CMakeLists.txt
+@@ -23,7 +23,7 @@ add_library(iothub MODULE
+ )
+ target_link_libraries(iothub
+     gateway
+-    iothub_client
++    ${IOTHUB_CLIENT_LIB}
+ )
+ 
+ #this builds the iothub static library
+@@ -34,12 +34,12 @@ add_library(iothub_static STATIC
+ target_compile_definitions(iothub_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+ target_link_libraries(iothub_static
+     gateway
+-    iothub_client
++    ${IOTHUB_CLIENT_LIB}
+ )
+ 
+ if(${use_amqp})
+-    target_link_libraries(iothub_static iothub_client_amqp_transport)
+-    target_link_libraries(iothub iothub_client_amqp_transport)
++    target_link_libraries(iothub_static ${IOTHUB_CLIENT_AMQP_LIB})
++    target_link_libraries(iothub ${IOTHUB_CLIENT_AMQP_LIB})
+     linkUAMQP(iothub_static)
+     linkUAMQP(iothub)
+ else()
+@@ -47,8 +47,8 @@ else()
+ endif()
+ 
+ if(${use_http})
+-    target_link_libraries(iothub_static iothub_client_http_transport)
+-    target_link_libraries(iothub iothub_client_http_transport)
++    target_link_libraries(iothub_static ${IOTHUB_CLIENT_HTTP_LIB})
++    target_link_libraries(iothub ${IOTHUB_CLIENT_HTTP_LIB})
+     linkHttp(iothub_static)
+     linkHttp(iothub)
+ else()
+@@ -56,8 +56,8 @@ else()
+ endif()
+ 
+ if(${use_mqtt})
+-    target_link_libraries(iothub_static iothub_client_mqtt_transport)
+-    target_link_libraries(iothub iothub_client_mqtt_transport)
++    target_link_libraries(iothub_static ${IOTHUB_CLIENT_MQTT_LIB})
++    target_link_libraries(iothub ${IOTHUB_CLIENT_MQTT_LIB})
+     linkMqttLibrary(iothub_static)
+     linkMqttLibrary(iothub)
+ else()
+-- 
+1.9.1
+

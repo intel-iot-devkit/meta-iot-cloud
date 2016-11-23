@@ -1,38 +1,38 @@
-From 25663be311cec6c865f3a4581f3400f8ac895be3 Mon Sep 17 00:00:00 2001
+From 3de0d47d10363566758697b3bd8579cef55a88d0 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 16 Nov 2016 19:22:08 +0000
-Subject: [PATCH 1/3] Update sample module paths
+Date: Wed, 23 Nov 2016 19:18:32 +0000
+Subject: [PATCH 9/9] Update sample module paths
 
 ---
  .../azure_functions_sample/src/azure_functions_lin.json  |  6 +++---
  samples/ble_gateway/src/gateway_sample.json              | 16 ++++++++--------
- samples/hello_world/src/hello_world_lin.json             |  4 ++--
- samples/java_sample/src/java_sample_lin.json             | 14 +++++++-------
+ samples/hello_world/src/hello_world_lin.json             |  6 +++---
  .../src/simulated_device_cloud_upload_lin.json           | 12 ++++++------
- 5 files changed, 26 insertions(+), 26 deletions(-)
+ 4 files changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/samples/azure_functions_sample/src/azure_functions_lin.json b/samples/azure_functions_sample/src/azure_functions_lin.json
-index b18ca21..91c45b6 100644
+index 5ca6384..d9af858 100644
 --- a/samples/azure_functions_sample/src/azure_functions_lin.json
 +++ b/samples/azure_functions_sample/src/azure_functions_lin.json
-@@ -3,14 +3,14 @@
-     {
-       "module name": "hello_world",
-       "loading args": {
--        "module path": "./modules/hello_world/libhello_world.so"
-+        "module path": "/usr/lib/azureiot/modules/hello_world/libhello_world.so"
+@@ -5,7 +5,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/hello_world/libhello_world.so"
++          "module.path": "/usr/lib/azureiot/modules/hello_world/libhello_world.so"
+         }
        },
        "args": null
-     },
-     {
-       "module name": "azure_functions",
-       "loading args": {
--        "module path": "./modules/azure_functions/libazure_functions.so"
-+        "module path": "/usr/lib/azureiot/modules/azure_functions/libazure_functions.so"
+@@ -15,7 +15,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/azure_functions/libazure_functions.so"
++          "module.path": "/usr/lib/azureiot/modules/azure_functions/libazure_functions.so"
+         }
        },
        "args": {
-         "hostname": "<YourHostNameHere from Functions Portal>",
-@@ -25,4 +25,4 @@
+@@ -31,4 +31,4 @@
        "sink": "azure_functions"
      }
    ]
@@ -40,190 +40,157 @@ index b18ca21..91c45b6 100644
 \ No newline at end of file
 +}
 diff --git a/samples/ble_gateway/src/gateway_sample.json b/samples/ble_gateway/src/gateway_sample.json
-index c461864..d0badd0 100644
+index eb1482d..9c57148 100644
 --- a/samples/ble_gateway/src/gateway_sample.json
 +++ b/samples/ble_gateway/src/gateway_sample.json
-@@ -3,7 +3,7 @@
-     {
-       "module name": "IoTHub",
-       "loading args": {
--        "module path": "<</path/to/libiothub.so>>"
-+        "module path": "/usr/lib/azureiot/modules/iothub/libiothub.so"
+@@ -5,7 +5,7 @@
+       "loader": {
+         "name" : "native",
+         "entrypoint" : {
+-          "module.path": "build/modules/iothub/libiothub.so"
++          "module.path": "/usr/lib/azureiot/modules/iothub/libiothub.so"
+         }
        },
        "args": {
-         "IoTHubName": "<<Azure IoT Hub Name>>",
-@@ -14,14 +14,14 @@
-     {
-       "module name": "BLE Printer",
-       "loading args": {
--        "module path": "<</path/to/libble_printer.so>>"
-+        "module path": "./libble_printer.so"
+@@ -19,7 +19,7 @@
+       "loader": {
+         "name" : "native",
+         "entrypoint" : {
+-          "module.path": "build/samples/ble_gateway/ble_printer/libble_printer.so"
++          "module.path": "./libble_printer.so"
+         }
        },
        "args": null
-     },
-     {
-       "module name": "mapping",
-       "loading args": {
--        "module path": "<</path/to/libidentity_map.so>>"
-+        "module path": "/usr/lib/azureiot/modules/identitymap/libidentity_map.so"
+@@ -29,7 +29,7 @@
+       "loader": {
+         "name" : "native",
+         "entrypoint" : {
+-          "module.path": "build/modules/identitymap/libidentity_map.so"
++          "module.path": "/usr/lib/azureiot/modules/identitymap/libidentity_map.so"
+         }
        },
        "args": [
-         {
-@@ -34,14 +34,14 @@
-     {
-       "module name": "BLEC2D",
-       "loading args": {
--        "module path": "<</path/to/libble_c2d.so>>"
-+        "module path": "/usr/lib/azureiot/modules/ble/libble_c2d.so"
+@@ -45,7 +45,7 @@
+       "loader": {
+         "name" : "native",
+         "entrypoint" : {
+-          "module.path": "build/modules/ble/libble_c2d.so"
++          "module.path": "/usr/lib/azureiot/modules/ble/libble_c2d.so"
+         }
        },
        "args": null
-     },
-     {
-       "module name": "SensorTag",
-       "loading args": {
--        "module path": "<</path/to/libble.so>>"
-+        "module path": "/usr/lib/azureiot/modules/ble/libble.so"
+@@ -55,7 +55,7 @@
+       "loader": {
+         "name" : "native",
+         "entrypoint" : {
+-          "module.path": "build/modules/ble/libble.so"
++          "module.path": "/usr/lib/azureiot/modules/ble/libble.so"
+         }
        },
        "args": {
-         "controller_index": 0,
-@@ -92,11 +92,11 @@
-     {
-       "module name": "Logger",
-       "loading args": {
--        "module path" : "<</path/to/liblogger.so>>"
-+        "module path" : "/usr/lib/azureiot/modules/logger/liblogger.so"
+@@ -109,11 +109,11 @@
+       "loader": {
+         "name" : "native",
+         "entrypoint" : {
+-          "module.path" : "build/modules/logger/liblogger.so"
++          "module.path" : "/usr/lib/azureiot/modules/logger/liblogger.so"
+         }
        },
-       "args":
-       {
+       "args": {
 -        "filename": "<</path/to/log-file.log>>"
 +        "filename": "log-file.log"
        }
      }
    ],
-@@ -109,4 +109,4 @@
-     {"source" : "mapping", "sink" : "BLEC2D" },
-     {"source" : "BLEC2D", "sink" : "SensorTag"}
+@@ -147,4 +147,4 @@
+       "sink": "SensorTag"
+     }
    ]
 -}
 \ No newline at end of file
 +}
 diff --git a/samples/hello_world/src/hello_world_lin.json b/samples/hello_world/src/hello_world_lin.json
-index 0a99eda..7c2aa5f 100644
+index e615e90..e04df34 100644
 --- a/samples/hello_world/src/hello_world_lin.json
 +++ b/samples/hello_world/src/hello_world_lin.json
-@@ -4,14 +4,14 @@
-         {
-             "module name" : "logger",
-             "loading args": {
--                "module path" : "./modules/logger/liblogger.so"
-+                "module path" : "/usr/lib/azureiot/modules/logger/liblogger.so"
-             },
-             "args" : {"filename":"log.txt"}
-         },
-         {
-             "module name" : "hello_world",
-             "loading args": {
--                "module path" : "./modules/hello_world/libhello_world.so"
-+                "module path" : "/usr/lib/azureiot/modules/hello_world/libhello_world.so"
-             },
-             "args" : null
+@@ -5,7 +5,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/logger/liblogger.so"
++          "module.path": "/usr/lib/azureiot/modules/logger/liblogger.so"
          }
-diff --git a/samples/java_sample/src/java_sample_lin.json b/samples/java_sample/src/java_sample_lin.json
-index 1530134..ab4f5ba 100644
---- a/samples/java_sample/src/java_sample_lin.json
-+++ b/samples/java_sample/src/java_sample_lin.json
-@@ -3,11 +3,11 @@
-     {
-       "module name": "java_printer",
-       "loading args": {
--        "module path": "../../bindings/java/libjava_module_host.so"
-+        "module path": "/usr/lib/azureiot/bindings/java/libjava_module_host.so"
        },
        "args": {
--        "class_path": "../../../samples/java_sample/java_modules/Printer/target/sample-printer-module-0.0.3-with-deps.jar:../../../samples/java_sample/java_modules/Sensor/target/sample-sensor-module-0.0.3-with-deps.jar",
--        "library_path": "../../bindings/java",
-+        "class_path": "/usr/lib/azureiot/modules/java/Printer/sample-printer-module-0.0.3.jar:/usr/lib/azureiot/modules/java/Sensor/sample-sensor-module-0.0.3.jar",
-+        "library_path": "/usr/lib/azureiot/bindings/java",
-         "class_name": "Printer",
-         "args": null,
-         "jvm_options": {
-@@ -24,11 +24,11 @@
-     {
-       "module name": "java_sensor",
-       "loading args": {
--        "module path": "../../bindings/java/libjava_module_host.so"
-+        "module path": "/usr/lib/azureiot/bindings/java/libjava_module_host.so"
+@@ -17,7 +17,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/hello_world/libhello_world.so"
++          "module.path": "/usr/lib/azureiot/modules/hello_world/libhello_world.so"
+         }
        },
-       "args": {
--        "class_path": "../../../samples/java_sample/java_modules/Printer/target/sample-printer-module-0.0.3-with-deps.jar:../../../samples/java_sample/java_modules/Sensor/target/sample-sensor-module-0.0.3-with-deps.jar",
--        "library_path": "../../bindings/java",
-+        "class_path": "/usr/lib/azureiot/modules/java/Printer/sample-printer-module-0.0.3.jar:/usr/lib/azureiot/modules/java/Sensor/sample-sensor-module-0.0.3.jar",
-+        "library_path": "/usr/lib/azureiot/bindings/java",
-         "class_name": "Sensor",
-         "args": null,
-         "jvm_options": {
-@@ -45,7 +45,7 @@
-     {
-       "module name": "logger",
-       "loading args": {
--        "module path": "../../modules/logger/liblogger.so"
-+        "module path": "/usr/lib/azureiot/modules/logger/liblogger.so"
-       },
-       "args": { "filename": "log.txt" }
+       "args": null
+@@ -29,4 +29,4 @@
+       "sink": "logger"
      }
+   ]
+-}
+\ No newline at end of file
++}
 diff --git a/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json b/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
-index 1a4d93e..da35d9d 100644
+index d9e5429..29954d6 100644
 --- a/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
 +++ b/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
-@@ -3,7 +3,7 @@
-         {
-             "module name": "IotHub",
-             "loading args": {
--                "module path": "./modules/iothub/libiothub.so"
-+                "module path": "/usr/lib/azureiot/modules/iothub/libiothub.so"
-             },
-             "args": {
-                 "IoTHubName": "<<insert here IoTHubName>>",
-@@ -14,7 +14,7 @@
-         {
-             "module name": "mapping",
-             "loading args": {
--                "module path": "./modules/identitymap/libidentity_map.so"
-+                "module path": "/usr/lib/azureiot/modules/identitymap/libidentity_map.so"
-             },
-             "args": [
-                 {
-@@ -32,7 +32,7 @@
-         {
-             "module name": "BLE1",
-             "loading args": {
--                "module path": "./modules/simulated_device/libsimulated_device.so"
-+                "module path": "/usr/lib/azureiot/modules/simulated_device/libsimulated_device.so"
-             },
-             "args": {
-                 "macAddress": "01:01:01:01:01:01"
-@@ -41,7 +41,7 @@
-         {
-             "module name": "BLE2",
-             "loading args": {
--                "module path": "./modules/simulated_device/libsimulated_device.so"
-+                "module path": "/usr/lib/azureiot/modules/simulated_device/libsimulated_device.so"
-             },
-             "args": {
-                 "macAddress": "02:02:02:02:02:02"
-@@ -50,7 +50,7 @@
-         {
-             "module name": "Logger",
-             "loading args": {
--                "module path": "./modules/logger/liblogger.so"
-+                "module path": "/usr/lib/azureiot/modules/logger/liblogger.so"
-             },
-             "args": {
-                 "filename": "deviceCloudUploadGatewaylog.log"
-@@ -75,4 +75,4 @@
-             "sink": "IotHub"
+@@ -5,7 +5,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/iothub/libiothub.so"
++          "module.path": "/usr/lib/azureiot/modules/iothub/libiothub.so"
          }
-     ]
+       },
+       "args": {
+@@ -19,7 +19,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/identitymap/libidentity_map.so"
++          "module.path": "/usr/lib/azureiot/modules/identitymap/libidentity_map.so"
+         }
+       },
+       "args": [
+@@ -40,7 +40,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/simulated_device/libsimulated_device.so"
++          "module.path": "/usr/lib/azureiot/modules/simulated_device/libsimulated_device.so"
+         }
+       },
+       "args": {
+@@ -52,7 +52,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/simulated_device/libsimulated_device.so"
++          "module.path": "/usr/lib/azureiot/modules/simulated_device/libsimulated_device.so"
+         }
+       },
+       "args": {
+@@ -64,7 +64,7 @@
+       "loader": {
+         "name": "native",
+         "entrypoint": {
+-          "module.path": "./modules/logger/liblogger.so"
++          "module.path": "/usr/lib/azureiot/modules/logger/liblogger.so"
+         }
+       },
+       "args": {
+@@ -90,4 +90,4 @@
+       "sink": "IotHub"
+     }
+   ]
 -}
 \ No newline at end of file
 +}

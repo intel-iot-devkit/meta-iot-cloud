@@ -1,38 +1,57 @@
-From 63e9e8d2e68a036a42195d876dd07bfaf5439dea Mon Sep 17 00:00:00 2001
+From 78d3fd8cc9815b59f80824ee0e5a8dc9986ada9c Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 16 Nov 2016 22:07:58 +0000
-Subject: [PATCH 4/4] Add missing cmake functions
+Date: Wed, 23 Nov 2016 14:01:56 +0000
+Subject: [PATCH 3/3] Add missing cmake functions
 
 ---
- CMakeLists.txt | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ CMakeLists.txt                |  2 ++
+ azure_iot_sdksFunctions.cmake | 66 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 azure_iot_sdksFunctions.cmake
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index fd8ee9e..ba96758 100644
+index 3f496ac..8632325 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -208,6 +208,57 @@ endif()
- #this makes available from now on the includes of azure-c-shared-utility
- include_directories(${SHARED_UTIL_INCLUDE_DIR})
+@@ -10,6 +10,8 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
  
+ include(GNUInstallDirs)
+ 
++include("azure_iot_sdksFunctions.cmake")
++
+ if(WIN32)
+     set(VERSION_PREFIX "${GATEWAY_VERSION}" CACHE PATH "Version Prefix")
+ else()
+diff --git a/azure_iot_sdksFunctions.cmake b/azure_iot_sdksFunctions.cmake
+new file mode 100644
+index 0000000..e36ceb4
+--- /dev/null
++++ b/azure_iot_sdksFunctions.cmake
+@@ -0,0 +1,66 @@
++#Copyright (c) Microsoft. All rights reserved.
++#Licensed under the MIT license. See LICENSE file in the project root for full license information.
++
 +function(linkUAMQP whatExecutableIsBuilding)
-+    include_directories(${UAMQP_INCLUDE_DIR})
++    include_directories(${UAMQP_INC_FOLDER})
 +    
 +    if(WIN32)
 +        #windows needs this define
 +        add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 +        add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
 +
-+        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ws2_32 secur32)
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB} ${SHARED_UTIL_LIB} ws2_32 secur32)
 +
 +        if(${use_openssl} OR ${use_wsio})
 +            target_link_libraries(${whatExecutableIsBuilding} $ENV{OpenSSLDir}/lib/ssleay32.lib $ENV{OpenSSLDir}/lib/libeay32.lib)
 +        
 +            file(COPY $ENV{OpenSSLDir}/bin/libeay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 +            file(COPY $ENV{OpenSSLDir}/bin/ssleay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
++
++            file(COPY $ENV{OpenSSLDir}/bin/libeay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
++            file(COPY $ENV{OpenSSLDir}/bin/ssleay32.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 +        endif()
 +    else()
-+        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB_PATH} ${SHARED_UTIL_LIB_PATH} ssl crypto)
++        target_link_libraries(${whatExecutableIsBuilding} ${UAMQP_LIB} ${SHARED_UTIL_LIB} ssl crypto)
 +    endif()
 +    
 +    if(${use_wsio})
@@ -41,12 +60,12 @@ index fd8ee9e..ba96758 100644
 +endfunction(linkUAMQP)
 +
 +function(includeMqtt)
-+    include_directories(${UMQTT_INCLUDE_DIR})
++    include_directories(${MQTT_INC_FOLDER})
 +endfunction(includeMqtt)
 +
 +function(linkMqttLibrary whatExecutableIsBuilding)
 +    includeMqtt()
-+    target_link_libraries(${whatExecutableIsBuilding} ${UMQTT_LIB_PATH})
++    target_link_libraries(${whatExecutableIsBuilding} ${UMQTT_LIB})
 +endfunction(linkMqttLibrary)
 +
 +function(includeHttp)
@@ -66,9 +85,15 @@ index fd8ee9e..ba96758 100644
 +    endif()
 +endfunction(linkHttp)
 +
- function(linkSharedUtil whatIsBuilding)
-   target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB_PATH})
- endfunction(linkSharedUtil)
++function(linkWebSockets whatExecutableIsBuilding)
++    if(${use_wsio})
++        target_link_libraries(${whatExecutableIsBuilding} websockets)
++    endif()
++endfunction(linkWebSockets)
++
++function(linkSharedUtil whatIsBuilding)
++    target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB})
++endfunction(linkSharedUtil)
 -- 
 1.9.1
 

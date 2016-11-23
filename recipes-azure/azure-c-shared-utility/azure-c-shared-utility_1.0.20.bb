@@ -16,9 +16,8 @@ RDEPENDS_${PN} = "\
 
 inherit cmake pkgconfig
 
-SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git \
-"
-SRCREV = "686c3dfdf98991506b95d7575386bb7486b06e72"
+SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git;branch=ga_release_utility"
+SRCREV = "bf0e1102cf3498e0999a1060ccc279fbef67c1dc"
 
 PR = "r0"
 
@@ -27,10 +26,13 @@ B = "${WORKDIR}/build"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
 
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_valgrind:BOOL=OFF -Dskip_unittests:BOOL=ON -Duse_http:BOOL=ON -Duse_condition:BOOL=ON -Duse_wsio:BOOL=OFF -Dnuget_e2e_tests:BOOL=OFF -Duse_socketio:BOOL=ON"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Drun_valgrind:BOOL=OFF -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 FILES_${PN} = "${libdir}/*.so"
-FILES_${PN}-dev += "${includedir}"
+FILES_${PN}-dev += "\
+	${includedir} \
+	${exec_prefix}/cmake \
+"
 FILES_${PN}-dbg += "${libdir}/.debug"
 
 RRECOMMENDS_azure-c-shared-utility-dev = "\

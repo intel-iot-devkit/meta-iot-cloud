@@ -10,12 +10,12 @@ DEPENDS = "\
 "
 
 SRC_URI += "\
-	file://Update-sample-module-paths.patch \
-	file://Skip-build-deps-if-provided.patch \
-	file://Add-Parson-to-gateway-lib.patch \
+	file://Skip-test-dependencies-if-requested.patch \
+	file://Skip-building-dependencies-if-provided.patch \
 	file://Add-missing-cmake-functions.patch \
-	file://Fix-gateway-target.patch \
-	file://Skip-nanomsg-build-if-provided.patch \
+	file://Skip-building-nanomsg-if-provided.patch \
+	file://Include-parson-with-main-library.patch \
+	file://Update-sample-module-paths.patch \
 "
 
 PR = "r1"
@@ -33,7 +33,7 @@ PACKAGES = "\
 "
 
 AZURE_INCLUDE_DIR = "${STAGING_INCDIR}/azureiot"
-NN_INCLUDE_DIR = "${STAGING_INCDIR}/nanomsg"
+NANOMSG_INCLUDE_DIR = "${STAGING_INCDIR}/nanomsg"
 
 ## Java ##
 def get_jdk_arch(d):
@@ -60,9 +60,16 @@ PACKAGECONFIG ??= "java bluetooth"
 PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, openjdk-8-jdk azure-iot-gateway-sdk-java-binding"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
-EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNN_INCLUDE_DIR=${NN_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Drun_e2e_tests:BOOL=OFF -Drun_valgrind:BOOL=0 -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF -Dskip_unittests:BOOL=ON"
+EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNANOMSG_INC_FOLDER=${NANOMSG_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF -Dskip_unittests:BOOL=ON"
 
 do_configure_prepend() {
+	# Java
+	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
+		export JAVA_HOME="${STAGING_LIBDIR}/jvm/java-8-openjdk"
+	fi
+}
+
+do_compile_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${STAGING_LIBDIR}/jvm/java-8-openjdk"
@@ -77,6 +84,11 @@ do_install() {
 	install -d ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/*.h ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/linux/*.h ${D}${includedir}/azureiot
+	install -m 0644 ${S}/core/inc/module_loaders/dynamic_loader.h ${D}${includedir}/azureiot
+	
+	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
+		install -m 0644 ${S}/core/inc/module_loaders/java_loader.h ${D}${includedir}/azureiot
+	fi
 
 	# Modules
 	install -d ${D}${includedir}/azureiot/modules/common
@@ -140,29 +152,29 @@ do_install() {
 	install -m 0755 ${B}/samples/azure_functions_sample/azure_functions_sample ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions/azure_functions
 	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions/azure_functions.json
 
-	install -d ${D}${exec_prefix}/src/azureiot/samples/azure_functions/src
-	install -m 0644 ${S}/samples/azure_functions_sample/src/*.c ${D}${exec_prefix}/src/azureiot/samples/azure_functions/src/
-	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${exec_prefix}/src/azureiot/samples/azure_functions/src/azure_functions.json
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src
+	install -m 0644 ${S}/samples/azure_functions_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src/
+	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src/azure_functions.json
 
 	# Hello World Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/hello_world
 	install -m 0755 ${B}/samples/hello_world/hello_world_sample ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world
 	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world.json
 
-	install -d ${D}${exec_prefix}/src/azureiot/samples/hello_world/src
-	install -m 0644 ${S}/samples/hello_world/src/*.c ${D}${exec_prefix}/src/azureiot/samples/hello_world/src/
-	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${exec_prefix}/src/azureiot/samples/hello_world/src/hello_world.json
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src
+	install -m 0644 ${S}/samples/hello_world/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/
+	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/hello_world.json
 
 	# Simulated Device Cloud Upload Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload
 	install -m 0755 ${B}/samples/simulated_device_cloud_upload/simulated_device_cloud_upload_sample ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload
 	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload.json
 
-	install -d ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/src
-	install -d ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/inc
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/*.c ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/src/
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/inc/*.h ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/inc/
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${exec_prefix}/src/azureiot/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload.json
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc/
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload.json
 
 	# BLE Gateway Sample
 	if [ -e ${B}/samples/ble_gateway/ ]; then
@@ -171,13 +183,13 @@ do_install() {
 		install -m 0644 ${B}/samples/ble_gateway/ble_printer/libble_printer.so ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway/
 		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway/ble_gateway.json
 
-		install -d ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/src
-		install -d ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/src
-		install -d ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/inc
-		install -m 0644 ${S}/samples/ble_gateway/src/*.c ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/src/
-		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/src/gateway.json
-		install -m 0644 ${S}/samples/ble_gateway/ble_printer/src/*.c ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/src/
-		install -m 0644 ${S}/samples/ble_gateway/ble_printer/inc/*.h ${D}${exec_prefix}/src/azureiot/samples/ble_gateway/ble_printer/inc/
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/src
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/ble_printer/src
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/ble_printer/inc
+		install -m 0644 ${S}/samples/ble_gateway/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/src/
+		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/src/gateway.json
+		install -m 0644 ${S}/samples/ble_gateway/ble_printer/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/ble_printer/src/
+		install -m 0644 ${S}/samples/ble_gateway/ble_printer/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/ble_printer/inc/
 	fi
 
 	# Java
@@ -231,7 +243,7 @@ FILES_${PN}-samples += "\
 "
 
 FILES_${PN}-samples-src += "\
-	${exec_prefix}/src/azureiot/ \
+	${exec_prefix}/src/azureiotgatewaysdk/ \
 "
 
 FILES_${PN}-java += "\

@@ -1,0 +1,87 @@
+From 7942dc07cd3e286b4f72d386e6f0c9d917435a27 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 23 Nov 2016 18:27:10 +0000
+Subject: [PATCH 7/7] Include parson with main library
+
+---
+ core/CMakeLists.txt      | 14 ++++++++++++--
+ core/deps/CMakeLists.txt | 30 ------------------------------
+ 2 files changed, 12 insertions(+), 32 deletions(-)
+ delete mode 100644 core/deps/CMakeLists.txt
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index f119475..153f42b 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -47,6 +47,14 @@ endfunction(linkHttp)
+ function(includeHttp)
+ endfunction(includeHttp)
+ 
++set(parson_c_sources
++    ../deps/parson/parson.c
++)
++
++set(parson_h_sources
++    ../deps/parson/parson.h
++)
++
+ set(gateway_c_sources
+     ./src/message.c
+     ./src/internal/event_system.c
+@@ -134,12 +142,14 @@ include_directories(./inc)
+ add_library(gateway
+     ${gateway_c_sources}
+     ${gateway_h_sources}
++    ${parson_c_sources}
++    ${parson_h_sources}
+ )
+ 
+ if(WIN32)
+-    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway nanomsg aziotsharedutil ${dynamic_loader_library})
+ else()
+-    target_link_libraries(gateway parson ${NANOMSG_LIB} ${SHARED_UTIL_LIB} ${dynamic_loader_library})
++    target_link_libraries(gateway ${NANOMSG_LIB} ${SHARED_UTIL_LIB} ${dynamic_loader_library})
+     target_link_libraries(gateway m)
+ endif()
+ 
+diff --git a/core/deps/CMakeLists.txt b/core/deps/CMakeLists.txt
+deleted file mode 100644
+index 2ebea5f..0000000
+--- a/core/deps/CMakeLists.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-#Copyright (c) Microsoft. All rights reserved.
+-#Licensed under the MIT license. See LICENSE file in the project root for full license information.
+-
+-cmake_minimum_required(VERSION 2.8.11)
+-cmake_policy(SET CMP0022 NEW)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS)
+-
+-set(parson_c_sources
+-    ../../deps/parson/parson.c
+-)
+-
+-set(parson_h_sources
+-    ../../deps/parson/parson.h
+-)
+-
+-include_directories(../../deps/parson)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS) 
+-
+-add_library(parson
+-    ${parson_c_sources}
+-    ${parson_h_sources}
+-)
+-
+-install(TARGETS parson EXPORT gatewayTargets
+-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}/../bin
+-)
+\ No newline at end of file
+-- 
+1.9.1
+
