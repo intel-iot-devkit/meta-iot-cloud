@@ -19,7 +19,7 @@ inherit cmake pkgconfig
 SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git;branch=ga_release_utility"
 SRCREV = "bf0e1102cf3498e0999a1060ccc279fbef67c1dc"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
