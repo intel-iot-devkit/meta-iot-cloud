@@ -35,13 +35,6 @@ FILES_${PN}-dev += "\
 "
 FILES_${PN}-dbg += "${libdir}/.debug"
 
-RRECOMMENDS_azure-c-shared-utility-dev = "\
-	glibc-dev \
-	curl-dev \
-	libcurl-dev \
-	openssl-dev \
-	util-linux-libuuid-dev \
-	cryptodev-linux-dev \
-"
+RRECOMMENDS_azure-c-shared-utility-dev = "glibc-dev curl-dev openssl-dev util-linux-libuuid-dev cryptodev-linux-dev"
 
 RRECOMMENDS_azure-c-shared-utility-dev[nodeprrecs] = "1"
