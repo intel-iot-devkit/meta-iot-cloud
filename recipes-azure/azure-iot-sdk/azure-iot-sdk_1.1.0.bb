@@ -10,7 +10,7 @@ SRC_URI += "\
 	file://Skip-building-dependencies-if-provided.patch \
 "
 
-PR = "r0"
+PR = "r1"
 
 B = "${WORKDIR}/build"
 
@@ -59,6 +59,7 @@ FILES_${PN}-c = "\
 	${libdir}/libiothub_client_mqtt_transport.so \
 	${libdir}/libiothub_client_amqp_transport.so \
 "
+RDEPENDS_${PN}-c-dev += "azure-iot-sdk-c"
 FILES_${PN}-c-dev += "\
 	${includedir} \
 	${exec_prefix}/cmake \
