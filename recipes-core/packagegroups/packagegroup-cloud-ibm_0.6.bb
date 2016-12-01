@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
-PR = "r2"
+PR = "r0"
 
 RDEPENDS_${PN} = "\
 	ibm-iotf-embeddedc \
@@ -11,7 +11,6 @@ RDEPENDS_${PN} = "\
 	ibm-iotf-embeddedc-samples \
 	node-red-contrib-ibm-watson-iot \
 	python-ibmiotf \
-	node-ibmiotf \
 "
 
 PACKAGES = "${PN}"
