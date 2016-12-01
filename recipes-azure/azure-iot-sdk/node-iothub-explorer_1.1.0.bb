@@ -5,7 +5,7 @@ require azure-iot-sdk.inc
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash"
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "\
 	${PN} \
@@ -14,8 +14,8 @@ PACKAGES = "\
 ## NPM ##
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
-NPM_REGISTRY ?= "https://registry.npmjs.org/"
-NPM_INSTALL_FLAGS ?= "--production --no-optional --verbose"
+NPM_REGISTRY ?= "http://registry.npmjs.org/"
+NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verbose"
 
 SRC_DIR = "${S}/tools/iothub-explorer"
 SRC_NAME = "iothub-explorer"
@@ -26,6 +26,7 @@ do_compile() {
 	cd ${SRC_DIR}
 	npm cache clear
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+	npm prune --production
 
 	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
 	find ${S}/tools/iothub-explorer -type f -name "switch-bench.js" -exec rm -f {} \;

@@ -7,7 +7,7 @@ RDEPENDS_${PN} = "bash python nodejs"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-PR = "r0"
+PR = "r1"
 
 SRC_URI = "https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
 	   file://node-red.service \
@@ -20,8 +20,8 @@ S = "${WORKDIR}/${PN}-${PV}"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
-NPM_REGISTRY ?= "https://registry.npmjs.org/"
-NPM_INSTALL_FLAGS ?= "--production --no-optional"
+NPM_REGISTRY ?= "http://registry.npmjs.org/"
+NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verbose"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"

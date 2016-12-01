@@ -11,7 +11,7 @@ SRC_NAME = "iot-nodered"
 SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git;branch=master"
 SRCREV = "aa4a3c4a3d3a1d0d7f36f85adb26522d4868bc0e"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 
@@ -20,8 +20,8 @@ IBM_WATSON_IOT = "${S}/node-red-contrib-ibm-watson-iot"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
-NPM_REGISTRY ?= "https://registry.npmjs.org/"
-NPM_INSTALL_FLAGS = "--production"
+NPM_REGISTRY ?= "http://registry.npmjs.org/"
+NPM_INSTALL_FLAGS = "--production --without-ssl --insecure --no-optional --verbose"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -31,6 +31,7 @@ do_compile() {
 
 	cd ${IBM_WATSON_IOT}
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+	npm prune --production
 }
 
 do_install() {
