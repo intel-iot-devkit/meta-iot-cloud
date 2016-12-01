@@ -17,8 +17,8 @@ S = "${WORKDIR}/git"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
-NPM_REGISTRY ?= "https://registry.npmjs.org/"
-NPM_INSTALL_FLAGS = "--production"
+NPM_REGISTRY ?= "http://registry.npmjs.org/"
+NPM_INSTALL_FLAGS = "--production --without-ssl --insecure"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -26,8 +26,7 @@ do_compile() {
 	# Clear cache
 	npm cache clear
 
-	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} install
-	npm prune ${NPM_INSTALL_FLAGS}
+	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
 }
 
 do_install() {
