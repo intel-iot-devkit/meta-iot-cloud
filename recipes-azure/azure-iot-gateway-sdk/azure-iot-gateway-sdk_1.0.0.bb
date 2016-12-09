@@ -18,7 +18,7 @@ SRC_URI += "\
 	file://Update-sample-module-paths.patch \
 "
 
-PR = "r1"
+PR = "r2"
 
 B = "${WORKDIR}/build"
 
@@ -27,6 +27,7 @@ PACKAGES = "\
 	${PN}-dev \
 	${PN}-dbg \
 	${PN}-modules \
+	${PN}-modules-src \
 	${PN}-samples \
 	${PN}-samples-src \
 	${PN}-java \
@@ -94,12 +95,20 @@ do_install() {
 	install -d ${D}${includedir}/azureiot/modules/common
 	install -m 0644 ${S}/modules/common/*.h ${D}${includedir}/azureiot/modules/common
 
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/common
+	install -m 0644 ${S}/modules/common/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/common/
+
 	# Azure Functions Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/azure_functions
 	oe_libinstall -C ${B}/modules/azure_functions/ -so libazure_functions ${D}${exec_prefix}/lib/azureiot/modules/azure_functions/
 
 	install -d ${D}${includedir}/azureiot/modules/azure_functions
 	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${includedir}/azureiot/modules/azure_functions
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/inc
+	install -m 0644 ${S}/modules/azure_functions/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/src/
+	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/inc/
 
 	# BLE Module
 	if [ -e ${B}/modules/ble/ ]; then
@@ -110,6 +119,16 @@ do_install() {
 		install -d ${D}${includedir}/azureiot/modules/ble
 		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiot/modules/ble
 		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${includedir}/azureiot/modules/ble
+
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/src
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/inc
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/deps/dbus-bluez/src
+		install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/deps/dbus-bluez/inc
+		install -m 0644 ${S}/modules/ble/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/src/
+		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/inc/
+		install -m 0644 ${S}/modules/ble/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/src/
+		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/deps/dbus-bluez/src/
+		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/deps/dbus-bluez/inc/
 	fi
 
 	# Hello World Module
@@ -119,12 +138,22 @@ do_install() {
 	install -d ${D}${includedir}/azureiot/modules/hello_world
 	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${includedir}/azureiot/modules/hello_world
 
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/inc
+	install -m 0644 ${S}/modules/hello_world/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/src/
+	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/inc/
+
 	# Identity Map Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/identitymap
 	oe_libinstall -C ${B}/modules/identitymap/ -so libidentity_map ${D}${exec_prefix}/lib/azureiot/modules/identitymap/
 	
 	install -d ${D}${includedir}/azureiot/modules/identitymap
 	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${includedir}/azureiot/modules/identitymap
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/inc
+	install -m 0644 ${S}/modules/identitymap/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/src/
+	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/inc/
 
 	# IoT Hub Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/iothub
@@ -133,6 +162,11 @@ do_install() {
 	install -d ${D}${includedir}/azureiot/modules/iothub
 	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${includedir}/azureiot/modules/iothub
 
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/inc
+	install -m 0644 ${S}/modules/iothub/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/src/
+	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/inc/
+
 	# Logger Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/logger
 	oe_libinstall -C ${B}/modules/logger/ -so liblogger ${D}${exec_prefix}/lib/azureiot/modules/logger/
@@ -140,12 +174,22 @@ do_install() {
 	install -d ${D}${includedir}/azureiot/modules/logger
 	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${includedir}/azureiot/modules/logger
 
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/inc
+	install -m 0644 ${S}/modules/logger/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/src/
+	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/inc/
+
 	# Simulated Device Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/simulated_device
 	oe_libinstall -C ${B}/modules/simulated_device/ -so libsimulated_device ${D}${exec_prefix}/lib/azureiot/modules/simulated_device/
 
 	install -d ${D}${includedir}/azureiot/modules/simulated_device
 	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${includedir}/azureiot/modules/simulated_device
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/inc
+	install -m 0644 ${S}/modules/simulated_device/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/src/
+	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/inc/
 
 	# Azure Functions Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions
@@ -234,6 +278,10 @@ FILES_${PN}-modules += "\
 	${exec_prefix}/lib/azureiot/modules/simulated_device/libsimulated_device.so \
 "
 
+FILES_${PN}-modules-src += "\
+	${exec_prefix}/src/azureiotgatewaysdk/modules \
+"
+
 RDEPENDS_${PN}-samples += "azure-iot-gateway-sdk-modules"
 FILES_${PN}-samples += "\
 	${datadir}/azureiotgatewaysdk/samples/azure_functions/* \
@@ -243,7 +291,7 @@ FILES_${PN}-samples += "\
 "
 
 FILES_${PN}-samples-src += "\
-	${exec_prefix}/src/azureiotgatewaysdk/ \
+	${exec_prefix}/src/azureiotgatewaysdk/samples \
 "
 
 FILES_${PN}-java += "\
