@@ -43,11 +43,8 @@ MQTT_SRC_FILES += $(shell find $(MQTT_EMB_DIR)/ -name '*.c')
 MQTT_SRC_FILES += $(MQTT_C_DIR)/MQTTClient.c
 
 #TLS - openSSL
-TLS_LIB_DIR = /usr/lib/
-TLS_INCLUDE_DIR = -I /usr/include/openssl
-EXTERNAL_LIBS += -L$(TLS_LIB_DIR)
 LD_FLAG := -ldl -lssl -lcrypto
-LD_FLAG += -Wl,-rpath,$(TLS_LIB_DIR)
+LD_FLAG += -Wl,-rpath
 
 #Aggregate all include and src directories
 INCLUDE_ALL_DIRS += $(IOT_INCLUDE_DIRS) 
@@ -74,7 +71,7 @@ libawsiotsdk.so: $(SRC_FILES:.c=.o)
 	$(CC) -shared -Wl,-soname,$@ -o $@ $^
 
 %.o : %.c
-	$(CC) -c -fPIC $< -o $@ $(COMPILER_FLAGS) $(EXTERNAL_LIBS) $(INCLUDE_ALL_DIRS)
+	$(CC) -c -fPIC $< -o $@ $(COMPILER_FLAGS) $(INCLUDE_ALL_DIRS)
 	
 clean:
 	rm libawsiotsdk.so
