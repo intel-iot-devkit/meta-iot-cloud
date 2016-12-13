@@ -6,7 +6,6 @@ inherit packagegroup
 RDEPENDS_${PN} = "\
 	aws-iot-device-sdk-embedded-c \
 	aws-iot-device-sdk-embedded-c-dev \
-	aws-iot-device-sdk-embedded-c-samples \
 	python-aws-iot-device-sdk \
 	python-aws-iot-device-sdk-samples \
 	python-awscli \
