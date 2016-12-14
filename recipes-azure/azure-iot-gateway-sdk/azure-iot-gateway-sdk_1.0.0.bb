@@ -29,7 +29,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r3"
+PR = "r4"
 
 B = "${WORKDIR}/build"
 
