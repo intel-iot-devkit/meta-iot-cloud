@@ -16,9 +16,20 @@ SRC_URI += "\
 	file://Skip-building-nanomsg-if-provided.patch \
 	file://Include-parson-with-main-library.patch \
 	file://Update-sample-module-paths.patch \
+	file://azure-functions-sample.sh \
+	file://ble-gateway-sample.sh \
+	file://hello-world-sample.sh \
+	file://simulated-device-cloud-upload-sample.sh \
+	file://azure-functions-module.sh \
+	file://ble-module.sh \
+	file://hello-world-module.sh \
+	file://identitymap-module.sh \
+	file://iothub-module.sh \
+	file://logger-module.sh \
+	file://simulated-device-module.sh \
 "
 
-PR = "r2"
+PR = "r3"
 
 B = "${WORKDIR}/build"
 
@@ -109,6 +120,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/inc
 	install -m 0644 ${S}/modules/azure_functions/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/src/
 	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/inc/
+	install -m 0755 ${WORKDIR}/azure-functions-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/azure_functions/build.sh
 
 	# BLE Module
 	if [ -e ${B}/modules/ble/ ]; then
@@ -129,6 +141,7 @@ do_install() {
 		install -m 0644 ${S}/modules/ble/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/src/
 		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/deps/dbus-bluez/src/
 		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/deps/dbus-bluez/inc/
+		install -m 0755 ${WORKDIR}/ble-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/ble/build.sh
 	fi
 
 	# Hello World Module
@@ -142,6 +155,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/inc
 	install -m 0644 ${S}/modules/hello_world/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/src/
 	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/inc/
+	install -m 0755 ${WORKDIR}/hello-world-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/hello_world/build.sh
 
 	# Identity Map Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/identitymap
@@ -154,6 +168,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/inc
 	install -m 0644 ${S}/modules/identitymap/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/src/
 	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/inc/
+	install -m 0755 ${WORKDIR}/identitymap-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/identitymap/build.sh
 
 	# IoT Hub Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/iothub
@@ -166,6 +181,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/inc
 	install -m 0644 ${S}/modules/iothub/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/src/
 	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/inc/
+	install -m 0755 ${WORKDIR}/iothub-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/iothub/build.sh
 
 	# Logger Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/logger
@@ -178,6 +194,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/inc
 	install -m 0644 ${S}/modules/logger/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/src/
 	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/inc/
+	install -m 0755 ${WORKDIR}/logger-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/logger/build.sh
 
 	# Simulated Device Module
 	install -d ${D}${exec_prefix}/lib/azureiot/modules/simulated_device
@@ -190,6 +207,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/inc
 	install -m 0644 ${S}/modules/simulated_device/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/src/
 	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/inc/
+	install -m 0755 ${WORKDIR}/simulated-device-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/build.sh
 
 	# Azure Functions Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions
@@ -199,6 +217,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src
 	install -m 0644 ${S}/samples/azure_functions_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src/
 	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src/azure_functions.json
+	install -m 0755 ${WORKDIR}/azure-functions-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/build.sh
 
 	# Hello World Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/hello_world
@@ -208,6 +227,7 @@ do_install() {
 	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src
 	install -m 0644 ${S}/samples/hello_world/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/
 	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/hello_world.json
+	install -m 0755 ${WORKDIR}/hello-world-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/build.sh
 
 	# Simulated Device Cloud Upload Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload
@@ -219,6 +239,7 @@ do_install() {
 	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/
 	install -m 0644 ${S}/samples/simulated_device_cloud_upload/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc/
 	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload.json
+	install -m 0755 ${WORKDIR}/simulated-device-cloud-upload-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/build.sh
 
 	# BLE Gateway Sample
 	if [ -e ${B}/samples/ble_gateway/ ]; then
@@ -234,6 +255,7 @@ do_install() {
 		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/src/gateway.json
 		install -m 0644 ${S}/samples/ble_gateway/ble_printer/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/ble_printer/src/
 		install -m 0644 ${S}/samples/ble_gateway/ble_printer/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/ble_printer/inc/
+		install -m 0755 ${WORKDIR}/ble-gateway-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/build.sh
 	fi
 
 	# Java
