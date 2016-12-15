@@ -13,7 +13,7 @@ SRC_NAME = "iot-embeddedc"
 SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git"
 SRCREV = "faf6a55db206b64a75184b3b1108188f8082c6e8"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 
