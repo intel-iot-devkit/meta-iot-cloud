@@ -12,7 +12,7 @@ SRC_URI = "\
 SRC_URI[md5sum] = "516923b3955b6035ba6b0a5b031fbd8b"
 SRC_URI[sha256sum] = "6e3e9c949ab4695a204f74038717aa7b2689b1be94875899ac1b3fe42800ff82"
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
@@ -24,11 +24,26 @@ do_configure() {
 }
 
 do_install() {
-    install -d -m 0755 ${D}${libdir}/${PN}
-    cp -ar * ${D}${libdir}/${PN}
+	install -d ${D}${libdir}/${PN}/bin
+	install -m 0755 ${S}/bin/mvn ${D}${libdir}/${PN}/bin/
+	install -m 0755 ${S}/bin/mvnDebug ${D}${libdir}/${PN}/bin/
+	install -m 0755 ${S}/bin/mvnyjp ${D}${libdir}/${PN}/bin/
+	install -m 0644 ${S}/bin/m2.conf ${D}${libdir}/${PN}/bin/
 
-    install -d -m 0755 ${D}${bindir}
-    ln -sf ${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn 
+	install -d ${D}${libdir}/${PN}/boot
+	install -m 0644 ${S}/boot/* ${D}${libdir}/${PN}/boot/
+
+	install -d ${D}${libdir}/${PN}/conf
+	install -d ${D}${libdir}/${PN}/conf/logging
+	install -m 0644 ${S}/conf/*.xml ${D}${libdir}/${PN}/conf/
+	install -m 0644 ${S}/conf/logging/* ${D}${libdir}/${PN}/conf/logging/
+
+	install -d ${D}${libdir}/${PN}/lib
+	install -m 0644 ${S}/lib/*.jar ${D}${libdir}/${PN}/lib/
+	install -m 0644 ${S}/lib/*.license ${D}${libdir}/${PN}/lib/
+
+	install -d ${D}${bindir}
+	ln -sf ${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn 
 }
 
 FILES_${PN} = "\
