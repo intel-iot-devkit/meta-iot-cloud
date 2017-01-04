@@ -15,6 +15,7 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * python-ibmiotf
 * `packagegroup-cloud-aws`
     * aws-iot-device-sdk-embedded-c
+    * aws-iot-device-sdk-cpp
     * aws-iot-device-sdk-java
     * python-awscli
     * python-aws-iot-device-sdk
