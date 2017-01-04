@@ -15,11 +15,21 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "java"
+PACKAGECONFIG ??= "java cpp"
 PACKAGECONFIG[java] = "\
 	, \
 	, \
 	, \
 	aws-iot-device-sdk-java \
 	aws-iot-device-sdk-java-samples \
+"
+
+PACKAGECONFIG[cpp] = "\
+	, \
+	, \
+	, \
+	aws-iot-device-sdk-cpp \
+	aws-iot-device-sdk-cpp-dev \
+	aws-iot-device-sdk-cpp-cli \
+	aws-iot-device-sdk-cpp-samples \
 "
