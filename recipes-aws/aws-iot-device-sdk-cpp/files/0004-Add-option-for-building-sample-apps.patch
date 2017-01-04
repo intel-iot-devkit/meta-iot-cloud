@@ -1,0 +1,35 @@
+From 9cb781b02f3b23c6f25d291e72edf14cd7236a9e Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 4 Jan 2017 12:17:24 +0000
+Subject: [PATCH 4/4] Add option for building sample apps
+
+---
+ CMakeLists.txt | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dbd1d2c..0a26e97 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,6 +10,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+ endif()
+ 
+ option(BUILD_DOCS "Create HTML based API documentation (requires Doxygen)" OFF)
++option(BUILD_SAMPLES "Build sample apps" ON)
+ option(RUN_TESTS "Run unit and integration tests" OFF)
+ 
+ ########################################
+@@ -127,6 +128,7 @@ if(RUN_TESTS)
+ 	add_subdirectory(tests/unit)
+ endif()
+ 
+-add_subdirectory(samples/PubSub)
+-
+-add_subdirectory(samples/ShadowDelta)
++if(BUILD_SAMPLES)
++	add_subdirectory(samples/PubSub)
++	add_subdirectory(samples/ShadowDelta)
++endif()
+-- 
+1.9.1
+

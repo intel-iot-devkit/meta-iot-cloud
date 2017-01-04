@@ -1,0 +1,71 @@
+From 4c0fc7825c8b2dadc3a1d61e24eb7b18853ee782 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 4 Jan 2017 11:23:17 +0000
+Subject: [PATCH 2/4] Don't build RapidJSON if it is already provided
+
+---
+ CMakeLists.txt                     | 9 ++-------
+ cli/CMakeLists.txt                 | 1 -
+ samples/PubSub/CMakeLists.txt      | 1 -
+ samples/ShadowDelta/CMakeLists.txt | 1 -
+ 4 files changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index acec94d..62166db 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,13 +42,8 @@ endif()
+ set(SDK_TARGET_NAME aws-iot-sdk-cpp)
+ add_library(${SDK_TARGET_NAME} "")
+ 
+-# Download and include rapidjson, not optional
+-configure_file(CMakeLists-rapidjson.txt.in ${CMAKE_BINARY_DIR}/third_party/rapidjson/download/CMakeLists.txt)
+-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+-		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/third_party/rapidjson/download)
+-execute_process(COMMAND ${CMAKE_COMMAND} --build .
+-		WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/third_party/rapidjson/download)
+-target_include_directories(${SDK_TARGET_NAME} PRIVATE ${CMAKE_BINARY_DIR}/third_party/rapidjson/src/include)
++# Include rapidjson, not optional
++find_package(RapidJSON REQUIRED)
+ 
+ # Get Common SDK Sources
+ file(GLOB_RECURSE SDK_SOURCES FOLLOW_SYMLINKS ${CMAKE_SOURCE_DIR}/src/*.cpp)
+diff --git a/cli/CMakeLists.txt b/cli/CMakeLists.txt
+index bc63592..841bea2 100644
+--- a/cli/CMakeLists.txt
++++ b/cli/CMakeLists.txt
+@@ -48,7 +48,6 @@ target_include_directories(${CLI_TARGET_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/cli)
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${CLI_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/third_party/rapidjson/src/include)
+ target_include_directories(${CLI_TARGET_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+ 
+ target_link_libraries(${CLI_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/PubSub/CMakeLists.txt b/samples/PubSub/CMakeLists.txt
+index ed1d97a..1abb877 100644
+--- a/samples/PubSub/CMakeLists.txt
++++ b/samples/PubSub/CMakeLists.txt
+@@ -47,7 +47,6 @@ target_include_directories(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_SOURCE_D
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/third_party/rapidjson/src/include)
+ target_include_directories(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+ 
+ target_link_libraries(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/ShadowDelta/CMakeLists.txt b/samples/ShadowDelta/CMakeLists.txt
+index 9ec3491..a31476d 100644
+--- a/samples/ShadowDelta/CMakeLists.txt
++++ b/samples/ShadowDelta/CMakeLists.txt
+@@ -47,7 +47,6 @@ target_include_directories(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_SOU
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/third_party/rapidjson/src/include)
+ target_include_directories(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+ 
+ target_link_libraries(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+-- 
+1.9.1
+
