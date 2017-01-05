@@ -1,11 +1,11 @@
 DESCRIPTION = "Azure IoT Gateway SDK"
 
 require azure-iot-gateway-sdk.inc
-inherit cmake pkgconfig
+inherit cmake
 
 DEPENDS = "\
 	glib-2.0 \
-	azure-iot-sdk \
+	azure-iot-sdk-c \
 	nanomsg \
 "
 
@@ -69,7 +69,7 @@ JAVA_LIB_DIR = "${B}/bindings/java/"
 JDK_ARCH = "${@get_jdk_arch(d)}"
 
 PACKAGECONFIG ??= "java bluetooth"
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, openjdk-8-jdk azure-iot-gateway-sdk-java-binding"
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, azure-iot-gateway-sdk-java-binding"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
 EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNANOMSG_INC_FOLDER=${NANOMSG_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF -Dskip_unittests:BOOL=ON"
