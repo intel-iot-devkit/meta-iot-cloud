@@ -1,15 +1,22 @@
-DESCRIPTION = "Microsoft Azure IoT Node-RED node"
-
-require azure-iot-sdk.inc
+DESCRIPTION = "Node-Red node for Azure IoT Hub"
+AUTHOR = "Microsoft Corporation"
+HOMEPAGE = "https://github.com/Azure/azure-iot-sdk-node"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=7efa302969517c58e8c15e72b714abf0"
 
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "node-red"
 
-PR = "r1"
+PR = "r0"
 
 PACKAGES = "\
 	${PN} \
 "
+
+SRC_URI = "git://github.com/Azure/azure-iot-sdk-node.git"
+SRCREV = "13bd2f6d8aef0880c0fb2e654dc5376c7c8332fc"
+
+S = "${WORKDIR}/git"
 
 ## NPM ##
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
@@ -17,7 +24,7 @@ NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "http://registry.npmjs.org/"
 NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verbose"
 
-SRC_DIR = "${S}/node/device/node-red"
+SRC_DIR = "${S}/device/node-red/"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
@@ -37,4 +44,5 @@ do_install() {
 }
 
 FILES_${PN} += "${NODE_MODULES_DIR}${PN}"
+
 INHIBIT_PACKAGE_DEBUG_SPLIT_${PN} = "1"
