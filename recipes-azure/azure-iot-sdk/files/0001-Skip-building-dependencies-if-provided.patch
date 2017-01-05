@@ -1,11 +1,11 @@
-From 664ff7b69a5c28d8f689dfb55b4a79e9f4f91ccc Mon Sep 17 00:00:00 2001
+From 7307a0b7e3fcb4e32219ce74109013ddaf61d040 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Mon, 21 Nov 2016 19:19:38 +0000
-Subject: [PATCH 2/2] Skip building dependencies if provided
+Date: Thu, 5 Jan 2017 13:51:45 +0000
+Subject: [PATCH 1/2] Skip building dependencies if provided
 
 ---
- c/configs/azure_iot_sdksFunctions.cmake            | 10 ++--
- c/dependencies.cmake                               | 53 ++++++++++++++--------
+ configs/azure_iot_sdksFunctions.cmake              |  8 ++--
+ dependencies.cmake                                 | 53 ++++++++++++++--------
  .../iothub_client_sample_amqp/linux/CMakeLists.txt |  4 +-
  .../linux/CMakeLists.txt                           |  4 +-
  .../iothub_client_sample_http/linux/CMakeLists.txt |  2 +-
@@ -15,21 +15,19 @@ Subject: [PATCH 2/2] Skip building dependencies if provided
  .../linux/CMakeLists.txt                           |  2 +-
  .../iothub_client_sample_x509/linux/CMakeLists.txt |  2 +-
  .../linux/CMakeLists.txt                           |  4 +-
- c/iothub_service_client/CMakeLists.txt             |  4 +-
+ iothub_service_client/CMakeLists.txt               |  4 +-
  .../linux/CMakeLists.txt                           |  4 +-
  .../iothub_devicetwin_sample/linux/CMakeLists.txt  |  2 +-
  .../linux/CMakeLists.txt                           |  2 +-
  .../iothub_messaging_sample/linux/CMakeLists.txt   |  2 +-
  .../linux/CMakeLists.txt                           |  2 +-
  .../linux/CMakeLists.txt                           |  4 +-
- .../iothub_client_javawrapper/CMakeLists.txt       |  2 +-
- .../device/iothub_client_python/src/CMakeLists.txt |  4 +-
- 20 files changed, 67 insertions(+), 52 deletions(-)
+ 18 files changed, 63 insertions(+), 48 deletions(-)
 
-diff --git a/c/configs/azure_iot_sdksFunctions.cmake b/c/configs/azure_iot_sdksFunctions.cmake
-index a67f078..29c28ba 100644
---- a/c/configs/azure_iot_sdksFunctions.cmake
-+++ b/c/configs/azure_iot_sdksFunctions.cmake
+diff --git a/configs/azure_iot_sdksFunctions.cmake b/configs/azure_iot_sdksFunctions.cmake
+index a67f078..2a8f943 100644
+--- a/configs/azure_iot_sdksFunctions.cmake
++++ b/configs/azure_iot_sdksFunctions.cmake
 @@ -9,7 +9,7 @@ function(linkUAMQP whatExecutableIsBuilding)
          add_definitions(-D_CRT_SECURE_NO_WARNINGS)
          add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
@@ -48,15 +46,6 @@ index a67f078..29c28ba 100644
      endif()
      
      if(${use_wsio})
-@@ -35,7 +35,7 @@ endfunction(includeMqtt)
- 
- function(linkMqttLibrary whatExecutableIsBuilding)
-     includeMqtt()
--    target_link_libraries(${whatExecutableIsBuilding} umqtt)
-+    target_link_libraries(${whatExecutableIsBuilding} ${UMQTT_LIB_PATH})
- endfunction(linkMqttLibrary)
- 
- function(includeHttp)
 @@ -62,5 +62,5 @@ function(linkWebSockets whatExecutableIsBuilding)
  endfunction(linkWebSockets)
  
@@ -66,10 +55,10 @@ index a67f078..29c28ba 100644
 \ No newline at end of file
 +    target_link_libraries(${whatIsBuilding} ${SHARED_UTIL_LIB_PATH})
 +endfunction(linkSharedUtil)
-diff --git a/c/dependencies.cmake b/c/dependencies.cmake
+diff --git a/dependencies.cmake b/dependencies.cmake
 index a257eb8..d6de028 100644
---- a/c/dependencies.cmake
-+++ b/c/dependencies.cmake
+--- a/dependencies.cmake
++++ b/dependencies.cmake
 @@ -1,26 +1,41 @@
  #Copyright (c) Microsoft. All rights reserved.
  #Licensed under the MIT license. See LICENSE file in the project root for full license information.
@@ -132,10 +121,10 @@ index a257eb8..d6de028 100644
 +endif()
 +
 +include_directories(${SHARED_UTIL_INC_FOLDER}/azure_c_shared_utility)
-diff --git a/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
 index ea06da4..de58dfc 100644
---- a/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_amqp/linux/CMakeLists.txt
 @@ -25,8 +25,8 @@ add_executable(iothub_client_sample_amqp ${iothub_client_sample_amqp_c_files} ${
  target_link_libraries(iothub_client_sample_amqp
      iothub_client
@@ -147,10 +136,10 @@ index ea06da4..de58dfc 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt
 index 3353f55..7f65743 100644
---- a/c/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_amqp_shared/linux/CMakeLists.txt
 @@ -25,8 +25,8 @@ add_executable(iothub_client_sample_amqp_shared ${iothub_client_sample_amqp_shar
  target_link_libraries(iothub_client_sample_amqp_shared
      iothub_client
@@ -162,10 +151,10 @@ index 3353f55..7f65743 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
 index 63293d0..aa81d8b 100644
---- a/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_http/linux/CMakeLists.txt
 @@ -25,7 +25,7 @@ add_executable(iothub_client_sample_http ${iothub_client_sample_http_c_files} ${
  target_link_libraries(iothub_client_sample_http
      iothub_client
@@ -175,10 +164,10 @@ index 63293d0..aa81d8b 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
 index eaf8ac9..4a6b2b4 100644
---- a/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_mqtt/linux/CMakeLists.txt
 @@ -25,8 +25,8 @@ add_executable(iothub_client_sample_mqtt ${iothub_client_sample_mqtt_c_files} ${
  target_link_libraries(iothub_client_sample_mqtt
      iothub_client
@@ -190,10 +179,10 @@ index eaf8ac9..4a6b2b4 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt
 index cd35b2e..9c0f575 100644
---- a/c/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_mqtt_dm/CMakeLists.txt
 @@ -45,8 +45,8 @@ target_link_libraries(firmware_update
  	iothub_client
  	iothub_client_mqtt_transport
@@ -205,24 +194,24 @@ index cd35b2e..9c0f575 100644
  	pthread
  	curl
  	ssl
-diff --git a/c/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt
-index 173bede..5ac7b35 100644
---- a/c/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt
+index 173bede..b7f55a8 100644
+--- a/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_mqtt_dm/Template/CMakeLists.txt
 @@ -25,7 +25,7 @@ add_executable(iothub_client_sample_mqtt_dm ${iothub_client_sample_mqtt_dm_c_fil
  target_link_libraries(iothub_client_sample_mqtt_dm
      iothub_client
      iothub_client_mqtt_transport
 -    aziotsharedutil
 +    ${SHARED_UTIL_LIB_PATH}
++    ${UMQTT_LIB_PATH}
      serializer
 -    umqtt
-+    ${UMQTT_LIB_PATH}
  )
-diff --git a/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
 index cb26f99..64a0016 100644
---- a/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_upload_to_blob/linux/CMakeLists.txt
 @@ -26,7 +26,7 @@ add_executable(iothub_client_sample_http ${iothub_client_sample_http_c_files} ${
  target_link_libraries(iothub_client_sample_http
      iothub_client
@@ -232,10 +221,10 @@ index cb26f99..64a0016 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt b/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
 index 8e0ec95..5965346 100644
---- a/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_client_sample_x509/linux/CMakeLists.txt
 @@ -49,7 +49,7 @@ if(${use_mqtt})
  endif()
  
@@ -245,10 +234,10 @@ index 8e0ec95..5965346 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt b/c/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt
+diff --git a/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt b/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt
 index 92adfdc..a4fa159 100644
---- a/c/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt
-+++ b/c/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt
+--- a/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt
++++ b/iothub_client/samples/iothub_ll_client_sample_amqp_shared/linux/CMakeLists.txt
 @@ -25,8 +25,8 @@ add_executable(iothub_ll_client_sample_amqp_shared ${iothub_ll_client_sample_amq
  target_link_libraries(iothub_ll_client_sample_amqp_shared
      iothub_client
@@ -260,10 +249,10 @@ index 92adfdc..a4fa159 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_service_client/CMakeLists.txt b/c/iothub_service_client/CMakeLists.txt
+diff --git a/iothub_service_client/CMakeLists.txt b/iothub_service_client/CMakeLists.txt
 index 2207693..6a9f050 100644
---- a/c/iothub_service_client/CMakeLists.txt
-+++ b/c/iothub_service_client/CMakeLists.txt
+--- a/iothub_service_client/CMakeLists.txt
++++ b/iothub_service_client/CMakeLists.txt
 @@ -58,7 +58,7 @@ ENDIF(WIN32)
  add_library(iothub_service_client ${iothub_service_client_c_files} ${iothub_service_client_h_files})
  
@@ -280,10 +269,10 @@ index 2207693..6a9f050 100644
 -endif()
 \ No newline at end of file
 +endif()
-diff --git a/c/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt
+diff --git a/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt b/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt
 index 8996419..2d84abb 100644
---- a/c/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt
-+++ b/c/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt
+--- a/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt
++++ b/iothub_service_client/samples/iothub_devicemethod_sample/linux/CMakeLists.txt
 @@ -25,8 +25,8 @@ add_executable(iothub_devicemethod_sample ${iothub_devicemethod_sample_c_files}
  
  target_link_libraries(iothub_devicemethod_sample
@@ -295,10 +284,10 @@ index 8996419..2d84abb 100644
      pthread
      curl
      ssl
-diff --git a/c/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt
+diff --git a/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt b/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt
 index 499b3a9..e827c59 100644
---- a/c/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt
-+++ b/c/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt
+--- a/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt
++++ b/iothub_service_client/samples/iothub_devicetwin_sample/linux/CMakeLists.txt
 @@ -24,5 +24,5 @@ set(iothub_devicetwin_sample_h_files
  add_executable(iothub_devicetwin_sample ${iothub_devicetwin_sample_c_files} ${iothub_devicetwin_sample_h_files})
  
@@ -306,10 +295,10 @@ index 499b3a9..e827c59 100644
 -    aziotsharedutil
 +    ${SHARED_UTIL_LIB_PATH}
  )
-diff --git a/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
+diff --git a/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt b/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
 index a886d39..69e0326 100644
---- a/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
-+++ b/c/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
+--- a/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
++++ b/iothub_service_client/samples/iothub_messaging_ll_sample/linux/CMakeLists.txt
 @@ -24,5 +24,5 @@ set(iothub_messaging_ll_sample_h_files
  add_executable(iothub_messaging_ll_sample ${iothub_messaging_ll_sample_c_files} ${iothub_messaging_ll_sample_h_files})
  
@@ -317,10 +306,10 @@ index a886d39..69e0326 100644
 -    aziotsharedutil
 +    ${SHARED_UTIL_LIB_PATH}
  )
-diff --git a/c/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt
+diff --git a/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt b/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt
 index d8fe490..25c04cf 100644
---- a/c/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt
-+++ b/c/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt
+--- a/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt
++++ b/iothub_service_client/samples/iothub_messaging_sample/linux/CMakeLists.txt
 @@ -24,5 +24,5 @@ set(iothub_messaging_sample_h_files
  add_executable(iothub_messaging_sample ${iothub_messaging_sample_c_files} ${iothub_messaging_sample_h_files})
  
@@ -328,10 +317,10 @@ index d8fe490..25c04cf 100644
 -    aziotsharedutil
 +    ${SHARED_UTIL_LIB_PATH}
  )
-diff --git a/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
+diff --git a/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt b/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
 index 4bb3577..770c882 100644
---- a/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
-+++ b/c/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
+--- a/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
++++ b/iothub_service_client/samples/iothub_registrymanager_sample/linux/CMakeLists.txt
 @@ -24,5 +24,5 @@ set(iothub_registrymanager_sample_h_files
  add_executable(iothub_registrymanager_sample ${iothub_registrymanager_sample_c_files} ${iothub_registrymanager_sample_h_files})
  
@@ -339,10 +328,10 @@ index 4bb3577..770c882 100644
 -    aziotsharedutil
 +    ${SHARED_UTIL_LIB_PATH}
  )
-diff --git a/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt b/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
+diff --git a/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt b/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
 index 39a96a6..50caa51 100644
---- a/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
-+++ b/c/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
+--- a/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
++++ b/iothub_service_client/samples/iothub_service_client_sample/linux/CMakeLists.txt
 @@ -25,8 +25,8 @@ add_executable(iothub_service_client_sample ${iothub_service_client_sample_c_fil
  
  target_link_libraries(iothub_service_client_sample
@@ -354,41 +343,6 @@ index 39a96a6..50caa51 100644
      pthread
      curl
      ssl
-diff --git a/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt b/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt
-index cb69f47..83d7166 100644
---- a/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt
-+++ b/javawrapper/device/iothub_client_javawrapper/CMakeLists.txt
-@@ -97,7 +97,7 @@ target_link_libraries(
-     iothub_client_http_transport
-     iothub_client_amqp_transport
-     iothub_client 
--    uamqp
-+    ${UAMQP_LIB_PATH}
- )
- 
- target_link_libraries(   
-diff --git a/python/device/iothub_client_python/src/CMakeLists.txt b/python/device/iothub_client_python/src/CMakeLists.txt
-index 19deaf9..cf3753e 100644
---- a/python/device/iothub_client_python/src/CMakeLists.txt
-+++ b/python/device/iothub_client_python/src/CMakeLists.txt
-@@ -37,7 +37,7 @@ if(${use_wsio})
-         iothub_client_mqtt_transport
-         iothub_client_mqtt_ws_transport
-         iothub_client
--        uamqp
-+        ${UAMQP_LIB_PATH}
-         ${Boost_LIBRARIES}
-         ${PYTHON_LIBRARIES}
-     )
-@@ -48,7 +48,7 @@ else()
-         iothub_client_amqp_transport
-         iothub_client_mqtt_transport
-         iothub_client
--        uamqp
-+        ${UAMQP_LIB_PATH}
-         ${Boost_LIBRARIES}
-         ${PYTHON_LIBRARIES}
-     )
 -- 
 1.9.1
 

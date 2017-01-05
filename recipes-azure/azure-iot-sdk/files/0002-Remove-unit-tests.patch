@@ -1,0 +1,21 @@
+From a4f2456ec32dbddea159c3eb983e12709cf5485a Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 5 Jan 2017 15:54:47 +0000
+Subject: [PATCH 2/3] Remove unit tests
+
+---
+ device/iothub_client_python/CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/device/iothub_client_python/CMakeLists.txt b/device/iothub_client_python/CMakeLists.txt
+index 250744f..6a231da 100644
+--- a/device/iothub_client_python/CMakeLists.txt
++++ b/device/iothub_client_python/CMakeLists.txt
+@@ -78,4 +78,3 @@ if(${use_mqtt})
+ endif()
+ 
+ add_subdirectory(src)
+-add_subdirectory(test)
+-- 
+1.9.1
+
