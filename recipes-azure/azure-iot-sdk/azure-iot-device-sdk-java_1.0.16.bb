@@ -1,12 +1,19 @@
 DESCRIPTION = "Microsoft Azure IoT device SDK for Java"
-
-require azure-iot-sdk.inc
+AUTHOR = "Microsoft Corporation"
+HOMEPAGE = "https://github.com/Azure/azure-iot-sdk-java"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=b9e5c622b55856e65ed6705a349a7ac7"
 
 DEPENDS = "maven-native icedtea7-native"
 
 PR = "r0"
 
-JAVA_SRC_DIR = "${S}/java/device"
+SRC_URI = "git://github.com/Azure/azure-iot-sdk-java.git"
+SRCREV = "0698bbba4dce841508489fa55f6d96a77cd02696"
+
+S = "${WORKDIR}/git"
+
+JAVA_SRC_DIR = "${S}/device"
 JAVA_DEST_DIR = "${JAVA_SRC_DIR}/iothub-java-client/target"
 JAVA_PN = "iothub-java-device-client"
 JAVA_DATADIR ?= "${datadir}/java"
