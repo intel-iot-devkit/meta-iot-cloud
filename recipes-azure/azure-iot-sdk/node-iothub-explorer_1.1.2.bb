@@ -1,15 +1,22 @@
-DESCRIPTION = "CLI tool to manage device clients using the Azure IoT Hub service SDK"
-
-require azure-iot-sdk.inc
+DESCRIPTION = "IoT Hub Explorer is a tool that allows you to explore and test Azure IoT Hub features"
+AUTHOR = "Microsoft Corporation"
+HOMEPAGE = "https://github.com/Azure/iothub-explorer"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=0296d24e582db92fa4e33fd40e18099a"
 
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash"
 
-PR = "r1"
+PR = "r0"
 
 PACKAGES = "\
 	${PN} \
 "
+
+SRC_URI = "git://github.com/Azure/iothub-explorer.git"
+SRCREV = "47818da05c8d5e9500088355913b773ea9086ee3"
+
+S = "${WORKDIR}/git"
 
 ## NPM ##
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
@@ -17,24 +24,22 @@ NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "http://registry.npmjs.org/"
 NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verbose"
 
-SRC_DIR = "${S}/tools/iothub-explorer"
 SRC_NAME = "iothub-explorer"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 
-	cd ${SRC_DIR}
 	npm cache clear
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
 	npm prune --production
 
 	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
-	find ${S}/tools/iothub-explorer -type f -name "switch-bench.js" -exec rm -f {} \;
+	find ${S} -type f -name "switch-bench.js" -exec rm -f {} \;
 }
 
 do_install() {
 	install -d ${D}${NODE_MODULES_DIR}/${SRC_NAME}
-	cp -r ${SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${SRC_NAME}
+	cp -r ${S}/* ${D}${NODE_MODULES_DIR}/${SRC_NAME}
 }
 
 FILES_${PN} += "${NODE_MODULES_DIR}${SRC_NAME}"
