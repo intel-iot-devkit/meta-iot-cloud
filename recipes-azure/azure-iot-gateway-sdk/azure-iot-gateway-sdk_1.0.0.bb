@@ -49,9 +49,7 @@ NANOMSG_INCLUDE_DIR = "${STAGING_INCDIR}/nanomsg"
 
 ## Java ##
 def get_jdk_arch(d):
-    import bb
-
-    jdk_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, 1)
+    jdk_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, True)
 
     if jdk_arch == "x86-64":
         jdk_arch = "amd64"
@@ -64,9 +62,23 @@ def get_jdk_arch(d):
 
     return jdk_arch
 
+def get_jdk_home(d):
+    jdk_home = bb.data.getVar("STAGING_LIBDIR", d, True)
+    jdk_home += "/jvm/"
+
+    if os.path.exists(jdk_home):
+        for child in os.listdir(jdk_home):
+            test_path = os.path.join(jdk_home, child)
+            if os.path.isdir(test_path):
+                jdk_home = test_path
+                break
+
+    return jdk_home
+
 ## Java ##
 JAVA_LIB_DIR = "${B}/bindings/java/"
 JDK_ARCH = "${@get_jdk_arch(d)}"
+JDK_HOME = "${@get_jdk_home(d)}"
 
 PACKAGECONFIG ??= "java bluetooth"
 PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, azure-iot-gateway-sdk-java-binding"
@@ -77,14 +89,14 @@ EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNANOMSG_INC_FOLDER=$
 do_configure_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${STAGING_LIBDIR}/jvm/java-8-openjdk"
+		export JAVA_HOME="${JDK_HOME}"
 	fi
 }
 
 do_compile_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${STAGING_LIBDIR}/jvm/java-8-openjdk"
+		export JAVA_HOME="${JDK_HOME}"
 	fi
 }
 
