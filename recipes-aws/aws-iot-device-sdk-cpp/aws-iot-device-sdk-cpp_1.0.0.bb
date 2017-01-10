@@ -20,7 +20,7 @@ SRCREV = "3b544dcba048897a8a9b2e3b29243d8035caa28c"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-cli ${PN}-samples ${PN}-samples-src"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -76,12 +76,24 @@ do_install() {
 	install -m 0644 ${S}/samples/ShadowDelta/*.hpp ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/ShadowDelta/
 }
 
-FILES_${PN} = "${libdir}"
+FILES_${PN} = "${libdir}/*.so"
+FILES_${PN}-dbg = "\
+	${libdir}/.debug \
+	${exec_prefix}/src/debug \
+	${datadir}/awsiotsdk/samples/cpp/cli/.debug \
+	${datadir}/awsiotsdk/samples/cpp/PubSub/.debug \
+	${datadir}/awsiotsdk/samples/cpp/ShadowDelta/.debug \
+"
 FILES_${PN}-dev = "${includedir}/awsiot"
-FILES_${PN}-cli = "${datadir}/awsiotsdk/samples/cpp/cli"
+FILES_${PN}-cli = "\
+	${datadir}/awsiotsdk/samples/cpp/cli/aws-iot \
+	${datadir}/awsiotsdk/samples/cpp/cli/*.json \
+"
 FILES_${PN}-samples = "\
-	${datadir}/awsiotsdk/samples/cpp/PubSub \
-	${datadir}/awsiotsdk/samples/cpp/ShadowDelta \
+	${datadir}/awsiotsdk/samples/cpp/PubSub/pub-sub-sample \
+	${datadir}/awsiotsdk/samples/cpp/PubSub/config \
+	${datadir}/awsiotsdk/samples/cpp/ShadowDelta/shadow-delta-sample \
+	${datadir}/awsiotsdk/samples/cpp/ShadowDelta/config \
 "
 FILES_${PN}-samples-src = "\
 	${exec_prefix}/src/awsiotsdk/samples/cpp/PubSub \
