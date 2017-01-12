@@ -1,0 +1,8 @@
+include node-red.inc
+
+LIC_FILES_CHKSUM = "file://LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
+
+SRC_URI[md5sum] = "96859c6f580b5fa279db1908524518e0"
+SRC_URI[sha256sum] = "65e250c3c58454fe10378239058c60bb4aff6986e683ac93600f654a1a1027a5"
+
+PR = "r0"
