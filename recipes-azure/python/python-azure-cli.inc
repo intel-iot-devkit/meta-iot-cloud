@@ -1,8 +1,9 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
-PR = "r1"
+PR = "r2"
 
 RDEPENDS_${PN} = "\
+	bash \
 	${PYTHON_PN}-azure-cli-acr \
 	${PYTHON_PN}-azure-cli-acs \
 	${PYTHON_PN}-azure-cli-cloud \
