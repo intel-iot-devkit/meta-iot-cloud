@@ -8,12 +8,12 @@ DEPENDS = "azure-c-shared-utility"
 inherit cmake pkgconfig
 
 SRC_URI = "\
-	gitsm://github.com/Azure/azure-uamqp-c.git;branch=ga_release_uamqp \
+	gitsm://github.com/Azure/azure-uamqp-c.git \
 	file://Skip-building-dependencies-if-provided.patch \
 "
-SRCREV = "3b490e28a9f105d1e768a707097d89168d9d2055"
+SRCREV = "6f1288aaaf53c601c75e6ab084065b3e65ded1fe"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
