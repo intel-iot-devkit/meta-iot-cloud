@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://license.txt;md5=ba04aa8f65de1396a7e59d1d746c2125"
 
 inherit cmake
 
-PR = "r0"
+RDEPENDS_${PN}-dev = ""
+
+PR = "r1"
 
 SRC_URI = "git://github.com/miloyip/rapidjson.git"
 SRCREV = "f54b0e47a08782a6131cc3d60f94d038fa6e0a51"
