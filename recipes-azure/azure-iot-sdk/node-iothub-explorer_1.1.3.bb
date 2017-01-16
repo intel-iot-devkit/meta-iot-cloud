@@ -14,7 +14,7 @@ PACKAGES = "\
 "
 
 SRC_URI = "git://github.com/Azure/iothub-explorer.git"
-SRCREV = "47818da05c8d5e9500088355913b773ea9086ee3"
+SRCREV = "b7bfb26bc7421f2a115ee86d79702d38767ea64d"
 
 S = "${WORKDIR}/git"
 
@@ -49,6 +49,11 @@ pkg_postinst_${PN}() {
 #!/bin/sh
 # Post installation script
 
+if [ -f ${bindir}/${SRC_NAME} ]
+then
+	rm ${bindir}/${SRC_NAME}
+fi
+
 ln -s ${NODE_MODULES_DIR}${SRC_NAME}/${SRC_NAME}.js ${bindir}/${SRC_NAME}
 chmod 755 ${bindir}/${SRC_NAME}
 
@@ -58,6 +63,9 @@ pkg_prerm-${PN}() {
 #!/bin/sh
 # Pre removal script
 
-rm ${bindir}/${SRC_NAME}
+if [ -f ${bindir}/${SRC_NAME} ]
+then
+	rm ${bindir}/${SRC_NAME}
+fi
 
 }
