@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=587b3fd7fd291e418ff4d2b8f3904755"
 
 inherit cmake
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "git://github.com/nanomsg/nanomsg.git"
-SRCREV = "7e12a20e038234060d41d03c20721d08117f8607"
+SRCREV = "ee99202f84f8d0e8ebd1c1722aa8a682f54919d0"
 
 S = "${WORKDIR}/git"
 
