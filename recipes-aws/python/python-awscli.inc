@@ -2,7 +2,7 @@ DESCRIPTION = "This package provides a unified command line interface to Amazon 
 HOMEPAGE = "https://github.com/aws/aws-cli"
 AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1b30762855ee41c1072f34f754f44c70"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
 
 PR = "r0"
 
@@ -23,6 +23,6 @@ RDEPENDS_${PN} += "\
 SRC_NAME = "aws-cli"
 
 SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
-SRCREV = "65f6cad1804c401ae943704456da5ad908587a44"
+SRCREV = "72d7af5443715492a2e782a9c39b6f8954c111e3"
 
 S = "${WORKDIR}/git"

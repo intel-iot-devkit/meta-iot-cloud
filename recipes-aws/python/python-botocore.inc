@@ -2,7 +2,7 @@ DESCRIPTION = "Low-level, data-driven core of boto 3."
 HOMEPAGE = "https://github.com/boto/botocore"
 AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2ca72265eb92b3fca5dfb60428bd071"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
 
 PR = "r0"
 
@@ -21,6 +21,6 @@ RDEPENDS_${PN} = "\
 SRC_NAME = "botocore"
 
 SRC_URI = "git://github.com/boto/${SRC_NAME}.git"
-SRCREV = "3ea228b928b219f3678fd4b3824e2c3647327170"
+SRCREV = "3f9a80f2985541e50609c50acf92732ed2a39c29"
 
 S = "${WORKDIR}/git"
