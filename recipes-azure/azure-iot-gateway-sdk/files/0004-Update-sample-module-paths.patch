@@ -1,7 +1,7 @@
-From 3de0d47d10363566758697b3bd8579cef55a88d0 Mon Sep 17 00:00:00 2001
+From 62e3468e284ef84b48f9704498bd26e6fbc80924 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 23 Nov 2016 19:18:32 +0000
-Subject: [PATCH 9/9] Update sample module paths
+Date: Wed, 18 Jan 2017 15:38:46 +0000
+Subject: [PATCH 5/5] Update sample module paths
 
 ---
  .../azure_functions_sample/src/azure_functions_lin.json  |  6 +++---
@@ -139,7 +139,7 @@ index e615e90..e04df34 100644
 \ No newline at end of file
 +}
 diff --git a/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json b/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
-index d9e5429..29954d6 100644
+index 931b372..ceca53d 100644
 --- a/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
 +++ b/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json
 @@ -5,7 +5,7 @@
@@ -169,7 +169,7 @@ index d9e5429..29954d6 100644
          }
        },
        "args": {
-@@ -52,7 +52,7 @@
+@@ -53,7 +53,7 @@
        "loader": {
          "name": "native",
          "entrypoint": {
@@ -178,7 +178,7 @@ index d9e5429..29954d6 100644
          }
        },
        "args": {
-@@ -64,7 +64,7 @@
+@@ -66,7 +66,7 @@
        "loader": {
          "name": "native",
          "entrypoint": {
@@ -187,8 +187,8 @@ index d9e5429..29954d6 100644
          }
        },
        "args": {
-@@ -90,4 +90,4 @@
-       "sink": "IotHub"
+@@ -104,4 +104,4 @@
+       "sink": "BLE2"
      }
    ]
 -}

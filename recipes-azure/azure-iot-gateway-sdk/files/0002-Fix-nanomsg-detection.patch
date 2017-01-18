@@ -1,54 +1,63 @@
-From f12a19fe9cbfa268dfb94f3cd88cdcf488a2a97f Mon Sep 17 00:00:00 2001
+From 85dfa0fc11f1eb3d0e5070c5dfe5391633414778 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 23 Nov 2016 14:53:59 +0000
-Subject: [PATCH 5/5] Skip building nanomsg if provided
+Date: Wed, 18 Jan 2017 14:05:28 +0000
+Subject: [PATCH 2/3] Fix nanomsg detection
 
 ---
- CMakeLists.txt                     |  2 +-
- core/CMakeLists.txt                |  2 +-
- dependencies.cmake                 | 75 ++++++++++----------------------------
- samples/hello_world/CMakeLists.txt |  4 +-
- 4 files changed, 24 insertions(+), 59 deletions(-)
+ core/CMakeLists.txt                | 15 ++------
+ dependencies.cmake                 | 73 +-------------------------------------
+ samples/hello_world/CMakeLists.txt |  4 +--
+ 3 files changed, 5 insertions(+), 87 deletions(-)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 8632325..97f5f71 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -170,7 +170,7 @@ include_directories(./deps/parson)
- 
- function(link_broker whatIsBuilding)
- 
--target_link_libraries(${whatIsBuilding} nanomsg )
-+target_link_libraries(${whatIsBuilding} ${NANOMSG_LIB} )
-   
- endfunction(link_broker)
- 
 diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index c2e12de..672516a 100644
+index b76bbcf..4cc942a 100644
 --- a/core/CMakeLists.txt
 +++ b/core/CMakeLists.txt
-@@ -148,7 +148,7 @@ add_library(gateway
- if(WIN32)
-     target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
- else()
--    target_link_libraries(gateway parson nanomsg ${SHARED_UTIL_LIB} ${dynamic_loader_library})
-+    target_link_libraries(gateway parson ${NANOMSG_LIB} ${SHARED_UTIL_LIB} ${dynamic_loader_library})
+@@ -49,15 +49,6 @@ endfunction(linkHttp)
+ function(includeHttp)
+ endfunction(includeHttp)
  
-     target_link_libraries(gateway ${NN_REQUIRED_LIBRARIES})
+-#nanomsg lib check macro (temporary)
+-macro (nn_check_lib LIB SYM DEF)
+-    check_library_exists (${LIB} ${SYM} "" ${DEF})
+-    if (${DEF})
+-        add_definitions (-D${DEF}=1)
+-        set(NN_REQUIRED_LIBRARIES ${NN_REQUIRED_LIBRARIES} ${LIB})
+-    endif ()
+-endmacro (nn_check_lib)
+-
+ set(gateway_c_sources
+     ./src/message.c
+     ./src/internal/event_system.c
+@@ -156,14 +147,12 @@ if(WIN32)
+     target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
+     target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
+ else()
+-    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway parson ${NANOMSG_LIB} aziotsharedutil ${dynamic_loader_library})
+ 
+-    target_link_libraries(gateway ${NN_REQUIRED_LIBRARIES})
      target_link_libraries(gateway m)
+ 
+-    target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway_static parson ${NANOMSG_LIB} aziotsharedutil ${dynamic_loader_library})
+ 
+-    target_link_libraries(gateway_static ${NN_REQUIRED_LIBRARIES})
+     target_link_libraries(gateway_static m)
+ endif()
+ 
 diff --git a/dependencies.cmake b/dependencies.cmake
-index 0a38812..3a5ba63 100644
+index 7b85541..3642582 100644
 --- a/dependencies.cmake
 +++ b/dependencies.cmake
-@@ -32,66 +32,31 @@ endif()
+@@ -21,78 +21,7 @@ set_platform_files("${CMAKE_CURRENT_LIST_DIR}/deps/c-utility")
  ###############################################################################
  ##########################Find/Install/Build nanomsg###########################
  ###############################################################################
 -if(WIN32)
 -    findAndInstallNonFindPkg(nanomsg ${PROJECT_SOURCE_DIR}/deps/nanomsg ${PROJECT_SOURCE_DIR}/deps/nanomsg -G "${CMAKE_GENERATOR}")
 -    add_library(nanomsg STATIC IMPORTED)
-+find_library (NANOMSG_LIB NAMES nanomsg)
- 
+-
 -    if(DEFINED ${dependency_install_prefix})
 -        set(nanomsg_target_dll "${dependency_install_prefix}/bin/nanomsg.dll" CACHE INTERNAL "The location of the nanomsg.dll (windows)" FORCE)
 -        set_target_properties(nanomsg PROPERTIES
@@ -69,28 +78,18 @@ index 0a38812..3a5ba63 100644
 -    find_package(PkgConfig REQUIRED)
 -
 -    #If using a custom install prefix, tell find pkg to use it instead of defaults
--    if(DEFINED ${dependency_install_prefix})
--        set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
--    endif()
+-    set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH TRUE)
 -
 -    pkg_search_module(NANOMSG QUIET nanomsg)
 -    if(NOT NANOMSG_FOUND)
 -        findAndInstallNonFindPkg(nanomsg ${PROJECT_SOURCE_DIR}/deps/nanomsg ${PROJECT_SOURCE_DIR}/deps/nanomsg -G "${CMAKE_GENERATOR}")
 -    endif()
-+# Check if nanomsg library is already provided
-+if (NANOMSG_LIB AND NANOMSG_INC_FOLDER)
-+    set(NANOMSG_FOUND 1)
-+endif()
- 
+-
 -    #If earlier cmake
 -    if("${CMAKE_VERSION}" VERSION_GREATER 3.0.2)
 -        pkg_search_module(NANOMSG REQUIRED nanomsg)
-+if (NOT NANOMSG_FOUND)
-+    #this adds nanomsg
-+    option(NN_ENABLE_DOC "" OFF )
-+    if (WIN32)
-+        option(NN_STATIC_LIB "" OFF )
-     else()
+-        set (NANOMSG_LIB_LOCATION "${NANOMSG_LIBDIR}/lib${NANOMSG_LIBRARIES}.so")
+-    else()
 -        if(DEFINED ${dependency_install_prefix})
 -            set(NANOMSG_INCLUDEDIR "${dependency_install_prefix}/include")
 -            set(NANOMSG_LIBRARIES nanomsg)
@@ -100,38 +99,42 @@ index 0a38812..3a5ba63 100644
 -            pkg_search_module(NANOMSG REQUIRED nanomsg)
 -            set(NANOMSG_LIBRARY_DIRS "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
 -        endif()
-+        option(NN_STATIC_LIB "" ON )
-+        # This should be set with the NN_STATIC_LIB options
-+        add_definitions (-DNN_STATIC_LIB)
-     endif()
- 
--    add_library(nanomsg STATIC IMPORTED)
--    set(NANOMSG_INCLUDES "${NANOMSG_INCLUDEDIR}"  CACHE INTERNAL "")
--    message(STATUS "NANOMSG LIBRARIES: ${NANOMSG_LIBRARIES}")
--    message(STATUS "NANOMSG LDFLAGS: ${NANOMSG_LDFLAGS}")
--    message(STATUS "NANOMSG CFLAGS: ${NANOMSG_CFLAGS}")
--    set_target_properties(nanomsg PROPERTIES
+-        set (NANOMSG_LIB_LOCATION "${NANOMSG_LIBRARY_DIRS}/lib${NANOMSG_LIBRARIES}.so")
+-
+-    endif()
+-
+-    if (NOT NANOMSG_LIBDIR STREQUAL "/usr/lib")
+-    # There seems to be a problem in CMake if nanomsg is found in the system 
+-    # default location when cross compiling. If it's anywhere 
+-    # else, we can create a imported target for it.  (Actually, this might 
+-    # fail for any cross compile where nanomsg points to a system directory,
+-    # so this might need to be refined as we find edge cases)
+-        add_library(nanomsg SHARED IMPORTED)
+-
+-        set_target_properties(nanomsg PROPERTIES
 -            INTERFACE_INCLUDE_DIRECTORIES "${NANOMSG_INCLUDEDIR}"
 -            INTERFACE_LINK_LIBRARIES "${NANOMSG_LIBRARIES}"
 -            INTERFACE_COMPILE_OPTIONS "${NANOMSG_LDFLAGS}"
--            IMPORTED_LOCATION "${NANOMSG_LIBRARY_DIRS}/lib${NANOMSG_LIBRARIES}.so"
+-            IMPORTED_LOCATION "${NANOMSG_LIB_LOCATION}"
 -        )
+-        message(STATUS "NANOMSG LIBRARIES: ${NANOMSG_LIBRARIES}")
+-        message(STATUS "NANOMSG LDFLAGS: ${NANOMSG_LDFLAGS}")
+-        message(STATUS "NANOMSG CFLAGS: ${NANOMSG_CFLAGS}")
+-        message(STATUS "NANOMSG LOCATION: ${NANOMSG_LIB_LOCATION}")
+-    endif()
+-    set(NANOMSG_INCLUDES "${NANOMSG_INCLUDEDIR}"  CACHE INTERNAL "")
+-
+-
 -endif()
-+    option(NN_TESTS "" OFF )
-+    option(NN_ENABLE_NANOCAT "" OFF)
-+
-+    add_subdirectory(./deps/nanomsg)
-+    set(NANOMSG_LIB nanomsg)
-+    set(NANOMSG_INC_FOLDER ./deps/nanomsg/src)
-+ endif()
++find_library (NANOMSG_LIB NAMES nanomsg)
  
  ###############################################################################
  #############################Init Parson Submodule#############################
 diff --git a/samples/hello_world/CMakeLists.txt b/samples/hello_world/CMakeLists.txt
-index 4a492de..9638d0f 100644
+index 42397bd..fc4fae6 100644
 --- a/samples/hello_world/CMakeLists.txt
 +++ b/samples/hello_world/CMakeLists.txt
-@@ -28,8 +28,8 @@ add_executable(hello_world_sample ${hello_world_sources})
+@@ -28,9 +28,9 @@ add_executable(hello_world_sample ${hello_world_sources})
  
  add_dependencies(hello_world_sample hello_world logger)
  
@@ -139,51 +142,11 @@ index 4a492de..9638d0f 100644
 +target_link_libraries(hello_world_sample gateway ${NANOMSG_LIB})
  linkSharedUtil(hello_world_sample)
  install_broker(hello_world_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
+ copy_gateway_dll(hello_world_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
  
 -add_sample_to_solution(hello_world_sample)
 \ No newline at end of file
 +add_sample_to_solution(hello_world_sample)
--- 
-1.9.1
-
-From be5a49e0d60131860e3ec40ad9d3051d5a8ad93c Mon Sep 17 00:00:00 2001
-From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 23 Nov 2016 15:52:10 +0000
-Subject: [PATCH 6/7] Additional nanomsg fixes
-
----
- core/CMakeLists.txt | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index 672516a..f119475 100644
---- a/core/CMakeLists.txt
-+++ b/core/CMakeLists.txt
-@@ -47,15 +47,6 @@ endfunction(linkHttp)
- function(includeHttp)
- endfunction(includeHttp)
- 
--#nanomsg lib check macro (temporary)
--macro (nn_check_lib LIB SYM DEF)
--    check_library_exists (${LIB} ${SYM} "" ${DEF})
--    if (${DEF})
--        add_definitions (-D${DEF}=1)
--        set(NN_REQUIRED_LIBRARIES ${NN_REQUIRED_LIBRARIES} ${LIB})
--    endif ()
--endmacro (nn_check_lib)
--
- set(gateway_c_sources
-     ./src/message.c
-     ./src/internal/event_system.c
-@@ -149,8 +140,6 @@ if(WIN32)
-     target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
- else()
-     target_link_libraries(gateway parson ${NANOMSG_LIB} ${SHARED_UTIL_LIB} ${dynamic_loader_library})
--
--    target_link_libraries(gateway ${NN_REQUIRED_LIBRARIES})
-     target_link_libraries(gateway m)
- endif()
- 
 -- 
 1.9.1
 

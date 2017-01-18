@@ -10,12 +10,10 @@ DEPENDS = "\
 "
 
 SRC_URI += "\
-	file://Skip-test-dependencies-if-requested.patch \
-	file://Skip-building-dependencies-if-provided.patch \
-	file://Add-missing-cmake-functions.patch \
-	file://Skip-building-nanomsg-if-provided.patch \
-	file://Include-parson-with-main-library.patch \
-	file://Update-sample-module-paths.patch \
+	file://0001-Skip-adding-test-dependencies-if-not-required.patch \
+	file://0002-Fix-nanomsg-detection.patch \
+	file://0003-Include-parson-with-main-library.patch \
+	file://0004-Update-sample-module-paths.patch \
 	file://azure-functions-sample.sh \
 	file://ble-gateway-sample.sh \
 	file://hello-world-sample.sh \
@@ -29,7 +27,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r4"
+PR = "r0"
 
 B = "${WORKDIR}/build"
 
@@ -43,9 +41,6 @@ PACKAGES = "\
 	${PN}-samples-src \
 	${PN}-java \
 "
-
-AZURE_INCLUDE_DIR = "${STAGING_INCDIR}/azureiot"
-NANOMSG_INCLUDE_DIR = "${STAGING_INCDIR}/nanomsg"
 
 ## Java ##
 def get_jdk_arch(d):
@@ -84,7 +79,7 @@ PACKAGECONFIG ??= "java bluetooth"
 PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, azure-iot-gateway-sdk-java-binding"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
-EXTRA_OECMAKE = "-DAZURE_INCLUDE_DIR=${AZURE_INCLUDE_DIR} -DNANOMSG_INC_FOLDER=${NANOMSG_INCLUDE_DIR} -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF -Dskip_unittests:BOOL=ON"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
 
 do_configure_prepend() {
 	# Java
