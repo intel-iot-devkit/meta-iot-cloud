@@ -1,6 +1,6 @@
-From 6e95b4574915eb0981a2b6329d3986e5625c111a Mon Sep 17 00:00:00 2001
+From 9a40410cf4f2841f6e36f400998d610f9fc27a4f Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Thu, 5 Jan 2017 15:55:13 +0000
+Date: Wed, 18 Jan 2017 12:47:03 +0000
 Subject: [PATCH 3/3] Compile as C99
 
 ---
@@ -8,11 +8,11 @@ Subject: [PATCH 3/3] Compile as C99
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/device/iothub_client_python/CMakeLists.txt b/device/iothub_client_python/CMakeLists.txt
-index 6a231da..b7e9737 100644
+index f207db1..873f92b 100644
 --- a/device/iothub_client_python/CMakeLists.txt
 +++ b/device/iothub_client_python/CMakeLists.txt
-@@ -13,7 +13,15 @@ if(NOT ${use_http})
-     message(FATAL_ERROR "iothub_client_python needs http support")
+@@ -16,7 +16,15 @@ if(${use_http})
+     add_definitions(-DUSE_HTTP)
  endif()
  
 -compileAsC99()

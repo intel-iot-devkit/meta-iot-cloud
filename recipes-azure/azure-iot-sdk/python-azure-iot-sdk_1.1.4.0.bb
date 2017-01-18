@@ -22,10 +22,11 @@ SRC_URI = "\
 	file://0001-Use-provided-dependencies-if-available.patch \
 	file://0002-Remove-unit-tests.patch \
 	file://0003-Compile-as-C99.patch \
+	file://0004-Remove-redundant-calls.patch \
 "
-SRCREV = "26c4fdda93b35b425fac57883c24f6ae23c4377e"
+SRCREV = "67287162f3b09b350b975b4463a2d916acc838d2"
 
-PR = "r3"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
