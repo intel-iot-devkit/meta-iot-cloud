@@ -15,7 +15,7 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-email \
 	${PYTHON_PN}-json \
 	${PYTHON_PN}-numbers \
-	${PYTHON_PN}-html\
+	${PYTHON_PN}-html \
 "
 
 SRC_NAME = "botocore"

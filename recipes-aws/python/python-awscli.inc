@@ -4,7 +4,7 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
 
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} += "\
 	groff \
@@ -14,10 +14,13 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-docutils \
 	${PYTHON_PN}-rsa \
 	${PYTHON_PN}-s3transfer \
+	${PYTHON_PN}-pyyaml \
 	${PYTHON_PN}-difflib \
 	${PYTHON_PN}-subprocess \
 	${PYTHON_PN}-ctypes \
 	${PYTHON_PN}-misc \
+	${PYTHON_PN}-argparse \
+	${PYTHON_PN}-unixadmin \
 "
 
 SRC_NAME = "aws-cli"
