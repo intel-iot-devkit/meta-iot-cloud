@@ -14,7 +14,7 @@ PACKAGES = "\
 "
 
 SRC_URI = "git://github.com/Azure/azure-iot-sdk-node.git"
-SRCREV = "1bfc41edcfaa976f06de7fc83149d7d1d046012e"
+SRCREV = "fc16a33a43abaa2ad7f74bf10f7444895cb29d61"
 
 S = "${WORKDIR}/git"
 
