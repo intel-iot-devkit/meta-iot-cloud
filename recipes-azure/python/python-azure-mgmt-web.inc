@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure Web Apps Resource Management Client Library for Python"
 
+PV = "0.30.1"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "3da0d8f5f57ea33d21d98c734847b09caef014b6"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/web/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-web"
-SRCREV = "62c4ff9ae89a6b7b9d917ffd4e75f29fac2b29b7"

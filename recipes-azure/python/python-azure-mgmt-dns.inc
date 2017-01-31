@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure DNS Client Library for Python"
 
+PV = "1.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "618f1768eac9a8b31f7ffdeea01fb21f7f0fe698"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/dns/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-dns"
-SRCREV = "3632007c401ab7ce1ed8faf6742298f050856a97"

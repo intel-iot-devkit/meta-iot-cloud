@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure LogicApps Management Client Library for Python"
 
+PV = "1.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "f3650cc8b1a84aef80139ad1bed7341fe871c470"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/logic/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-logic"
-SRCREV = "cf9b2f30901f7adb6c661ec32e3a5875dbf79add"

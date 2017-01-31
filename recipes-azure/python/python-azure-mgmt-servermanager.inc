@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure ServerManager Management Client Library for Python"
 
+PV = "1.1.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "f915ead25757e1623e20a150e4dec36987fde056"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/servermanager/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-servermanager"
-SRCREV = "973327e9d1e92d4e06eb2d56aacc71afdc1d9f88"

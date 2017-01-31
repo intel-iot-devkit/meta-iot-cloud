@@ -1,5 +1,6 @@
 DESCRIPTION = "Microsoft Azure Client Library for Python (Common)"
 
+PV = "1.1.4"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -7,6 +8,8 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrestazure \
 	${PYTHON_PN}-msrest \
 "
+
+SRCREV = "71ebc5c5968f486dcc171c76eb6fe2f852c7afc0"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/common/* \
@@ -19,4 +22,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-common"
-SRCREV = "71ebc5c5968f486dcc171c76eb6fe2f852c7afc0"

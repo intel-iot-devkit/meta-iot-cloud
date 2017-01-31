@@ -6,12 +6,13 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9714a4db9af8ac45d4777b479c5401ca"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-requests \
-	${PYTHON_PN}-keyring \
 	${PYTHON_PN}-requests-oauthlib \
 	${PYTHON_PN}-isodate \
 	${PYTHON_PN}-certifi \
 	${PYTHON_PN}-chardet \
 "
+
+PR = "r0"
 
 SRC_NAME = "msrest-for-python"
 

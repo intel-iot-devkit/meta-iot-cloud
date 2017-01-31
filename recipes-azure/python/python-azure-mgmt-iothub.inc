@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure IoTHub Management Client Library for Python"
 
-PR = "r1"
+PV = "0.2.1"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "f54b2343af9ebebaf8e3b081b7c9f7513af8d848"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/iothub/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-iothub"
-SRCREV = "f720cb4d6e92397bbd3e46da81577e94abd78b83"

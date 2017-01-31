@@ -14,7 +14,7 @@ RDEPENDS_${PN} += "\
 SRC_NAME = "azure-activedirectory-library-for-python"
 
 SRC_URI = "git://github.com/AzureAD/${SRC_NAME}.git;branch=dev"
-SRCREV = "7c0a4fecd02f27b29ccf8a55e76622f9967d1033"
+SRCREV = "32db1369273e9daca9308ba367d764befbd9e044"
 
 S = "${WORKDIR}/git"
 

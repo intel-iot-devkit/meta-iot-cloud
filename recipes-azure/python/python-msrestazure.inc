@@ -6,12 +6,16 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9714a4db9af8ac45d4777b479c5401ca"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrest \
+	${PYTHON_PN}-keyring \
+	${PYTHON_PN}-adal \
 "
+
+PR = "r0"
 
 SRC_NAME = "msrestazure-for-python"
 
 SRC_URI = "git://github.com/Azure/${SRC_NAME}.git"
-SRCREV = "c89da9507cf31fe604154c20a5fd6a56b5dafb82"
+SRCREV = "3fa7f580a5694e4f0cd1cacf9b5d3d5321296d41"
 
 S = "${WORKDIR}/git"
 

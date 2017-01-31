@@ -11,7 +11,7 @@ RDEPENDS_${PN} += "\
 SRC_NAME = "argcomplete"
 
 SRC_URI = "git://github.com/kislyuk/${SRC_NAME}.git"
-SRCREV = "92df979d50e6ed64778252ba574033cc6f660550"
+SRCREV = "5cd934c586ab2a4f4bbf831201b46c9ceeb855eb"
 
 S = "${WORKDIR}/git"
 

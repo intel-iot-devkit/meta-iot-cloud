@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure DevTestLabs Management Client Library for Python"
 
+PV = "1.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "ba9f14fa5ad8cb77bdd549bf586de6c588ce4058"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/devtestlabs/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-devtestlabs"
-SRCREV = "ba9f14fa5ad8cb77bdd549bf586de6c588ce4058"

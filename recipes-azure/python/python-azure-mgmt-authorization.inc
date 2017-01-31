@@ -1,11 +1,14 @@
 DESCRIPTION = "Microsoft Azure Authorization Resource Management Client Library for Python"
 
+PV = "0.30.0rc6"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
+
+SRCREV = "5f9a6d994ee2d76daa4fb105b6b54d82bc64a201"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/authorization/* \
@@ -20,4 +23,3 @@ distutils_do_install_append() {
 }
 
 SRC_DIR = "azure-mgmt-authorization"
-SRCREV = "5f9a6d994ee2d76daa4fb105b6b54d82bc64a201"
