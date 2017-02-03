@@ -9,6 +9,11 @@ S = "${WORKDIR}/git"
 
 distutils_do_compile_prepend() {
 	cd ${S}/${SRC_DIR}
+
+	# Fix incorrect operators
+	if [ -e setup.py ]; then
+		sed -i -- 's/~=/>=/g' setup.py
+	fi
 }
 
 distutils_do_install_prepend() {

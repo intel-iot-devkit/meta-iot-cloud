@@ -14,12 +14,16 @@ PR = "r0"
 
 SRC_NAME = "msrestazure-for-python"
 
-SRC_URI = "\
-	git://github.com/Azure/${SRC_NAME}.git \
-	file://msrestazure-Fix-install-requires-in-setup-script.patch \
-"
+SRC_URI = "git://github.com/Azure/${SRC_NAME}.git"
 SRCREV = "3fa7f580a5694e4f0cd1cacf9b5d3d5321296d41"
 
 S = "${WORKDIR}/git"
+
+do_compile_prepend() {
+	# Fix incorrect operators
+	if [ -e setup.py ]; then
+		sed -i -- 's/~=/>=/g' setup.py
+	fi
+}
 
 BBCLASSEXTEND = "native nativesdk"
