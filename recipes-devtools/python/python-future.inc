@@ -2,7 +2,7 @@ DESCRIPTION = "Clean single-source support for Python 3 and 2"
 HOMEPAGE = "https://python-future.org"
 AUTHOR = "Ed Schofield"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3f457538b297bd0ef86564b8ac216ad7"
 
 PR = "r0"
 
