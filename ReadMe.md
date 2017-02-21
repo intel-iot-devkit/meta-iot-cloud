@@ -6,6 +6,7 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 * [IBM Bluemix](https://console.ng.bluemix.net/)
 * [Amazon Web Services](https://aws.amazon.com/)
 * [Microsoft Azure](https://azure.microsoft.com/)
+* [Google Cloud Platform](https://cloud.google.com/)
 
 ## Available Packages
 * `packagegroup-cloud-ibm`
@@ -27,6 +28,8 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * node-red-contrib-azureiothubnode
     * node-iothub-explorer
     * python-azure-cli
+* `packagegroup-cloud-google`
+    * python-google-cloud
 * `node-red`
 * `node-red-contrib-upm`
 
@@ -63,10 +66,19 @@ To build packages related to Microsoft Azure:
 ```shell
 	bitbake packagegroup-cloud-azure
 ```
+
+To build packages related to Google Cloud Platform:
+```shell
+	bitbake packagegroup-cloud-google
+```
+
 Alternatively to add support for a given platform into your image add the following to your distro config or `conf/auto.conf`
 
 ```bitbake
-    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-ibm packagegroup-cloud-aws packagegroup-cloud-azure"
+    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-ibm"
+    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-aws"
+    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-azure"
+    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-google"
 ```
 
 Installation
