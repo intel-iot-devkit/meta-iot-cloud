@@ -1,7 +1,7 @@
 inherit autotools
 require protobuf.inc
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-compiler ${PN}-lite"
+PACKAGES = "${PN} ${PN}-dev ${PN}-staticdev ${PN}-dbg ${PN}-compiler ${PN}-lite"
 
 DEPENDS = "protobuf-native zlib"
 RDEPENDS_${PN}-compiler = "${PN}"
@@ -29,6 +29,10 @@ FILES_${PN}-dev = "\
 	${libdir}/*.la \
 	${libdir}/pkgconfig \
 	${includedir} \
+"
+
+FILES_${PN}-staticdev = "\
+	${libdir}/*.a \
 "
 
 BBCLASSEXTEND = "nativesdk"
