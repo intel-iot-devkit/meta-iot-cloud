@@ -2,7 +2,7 @@ DESCRIPTION = "Google API Extensions"
 HOMEPAGE = "https://github.com/googleapis/gax-python"
 AUTHOR = "Google API Authors"
 LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f83cd5dde2d24d5e0f5ae6b1364ace79"
 
 RDEPENDS_${PN} += " \
 	${PYTHON_PN}-dill \
