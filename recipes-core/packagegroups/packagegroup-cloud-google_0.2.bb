@@ -10,10 +10,18 @@ RDEPENDS_${PN} = "\
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "python"
+PACKAGECONFIG ??= "python node-red"
+
 PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
 	python-google-cloud \
+"
+
+PACKAGECONFIG[node-red] = "\
+	, \
+	, \
+	, \
+	node-red-contrib-google-cloud \
 "
