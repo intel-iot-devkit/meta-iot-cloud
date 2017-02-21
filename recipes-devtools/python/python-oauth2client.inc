@@ -2,7 +2,7 @@ DESCRIPTION = "OAuth 2.0 client library"
 AUTHOR = "Google Inc."
 HOMEPAGE = "http://github.com/google/oauth2client/"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=038e1390e94fe637991fa5569daa62bc"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-httplib2 \	
