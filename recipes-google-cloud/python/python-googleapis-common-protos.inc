@@ -5,7 +5,8 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=2deedbf0e737771f60166811e74a6a92"
 
 RDEPENDS_${PN} += " \
-    ${PYTHON_PN}-protobuf \
+	${PYTHON_PN}-protobuf \
+	${PYTHON_PN}-grpcio \
 "
 
 PR = "r0"
