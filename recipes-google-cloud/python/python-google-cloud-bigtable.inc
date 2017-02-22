@@ -1,6 +1,6 @@
 DESCRIPTION = "Python Client for Google Cloud Bigtable"
 
-PV = "0.22.1"
+PV = "0.22.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,4 +8,4 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-grpcio \
 "
 
-SRC_DIR = "bigquery"
+SRC_DIR = "bigtable"
