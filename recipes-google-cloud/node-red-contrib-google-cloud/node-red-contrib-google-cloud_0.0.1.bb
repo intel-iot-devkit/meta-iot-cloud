@@ -14,14 +14,14 @@ RDEPENDS_${PN} = "\
 SRC_URI = "git://github.com/GoogleCloudPlatform/${PN}.git;branch=master"
 SRCREV = "94684a86138fe9f820eea12532d14d48ae874e83"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "http://registry.npmjs.org/"
-NPM_INSTALL_FLAGS = "--production --without-ssl --insecure --no-optional --verbose"
+NPM_INSTALL_FLAGS = "--production --without-ssl --insecure --no-optional --verbose --unsafe-perm"
 
 do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
