@@ -1,14 +1,14 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Batch Command Module"
 
-PV = "0.1.1b2"
-PR = "r1"
+PV = "0.1.1b4"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-batch \
 	${PYTHON_PN}-azure-batch \
+	${PYTHON_PN}-azure-mgmt-batch \
+	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "054a9ee2d43c68196323b319b5ad8dd0014534ec"
+SRCREV = "2e6b650a176d0666bdcffcd4f91ba5815b90b3eb"
 
 SRC_DIR = "src/command_modules/azure-cli-batch"

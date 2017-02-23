@@ -1,11 +1,13 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools ACS Command Module"
 
-PV = "0.1.1b2"
-PR = "r2"
+PV = "0.1.2rc2"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
+	${PYTHON_PN}-azure-mgmt-authorization \
 	${PYTHON_PN}-azure-mgmt-compute \
+	${PYTHON_PN}-azure-graphrbac \
+	${PYTHON_PN}-azure-cli-core \
 	${PYTHON_PN}-paramiko \
 	${PYTHON_PN}-pyyaml \
 	${PYTHON_PN}-six \
@@ -13,6 +15,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-sshtunnel \
 "
 
-SRCREV = "be7c0f2c9a6d835bf3b5c070ae6959d30613517d"
+SRCREV = "9490c0e49aeda37b652b00c05922a6a3b77313da"
 
 SRC_DIR = "src/command_modules/azure-cli-acs"
