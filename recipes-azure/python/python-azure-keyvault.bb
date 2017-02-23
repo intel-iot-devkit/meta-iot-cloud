@@ -1,3 +1,3 @@
 inherit setuptools
 require python-azure-keyvault.inc
-require python-azure-class.inc
+require azure-sdk-common.inc

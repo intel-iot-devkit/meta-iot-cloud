@@ -1,7 +1,7 @@
 DESCRIPTION = "Microsoft Azure Client Library for Python (Common)"
 
 PV = "1.1.4"
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-nspkg \
@@ -15,10 +15,5 @@ FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/common/* \
 	${PYTHON_SITEPACKAGES_DIR}/azure_common-* \
 "
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/*.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/*.pyc
-}
 
 SRC_DIR = "azure-common"

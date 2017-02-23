@@ -16,3 +16,8 @@ distutils_do_compile_prepend() {
 distutils_do_install_prepend() {
 	cd ${S}/${SRC_DIR}
 }
+
+distutils_do_install_append() {
+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py
+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.pyc
+}

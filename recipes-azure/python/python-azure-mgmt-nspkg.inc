@@ -15,9 +15,4 @@ FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_nspkg-* \
 "
 
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/*.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/*.pyc
-}
-
 SRC_DIR = "azure-mgmt-nspkg"

@@ -1,7 +1,7 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
 PV = "0.1.1b3"
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} = "\
 	bash \
@@ -14,6 +14,7 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-azure-cli-configure \
 	${PYTHON_PN}-azure-cli-container \
 	${PYTHON_PN}-azure-cli-context \
+	${PYTHON_PN}-azure-cli-core \
 	${PYTHON_PN}-azure-cli-feedback \
 	${PYTHON_PN}-azure-cli-iot \
 	${PYTHON_PN}-azure-cli-keyvault \

@@ -1,7 +1,7 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools SQL Command Module"
 
 PV = "0.1.1b3"
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-sql\

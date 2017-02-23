@@ -1,0 +1,10 @@
+#
+# Helper class for azure-mgmt-* recipes
+#
+
+require azure-sdk-common.inc
+
+distutils_do_install_append() {
+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/*.py
+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/*.pyc
+}

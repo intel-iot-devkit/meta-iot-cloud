@@ -1,2 +1,2 @@
 inherit setuptools3
-require python-azure-storage.inc
+require azure-sdk-common.inc

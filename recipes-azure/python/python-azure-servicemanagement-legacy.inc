@@ -1,7 +1,7 @@
 DESCRIPTION = "Microsoft Azure Legacy Service Management Client Library for Python"
 
 PV = "0.20.5"
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
@@ -15,10 +15,5 @@ FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/servicemanagement/* \
 	${PYTHON_SITEPACKAGES_DIR}/azure_servicemanagement_legacy-* \
 "
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/*.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/*.pyc
-}
 
 SRC_DIR = "azure-servicemanagement-legacy"

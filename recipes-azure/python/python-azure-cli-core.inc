@@ -1,9 +1,10 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
 PV = "0.1.1b3"
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} += "\
+	${PYTHON_PN}-azure-cli-nspkg \
 	${PYTHON_PN}-adal \
 	${PYTHON_PN}-applicationinsights \
 	${PYTHON_PN}-argcomplete \
