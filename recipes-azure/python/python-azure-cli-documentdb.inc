@@ -10,4 +10,4 @@ RDEPENDS_${PN} += "\
 
 SRCREV = "d177d85d45dc17c82b0091860396fb790bd386b1"
 
-SRC_DIR = "src/command_modules/azure-cli-databasedb"
+SRC_DIR = "src/command_modules/azure-cli-documentdb"
