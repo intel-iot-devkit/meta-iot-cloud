@@ -8,6 +8,7 @@ RDEPENDS_${PN} += " \
 	${PYTHON_PN}-googleapis-common-protos \
 	${PYTHON_PN}-google-gax \
 	${PYTHON_PN}-proto-google-cloud-datastore-v1 \
+	${PYTHON_PN}-grpc-google-cloud-datastore-v1 \
 	${PYTHON_PN}-oauth2client \
 "
 
