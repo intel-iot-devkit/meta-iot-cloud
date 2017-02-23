@@ -1,15 +1,13 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
-PV = "0.1.1b3"
-PR = "r1"
+PV = "0.1.2rc2"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-nspkg \
 	${PYTHON_PN}-adal \
 	${PYTHON_PN}-applicationinsights \
 	${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-azure-mgmt-trafficmanager \
-	${PYTHON_PN}-azure-mgmt-dns \
+	${PYTHON_PN}-azure-cli-nspkg \
 	${PYTHON_PN}-colorama \
 	${PYTHON_PN}-jmespath \
 	${PYTHON_PN}-msrest \
@@ -21,6 +19,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-tabulate \
 "
 
-SRCREV = "241af13faa8233602f1afeb7625dbdb1205e7f41"
+SRCREV = "1a95ff279dc93947e03c4cde74a94d85ffbd8e49"
 
 SRC_DIR = "src/azure-cli-core"
