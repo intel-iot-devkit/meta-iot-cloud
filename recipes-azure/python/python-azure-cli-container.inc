@@ -4,7 +4,6 @@ PV = "0.1.1b3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
 	${PYTHON_PN}-pyyaml \
 "
 

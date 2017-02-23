@@ -1,13 +1,14 @@
 DESCRIPTION = "Microsoft Azure KeyVault Client Library for Python"
 
-PV = "0.30.0rc6"
-PR = "r1"
+PV = "0.1.0"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "2f86e7ec014f9f9030b9e860e21ea689615c09ed"
+SRCREV = "e9ed431c48666f385c31453b315beaa156fef2c6"
 
 FILES_${PN} = "\
 		${PYTHON_SITEPACKAGES_DIR}/azure/keyvault/* \
