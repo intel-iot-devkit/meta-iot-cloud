@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5c5f860bd5a8be2c5ff164136c27fbad"
 DEPENDS = "rapidjson openssl"
 RDEPENDS_${PN} = "openssl"
 
+RDEPENDS_${PN}-dev += "rapidjson-dev openssl-dev"
+
 inherit cmake
 
 SRC_URI = "\
@@ -20,7 +22,7 @@ SRCREV = "3b544dcba048897a8a9b2e3b29243d8035caa28c"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-cli ${PN}-samples ${PN}-samples-src"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -102,3 +104,5 @@ FILES_${PN}-samples-src = "\
 
 INSANE_SKIP_${PN}-cli += "rpaths"
 INSANE_SKIP_${PN}-samples += "rpaths"
+
+RRECOMMENDS_aws-iot-device-sdk-cpp-dev[nodeprrecs] = "1"
