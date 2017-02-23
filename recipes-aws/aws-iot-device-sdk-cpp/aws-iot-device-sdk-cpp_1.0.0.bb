@@ -4,10 +4,17 @@ HOMEPAGE = "https://github.com/aws/aws-iot-device-sdk-cpp"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5c5f860bd5a8be2c5ff164136c27fbad"
 
-DEPENDS = "rapidjson openssl"
+DEPENDS = "\
+	rapidjson \
+	openssl \
+"
+
 RDEPENDS_${PN} = "openssl"
 
-RDEPENDS_${PN}-dev += "rapidjson-dev openssl-dev"
+RDEPENDS_${PN}-dev += "\
+	rapidjson-dev \
+	openssl-dev \
+"
 
 inherit cmake
 

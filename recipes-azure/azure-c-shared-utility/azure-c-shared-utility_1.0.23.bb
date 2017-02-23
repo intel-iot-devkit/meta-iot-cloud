@@ -13,12 +13,18 @@ RDEPENDS_${PN} = "\
 	util-linux-libuuid \
 "
 
+RDEPENDS_${PN}-dev += "\
+	curl-dev \
+	util-linux-dev \
+	openssl-dev \
+"
+
 inherit cmake
 
 SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git"
 SRCREV = "4f1ae336aca29f766d109facc704dad1a15149a2"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -41,3 +47,5 @@ FILES_${PN}-dev += "\
 	${exec_prefix}/cmake \
 "
 FILES_${PN}-dbg += "${libdir}/.debug"
+
+RRECOMMENDS_azure-c-shared-utility-dev[nodeprrecs] = "1"
