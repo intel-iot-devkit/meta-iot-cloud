@@ -1,0 +1,47 @@
+From 20d085832b68d7ea986a0f430bd6cf89ea65d125 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Mon, 6 Mar 2017 13:37:09 +0000
+Subject: [PATCH] Create common library for all dependencies
+
+---
+ lib/CMakeLists.txt | 14 +-------------
+ src/CMakeLists.txt |  6 +++---
+ 2 files changed, 4 insertions(+), 16 deletions(-)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 365bf41..e39847d 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -1,14 +1,2 @@
+ cmake_minimum_required(VERSION 2.8)
+-add_library(cJSON cJSON.c)
+-add_library(mqttclient MQTTClient.c)
+-add_library(mqttlinux MQTTLinux.c)
+-add_library(mqttformat MQTTFormat.c)
+-add_library(mqttpacket MQTTPacket.c)
+-add_library(mqttdespublish MQTTDeserializePublish.c)
+-add_library(mqttconnectclient MQTTConnectClient.c)
+-add_library(mqttsubscribeclient MQTTSubscribeClient.c)
+-add_library(mqttserpublish MQTTSerializePublish.c)
+-add_library(mqttconnectserver MQTTConnectServer.c)
+-add_library(mqttsubscribeserver MQTTSubscribeServer.c)
+-add_library(mqttunsubscribeserver MQTTUnsubscribeServer.c)
+-add_library(mqttunsubscribeclient MQTTUnsubscribeClient.c)
++add_library(iotfcommon SHARED cJSON.c MQTTClient.c MQTTLinux.c MQTTFormat.c MQTTPacket.c MQTTDeserializePublish.c MQTTConnectClient.c MQTTSubscribeClient.c MQTTSerializePublish.c MQTTConnectServer.c MQTTSubscribeServer.c MQTTUnsubscribeServer.c MQTTUnsubscribeClient.c)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index a74a345..8d81865 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -4,6 +4,6 @@ add_library(iotfdevmgt SHARED devicemanagementclient.c)
+ add_library(iotfgwayclient SHARED gatewayclient.c)
+ add_library(iotfclient SHARED iotfclient.c)
+ 
+-TARGET_LINK_LIBRARIES (iotfdevmgt iotfclient cJSON mqttclient mqttlinux mqttformat  mqttpacket mqttdespublish mqttconnectclient mqttsubscribeclient mqttserpublish mqttconnectserver mqttsubscribeserver mqttunsubscribeserver mqttunsubscribeclient)
+-TARGET_LINK_LIBRARIES (iotfgwayclient mqttclient mqttlinux mqttformat  mqttpacket mqttdespublish mqttconnectclient mqttsubscribeclient mqttserpublish mqttconnectserver mqttsubscribeserver mqttunsubscribeserver mqttunsubscribeclient)
+-TARGET_LINK_LIBRARIES (iotfclient mqttclient mqttlinux mqttformat  mqttpacket mqttdespublish mqttconnectclient mqttsubscribeclient mqttserpublish mqttconnectserver mqttsubscribeserver mqttunsubscribeserver mqttunsubscribeclient)
++TARGET_LINK_LIBRARIES (iotfdevmgt iotfclient iotfcommon)
++TARGET_LINK_LIBRARIES (iotfgwayclient iotfcommon)
++TARGET_LINK_LIBRARIES (iotfclient iotfcommon)
+-- 
+1.9.1
+

@@ -3,15 +3,15 @@ HOMEPAGE = "https://github.com/ibm-messaging/iotf-embeddedc"
 LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
-DEPENDS = "cjson"
-RDEPENDS_${PN} = "cjson"
-
 inherit cmake
 
 SRC_NAME = "iot-embeddedc"
 
-SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git"
-SRCREV = "faf6a55db206b64a75184b3b1108188f8082c6e8"
+SRC_URI = "\
+	git://github.com/ibm-watson-iot/${SRC_NAME}.git \
+	file://0001-Create-common-library-for-all-dependencies.patch \
+"
+SRCREV = "4b4076836b079146158bfbbe9a97fff44787b7bf"
 
 PR = "r0"
 
@@ -36,7 +36,7 @@ do_install() {
 	install -m 0644 ${S}/lib/StackTrace.h ${D}${includedir}/ibm_iotf_paho
 
 	install -d ${D}${libdir}
-	install -m 0644 ${WORKDIR}/build/lib/libmqtt*.so ${D}${libdir}
+	install -m 0644 ${WORKDIR}/build/lib/*.so ${D}${libdir}
 	install -m 0644 ${WORKDIR}/build/src/*.so ${D}${libdir}
 
 	# Samples
