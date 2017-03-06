@@ -3,15 +3,12 @@ HOMEPAGE = "https://github.com/ibm-watson-iot/iot-java"
 LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-
 DEPENDS = "maven-native icedtea7-native"
 
-SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git \
-"
-SRCREV = "c13c04888c0c01f7fbe57031072e6ef2abd55f80"
+SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git"
+SRCREV = "c0ef92db23b2bbcf352e49cbe9fa7dc41f218f7a"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${S}/target"
