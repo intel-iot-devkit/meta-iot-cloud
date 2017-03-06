@@ -1,22 +1,18 @@
-DESCRIPTION = "Node-RED nodes for connecting to the IBM Watson platform"
+DESCRIPTION = "Connect to IBM Watson Internet of Things Plaform as a Device or Gateway"
+AUTHOR = "Nick O'Leary"
 HOMEPAGE = "https://github.com/ibm-messaging/iot-nodered"
-LICENSE = "EPL-1.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=9812725859172d1c78fb60518d16fe64"
 
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash nodejs node-red"
 
-SRC_NAME = "iot-nodered"
+SRC_URI = "git://github.com/ibm-watson-iot/node-red-contrib-ibm-watson-iot.git"
+SRCREV = "5dafdaa723d135956da104ebbf780457c8737356"
 
-SRC_URI = "git://github.com/ibm-watson-iot/${SRC_NAME}.git;branch=master"
-SRCREV = "aa4a3c4a3d3a1d0d7f36f85adb26522d4868bc0e"
-
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
-
-# Modules
-IBM_WATSON_IOT = "${S}/node-red-contrib-ibm-watson-iot"
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
@@ -29,14 +25,13 @@ do_compile() {
 	# Clear cache
 	npm cache clear
 
-	cd ${IBM_WATSON_IOT}
 	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
 	npm prune --production
 }
 
 do_install() {
 	install -d ${D}${NODE_MODULES_DIR}
-	cp -r ${IBM_WATSON_IOT} ${D}${NODE_MODULES_DIR}/
+	cp -r ${S} ${D}${NODE_MODULES_DIR}/${PN}
 }
 
 PACKAGES = "${PN}"
