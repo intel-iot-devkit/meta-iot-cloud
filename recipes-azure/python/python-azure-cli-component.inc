@@ -1,12 +1,12 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Component Command Module"
 
-PV = "0.1.1rc2"
+PV = "2.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "50b108bc56285f5f17c7aa5158daa6bcc59d380e"
+SRCREV = "571e3dc93e65b77303c0da781d838647531a785f"
 
 SRC_DIR = "src/command_modules/azure-cli-component"

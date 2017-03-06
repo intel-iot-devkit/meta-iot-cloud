@@ -1,6 +1,6 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
-PV = "0.1.2rc2"
+PV = "2.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} = "\
@@ -28,6 +28,6 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-azure-cli-vm \
 "
 
-SRCREV = "7c5fe6b76794a1768197556c78288272d3a0a9e2"
+SRCREV = "aa3238122d56a79f6f8d45b7481e1d329356ae10"
 
 SRC_DIR = "src/azure-cli"

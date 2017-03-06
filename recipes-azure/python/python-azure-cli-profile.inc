@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Profile Command Module"
 
-PV = "0.1.2rc2"
+PV = "2.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,6 +8,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "3de939655973a8d91f2e5cdb15babaca3327f4a2"
+SRCREV = "23594cf8632e1bde3a98a281a6016724d3effc16"
 
 SRC_DIR = "src/command_modules/azure-cli-profile"

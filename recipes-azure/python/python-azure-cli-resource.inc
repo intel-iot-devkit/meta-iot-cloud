@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Resource Command Module"
 
-PV = "0.1.2rc2"
+PV = "2.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,6 +8,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "3d05aed3c2b8df44d200337a85af3cb53a93b781"
+SRCREV = "6daa5696ac274d4d311b149c9b7266f702cce438"
 
 SRC_DIR = "src/command_modules/azure-cli-resource"

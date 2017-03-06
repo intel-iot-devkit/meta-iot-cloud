@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools AppService Command Module"
 
-PV = "0.1.1b4"
+PV = "0.1.1b5"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -10,6 +10,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-pyopenssl \
 "
 
-SRCREV = "7f686eeb3a1809b5a10f5732fb324dc103ffaeef"
+SRCREV = "e27563970b6d3d1bdd04332f862e74c997f8b017"
 
 SRC_DIR = "src/command_modules/azure-cli-appservice"

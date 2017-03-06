@@ -1,13 +1,13 @@
 DESCRIPTION = "Microsoft Azure CLI Namespace Package"
 
-PV = "0.1.2"
+PV = "2.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-azure-nspkg \
 "
 
-SRCREV = "1914ae66c7e300bc9cc7aa6d74f62623010e3f61"
+SRCREV = "c82259469d3fe69457bea4d3c7e8ef1a8466eeca"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/cli/*.py \

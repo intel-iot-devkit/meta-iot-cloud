@@ -1,13 +1,13 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Feedback Command Module"
 
-PV = "0.1.1b2"
-PR = "r1"
+PV = "2.0.0"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-applicationinsights \
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "89efd19f4a833ccdd32663b11578e2052d0177bb"
+SRCREV = "570ad93ad4ef40b8598618b80812de0a8e669993"
 
 SRC_DIR = "src/command_modules/azure-cli-feedback"
