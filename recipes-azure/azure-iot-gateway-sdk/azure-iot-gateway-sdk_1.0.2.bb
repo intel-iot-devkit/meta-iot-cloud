@@ -13,7 +13,8 @@ SRC_URI += "\
 	file://0001-Skip-adding-test-dependencies-if-not-required.patch \
 	file://0002-Fix-nanomsg-detection.patch \
 	file://0003-Include-parson-with-main-library.patch \
-	file://0004-Update-sample-module-paths.patch \
+	file://0004-Remove-parson-submodule-init.patch \
+	file://0005-Update-sample-module-paths.patch \
 "
 
 SRC_URI += "\
@@ -32,6 +33,7 @@ SRC_URI += "\
 
 PR = "r0"
 
+S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 PACKAGES = "\
