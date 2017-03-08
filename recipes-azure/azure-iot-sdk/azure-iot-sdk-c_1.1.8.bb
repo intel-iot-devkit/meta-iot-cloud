@@ -15,7 +15,7 @@ DEPENDS = "\
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-iot-sdk-c.git \
 "
-SRCREV = "2118d86528dc34b12cf70b1b359f1acc91fd9ee5"
+SRCREV = "b71fb3651d7660551a2079b8c8a75b9803e2d7aa"
 
 PR = "r0"
 
@@ -30,7 +30,7 @@ PACKAGES = "\
 "
 
 ## CMake ##
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
+EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake

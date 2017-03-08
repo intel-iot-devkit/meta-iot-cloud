@@ -1,17 +1,17 @@
-From f07f9d1020c1bfc6d82b4b913d1bbbd3bc9e1156 Mon Sep 17 00:00:00 2001
+From 82f20163620f5270e0954932f348094f27430543 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 17 Jan 2017 20:21:38 +0000
-Subject: [PATCH 1/3] Skip adding test dependencies if not required
+Date: Wed, 8 Mar 2017 13:15:44 +0000
+Subject: [PATCH] Skip adding test dependencies if not required
 
 ---
- CMakeLists.txt | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ CMakeLists.txt | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 394da73..2ac06cd 100644
+index 5ca0455..8fef94c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -66,7 +66,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+@@ -88,7 +88,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
    set( MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full --suppressions=${CMAKE_CURRENT_LIST_DIR}/core/valgrind_suppressions.txt --error-exitcode=1" )
  endif()
  
@@ -21,8 +21,8 @@ index 394da73..2ac06cd 100644
 +endif()
  
  include(CheckSymbolExists)
- function(detect_architecture symbol arch) 
-@@ -156,11 +158,16 @@ macro(compileAsC11)
+ function(detect_architecture symbol arch)
+@@ -178,11 +180,17 @@ macro(compileAsC11)
    endif()
  endmacro(compileAsC11)
  
@@ -33,7 +33,7 @@ index 394da73..2ac06cd 100644
 +
  compileAsC99()
  
--#this adds all test dependencies
+ #this adds all test dependencies
 -include(dependencies-test.cmake)
 +if(${run_unittests})
 +    #this adds all test dependencies

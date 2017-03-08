@@ -22,9 +22,9 @@ RDEPENDS_${PN}-dev += "\
 inherit cmake
 
 SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git"
-SRCREV = "4f1ae336aca29f766d109facc704dad1a15149a2"
+SRCREV = "08c4bae260cf86a6b00fc40d58d6ddb895522b9a"
 
-PR = "r2"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"

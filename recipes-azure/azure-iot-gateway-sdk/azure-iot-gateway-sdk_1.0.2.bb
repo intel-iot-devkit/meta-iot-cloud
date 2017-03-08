@@ -14,7 +14,9 @@ SRC_URI += "\
 	file://0002-Fix-nanomsg-detection.patch \
 	file://0003-Include-parson-with-main-library.patch \
 	file://0004-Update-sample-module-paths.patch \
-	file://0005-Remove-parson-submodule-init.patch \
+"
+
+SRC_URI += "\
 	file://azure-functions-sample.sh \
 	file://ble-gateway-sample.sh \
 	file://hello-world-sample.sh \

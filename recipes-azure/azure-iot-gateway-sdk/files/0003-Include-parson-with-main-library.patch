@@ -1,19 +1,28 @@
-From 62e93c2ba33e3de1101d462ea3a100b62b1ce6b4 Mon Sep 17 00:00:00 2001
+From c797132f1b8435a90c82ed21d2223c2236edf7c2 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 18 Jan 2017 14:13:43 +0000
+Date: Wed, 8 Mar 2017 13:30:08 +0000
 Subject: [PATCH 3/3] Include parson with main library
 
 ---
- core/CMakeLists.txt      | 20 ++++++++++++++++----
+ core/CMakeLists.txt      | 22 ++++++++++++++++------
  core/deps/CMakeLists.txt | 30 ------------------------------
- 2 files changed, 16 insertions(+), 34 deletions(-)
+ 2 files changed, 16 insertions(+), 36 deletions(-)
  delete mode 100644 core/deps/CMakeLists.txt
 
 diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index 4cc942a..0690b56 100644
+index 3ce32d0..0f59962 100644
 --- a/core/CMakeLists.txt
 +++ b/core/CMakeLists.txt
-@@ -76,6 +76,14 @@ set(gateway_h_sources
+@@ -7,8 +7,6 @@ if(POLICY CMP0054)
+ endif()
+ cmake_policy(SET CMP0022 NEW)
+ 
+-add_subdirectory(deps)
+-
+ #this sets a global var that stores where the includes for GW are
+ set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
+ set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
+@@ -76,6 +74,14 @@ set(gateway_h_sources
      ../deps/parson/parson.h
  )
  
@@ -28,7 +37,7 @@ index 4cc942a..0690b56 100644
  # Add the module loaders
  set(gateway_c_sources
      ${gateway_c_sources}
-@@ -136,22 +144,26 @@ include_directories(./inc)
+@@ -151,22 +157,26 @@ include_directories(./inc)
  add_library(gateway SHARED
      ${gateway_c_sources}
      ${gateway_h_sources}
@@ -98,30 +107,4 @@ index 2ebea5f..0000000
 \ No newline at end of file
 -- 
 1.9.1
-
-From 098d9e1259e61a3b53dfc084cdf272d5b35428e7 Mon Sep 17 00:00:00 2001
-From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 18 Jan 2017 14:16:26 +0000
-Subject: [PATCH 4/4] Remove core deps
-
----
- core/CMakeLists.txt | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index 0690b56..903808b 100644
---- a/core/CMakeLists.txt
-+++ b/core/CMakeLists.txt
-@@ -7,8 +7,6 @@ if(POLICY CMP0054)
- endif()
- cmake_policy(SET CMP0022 NEW)
- 
--add_subdirectory(deps)
--
- #this sets a global var that stores where the includes for GW are
- set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
- set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
--- 
-1.9.1
-
 

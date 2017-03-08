@@ -24,7 +24,7 @@ SRC_URI = "\
 	file://0003-Compile-as-C99.patch \
 	file://0004-Remove-redundant-calls.patch \
 "
-SRCREV = "67287162f3b09b350b975b4463a2d916acc838d2"
+SRCREV = "c59810666537f1b2717e806fc9cd9a5bc0f69d33"
 
 PR = "r0"
 
