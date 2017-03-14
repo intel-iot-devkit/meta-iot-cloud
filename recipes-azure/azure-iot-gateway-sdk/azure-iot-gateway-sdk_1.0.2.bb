@@ -38,7 +38,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -330,10 +330,12 @@ FILES_${PN}-dbg += "\
 	${exec_prefix}/lib/azureiot/modules/iothub/.debug \
 	${exec_prefix}/lib/azureiot/modules/logger/.debug \
 	${exec_prefix}/lib/azureiot/modules/simulated_device/.debug \
+	${exec_prefix}/lib/azureiot/modules/modbus_read/.debug \
 	${datadir}/azureiotgatewaysdk/samples/azure_functions/.debug \
 	${datadir}/azureiotgatewaysdk/samples/ble_gateway/.debug \
 	${datadir}/azureiotgatewaysdk/samples/hello_world/.debug \
 	${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/.debug \
+	${datadir}/azureiotgatewaysdk/samples/modbus/.debug \
 "
 
 FILES_${PN}-modules += "\
