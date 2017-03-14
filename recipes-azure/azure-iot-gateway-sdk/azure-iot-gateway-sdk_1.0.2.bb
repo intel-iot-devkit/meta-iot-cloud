@@ -9,6 +9,13 @@ DEPENDS = "\
 	nanomsg \
 "
 
+RDEPENDS_${PN}-dev += "\
+	azure-iot-sdk-c-dev \
+"
+
+SRC_URI += "git://github.com/Azure/iot-gateway-modbus.git;destsuffix=git-modbus;name=modbus"
+SRCREV_modbus = "7daeca02df909278c775112e04d8255240cda48c"
+
 SRC_URI += "\
 	file://0001-Skip-adding-test-dependencies-if-not-required.patch \
 	file://0002-Fix-nanomsg-detection.patch \
@@ -31,11 +38,12 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
+# Default packages
 PACKAGES = "\
 	${PN} \
 	${PN}-dev \
@@ -45,6 +53,12 @@ PACKAGES = "\
 	${PN}-samples \
 	${PN}-samples-src \
 	${PN}-java \
+"
+
+# Additional packages
+PACKAGES += "\
+	${PN}-module-modbus \
+	${PN}-samples-modbus \
 "
 
 ## Java ##
@@ -87,6 +101,10 @@ PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOO
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
 
 do_configure_prepend() {
+	# Copy extra modules to build directory
+	cp -rf ${WORKDIR}/git-modbus/modules ${S}
+	cp -rf ${WORKDIR}/git-modbus/samples ${S}
+
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${JDK_HOME}"
@@ -221,6 +239,13 @@ do_install() {
 	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/inc/
 	install -m 0755 ${WORKDIR}/simulated-device-module.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/modules/simulated_device/build.sh
 
+	# Modbus Module
+	install -d ${D}${exec_prefix}/lib/azureiot/modules/modbus_read
+	oe_libinstall -C ${B}/modules/modbus_read/ -so libmodbus_read ${D}${exec_prefix}/lib/azureiot/modules/modbus_read/
+
+	install -d ${D}${includedir}/azureiot/modules/modbus_read
+	install -m 0644 ${S}/modules/modbus_read/inc/*.h ${D}${includedir}/azureiot/modules/modbus_read
+
 	# Azure Functions Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions
 	install -m 0755 ${B}/samples/azure_functions_sample/azure_functions_sample ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions/azure_functions
@@ -270,11 +295,21 @@ do_install() {
 		install -m 0755 ${WORKDIR}/ble-gateway-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/build.sh
 	fi
 
+	# Modbus Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/modbus
+	install -m 0755 ${B}/samples/modbus_sample/modbus_sample ${D}${datadir}/azureiotgatewaysdk/samples/modbus/modbus
+	install -m 0644 ${S}/samples/modbus_sample/src/modbus_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/modbus/modbus.json
+
 	# Java
 	if [ -e ${JAVA_LIB_DIR} ]; then
 		install -d ${D}${exec_prefix}/lib/azureiot/bindings/java
     		oe_libinstall -C ${JAVA_LIB_DIR} -so libjava_module_host ${D}${exec_prefix}/lib/azureiot/bindings/java/
 	fi
+}
+
+# Replace module paths in sample configuration files
+do_install_append() {
+	find ${D} -type f -name "*.json" -exec sed -i 's|../../modules|${exec_prefix}/lib/azureiot/modules|g' {} +
 }
 
 RDEPENDS_${PN} = "glib-2.0 curl"
@@ -328,16 +363,25 @@ FILES_${PN}-samples-src += "\
 	${exec_prefix}/src/azureiotgatewaysdk/samples \
 "
 
+FILES_${PN}-module-modbus += "\
+	${exec_prefix}/lib/azureiot/modules/modbus_read/libmodbus_read.so \
+"
+
+RDEPENDS_${PN}-samples-modbus += "azure-iot-gateway-sdk-module-modbus"
+FILES_${PN}-samples-modbus += "\
+	${datadir}/azureiotgatewaysdk/samples/modbus/* \
+"
+
 FILES_${PN}-java += "\
 	${exec_prefix}/lib/azureiot/bindings/java/*.so \
 "
-
-RRECOMMENDS_azure-iot-gateway-sdk-dev = "glibc-dev util-linux-dev curl-dev glib-2.0-dev azure-iot-sdk-c-dev"
 
 RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_${PN} += "rpaths"
 INSANE_SKIP_${PN}-dbg += "libdir"
 INSANE_SKIP_${PN}-modules += "rpaths libdir"
+INSANE_SKIP_${PN}-module-modbus += "rpaths libdir"
 INSANE_SKIP_${PN}-samples += "rpaths libdir"
+INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-java += "rpaths libdir"
