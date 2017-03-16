@@ -12,9 +12,9 @@ RDEPENDS_${PN} = "\
 "
 
 SRC_URI = "git://github.com/GoogleCloudPlatform/${PN}.git;branch=master"
-SRCREV = "94684a86138fe9f820eea12532d14d48ae874e83"
+SRCREV = "2e646aaf897da0d54a7ee5df55c4de3ac2eac86c"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 
