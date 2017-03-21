@@ -1,0 +1,75 @@
+#!/bin/bash
+
+set -o nounset # Fail when variable is used, but not initialized
+set -o errexit # Fail on unhandled error exits
+set -o pipefail # Fail when part of piped execution fails
+
+pushd "$(dirname "$0")/../" > /dev/null
+popd > /dev/null
+
+ALEXASRC_DIRECTORY_CORRECT="/opt/AlexaPi"
+CONFIG_SYSTEM_DIRECTORY="/etc/opt/AlexaPi"
+CONFIG_FILENAME="config.yaml"
+CONFIG_FILE_SYSTEM="${CONFIG_SYSTEM_DIRECTORY}/${CONFIG_FILENAME}"
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root"
+	exit
+fi
+
+cd "${ALEXASRC_DIRECTORY}"
+echo ""
+
+mkdir -p ${CONFIG_SYSTEM_DIRECTORY}
+touch ${CONFIG_SYSTEM_DIRECTORY}/.keep
+CONFIG_FILE="${CONFIG_FILE_SYSTEM}"
+
+config_action=2
+if [ -f $CONFIG_FILE ]; then
+    echo "Configuration file $CONFIG_FILE exists already. What do you want to do?"
+    echo "[0] Keep and use current configuration file."
+    echo "[1] Edit existing configuration file."
+    echo "[2] Delete the configuration file and start with a fresh one."
+    read -r -p "Which option do you prefer? [hit Enter for 0]: " config_action
+fi
+
+case ${config_action} in
+
+    1)
+        echo "Editing existing configuration file ..."
+    ;;
+    2)
+        echo "Creating configuration file ${CONFIG_FILE} ..."
+        cp config.template.yaml ${CONFIG_FILE}
+    ;;
+    *)
+        echo "Exiting ..."
+        exit
+    ;;
+
+esac
+
+declare -A config_defaults
+config_defaults[Device_Type_ID]=$(config_get Device_Type_ID)
+config_defaults[Security_Profile_Description]=$(config_get Security_Profile_Description)
+config_defaults[Security_Profile_ID]=$(config_get Security_Profile_ID)
+config_defaults[Client_ID]=$(config_get Client_ID)
+config_defaults[Client_Secret]=$(config_get Client_Secret)
+
+read -r -p "Enter your Device Type ID [${config_defaults[Device_Type_ID]}]: " Device_Type_ID
+config_set 'Device_Type_ID' "${Device_Type_ID}"
+
+read -r -p "Enter your Security Profile Description [${config_defaults[Security_Profile_Description]}]: " Security_Profile_Description
+config_set 'Security_Profile_Description' "${Security_Profile_Description}"
+
+read -r -p "Enter your Security Profile ID [${config_defaults[Security_Profile_ID]}]: " Security_Profile_ID
+config_set 'Security_Profile_ID' "${Security_Profile_ID}"
+
+read -r -p "Enter your Client ID [${config_defaults[Client_ID]}]: " Client_ID
+config_set 'Client_ID' "${Client_ID}"
+
+read -r -p "Enter your Client Secret [${config_defaults[Client_Secret]}]: " Client_Secret
+config_set 'Client_Secret' "${Client_Secret}"
+
+
+/usr/bin/python ${ALEXASRC_DIRECTORY}/auth_web.py
