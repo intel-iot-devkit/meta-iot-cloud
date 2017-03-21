@@ -27,6 +27,10 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-future \
 "
 
+RDEPENDS_${PN} += "\
+	bash \
+"
+
 PR = "r0"
 
 PACKAGES = "${PN}"
