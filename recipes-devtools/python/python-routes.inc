@@ -14,7 +14,9 @@ RDEPENDS_${PN} += " \
 	${PYTHON_PN}-webob \
 "
 
-PR = "r0"
+RPROVIDES_${PN} = "routes"
+
+PR = "r1"
 
 SRC_URI = "git://github.com/bbangert/routes.git"
 SRCREV = "0900d346e5569018644dcee850d679de3c915efb"
