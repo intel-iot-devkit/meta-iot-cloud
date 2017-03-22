@@ -10,6 +10,8 @@ SRC_URI = "https://pypi.python.org/packages/db/40/6ffc855c365769c454591ac30a25e9
 SRC_URI[md5sum] = "576e1f063b8e74dbfeda02d978564987"
 SRC_URI[sha256sum] = "9071aacbd97a9a915096c1aaf0dc684ac2672904cd876db5904085d6dac9810e"
 
+PR = "r0"
+
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
 
 BBCLASSEXTEND = "native nativesdk"

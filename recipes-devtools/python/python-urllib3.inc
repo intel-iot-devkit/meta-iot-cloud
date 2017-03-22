@@ -4,9 +4,6 @@ AUTHOR = "Andrey Petrov"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ea114851ad9a8c311aac8728a681a067"
 
-SRC_URI = "git://github.com/shazow/urllib3.git;branch=release"
-SRCREV = "52463752d3a79790b43e23182bcc750d6bb53554"
-
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-email \
     ${PYTHON_PN}-netclient \
@@ -17,6 +14,11 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-certifi \
     ${PYTHON_PN}-pysocks \
 "
+
+SRC_URI = "git://github.com/shazow/urllib3.git;branch=release"
+SRCREV = "52463752d3a79790b43e23182bcc750d6bb53554"
+
+PR = "r0"
 
 S = "${WORKDIR}/git"
 

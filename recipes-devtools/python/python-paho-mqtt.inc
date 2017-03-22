@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=eb48c6ee2cb9f5b8b9fe75e6f817bdfc"
 
 PR = "r0"
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-math \
         ${PYTHON_PN}-io \
         ${PYTHON_PN}-threading \

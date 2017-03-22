@@ -9,6 +9,8 @@ SRC_NAME = "pycparser"
 SRC_URI = "git://github.com/eliben/${SRC_NAME}.git"
 SRCREV = "f2275a68ed2204636b53685887c995d8d307b6c0"
 
+PR = "r0"
+
 S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native nativesdk"

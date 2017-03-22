@@ -3,7 +3,7 @@ AUTHOR = "Jason R. Coombs"
 HOMEPAGE = "https://github.com/jaraco/tempora"
 LICENSE = "CLOSED"
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-six \
 	${PYTHON_PN}-pytz \
 "

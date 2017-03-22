@@ -10,5 +10,3 @@ SRC_URI = "git://github.com/quandyfactory/dicttoxml.git"
 SRCREV = "2016fe9817ad03b26aa5f1a475f5b79ad6757b96"
 
 S = "${WORKDIR}/git"
-
-BBCLASSEXTEND = "native nativesdk"

@@ -9,6 +9,8 @@ SRC_NAME = "pyjwt"
 SRC_URI = "git://github.com/jpadilla/${SRC_NAME}.git"
 SRCREV = "b35d522135044ba10ac41e7db5b95348cb4c4707"
 
+PR = "r0"
+
 S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native nativesdk"

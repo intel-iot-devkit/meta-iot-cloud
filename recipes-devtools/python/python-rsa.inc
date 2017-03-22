@@ -3,11 +3,11 @@ AUTHOR = "Sybren A. Stuvel"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=c403f6882d4f97a9cd927df987d55634"
 
-inherit setuptools
-
 PR = "r1"
 
-RDEPENDS_${PN} = "${PYTHON_PN}-pyasn1"
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-pyasn1 \
+"
 
 SRC_NAME = "rsa"
 

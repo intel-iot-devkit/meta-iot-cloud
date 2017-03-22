@@ -9,6 +9,8 @@ SRC_NAME = "keyring"
 SRC_URI = "git://github.com/jaraco/${SRC_NAME}.git"
 SRCREV = "5da7cbef387db8f88cf23d1ebc6e6b0d3e64648c"
 
+PR = "r0"
+
 S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native nativesdk"

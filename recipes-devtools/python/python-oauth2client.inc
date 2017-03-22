@@ -17,6 +17,8 @@ SRC_NAME = "oauth2client"
 SRC_URI = "git://github.com/google/${SRC_NAME}.git"
 SRCREV = "a731be362014d61630044c46495c5b750437ab88"
 
+PR = "r0"
+
 S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native nativesdk"

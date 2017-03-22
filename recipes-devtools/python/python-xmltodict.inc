@@ -10,5 +10,3 @@ SRC_URI = "git://github.com/martinblech/xmltodict.git"
 SRCREV = "d19b49a59987f4a5cd348dd50aa5b24dbd655670"
 
 S = "${WORKDIR}/git"
-
-BBCLASSEXTEND = "native nativesdk"

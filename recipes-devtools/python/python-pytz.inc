@@ -5,7 +5,7 @@ SECTION = "devel/python"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=22b38951eb857cf285a4560a914b7cd6"
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
     python-core \
     python-datetime \
 "

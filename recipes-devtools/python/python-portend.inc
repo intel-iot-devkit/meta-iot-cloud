@@ -4,7 +4,7 @@ AUTHOR = "Jason R. Coombs"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://README.rst;beginline=17;endline=23;md5=7539f5d94d79ba9a8833f2051c507247"
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-tempora \
 "
 

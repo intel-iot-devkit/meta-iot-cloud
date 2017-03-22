@@ -3,8 +3,6 @@ AUTHOR = "James Saryerwinnie"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2683790f5fabb41a3f75b70558799eb4"
 
-inherit setuptools
-
 PR = "r2"
 
 SRC_NAME = "jmespath"
