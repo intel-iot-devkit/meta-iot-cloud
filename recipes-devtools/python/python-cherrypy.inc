@@ -17,10 +17,12 @@ RDEPENDS_${PN} = " \
 	${PYTHON_PN}-memcached \
 "
 
+RPROVIDES_${PN} += "cherrypy"
+
 SRC_URI = "git://github.com/cherrypy/cherrypy.git"
 SRCREV = "46c670e69b7c9620e11999f84b9bcdf57d806649"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 
