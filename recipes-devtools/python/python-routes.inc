@@ -14,7 +14,7 @@ RDEPENDS_${PN} += " \
 	${PYTHON_PN}-webob \
 "
 
-RPROVIDES_${PN} = "routes"
+RPROVIDES_${PN} += "routes"
 
 PR = "r1"
 
