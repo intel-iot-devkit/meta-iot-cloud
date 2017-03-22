@@ -15,8 +15,10 @@ RDEPENDS_${PN} += " \
 "
 
 RPROVIDES_${PN} += "routes"
+RREPLACES_${PN} += "routes"
+RCONFLICTS_${PN} += "routes"
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI = "git://github.com/bbangert/routes.git"
 SRCREV = "0900d346e5569018644dcee850d679de3c915efb"

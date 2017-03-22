@@ -18,11 +18,13 @@ RDEPENDS_${PN} = " \
 "
 
 RPROVIDES_${PN} += "cherrypy"
+RREPLACES_${PN} += "cherrypy"
+RCONFLICTS_${PN} += "cherrypy"
 
 SRC_URI = "git://github.com/cherrypy/cherrypy.git"
 SRCREV = "46c670e69b7c9620e11999f84b9bcdf57d806649"
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 
