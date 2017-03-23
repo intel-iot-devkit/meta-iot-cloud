@@ -7,10 +7,28 @@ set -o pipefail # Fail when part of piped execution fails
 pushd "$(dirname "$0")/../" > /dev/null
 popd > /dev/null
 
-ALEXASRC_DIRECTORY_CORRECT="/opt/AlexaPi"
+ALEXASRC_DIRECTORY="/opt/AlexaPi"
 CONFIG_SYSTEM_DIRECTORY="/etc/opt/AlexaPi"
 CONFIG_FILENAME="config.yaml"
 CONFIG_FILE_SYSTEM="${CONFIG_SYSTEM_DIRECTORY}/${CONFIG_FILENAME}"
+
+function config_get {
+    perl -nle "print $& if m{(?<=${1}:).*}" "${CONFIG_FILE}" | sed 's/^ *//;s/ *$//;s/"//g'
+}
+
+# $1 field name
+# $2 user input
+function config_set {
+    local name=${1}
+    local value=${2}
+
+    if [ "${value}" == "" ]; then
+        # shellcheck disable=SC2154
+        value="${config_defaults[${name}]}"
+    fi
+    sed -i -e 's/ '"${name}"'.*/ '"${name}"': "'"${value}"'"/g' "${CONFIG_FILE}"
+}
+
 
 if [ "$EUID" -ne 0 ]; then
     echo "Please run as root"

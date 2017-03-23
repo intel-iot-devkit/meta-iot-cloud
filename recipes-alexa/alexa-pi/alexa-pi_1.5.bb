@@ -28,10 +28,11 @@ RDEPENDS_${PN} = "\
 "
 
 RDEPENDS_${PN} += "\
+	vlc \
 	bash \
 "
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
