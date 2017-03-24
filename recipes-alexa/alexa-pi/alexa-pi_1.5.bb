@@ -8,7 +8,7 @@ inherit python-dir systemd
 
 SRC_URI = "\
 	git://github.com/alexa-pi/AlexaPi.git \
-	file://AlexaPi.service \
+	file://alexa.service \
 	file://alexa_config \
 	file://0001-Generalise-authorisation-message.patch \
 "
@@ -33,7 +33,7 @@ RDEPENDS_${PN} += "\
 	bash \
 "
 
-PR = "r2"
+PR = "r3"
 
 PACKAGES = "${PN}"
 
@@ -62,7 +62,7 @@ do_install() {
 	install -m 0755 ${WORKDIR}/alexa_config ${D}${bindir}
 
 	install -d ${D}${systemd_unitdir}/system
-	install -m 0644 ${WORKDIR}/AlexaPi.service ${D}${systemd_unitdir}/system
+	install -m 0644 ${WORKDIR}/alexa.service ${D}${systemd_unitdir}/system
 }
 
 FILES_${PN} = "\
@@ -71,5 +71,5 @@ FILES_${PN} = "\
 	/opt/AlexaPi \
 "
 
-SYSTEMD_SERVICE_${PN} = "AlexaPi.service"
+SYSTEMD_SERVICE_${PN} = "alexa.service"
 SYSTEMD_AUTO_ENABLE ?= "disable"

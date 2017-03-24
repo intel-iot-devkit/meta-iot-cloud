@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -o nounset # Fail when variable is used, but not initialized
 set -o errexit # Fail on unhandled error exits
 set -o pipefail # Fail when part of piped execution fails
 
@@ -26,10 +25,6 @@ parse_yaml() {
          printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
       }
    }'
-}
-
-function config_get {
-	perl -nle "print $& if m{(?<=${1}:).*}" "${CONFIG_FILE}" | sed 's/^ *//;s/ *$//;s/"//g'
 }
 
 # $1 field name
@@ -75,13 +70,13 @@ function config_audio {
 	printf "\nCapture Devices:\n"
 	arecord --list-pcms | grep -v ' '
 	echo ""
-	read -r -p "Enter Your Audio Capture Device [${config_sound_input_device}]: " input_device
+	read -r -p "Enter Your Audio Capture Device ["${config_sound_input_device}"]: " input_device
 	config_set 'input_device' "${config_sound_input_device}" "${input_device}"
 
 	printf "\nPlayback Devices:\n"
 	aplay --list-pcms | grep -v ' '
 	echo ""
-	read -r -p "Enter Your Audio Playback Device [${config_sound_output_device}]: " output_device
+	read -r -p "Enter Your Audio Playback Device ["${config_sound_output_device}"]: " output_device
 	config_set 'output_device' ${config_sound_output_device} "${output_device}"
 }
 
