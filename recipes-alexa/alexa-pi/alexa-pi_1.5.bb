@@ -10,6 +10,7 @@ SRC_URI = "\
 	git://github.com/alexa-pi/AlexaPi.git \
 	file://AlexaPi.service \
 	file://alexa_config \
+	file://0001-Generalise-authorisation-message.patch \
 "
 
 SRCREV = "9e0d20cd269ad5eb4f0d5f2c9ef89f0107c9c333"
@@ -32,7 +33,7 @@ RDEPENDS_${PN} += "\
 	bash \
 "
 
-PR = "r1"
+PR = "r2"
 
 PACKAGES = "${PN}"
 

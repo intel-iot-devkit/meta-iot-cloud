@@ -12,31 +12,86 @@ CONFIG_SYSTEM_DIRECTORY="/etc/opt/AlexaPi"
 CONFIG_FILENAME="config.yaml"
 CONFIG_FILE_SYSTEM="${CONFIG_SYSTEM_DIRECTORY}/${CONFIG_FILENAME}"
 
+parse_yaml() {
+   local prefix=$2
+   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+   sed -ne "s|^\($s\)\($w\)$s:$s\"\(.*\)\"$s\$|\1$fs\2$fs\3|p" \
+        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+   awk -F$fs '{
+      indent = length($1)/2;
+      vname[indent] = $2;
+      for (i in vname) {if (i > indent) {delete vname[i]}}
+      if (length($3) > 0) {
+         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+      }
+   }'
+}
+
 function config_get {
-    perl -nle "print $& if m{(?<=${1}:).*}" "${CONFIG_FILE}" | sed 's/^ *//;s/ *$//;s/"//g'
+	perl -nle "print $& if m{(?<=${1}:).*}" "${CONFIG_FILE}" | sed 's/^ *//;s/ *$//;s/"//g'
 }
 
 # $1 field name
 # $2 user input
 function config_set {
-    local name=${1}
-    local value=${2}
+	local name=${1}
+	local old_value=${2}
+	local value=${3}
 
-    if [ "${value}" == "" ]; then
-        # shellcheck disable=SC2154
-        value="${config_defaults[${name}]}"
-    fi
-    sed -i -e 's/ '"${name}"'.*/ '"${name}"': "'"${value}"'"/g' "${CONFIG_FILE}"
+	if [ "${value}" == "" ]; then
+		value="${old_value}"
+	fi
+
+	sed -i -e 's/ '"${name}"'.*/ '"${name}"': "'"${value}"'"/g' "${CONFIG_FILE}"
+}
+
+function run_auth {
+	printf "\n\n"
+	/usr/bin/python ${ALEXASRC_DIRECTORY}/auth_web.py
+}
+
+function config_auth {
+	echo ""
+	read -r -p "Enter your Device Type ID [${config_alexa_Device_Type_ID}]: " Device_Type_ID
+	config_set 'Device_Type_ID' "${config_alexa_Device_Type_ID}" "${Device_Type_ID}"
+
+	read -r -p "Enter your Security Profile Description [${config_alexa_Security_Profile_Description}]: " Security_Profile_Description
+	config_set 'Security_Profile_Description' "${config_alexa_Security_Profile_Description}" "${Security_Profile_Description}"
+
+	read -r -p "Enter your Security Profile ID [${config_alexa_Security_Profile_ID}]: " Security_Profile_ID
+	config_set 'Security_Profile_ID' "${config_alexa_Security_Profile_ID}" "${Security_Profile_ID}"
+
+	read -r -p "Enter your Client ID [${config_alexa_Client_ID}]: " Client_ID
+	config_set 'Client_ID' ${config_alexa_Client_ID} "${Client_ID}"
+
+	read -r -p "Enter your Client Secret [${config_alexa_Client_Secret}]: " Client_Secret
+	config_set 'Client_Secret' "${config_alexa_Client_Secret}" "${Client_Secret}"
+
+	run_auth
+}
+
+function config_audio {
+	printf "\nCapture Devices:\n"
+	arecord --list-pcms | grep -v ' '
+	echo ""
+	read -r -p "Enter Your Audio Capture Device [${config_sound_input_device}]: " input_device
+	config_set 'input_device' "${config_sound_input_device}" "${input_device}"
+
+	printf "\nPlayback Devices:\n"
+	aplay --list-pcms | grep -v ' '
+	echo ""
+	read -r -p "Enter Your Audio Playback Device [${config_sound_output_device}]: " output_device
+	config_set 'output_device' ${config_sound_output_device} "${output_device}"
 }
 
 
 if [ "$EUID" -ne 0 ]; then
-    echo "Please run as root"
+    echo "Please run as root!"
 	exit
 fi
 
 cd "${ALEXASRC_DIRECTORY}"
-echo ""
 
 mkdir -p ${CONFIG_SYSTEM_DIRECTORY}
 touch ${CONFIG_SYSTEM_DIRECTORY}/.keep
@@ -44,50 +99,35 @@ CONFIG_FILE="${CONFIG_FILE_SYSTEM}"
 
 config_action=2
 if [ -f $CONFIG_FILE ]; then
-    echo "Configuration file $CONFIG_FILE exists already. What do you want to do?"
-    echo "[0] Keep and use current configuration file."
-    echo "[1] Edit existing configuration file."
-    echo "[2] Delete the configuration file and start with a fresh one."
-    read -r -p "Which option do you prefer? [hit Enter for 0]: " config_action
+    printf "\nConfiguration file $CONFIG_FILE exists already. What do you want to do?\n\n"
+    printf "[0] Keep and use current configuration file.\n"
+    printf "[1] Edit existing configuration file.\n"
+    printf "[2] Delete the configuration file and start with a fresh one.\n\n"
+    read -r -p "Which option do you prefer? [0]: " config_action
 fi
 
 case ${config_action} in
 
     1)
-        echo "Editing existing configuration file ..."
+        printf "\nEditing existing configuration file ...\n"
     ;;
     2)
-        echo "Creating configuration file ${CONFIG_FILE} ..."
+        printf "\nCreating configuration file ${CONFIG_FILE} ...\n"
         cp config.template.yaml ${CONFIG_FILE}
     ;;
     *)
-        echo "Exiting ..."
-        exit
+        printf "\nUsing existing configuration ...\n"
+        run_auth
+	exit
     ;;
 
 esac
 
-declare -A config_defaults
-config_defaults[Device_Type_ID]=$(config_get Device_Type_ID)
-config_defaults[Security_Profile_Description]=$(config_get Security_Profile_Description)
-config_defaults[Security_Profile_ID]=$(config_get Security_Profile_ID)
-config_defaults[Client_ID]=$(config_get Client_ID)
-config_defaults[Client_Secret]=$(config_get Client_Secret)
+# Read config file
+eval $(parse_yaml ${CONFIG_FILE} "config_")
 
-read -r -p "Enter your Device Type ID [${config_defaults[Device_Type_ID]}]: " Device_Type_ID
-config_set 'Device_Type_ID' "${Device_Type_ID}"
+# Run Audio Config
+config_audio
 
-read -r -p "Enter your Security Profile Description [${config_defaults[Security_Profile_Description]}]: " Security_Profile_Description
-config_set 'Security_Profile_Description' "${Security_Profile_Description}"
-
-read -r -p "Enter your Security Profile ID [${config_defaults[Security_Profile_ID]}]: " Security_Profile_ID
-config_set 'Security_Profile_ID' "${Security_Profile_ID}"
-
-read -r -p "Enter your Client ID [${config_defaults[Client_ID]}]: " Client_ID
-config_set 'Client_ID' "${Client_ID}"
-
-read -r -p "Enter your Client Secret [${config_defaults[Client_Secret]}]: " Client_Secret
-config_set 'Client_Secret' "${Client_Secret}"
-
-
-/usr/bin/python ${ALEXASRC_DIRECTORY}/auth_web.py
+# Run Authorisation Config
+config_auth
