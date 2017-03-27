@@ -14,7 +14,7 @@ PACKAGES = "\
 "
 
 SRC_URI = "git://github.com/Azure/iothub-explorer.git"
-SRCREV = "1e72b4dc0b6ed489130ac82fefe84b9c85cc0418"
+SRCREV = "9ab01f53208a068ec1bcc156d1d42433960883cb"
 
 S = "${WORKDIR}/git"
 
