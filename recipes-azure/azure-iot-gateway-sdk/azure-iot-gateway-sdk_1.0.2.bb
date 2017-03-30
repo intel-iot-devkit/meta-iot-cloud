@@ -11,6 +11,7 @@ DEPENDS = "\
 
 RDEPENDS_${PN}-dev += "\
 	azure-iot-sdk-c-dev \
+	glib-2.0-dev \
 "
 
 SRC_URI += "git://github.com/Azure/iot-gateway-modbus.git;destsuffix=git-modbus;name=modbus"
@@ -38,7 +39,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r2"
+PR = "r3"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
