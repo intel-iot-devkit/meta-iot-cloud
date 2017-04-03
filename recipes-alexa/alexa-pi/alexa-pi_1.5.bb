@@ -11,6 +11,7 @@ SRC_URI = "\
 	file://alexa.service \
 	file://alexa_config \
 	file://0001-Generalise-authorisation-message.patch \
+	file://0002-Use-HTTPS-for-authentication.patch \
 "
 
 SRCREV = "9e0d20cd269ad5eb4f0d5f2c9ef89f0107c9c333"
@@ -31,9 +32,10 @@ RDEPENDS_${PN} = "\
 RDEPENDS_${PN} += "\
 	vlc \
 	bash \
+	openssl \
 "
 
-PR = "r3"
+PR = "r4"
 
 PACKAGES = "${PN}"
 

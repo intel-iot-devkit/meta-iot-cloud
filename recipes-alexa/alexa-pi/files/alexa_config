@@ -46,6 +46,30 @@ function run_auth {
 	/usr/bin/python ${ALEXASRC_DIRECTORY}/auth_web.py
 }
 
+function run_certs {
+	if [ ! -f ${CONFIG_SYSTEM_DIRECTORY}/cert.pem ]; then
+		echo ""
+		read -r -p "Authentication certificates do not exist. Would you like to generate them now? [y/n]: " gen_certs
+	
+		case ${gen_certs} in
+
+    			y)
+        			printf "\nGenerating authentication certificates...\n"
+
+				if [ ! -f ${CONFIG_SYSTEM_DIRECTORY}/privkey.pem ]; then
+					openssl genrsa -out ${CONFIG_SYSTEM_DIRECTORY}/privkey.pem 2048
+				fi
+
+				openssl req -new -x509 -days 365 -key ${CONFIG_SYSTEM_DIRECTORY}/privkey.pem -out ${CONFIG_SYSTEM_DIRECTORY}/cert.pem
+    			;;
+    			*)
+        			printf "\nUnable to continue without authentication certificates... Exiting\n"
+        			exit
+    			;;
+		esac
+	fi
+}
+
 function config_auth {
 	echo ""
 	read -r -p "Enter your Device Type ID [${config_alexa_Device_Type_ID}]: " Device_Type_ID
@@ -63,6 +87,7 @@ function config_auth {
 	read -r -p "Enter your Client Secret [${config_alexa_Client_Secret}]: " Client_Secret
 	config_set 'Client_Secret' "${config_alexa_Client_Secret}" "${Client_Secret}"
 
+	run_certs
 	run_auth
 }
 
@@ -112,6 +137,7 @@ case ${config_action} in
     ;;
     *)
         printf "\nUsing existing configuration ...\n"
+	run_certs
         run_auth
 	exit
     ;;
