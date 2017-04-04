@@ -12,6 +12,7 @@ SRC_URI = "\
 	file://alexa_config \
 	file://0001-Generalise-authorisation-message.patch \
 	file://0002-Use-HTTPS-for-authentication.patch \
+	file://0003-Change-default-playback-handler-to-sox.patch \
 "
 
 SRCREV = "9e0d20cd269ad5eb4f0d5f2c9ef89f0107c9c333"
@@ -20,7 +21,6 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN} \
 	${PYTHON_PN}-requests \
 	${PYTHON_PN}-cherrypy \
-	${PYTHON_PN}-vlc \
 	${PYTHON_PN}-pyalsaaudio \
 	${PYTHON_PN}-webrtcvad \
 	${PYTHON_PN}-pyyaml \
@@ -30,12 +30,12 @@ RDEPENDS_${PN} = "\
 "
 
 RDEPENDS_${PN} += "\
-	vlc \
+	sox \
 	bash \
 	openssl \
 "
 
-PR = "r4"
+PR = "r5"
 
 PACKAGES = "${PN}"
 

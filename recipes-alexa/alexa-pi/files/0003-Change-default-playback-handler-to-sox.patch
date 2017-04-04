@@ -1,0 +1,25 @@
+From ff75bd4e436bb60421fafb7b7f7142013d802d2c Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 4 Apr 2017 19:27:07 +0100
+Subject: [PATCH 3/3] Change default playback handler to sox
+
+---
+ src/config.template.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/config.template.yaml b/src/config.template.yaml
+index 4cb03a0..4af342e 100644
+--- a/src/config.template.yaml
++++ b/src/config.template.yaml
+@@ -15,7 +15,7 @@ sound:
+   # This is an override that is normally not needed and is a last resort.
+   allow_unlisted_input_device: false
+ 
+-  playback_handler: "vlc"
++  playback_handler: "sox"
+ 
+   # you can go here with alsa, pulse or others
+   # keep blank for the best audio output selected by the underlying code
+-- 
+1.9.1
+
