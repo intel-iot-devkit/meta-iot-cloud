@@ -96,7 +96,7 @@ Installing on Wind River IDP XT 3 (x86)
 ---------------------------------------
 
 ``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub.key
+rpm --import http://iotdk.intel.com/misc/iot_pub2.key
 smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/wrlinux7/rcpl13/
 smart update
 ```
@@ -105,7 +105,7 @@ Installing on Wind River Pulsar Linux 7 (x86)
 ---------------------------------------------
 
 ``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub.key
+rpm --import http://iotdk.intel.com/misc/iot_pub2.key
 smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/pulsar/7/
 smart update
 ```
@@ -114,7 +114,7 @@ Installing on Wind River Pulsar Linux 8 (x86)
 ---------------------------------------------
 
 ``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub.key
+rpm --import http://iotdk.intel.com/misc/iot_pub2.key
 smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/pulsar/8/
 smart update
 ```
