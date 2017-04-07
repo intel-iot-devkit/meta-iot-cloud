@@ -36,6 +36,7 @@ do_configure() {
 	sed -i 's|/usr/bin/python2.4|/usr/bin/python|g' ${S}/lib/third_party/pygments/lexers/dalvik.py
 	sed -i 's|/usr/bin env python|/usr/bin/env|g' ${S}/platform/gsutil/third_party/boto/tests/unit/cloudsearch/*
 	sed -i 's|/usr/bin env python|/usr/bin/env|g' ${S}/platform/gsutil/third_party/boto/tests/unit/cloudsearch2/*
+	sed -i 's|/usr/bin env python|/usr/bin/env|g' ${S}/platform/gsutil/third_party/boto/tests/unit/cloudsearchdomain/*
 }
 
 # Remove non-arch independent dependencies
@@ -80,5 +81,3 @@ FILES_${PN} = "\
 FILES_${PN}-doc = "\
 	${mandir} \
 "
-
-INSANE_SKIP_${PN} += "file-rdeps"
