@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d02c4ee3b2a6ba87eea7b6756fd43895"
 
 # Only supports Python 2.x
 RDEPENDS_${PN} = "\
+	bash \
 	python \
 	python-grpcio \
 "
@@ -73,3 +74,5 @@ FILES_${PN} = "\
 FILES_${PN}-doc = "\
 	${mandir} \
 "
+
+INSANE_SKIP_${PN} += "file-rdeps"
