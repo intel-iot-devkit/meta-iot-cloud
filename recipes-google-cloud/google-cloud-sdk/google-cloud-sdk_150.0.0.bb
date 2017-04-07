@@ -15,7 +15,7 @@ SRC_URI = "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${PN}-${PV
 SRC_URI[md5sum] = "1b7dd5b3b414e93e18c9cee51c840a47"
 SRC_URI[sha256sum] = "8a2d203ff12e0d52cc8aa54f09b3c2a8e7db86737284fa90d2ae453cae52c6e0"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/${PN}"
 
@@ -27,9 +27,15 @@ PACKAGES = "\
 
 do_compile[noexec] = "1"
 
-# Disable updater
 do_configure() {
+	# Disable updater
 	sed -i 's|"disable_updater": false|"disable_updater": true|g' ${S}/lib/googlecloudsdk/core/config.json
+
+	# Fix dependencies
+	sed -i 's|/usr/bin/python3|/usr/bin/python|g' ${S}/lib/third_party/portpicker/__init__.py
+	sed -i 's|/usr/bin/python2.4|/usr/bin/python|g' ${S}/lib/third_party/pygments/lexers/dalvik.py
+	sed -i 's|/usr/bin env python|/usr/bin/env|g' ${S}/platform/gsutil/third_party/boto/tests/unit/cloudsearch/*
+	sed -i 's|/usr/bin env python|/usr/bin/env|g' ${S}/platform/gsutil/third_party/boto/tests/unit/cloudsearch2/*
 }
 
 # Remove non-arch independent dependencies
