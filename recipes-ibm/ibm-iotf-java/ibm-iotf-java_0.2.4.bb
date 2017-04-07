@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 DEPENDS = "maven-native icedtea7-native"
 
 SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git"
-SRCREV = "c0ef92db23b2bbcf352e49cbe9fa7dc41f218f7a"
+SRCREV = "450dc69ebeb13fc0f7cd7b9d3cae5dad692e26db"
 
 PR = "r0"
 
