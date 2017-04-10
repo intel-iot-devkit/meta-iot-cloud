@@ -1,16 +1,16 @@
-DESCRIPTION = "Microsoft Azure MQTT"
-HOMEPAGE = "https://github.com/Azure/azure-umqtt-c"
+DESCRIPTION = "uAMQP is a general purpose C library for AMQP"
+HOMEPAGE = "https://github.com/Azure/azure-uamqp-c"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=6e1bb384cedd6442b3a2b9a5b531e005"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 DEPENDS = "azure-c-shared-utility"
 
 inherit cmake
 
 SRC_URI = "\
-	gitsm://github.com/Azure/azure-umqtt-c.git \
+	gitsm://github.com/Azure/azure-uamqp-c.git \
 "
-SRCREV = "20af9ec4e997dd3baf0563b2cfafcf28156b7309"
+SRCREV = "8ce91350d2a4a962950ad4edc8d8d14df2de6ca8"
 
 PR = "r0"
 
@@ -25,8 +25,8 @@ sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 
 	# Fix CMake configs
-	sed -i 's#${libdir}/libumqtt.so#${STAGING_LIBDIR}/libumqtt.so#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/umqtt*
-	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/umqtt*
+	sed -i 's#${libdir}/libuamqp.so#${STAGING_LIBDIR}/libuamqp.so#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/uamqp*
+	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/uamqp*
 }
 
 FILES_${PN} = "${libdir}/*.so"

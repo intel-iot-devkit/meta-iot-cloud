@@ -5,7 +5,7 @@ inherit cmake
 
 DEPENDS = "\
 	glib-2.0 \
-	azure-iot-sdk-c \
+	azure-iot-sdk \
 	nanomsg \
 "
 
@@ -15,7 +15,7 @@ RDEPENDS_${PN}-dev += "\
 "
 
 SRC_URI += "git://github.com/Azure/iot-gateway-modbus.git;destsuffix=git-modbus;name=modbus"
-SRCREV_modbus = "7daeca02df909278c775112e04d8255240cda48c"
+SRCREV_modbus = "6a3ed6baddbd346288a0e5f69694e3cf6d47c169"
 
 SRC_URI += "\
 	file://0001-Skip-adding-test-dependencies-if-not-required.patch \
@@ -39,7 +39,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r3"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
