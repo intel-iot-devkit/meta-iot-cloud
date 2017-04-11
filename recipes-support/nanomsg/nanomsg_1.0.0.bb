@@ -4,11 +4,14 @@ AUTHOR = "Martin Sustrik"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=587b3fd7fd291e418ff4d2b8f3904755"
 
-inherit cmake
+inherit cmake pkgconfig
 
-PR = "r2"
+PR = "r3"
 
-SRC_URI = "git://github.com/nanomsg/nanomsg.git"
+SRC_URI = "\
+	git://github.com/nanomsg/nanomsg.git \
+	file://0001-Fix-libdir-in-pkgconfig-file.patch \
+"
 SRCREV = "ee99202f84f8d0e8ebd1c1722aa8a682f54919d0"
 
 S = "${WORKDIR}/git"

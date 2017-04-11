@@ -1,0 +1,25 @@
+From 7ceb5a4421af31c8e10a4856dc03679da9d972ce Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 11 Apr 2017 12:31:38 +0100
+Subject: [PATCH] Fix libdir in pkgconfig file
+
+---
+ src/pkgconfig.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/pkgconfig.in b/src/pkgconfig.in
+index d4c3752..35af803 100644
+--- a/src/pkgconfig.in
++++ b/src/pkgconfig.in
+@@ -1,7 +1,7 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=${prefix}
+ includedir=${prefix}/include
+-libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++libdir=@CMAKE_INSTALL_LIBDIR@
+ 
+ Name: @CMAKE_PROJECT_NAME@
+ Description: @NN_DESCRIPTION@
+-- 
+1.9.1
+
