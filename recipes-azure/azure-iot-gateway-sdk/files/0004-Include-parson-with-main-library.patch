@@ -1,0 +1,140 @@
+From ed0d8e81027ece44e6c52cc6b588cfb98b970be6 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 11 Apr 2017 18:16:45 +0100
+Subject: [PATCH 4/4] Include parson with main library
+
+---
+ core/CMakeLists.txt                             | 12 +++++-----
+ core/deps/CMakeLists.txt                        | 30 -------------------------
+ proxy/modules/native_module_host/CMakeLists.txt |  4 ++--
+ 3 files changed, 9 insertions(+), 37 deletions(-)
+ delete mode 100644 core/deps/CMakeLists.txt
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index 5f8dd9a..69eabd0 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -68,6 +68,7 @@ set(gateway_c_sources
+     ./src/message.c
+     ./src/message_queue.c
+     ./src/module_loader.c
++    ../deps/parson/parson.c
+ )
+ 
+ set(gateway_h_sources
+@@ -191,6 +192,7 @@ set(gateway_c_sources
+ )
+ 
+ include_directories(./inc)
++include_directories(../deps/parson)
+ 
+ add_library(module_host_static STATIC
+     ${module_host_sources}
+@@ -207,18 +209,18 @@ add_library(gateway_static STATIC
+     ${gateway_h_sources}
+ )
+ 
+-target_link_libraries(module_host_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
++target_link_libraries(module_host_static nanomsg aziotsharedutil ${dynamic_loader_library})
+ 
+ if(WIN32)
+-    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway nanomsg aziotsharedutil ${dynamic_loader_library})
+ 
+-    target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway_static nanomsg aziotsharedutil ${dynamic_loader_library})
+ else()
+-    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway nanomsg aziotsharedutil ${dynamic_loader_library})
+     target_link_libraries(gateway ${NN_REQUIRED_LIBRARIES})
+     target_link_libraries(gateway m)
+ 
+-    target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
++    target_link_libraries(gateway_static nanomsg aziotsharedutil ${dynamic_loader_library})
+     target_link_libraries(gateway_static ${NN_REQUIRED_LIBRARIES})
+     target_link_libraries(gateway_static m)
+ 
+diff --git a/core/deps/CMakeLists.txt b/core/deps/CMakeLists.txt
+deleted file mode 100644
+index 2ebea5f..0000000
+--- a/core/deps/CMakeLists.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-#Copyright (c) Microsoft. All rights reserved.
+-#Licensed under the MIT license. See LICENSE file in the project root for full license information.
+-
+-cmake_minimum_required(VERSION 2.8.11)
+-cmake_policy(SET CMP0022 NEW)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS)
+-
+-set(parson_c_sources
+-    ../../deps/parson/parson.c
+-)
+-
+-set(parson_h_sources
+-    ../../deps/parson/parson.h
+-)
+-
+-include_directories(../../deps/parson)
+-
+-remove_definitions(-D_CRT_SECURE_NO_WARNINGS) 
+-
+-add_library(parson
+-    ${parson_c_sources}
+-    ${parson_h_sources}
+-)
+-
+-install(TARGETS parson EXPORT gatewayTargets
+-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}/../bin
+-)
+\ No newline at end of file
+diff --git a/proxy/modules/native_module_host/CMakeLists.txt b/proxy/modules/native_module_host/CMakeLists.txt
+index b2ab951..3902bda 100644
+--- a/proxy/modules/native_module_host/CMakeLists.txt
++++ b/proxy/modules/native_module_host/CMakeLists.txt
+@@ -28,12 +28,12 @@ include_directories(${GW_INC})
+ 
+ #this builds the native_module_host dynamic library
+ add_library(native_module_host SHARED ${native_module_host_sources}  ${native_module_host_headers})
+-target_link_libraries(native_module_host parson aziotsharedutil module_host_static proxy_gateway)
++target_link_libraries(native_module_host aziotsharedutil module_host_static proxy_gateway)
+ 
+ #this builds the native_module_host static library
+ add_library(native_module_host_static STATIC ${native_module_host_static_sources} ${native_module_host_static_headers})
+ target_compile_definitions(native_module_host_static PRIVATE BUILD_MODULE_TYPE_STATIC)
+-target_link_libraries(native_module_host_static parson aziotsharedutil module_host_static proxy_gateway)
++target_link_libraries(native_module_host_static aziotsharedutil module_host_static proxy_gateway)
+ 
+ linkSharedUtil(native_module_host)
+ linkSharedUtil(native_module_host_static)
+-- 
+1.9.1
+
+From a8f217a2a76b3dc3c6b738228337e3fbb4c6b411 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 11 Apr 2017 18:22:54 +0100
+Subject: [PATCH 5/5] Remove deps from cmake directory list
+
+---
+ core/CMakeLists.txt | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index 69eabd0..4106432 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -12,8 +12,6 @@ if(POLICY CMP0042)
+     cmake_policy(SET CMP0042 NEW)
+ endif()
+ 
+-add_subdirectory(deps)
+-
+ #this sets a global var that stores where the includes for GW are
+ set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
+ set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
+-- 
+1.9.1
+

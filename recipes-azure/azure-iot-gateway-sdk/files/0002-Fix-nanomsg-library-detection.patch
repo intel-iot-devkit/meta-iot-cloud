@@ -1,0 +1,40 @@
+From 734bde80b50cd3d8da2e8018e5f98cb4d9a5a91a Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 11 Apr 2017 18:04:45 +0100
+Subject: [PATCH 2/4] Fix nanomsg library detection
+
+---
+ dependencies.cmake | 17 -----------------
+ 1 file changed, 17 deletions(-)
+
+diff --git a/dependencies.cmake b/dependencies.cmake
+index 6a05bb4..4d49d6a 100644
+--- a/dependencies.cmake
++++ b/dependencies.cmake
+@@ -87,23 +87,6 @@ else()
+ 
+     endif()
+ 
+-    if (NOT NANOMSG_LIBDIR STREQUAL "/usr/lib")
+-    # There seems to be a problem in CMake if nanomsg is found in the system 
+-    # default location when cross compiling. If it's anywhere 
+-    # else, we can create a imported target for it.  (Actually, this might 
+-    # fail for any cross compile where nanomsg points to a system directory,
+-    # so this might need to be refined as we find edge cases)
+-        add_library(nanomsg SHARED IMPORTED)
+-
+-        set_target_properties(nanomsg PROPERTIES
+-            INTERFACE_INCLUDE_DIRECTORIES "${NANOMSG_INCLUDEDIR}"
+-            INTERFACE_LINK_LIBRARIES "${NANOMSG_LIBRARIES}"
+-            IMPORTED_LOCATION "${NANOMSG_LIB_LOCATION}"
+-        )
+-        message(STATUS "NANOMSG LIBRARIES: ${NANOMSG_LIBRARIES}")
+-        message(STATUS "NANOMSG CFLAGS: ${NANOMSG_CFLAGS}")
+-        message(STATUS "NANOMSG LOCATION: ${NANOMSG_LIB_LOCATION}")
+-    endif()
+     set(NANOMSG_INCLUDES "${NANOMSG_INCLUDEDIR}"  CACHE INTERNAL "")
+ 
+ 
+-- 
+1.9.1
+

@@ -1,35 +1,12 @@
-From 8bcab5e7c887d7875caa276b49986784f70485dc Mon Sep 17 00:00:00 2001
+From cdae7a8be7909ded07689ab0ea39c0e0b764227c Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 8 Mar 2017 16:11:22 +0000
-Subject: [PATCH 4/4] Remove parson submodule init
+Date: Tue, 11 Apr 2017 18:06:17 +0100
+Subject: [PATCH 3/4] Skip parson submodule init
 
 ---
- dependencies.cmake         | 14 --------------
  modules/dependencies.cmake | 20 --------------------
- 2 files changed, 34 deletions(-)
+ 1 file changed, 20 deletions(-)
 
-diff --git a/dependencies.cmake b/dependencies.cmake
-index d1bb36d..ea9ef2b 100644
---- a/dependencies.cmake
-+++ b/dependencies.cmake
-@@ -29,17 +29,3 @@ set_platform_files("${CMAKE_CURRENT_LIST_DIR}/deps/c-utility")
- ##########################Find/Install/Build nanomsg###########################
- ###############################################################################
- find_library (NANOMSG_LIB NAMES nanomsg)
--
--###############################################################################
--#############################Init Parson Submodule#############################
--###############################################################################
--if(NOT EXISTS ${PROJECT_SOURCE_DIR}/deps/parson/parson.c)
--    execute_process(
--        COMMAND git submodule update --init ${PROJECT_SOURCE_DIR}/deps/parson
--        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
--        RESULT_VARIABLE res   
--    )
--    if(${res})
--        message(FATAL_ERROR "Error pulling parson submodule: ${res}")
--    endif()
--endif()
 diff --git a/modules/dependencies.cmake b/modules/dependencies.cmake
 index df6fa30..1bfa435 100644
 --- a/modules/dependencies.cmake
