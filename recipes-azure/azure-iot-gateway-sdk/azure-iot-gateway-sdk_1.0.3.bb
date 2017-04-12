@@ -23,7 +23,11 @@ SRC_URI += "\
 SRC_URI += "\
 	file://azure-functions-sample.sh \
 	file://ble-gateway-sample.sh \
+	file://dynamically-add-module-sample.sh \
 	file://hello-world-sample.sh \
+	file://modbus-sample.sh \
+	file://native-module-host-sample.sh \
+	file://proxy-sample.sh \
 	file://simulated-device-cloud-upload-sample.sh \
 	file://azure-functions-module.sh \
 	file://ble-module.sh \
@@ -34,7 +38,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -55,6 +59,7 @@ PACKAGES = "\
 PACKAGES += "\
 	${PN}-module-modbus \
 	${PN}-samples-modbus \
+	${PN}-samples-src-modbus \
 "
 
 ## Java ##
@@ -136,11 +141,32 @@ do_install() {
 	install -d ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/*.h ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/linux/*.h ${D}${includedir}/azureiot
-	install -m 0644 ${S}/core/inc/module_loaders/dynamic_loader.h ${D}${includedir}/azureiot
+
+	install -d ${D}${includedir}/azureiot/experimental
+	install -m 0644 ${S}/core/inc/experimental/*.h ${D}${includedir}/azureiot/experimental
+
+	install -d ${D}${includedir}/azureiot/module_loaders
+	install -m 0644 ${S}/core/inc/module_loaders/dynamic_loader.h ${D}${includedir}/azureiot/module_loaders
+	install -m 0644 ${S}/proxy/outprocess/inc/module_loaders/*.h ${D}${includedir}/azureiot/module_loaders
 	
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		install -m 0644 ${S}/core/inc/module_loaders/java_loader.h ${D}${includedir}/azureiot
+		install -m 0644 ${S}/core/inc/module_loaders/java_loader.h ${D}${includedir}/azureiot/module_loaders
 	fi
+
+	# Native Proxy Gateway
+	install -d ${D}${libdir}
+	oe_libinstall -C ${B}/proxy/gateway/native/ -so libproxy_gateway ${D}${libdir}
+
+	install -d ${D}${includedir}/azureiot
+	install -m 0644 ${S}/proxy/gateway/native/inc/*.h ${D}${includedir}/azureiot
+	install -m 0644 ${S}/proxy/message/inc/*.h ${D}${includedir}/azureiot
+
+	# Native Module Host
+	install -d ${D}${libdir}
+	oe_libinstall -C ${B}/proxy/modules/native_module_host -so libnative_module_host ${D}${libdir}
+
+	install -d ${D}${includedir}/azureiot
+	install -m 0644 ${S}/proxy/modules/native_module_host/inc/*.h ${D}${includedir}/azureiot
 
 	# Modules
 	install -d ${D}${includedir}/azureiot/modules/common
@@ -266,28 +292,6 @@ do_install() {
 	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/src/azure_functions.json
 	install -m 0755 ${WORKDIR}/azure-functions-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions/build.sh
 
-	# Hello World Sample
-	install -d ${D}${datadir}/azureiotgatewaysdk/samples/hello_world
-	install -m 0755 ${B}/samples/hello_world/hello_world_sample ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world
-	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world.json
-
-	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src
-	install -m 0644 ${S}/samples/hello_world/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/
-	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/hello_world.json
-	install -m 0755 ${WORKDIR}/hello-world-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/build.sh
-
-	# Simulated Device Cloud Upload Sample
-	install -d ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload
-	install -m 0755 ${B}/samples/simulated_device_cloud_upload/simulated_device_cloud_upload_sample ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload.json
-
-	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src
-	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc/
-	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload.json
-	install -m 0755 ${WORKDIR}/simulated-device-cloud-upload-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/build.sh
-
 	# BLE Gateway Sample
 	if [ -e ${B}/samples/ble_gateway/ ]; then
 		install -d ${D}${datadir}/azureiotgatewaysdk/samples/ble_gateway
@@ -305,12 +309,73 @@ do_install() {
 		install -m 0755 ${WORKDIR}/ble-gateway-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway/build.sh
 	fi
 
+	# Dynamically Add Module Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/dynamically_add_module
+	install -m 0755 ${B}/samples/dynamically_add_module_sample/dynamically_add_module_sample ${D}${datadir}/azureiotgatewaysdk/samples/dynamically_add_module/dynamically_add_module
+	install -m 0644 ${S}/samples/dynamically_add_module_sample/src/links_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/dynamically_add_module/links.json
+	install -m 0644 ${S}/samples/dynamically_add_module_sample/src/modules_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/dynamically_add_module/modules.json
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/dynamically_add_module/src
+	install -m 0644 ${S}/samples/dynamically_add_module_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/dynamically_add_module/src/
+	install -m 0644 ${S}/samples/dynamically_add_module_sample/src/links_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/dynamically_add_module/src/links.json
+	install -m 0644 ${S}/samples/dynamically_add_module_sample/src/modules_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/dynamically_add_module/src/modules.json
+	install -m 0755 ${WORKDIR}/dynamically-add-module-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/dynamically_add_module/build.sh
+
+	# Hello World Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/hello_world
+	install -m 0755 ${B}/samples/hello_world/hello_world_sample ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world
+	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/hello_world/hello_world.json
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src
+	install -m 0644 ${S}/samples/hello_world/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/
+	install -m 0644 ${S}/samples/hello_world/src/hello_world_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/src/hello_world.json
+	install -m 0755 ${WORKDIR}/hello-world-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world/build.sh
+
+	# Native Module Host Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/native_module_host
+	install -m 0755 ${B}/samples/native_module_host_sample/native_host_sample ${D}${datadir}/azureiotgatewaysdk/samples/native_module_host/native_host
+	install -m 0755 ${B}/samples/native_module_host_sample/native_gateway ${D}${datadir}/azureiotgatewaysdk/samples/native_module_host/native_gateway
+	install -m 0644 ${S}/samples/native_module_host_sample/src/native_host_sample_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/native_module_host/native_host.json
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/native_module_host/src
+	install -m 0644 ${S}/samples/native_module_host_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/native_module_host/src/
+	install -m 0644 ${S}/samples/native_module_host_sample/src/native_host_sample_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/native_module_host/src/native_host.json
+	install -m 0755 ${WORKDIR}/native-module-host-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/native_module_host/build.sh
+
+	# Proxy Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/proxy
+	install -m 0755 ${B}/samples/proxy_sample/proxy_sample ${D}${datadir}/azureiotgatewaysdk/samples/proxy/proxy
+	install -m 0755 ${B}/samples/proxy_sample/proxy_sample_remote ${D}${datadir}/azureiotgatewaysdk/samples/proxy/proxy_remote
+	install -m 0644 ${S}/samples/proxy_sample/src/proxy_sample_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/proxy/proxy.json
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/proxy/src
+	install -m 0644 ${S}/samples/proxy_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/proxy/src/
+	install -m 0644 ${S}/samples/proxy_sample/src/proxy_sample_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/proxy/src/proxy.json
+	install -m 0755 ${WORKDIR}/proxy-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/proxy/build.sh
+
+	# Simulated Device Cloud Upload Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload
+	install -m 0755 ${B}/samples/simulated_device_cloud_upload/simulated_device_cloud_upload_sample ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/simulated_device_cloud_upload.json
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/inc/*.h ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/inc/
+	install -m 0644 ${S}/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/src/simulated_device_cloud_upload.json
+	install -m 0755 ${WORKDIR}/simulated-device-cloud-upload-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload/build.sh
+
 	# Modbus Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/modbus
 	install -m 0755 ${B}/samples/modbus_sample/modbus_sample ${D}${datadir}/azureiotgatewaysdk/samples/modbus/modbus
 	install -m 0644 ${S}/samples/modbus_sample/src/modbus_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/modbus/modbus.json
 
-	# Java
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/modbus/src
+	install -m 0644 ${S}/samples/modbus_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/modbus/src/
+	install -m 0644 ${S}/samples/modbus_sample/src/modbus_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/modbus/src/modbus.json
+	install -m 0755 ${WORKDIR}/modbus-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/modbus/build.sh
+
+	# Java Binding
 	if [ -e ${JAVA_LIB_DIR} ]; then
 		install -d ${D}${libdir}/azureiot/bindings/java
     		oe_libinstall -C ${JAVA_LIB_DIR} -so libjava_module_host ${D}${libdir}/azureiot/bindings/java/
@@ -321,19 +386,19 @@ RDEPENDS_${PN} = "\
 	glib-2.0 \
 	curl \
 "
-FILES_${PN} += "\
-	${libdir}/libgateway.so \
+FILES_${PN} = "\
+	${libdir}/*.so \
 "
 
 RDEPENDS_${PN}-dev += "\
 	azure-iot-sdk-c-dev \
 	glib-2.0-dev \
 "
-FILES_${PN}-dev += "\
+FILES_${PN}-dev = "\
 	${includedir}/azureiot \
 "
 
-FILES_${PN}-dbg += "\
+FILES_${PN}-dbg = "\
 	${libdir}/azureiot/bindings/java/.debug \
 	${libdir}/azureiot/modules/azure_functions/.debug \
 	${libdir}/azureiot/modules/ble/.debug \
@@ -345,12 +410,15 @@ FILES_${PN}-dbg += "\
 	${libdir}/azureiot/modules/modbus_read/.debug \
 	${datadir}/azureiotgatewaysdk/samples/azure_functions/.debug \
 	${datadir}/azureiotgatewaysdk/samples/ble_gateway/.debug \
+	${datadir}/azureiotgatewaysdk/samples/dynamically_add_module/.debug \
+	${datadir}/azureiotgatewaysdk/samples/proxy/.debug \
 	${datadir}/azureiotgatewaysdk/samples/hello_world/.debug \
+	${datadir}/azureiotgatewaysdk/samples/native_module_host/.debug \
 	${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/.debug \
 	${datadir}/azureiotgatewaysdk/samples/modbus/.debug \
 "
 
-FILES_${PN}-modules += "\
+FILES_${PN}-modules = "\
 	${libdir}/azureiot/modules/azure_functions/libazure_functions.so \
 	${libdir}/azureiot/modules/ble/libble.so \
 	${libdir}/azureiot/modules/ble/libble_c2d.so \
@@ -361,29 +429,42 @@ FILES_${PN}-modules += "\
 	${libdir}/azureiot/modules/simulated_device/libsimulated_device.so \
 "
 
-FILES_${PN}-modules-src += "\
+FILES_${PN}-modules-src = "\
 	${exec_prefix}/src/azureiotgatewaysdk/modules \
 "
 
 RDEPENDS_${PN}-samples += "azure-iot-gateway-sdk-modules"
-FILES_${PN}-samples += "\
+FILES_${PN}-samples = "\
 	${datadir}/azureiotgatewaysdk/samples/azure_functions/* \
 	${datadir}/azureiotgatewaysdk/samples/ble_gateway/* \
+	${datadir}/azureiotgatewaysdk/samples/dynamically_add_module/* \
 	${datadir}/azureiotgatewaysdk/samples/hello_world/* \
+	${datadir}/azureiotgatewaysdk/samples/native_module_host/* \
+	${datadir}/azureiotgatewaysdk/samples/proxy/* \
 	${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/* \
 "
 
-FILES_${PN}-samples-src += "\
-	${exec_prefix}/src/azureiotgatewaysdk/samples \
+FILES_${PN}-samples-src = "\
+	${exec_prefix}/src/azureiotgatewaysdk/samples/azure_functions \
+	${exec_prefix}/src/azureiotgatewaysdk/samples/ble_gateway \
+	${exec_prefix}/src/azureiotgatewaysdk/samples/dynamically_add_module \
+	${exec_prefix}/src/azureiotgatewaysdk/samples/hello_world \
+	${exec_prefix}/src/azureiotgatewaysdk/samples/native_module_host \
+	${exec_prefix}/src/azureiotgatewaysdk/samples/proxy \
+	${exec_prefix}/src/azureiotgatewaysdk/samples/simulated_device_cloud_upload \
 "
 
-FILES_${PN}-module-modbus += "\
-	${libdir}/azureiot/modules/modbus_read/libmodbus_read.so \
+FILES_${PN}-module-modbus = "\
+	${libdir}/azureiot/modules/modbus_read/*.so \
 "
 
 RDEPENDS_${PN}-samples-modbus += "azure-iot-gateway-sdk-module-modbus"
-FILES_${PN}-samples-modbus += "\
+FILES_${PN}-samples-modbus = "\
 	${datadir}/azureiotgatewaysdk/samples/modbus/* \
+"
+
+FILES_${PN}-samples-src-modbus = "\
+	${exec_prefix}/src/azureiotgatewaysdk/samples/modbus \
 "
 
 FILES_${PN}-java += "\
