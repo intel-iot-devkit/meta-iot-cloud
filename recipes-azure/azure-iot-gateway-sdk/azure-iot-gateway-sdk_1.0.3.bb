@@ -386,7 +386,7 @@ RDEPENDS_${PN} = "\
 	glib-2.0 \
 	curl \
 "
-FILES_${PN} = "\
+FILES_${PN} += "\
 	${libdir}/*.so \
 "
 
@@ -394,11 +394,11 @@ RDEPENDS_${PN}-dev += "\
 	azure-iot-sdk-c-dev \
 	glib-2.0-dev \
 "
-FILES_${PN}-dev = "\
+FILES_${PN}-dev += "\
 	${includedir}/azureiot \
 "
 
-FILES_${PN}-dbg = "\
+FILES_${PN}-dbg += "\
 	${libdir}/azureiot/bindings/java/.debug \
 	${libdir}/azureiot/modules/azure_functions/.debug \
 	${libdir}/azureiot/modules/ble/.debug \
@@ -467,12 +467,13 @@ FILES_${PN}-samples-src-modbus = "\
 	${exec_prefix}/src/azureiotgatewaysdk/samples/modbus \
 "
 
-FILES_${PN}-java += "\
+FILES_${PN}-java = "\
 	${libdir}/azureiot/bindings/java/*.so \
 "
 
 RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
 
+INSANE_SKIP_${PN} += "rpaths"
 INSANE_SKIP_${PN}-modules += "rpaths"
 INSANE_SKIP_${PN}-module-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples += "rpaths libdir"
