@@ -1,0 +1,36 @@
+From af7f5b885d5807b46bdcdb91f78a9dff689b6af8 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 13 Apr 2017 22:51:10 +0100
+Subject: [PATCH 2/3] Fix cjson library
+
+---
+ src/CMakeLists.txt           | 2 +-
+ src/devicemanagementclient.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 43a52cc..d0e4184 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -11,4 +11,4 @@ add_library(iotfdevicemgmt SHARED devicemanagementclient.c)
+ TARGET_LINK_LIBRARIES (iotf_network_tls_wrapper mbedcrypto mbedx509 mbedtls )
+ TARGET_LINK_LIBRARIES (iotfdeviceclient iotfclient iotf_utils iotf_network_tls_wrapper iotfmqtt)
+ TARGET_LINK_LIBRARIES (iotfgatewayclient iotfclient iotf_utils iotf_network_tls_wrapper iotfmqtt)
+-TARGET_LINK_LIBRARIES (iotfdevicemgmt iotfclient iotfdeviceclient cJSON iotf_utils iotf_network_tls_wrapper iotfmqtt)
++TARGET_LINK_LIBRARIES (iotfdevicemgmt iotfclient iotfdeviceclient cjson iotf_utils iotf_network_tls_wrapper iotfmqtt)
+diff --git a/src/devicemanagementclient.c b/src/devicemanagementclient.c
+index 2bb8bc5..13f4b07 100644
+--- a/src/devicemanagementclient.c
++++ b/src/devicemanagementclient.c
+@@ -21,7 +21,7 @@
+ 
+ 
+ #include "devicemanagementclient.h"
+-#include "cJSON.h"
++#include "cjson/cJSON.h"
+ 
+ //Character strings to hold log header and log message to be dumped.
+  char logHdr[LOG_BUF];
+-- 
+1.9.1
+
