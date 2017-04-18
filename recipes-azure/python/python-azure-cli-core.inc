@@ -1,6 +1,6 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
-PV = "2.0.0"
+PV = "2.0.3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -13,12 +13,13 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrest \
 	${PYTHON_PN}-msrestazure \
 	${PYTHON_PN}-pygments \
+	${PYTHON_PN}-pyopenssl \
 	${PYTHON_PN}-pyyaml \
 	${PYTHON_PN}-requests \
 	${PYTHON_PN}-six \
 	${PYTHON_PN}-tabulate \
 "
 
-SRCREV = "061c247da51cc79f4cd136cf4b23bd58ddb0ca2e"
+SRCREV = "50d075f7eb7f28f46aa89f1418400138282d966c"
 
 SRC_DIR = "src/azure-cli-core"

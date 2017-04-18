@@ -1,13 +1,13 @@
 DESCRIPTION = "Microsoft Azure Resource Management Namespace Package"
 
-PV = "1.0.0"
+PV = "2.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-azure-nspkg \
 "
 
-SRCREV = "5f9a6d994ee2d76daa4fb105b6b54d82bc64a201"
+SRCREV = "2333be3c39648beb9bd16b67d2400a5088b5c7ba"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/*.py \

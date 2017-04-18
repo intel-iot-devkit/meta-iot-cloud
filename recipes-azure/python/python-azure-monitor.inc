@@ -1,13 +1,14 @@
 DESCRIPTION = "Microsoft Azure Monitor Client Library for Python"
 
-PV = "0.1.0"
-PR = "r1"
+PV = "0.2.0"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
+	${PYTHON_PN}-msrestazure \
 	${PYTHON_PN}-azure-common \
 "
 
-SRCREV = "ccb6e26bb0aec4b66f01a824d1bd93c88c74ba7d"
+SRCREV = "16f43777ca7cccfffc767204fe90c10203b16d21"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/monitor/* \

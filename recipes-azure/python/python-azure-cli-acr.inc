@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools ACR Command Module"
 
-PV = "0.1.1b4"
+PV = "2.0.1"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -10,6 +10,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-containerregistry \
 "
 
-SRCREV = "cc90833c56ccc7555ad781ed2cedb5d99a5e58e3"
+SRCREV = "06c9d8f132659c17a5c27d06aca6471a824e1ad8"
 
 SRC_DIR = "src/command_modules/azure-cli-acr"

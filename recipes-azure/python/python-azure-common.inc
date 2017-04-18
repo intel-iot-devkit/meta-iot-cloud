@@ -1,7 +1,7 @@
 DESCRIPTION = "Microsoft Azure Client Library for Python (Common)"
 
-PV = "1.1.4"
-PR = "r1"
+PV = "1.1.5"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-nspkg \
@@ -9,7 +9,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrest \
 "
 
-SRCREV = "71ebc5c5968f486dcc171c76eb6fe2f852c7afc0"
+SRCREV = "2333be3c39648beb9bd16b67d2400a5088b5c7ba"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/common/* \

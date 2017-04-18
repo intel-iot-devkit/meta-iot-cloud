@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Role Command Module"
 
-PV = "2.0.0"
+PV = "2.0.2"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-graphrbac \
 "
 
-SRCREV = "42f5ab9bdbd7f3fd183128519282304308076449"
+SRCREV = "80607313f925540651c95b9c03a06a0137abede2"
 
 SRC_DIR = "src/command_modules/azure-cli-role"

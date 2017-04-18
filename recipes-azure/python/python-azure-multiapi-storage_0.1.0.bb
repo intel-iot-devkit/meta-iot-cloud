@@ -1,5 +1,5 @@
 inherit setuptools
-require python-azure-storage.inc
+require python-azure-multiapi-storage.inc
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-futures \

@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools ACS Command Module"
 
-PV = "2.0.0"
+PV = "2.0.3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -15,6 +15,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-sshtunnel \
 "
 
-SRCREV = "4f0ffc203fdbe7d077660956cac0e8a8d67856e0"
+SRCREV = "eeb990a8778cc1b9b46a54133d51f661d46a4eec"
 
 SRC_DIR = "src/command_modules/azure-cli-acs"

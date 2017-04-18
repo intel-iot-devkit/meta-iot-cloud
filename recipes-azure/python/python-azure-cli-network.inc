@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Network Command Module"
 
-PV = "2.0.0"
+PV = "2.0.3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -11,6 +11,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "648231a0cdb08fcf643989f68461bcdaf3d98141"
+SRCREV = "2b251339d4532aca0bdc9acf57a9f982c810c3f1"
 
 SRC_DIR = "src/command_modules/azure-cli-network"
