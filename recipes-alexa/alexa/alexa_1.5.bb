@@ -35,7 +35,11 @@ RDEPENDS_${PN} += "\
 	openssl \
 "
 
-PR = "r5"
+RPROVIDES_${PN} += "alexa-pi"
+RREPLACES_${PN} += "alexa-pi"
+RCONFLICTS_${PN} += "alexa-pi"
+
+PR = "r6"
 
 PACKAGES = "${PN}"
 
