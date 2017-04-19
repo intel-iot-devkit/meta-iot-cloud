@@ -2,7 +2,7 @@ DESCRIPTION = "Fast, pure-Python full text indexing, search, and spell checking 
 HOMEPAGE = "http://bitbucket.org/mchaput/whoosh"
 AUTHOR = "Matt Chaput"
 SECTION = "devel/python"
-LICENSE = "BSD"
+LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=05303186defc6141143629961c7c8a60"
 
 PR = "r0"
