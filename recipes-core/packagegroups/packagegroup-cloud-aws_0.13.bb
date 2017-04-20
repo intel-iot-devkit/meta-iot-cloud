@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup python-dir
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
@@ -35,7 +35,7 @@ PACKAGECONFIG[cpp] = "\
 	aws-iot-device-sdk-cpp-samples \
 "
 
-PACKAGECONFIG[python] = "\
+PACKAGECONFIG[cli] = "\
 	, \
 	, \
 	, \
