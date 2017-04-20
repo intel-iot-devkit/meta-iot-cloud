@@ -1,19 +1,22 @@
 DESCRIPTION = "Packages for Amazon Web Services."
 LICENSE = "MIT"
 
-inherit packagegroup
-
-RDEPENDS_${PN} = "\
-	python-aws-iot-device-sdk \
-	python-aws-iot-device-sdk-samples \
-	python-awscli \
-"
+inherit packagegroup python-dir
 
 PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "java cpp"
+PACKAGECONFIG ??= "python java cpp cli"
+
+PACKAGECONFIG[python] = "\
+	, \
+	, \
+	, \
+	${PYTHON_PN}-aws-iot-device-sdk \
+	${PYTHON_PN}-aws-iot-device-sdk-samples \
+"
+
 PACKAGECONFIG[java] = "\
 	, \
 	, \
@@ -30,4 +33,11 @@ PACKAGECONFIG[cpp] = "\
 	aws-iot-device-sdk-cpp-dev \
 	aws-iot-device-sdk-cpp-cli \
 	aws-iot-device-sdk-cpp-samples \
+"
+
+PACKAGECONFIG[python] = "\
+	, \
+	, \
+	, \
+	${PYTHON_PN}-awscli \
 "

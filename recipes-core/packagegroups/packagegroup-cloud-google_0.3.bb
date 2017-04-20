@@ -1,22 +1,19 @@
 DESCRIPTION = "Packages for the Google Cloud Platform."
 LICENSE = "MIT"
 
-inherit packagegroup
+inherit packagegroup python-dir
 
 PR = "r0"
 
-RDEPENDS_${PN} = "\
-"
-
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "python node-red"
+PACKAGECONFIG ??= "python node-red cli"
 
 PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	python-google-cloud \
+	${PYTHON_PN}-google-cloud \
 "
 
 PACKAGECONFIG[node-red] = "\
@@ -24,4 +21,11 @@ PACKAGECONFIG[node-red] = "\
 	, \
 	, \
 	node-red-contrib-google-cloud \
+"
+
+PACKAGECONFIG[cli] = "\
+	, \
+	, \
+	, \
+	google-cloud-sdk \
 "

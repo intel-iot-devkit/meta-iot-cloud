@@ -1,26 +1,33 @@
 DESCRIPTION = "Packages for Microsoft Azure IoT."
 LICENSE = "MIT"
 
-inherit packagegroup
+inherit packagegroup python-dir
 
-PR = "r2"
+PR = "r0"
 
-RDEPENDS_${PN} = "\
+PACKAGES = "${PN}"
+
+PACKAGECONFIG ??= "c python java node-red cli"
+
+PACKAGECONFIG[c] = "\
+	, \
+	, \
+	, \
 	azure-iot-sdk-c \
 	azure-iot-sdk-c-dev \
-	python-azure-iot-sdk \
-	node-red-contrib-azureiothubnode \
-	node-iothub-explorer \
 	azure-iot-gateway-sdk \
 	azure-iot-gateway-sdk-dev \
 	azure-iot-gateway-sdk-modules \
 	azure-iot-gateway-sdk-samples \
-	python-azure-cli \
 "
 
-PACKAGES = "${PN}"
+PACKAGECONFIG[python] = "\
+	, \
+	, \
+	, \
+	${PYTHON_PN}-azure-iot-sdk \
+"
 
-PACKAGECONFIG ??= "java"
 PACKAGECONFIG[java] = "\
 	, \
 	, \
@@ -28,4 +35,18 @@ PACKAGECONFIG[java] = "\
 	azure-iot-gateway-sdk-java \
 	azure-iot-device-sdk-java \
 	azure-iot-device-sdk-java-samples \
+"
+
+PACKAGECONFIG[node-red] = "\
+	, \
+	, \
+	, \
+	node-red-contrib-azureiothubnode \
+"
+
+PACKAGECONFIG[cli] = "\
+	, \
+	, \
+	, \
+	${PYTHON_PN}-azure-cli \
 "

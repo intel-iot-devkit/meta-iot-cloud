@@ -1,7 +1,7 @@
 DESCRIPTION = "Packages for IBM Bluemix & Watson platforms."
 LICENSE = "MIT"
 
-inherit packagegroup
+inherit packagegroup python-dir
 
 PR = "r0"
 
@@ -29,7 +29,7 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	python-ibmiotf \
+	${PYTHON_PN}-ibmiotf \
 "
 
 PACKAGECONFIG[node-red] = "\
