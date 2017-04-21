@@ -55,6 +55,7 @@ PACKAGES = "${PN}"
 
 FILES_${PN} = "\
 	${NODE_MODULES_DIR}${PN} \
+	${bindir} \
 	${systemd_unitdir} \
 "
 
