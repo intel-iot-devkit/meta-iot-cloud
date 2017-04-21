@@ -11,6 +11,7 @@ SRC_URI = "\
 	https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
 	file://node-red.service \
 "
+PR = "r1"
 
 S = "${WORKDIR}/${PN}-${PV}"
 
@@ -33,34 +34,16 @@ do_compile() {
 do_install() {
 	install -d ${D}${NODE_MODULES_DIR}${PN}
     	cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
+
+	# Set permissions
+	chmod 0755 ${D}${NODE_MODULES_DIR}${PN}/red.js
+
+	# Symlinks
+	install -d ${D}${bindir}
+	ln -s ${NODE_MODULES_DIR}${PN}/red.js ${D}${bindir}/${PN}
 	
 	install -d ${D}${systemd_unitdir}/system/
 	install -m 0644 ${WORKDIR}/${PN}.service ${D}${systemd_unitdir}/system/
-}
-
-pkg_postinst_${PN}() {
-#!/bin/sh
-# Post installation script
-
-if [ -f ${bindir}/${PN} ]
-then
-	rm ${bindir}/${PN}
-fi
-
-ln -s ${NODE_MODULES_DIR}${PN}/red.js ${bindir}/${PN}
-chmod 755 ${bindir}/${PN}
-
-}
-
-pkg_prerm_${PN}() {
-#!/bin/sh
-# Pre removal script
-
-if [ -f ${bindir}/${PN} ]
-then
-	rm ${bindir}/${PN}
-fi
-
 }
 
 inherit systemd
