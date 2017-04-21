@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0296d24e582db92fa4e33fd40e18099a"
 DEPENDS = "nodejs"
 RDEPENDS_${PN} = "bash"
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "\
 	${PN} \
@@ -40,6 +40,9 @@ do_compile() {
 do_install() {
 	install -d ${D}${NODE_MODULES_DIR}/${SRC_NAME}
 	cp -r ${S}/* ${D}${NODE_MODULES_DIR}/${SRC_NAME}
+
+	# Set permissions
+	chmod 0755 ${D}${NODE_MODULES_DIR}${SRC_NAME}/${SRC_NAME}.js
 
 	# Symlinks
 	install -d ${D}${bindir}
