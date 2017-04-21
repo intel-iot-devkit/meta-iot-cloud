@@ -10,8 +10,13 @@ DEPENDS = "\
 	nanomsg \
 "
 
+# Modbus
 SRC_URI += "git://github.com/Azure/iot-gateway-modbus.git;destsuffix=git-modbus;name=modbus"
 SRCREV_modbus = "7daeca02df909278c775112e04d8255240cda48c"
+
+# SQLite
+SRC_URI += "git://github.com/Azure/iot-gateway-sqlite.git;destsuffix=git-sqlite;name=sqlite"
+SRCREV_sqlite = "4fbf57d0c674f6ad41372ff2ba4b86a1380f1111"
 
 SRC_URI += "\
 	file://0001-Skip-adding-test-dependencies-if-not-required.patch \
@@ -29,6 +34,7 @@ SRC_URI += "\
 	file://native-module-host-sample.sh \
 	file://proxy-sample.sh \
 	file://simulated-device-cloud-upload-sample.sh \
+	file://sqlite-sample.sh \
 	file://azure-functions-module.sh \
 	file://ble-module.sh \
 	file://hello-world-module.sh \
@@ -60,6 +66,9 @@ PACKAGES += "\
 	${PN}-module-modbus \
 	${PN}-samples-modbus \
 	${PN}-samples-src-modbus \
+	${PN}-module-sqlite \
+	${PN}-samples-sqlite \
+	${PN}-samples-src-sqlite \
 "
 
 ## Java ##
@@ -107,6 +116,12 @@ do_modules() {
 	cp -rf ${WORKDIR}/git-modbus/samples/modbus_sample ${S}/samples
 	echo 'add_subdirectory(modbus_read)' >> ${S}/modules/CMakeLists.txt
 	echo 'add_subdirectory(modbus_sample)' >> ${S}/samples/CMakeLists.txt
+
+	# SQLite Module
+	cp -rf ${WORKDIR}/git-sqlite/modules/sqlite ${S}/modules
+	cp -rf ${WORKDIR}/git-sqlite/samples/sqlite_sample ${S}/samples
+	echo 'add_subdirectory(sqlite)' >> ${S}/modules/CMakeLists.txt
+	echo 'add_subdirectory(sqlite_sample)' >> ${S}/samples/CMakeLists.txt
 }
 
 addtask do_modules after do_unpack before do_patch
@@ -136,7 +151,7 @@ do_install_prepend() {
 do_install() {
     	# Core
     	install -d ${D}${libdir}
-	oe_libinstall -C ${B}/core/ -so libgateway ${D}${libdir}
+	install -m 0755 ${B}/core/libgateway.so ${D}${libdir}
 
 	install -d ${D}${includedir}/azureiot
 	install -m 0644 ${S}/core/inc/*.h ${D}${includedir}/azureiot
@@ -155,7 +170,7 @@ do_install() {
 
 	# Native Proxy Gateway
 	install -d ${D}${libdir}
-	oe_libinstall -C ${B}/proxy/gateway/native/ -so libproxy_gateway ${D}${libdir}
+	install -m 0755 ${B}/proxy/gateway/native/libproxy_gateway.so ${D}${libdir}
 
 	install -d ${D}${includedir}/azureiot
 	install -m 0644 ${S}/proxy/gateway/native/inc/*.h ${D}${includedir}/azureiot
@@ -163,7 +178,7 @@ do_install() {
 
 	# Native Module Host
 	install -d ${D}${libdir}
-	oe_libinstall -C ${B}/proxy/modules/native_module_host -so libnative_module_host ${D}${libdir}
+	install -m 0755 ${B}/proxy/modules/native_module_host/libnative_module_host.so ${D}${libdir}
 
 	install -d ${D}${includedir}/azureiot
 	install -m 0644 ${S}/proxy/modules/native_module_host/inc/*.h ${D}${includedir}/azureiot
@@ -177,7 +192,7 @@ do_install() {
 
 	# Azure Functions Module
 	install -d ${D}${libdir}/azureiot/modules/azure_functions
-	oe_libinstall -C ${B}/modules/azure_functions/ -so libazure_functions ${D}${libdir}/azureiot/modules/azure_functions/
+	install -m 0755 ${B}/modules/azure_functions/libazure_functions.so ${D}${libdir}/azureiot/modules/azure_functions/
 
 	install -d ${D}${includedir}/azureiot/modules/azure_functions
 	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${includedir}/azureiot/modules/azure_functions
@@ -191,8 +206,8 @@ do_install() {
 	# BLE Module
 	if [ -e ${B}/modules/ble/ ]; then
 		install -d ${D}${libdir}/azureiot/modules/ble
-		oe_libinstall -C ${B}/modules/ble/ -so libble ${D}${libdir}/azureiot/modules/ble/
-		oe_libinstall -C ${B}/modules/ble/ -so libble_c2d ${D}${libdir}/azureiot/modules/ble/
+		install -m 0755 ${B}/modules/ble/libble.so ${D}${libdir}/azureiot/modules/ble/
+		install -m 0755 ${B}/modules/ble/libble_c2d.so ${D}${libdir}/azureiot/modules/ble/
 
 		install -d ${D}${includedir}/azureiot/modules/ble
 		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiot/modules/ble
@@ -212,7 +227,7 @@ do_install() {
 
 	# Hello World Module
 	install -d ${D}${libdir}/azureiot/modules/hello_world
-	oe_libinstall -C ${B}/modules/hello_world/ -so libhello_world ${D}${libdir}/azureiot/modules/hello_world/
+	install -m 0755 ${B}/modules/hello_world/libhello_world.so ${D}${libdir}/azureiot/modules/hello_world/
 
 	install -d ${D}${includedir}/azureiot/modules/hello_world
 	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${includedir}/azureiot/modules/hello_world
@@ -225,7 +240,7 @@ do_install() {
 
 	# Identity Map Module
 	install -d ${D}${libdir}/azureiot/modules/identitymap
-	oe_libinstall -C ${B}/modules/identitymap/ -so libidentity_map ${D}${libdir}/azureiot/modules/identitymap/
+	install -m 0755 ${B}/modules/identitymap/libidentity_map.so ${D}${libdir}/azureiot/modules/identitymap/
 	
 	install -d ${D}${includedir}/azureiot/modules/identitymap
 	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${includedir}/azureiot/modules/identitymap
@@ -238,7 +253,7 @@ do_install() {
 
 	# IoT Hub Module
 	install -d ${D}${libdir}/azureiot/modules/iothub
-	oe_libinstall -C ${B}/modules/iothub/ -so libiothub ${D}${libdir}/azureiot/modules/iothub/
+	install -m 0755 ${B}/modules/iothub/libiothub.so ${D}${libdir}/azureiot/modules/iothub/
 
 	install -d ${D}${includedir}/azureiot/modules/iothub
 	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${includedir}/azureiot/modules/iothub
@@ -251,7 +266,7 @@ do_install() {
 
 	# Logger Module
 	install -d ${D}${libdir}/azureiot/modules/logger
-	oe_libinstall -C ${B}/modules/logger/ -so liblogger ${D}${libdir}/azureiot/modules/logger/
+	install -m 0755 ${B}/modules/logger/liblogger.so ${D}${libdir}/azureiot/modules/logger/
 
 	install -d ${D}${includedir}/azureiot/modules/logger
 	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${includedir}/azureiot/modules/logger
@@ -264,7 +279,7 @@ do_install() {
 
 	# Simulated Device Module
 	install -d ${D}${libdir}/azureiot/modules/simulated_device
-	oe_libinstall -C ${B}/modules/simulated_device/ -so libsimulated_device ${D}${libdir}/azureiot/modules/simulated_device/
+	install -m 0755 ${B}/modules/simulated_device/libsimulated_device.so ${D}${libdir}/azureiot/modules/simulated_device/
 
 	install -d ${D}${includedir}/azureiot/modules/simulated_device
 	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${includedir}/azureiot/modules/simulated_device
@@ -277,10 +292,17 @@ do_install() {
 
 	# Modbus Module
 	install -d ${D}${libdir}/azureiot/modules/modbus_read
-	oe_libinstall -C ${B}/modules/modbus_read/ -so libmodbus_read ${D}${libdir}/azureiot/modules/modbus_read/
+	install -m 0755 ${B}/modules/modbus_read/libmodbus_read.so ${D}${libdir}/azureiot/modules/modbus_read/
 
 	install -d ${D}${includedir}/azureiot/modules/modbus_read
 	install -m 0644 ${S}/modules/modbus_read/inc/*.h ${D}${includedir}/azureiot/modules/modbus_read
+
+	# SQLite Module
+	install -d ${D}${libdir}/azureiot/modules/sqlite
+	install -m 0755 ${B}/modules/sqlite/libsqlite.so ${D}${libdir}/azureiot/modules/sqlite/
+
+	install -d ${D}${includedir}/azureiot/modules/sqlite
+	install -m 0644 ${S}/modules/sqlite/inc/*.h ${D}${includedir}/azureiot/modules/sqlite
 
 	# Azure Functions Sample
 	install -d ${D}${datadir}/azureiotgatewaysdk/samples/azure_functions
@@ -375,10 +397,20 @@ do_install() {
 	install -m 0644 ${S}/samples/modbus_sample/src/modbus_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/modbus/src/modbus.json
 	install -m 0755 ${WORKDIR}/modbus-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/modbus/build.sh
 
+	# SQLite Sample
+	install -d ${D}${datadir}/azureiotgatewaysdk/samples/sqlite
+	install -m 0755 ${B}/samples/sqlite_sample/sqlite_sample ${D}${datadir}/azureiotgatewaysdk/samples/sqlite/sqlite
+	install -m 0644 ${S}/samples/sqlite_sample/src/sqlite_lin.json ${D}${datadir}/azureiotgatewaysdk/samples/sqlite/sqlite.json
+
+	install -d ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/sqlite/src
+	install -m 0644 ${S}/samples/sqlite_sample/src/*.c ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/sqlite/src/
+	install -m 0644 ${S}/samples/sqlite_sample/src/sqlite_lin.json ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/sqlite/src/sqlite.json
+	install -m 0755 ${WORKDIR}/sqlite-sample.sh ${D}${exec_prefix}/src/azureiotgatewaysdk/samples/sqlite/build.sh
+
 	# Java Binding
 	if [ -e ${JAVA_LIB_DIR} ]; then
 		install -d ${D}${libdir}/azureiot/bindings/java
-    		oe_libinstall -C ${JAVA_LIB_DIR} -so libjava_module_host ${D}${libdir}/azureiot/bindings/java/
+    		install -m 0755 ${JAVA_LIB_DIR}/libjava_module_host.so ${D}${libdir}/azureiot/bindings/java/
 	fi
 }
 
@@ -409,6 +441,7 @@ FILES_${PN}-dbg += "\
 	${libdir}/azureiot/modules/logger/.debug \
 	${libdir}/azureiot/modules/simulated_device/.debug \
 	${libdir}/azureiot/modules/modbus_read/.debug \
+	${libdir}/azureiot/modules/sqlite/.debug \
 	${datadir}/azureiotgatewaysdk/samples/azure_functions/.debug \
 	${datadir}/azureiotgatewaysdk/samples/ble_gateway/.debug \
 	${datadir}/azureiotgatewaysdk/samples/dynamically_add_module/.debug \
@@ -417,6 +450,7 @@ FILES_${PN}-dbg += "\
 	${datadir}/azureiotgatewaysdk/samples/native_module_host/.debug \
 	${datadir}/azureiotgatewaysdk/samples/simulated_device_cloud_upload/.debug \
 	${datadir}/azureiotgatewaysdk/samples/modbus/.debug \
+	${datadir}/azureiotgatewaysdk/samples/sqlite/.debug \
 "
 
 FILES_${PN}-modules = "\
@@ -459,13 +493,33 @@ FILES_${PN}-module-modbus = "\
 	${libdir}/azureiot/modules/modbus_read/*.so \
 "
 
-RDEPENDS_${PN}-samples-modbus += "azure-iot-gateway-sdk-module-modbus"
+RDEPENDS_${PN}-samples-modbus += "\
+	azure-iot-gateway-sdk-modules \
+	azure-iot-gateway-sdk-module-modbus \
+"
 FILES_${PN}-samples-modbus = "\
 	${datadir}/azureiotgatewaysdk/samples/modbus/* \
 "
 
 FILES_${PN}-samples-src-modbus = "\
 	${exec_prefix}/src/azureiotgatewaysdk/samples/modbus \
+"
+
+FILES_${PN}-module-sqlite = "\
+	${libdir}/azureiot/modules/sqlite/*.so \
+"
+
+RDEPENDS_${PN}-samples-sqlite += "\
+	azure-iot-gateway-sdk-modules \
+	azure-iot-gateway-sdk-module-sqlite \
+	azure-iot-gateway-sdk-module-modbus \
+"
+FILES_${PN}-samples-sqlite = "\
+	${datadir}/azureiotgatewaysdk/samples/sqlite/* \
+"
+
+FILES_${PN}-samples-src-sqlite = "\
+	${exec_prefix}/src/azureiotgatewaysdk/samples/sqlite \
 "
 
 FILES_${PN}-java = "\
@@ -477,6 +531,8 @@ RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
 INSANE_SKIP_${PN} += "rpaths"
 INSANE_SKIP_${PN}-modules += "rpaths"
 INSANE_SKIP_${PN}-module-modbus += "rpaths"
+INSANE_SKIP_${PN}-module-sqlite += "rpaths"
 INSANE_SKIP_${PN}-samples += "rpaths libdir"
 INSANE_SKIP_${PN}-samples-modbus += "rpaths"
+INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
 INSANE_SKIP_${PN}-java += "rpaths"
