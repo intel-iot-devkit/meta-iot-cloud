@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup python-dir
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
@@ -33,6 +33,7 @@ PACKAGECONFIG[java] = "\
 	, \
 	, \
 	azure-iot-gateway-sdk-java \
+	azure-iot-gateway-sdk-java-binding \
 	azure-iot-device-sdk-java \
 	azure-iot-device-sdk-java-samples \
 "
