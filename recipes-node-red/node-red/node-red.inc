@@ -11,13 +11,30 @@ SRC_URI = "\
 	https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
 	file://node-red.service \
 "
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/${PN}-${PV}"
+
+def get_nodejs_arch(d):
+    target_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, True)
+
+    if target_arch == "x86-64":
+        target_arch = "x64"
+    elif target_arch == "aarch64":
+        target_arch = "arm64"
+    elif target_arch == "powerpc":
+        target_arch = "ppc"
+    elif target_arch == "powerpc64":
+        target_arch = "ppc64"
+    elif (target_arch == "i486" or target_arch == "i586" or target_arch == "i686"):
+        target_arch = "ia32"
+
+    return target_arch
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "http://registry.npmjs.org/"
+NPM_ARCH = "${@get_nodejs_arch(d)}"
 NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verbose"
 
 do_compile() {
@@ -27,7 +44,7 @@ do_compile() {
 	npm cache clear
 
 	# Install
-	npm --registry=${NPM_REGISTRY} --arch=${TARGET_ARCH} --target_arch=${TARGET_ARCH} ${NPM_INSTALL_FLAGS} install
+	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
 	npm prune --production
 }
 
