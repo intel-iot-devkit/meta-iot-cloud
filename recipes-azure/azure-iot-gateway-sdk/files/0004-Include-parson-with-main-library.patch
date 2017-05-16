@@ -1,20 +1,29 @@
-From ed0d8e81027ece44e6c52cc6b588cfb98b970be6 Mon Sep 17 00:00:00 2001
+From 2a913c78442ad1468fb2f2451aad749b9600bb7a Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 11 Apr 2017 18:16:45 +0100
-Subject: [PATCH 4/4] Include parson with main library
+Date: Mon, 15 May 2017 14:12:22 +0100
+Subject: [PATCH] Include parson with main library
 
 ---
- core/CMakeLists.txt                             | 12 +++++-----
+ core/CMakeLists.txt                             | 10 ++++-----
  core/deps/CMakeLists.txt                        | 30 -------------------------
  proxy/modules/native_module_host/CMakeLists.txt |  4 ++--
- 3 files changed, 9 insertions(+), 37 deletions(-)
+ 3 files changed, 7 insertions(+), 37 deletions(-)
  delete mode 100644 core/deps/CMakeLists.txt
 
 diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index 5f8dd9a..69eabd0 100644
+index 24f792f..cda7c51 100644
 --- a/core/CMakeLists.txt
 +++ b/core/CMakeLists.txt
-@@ -68,6 +68,7 @@ set(gateway_c_sources
+@@ -12,8 +12,6 @@ if(POLICY CMP0042)
+     cmake_policy(SET CMP0042 NEW)
+ endif()
+ 
+-add_subdirectory(deps)
+-
+ #this sets a global var that stores where the includes for GW are
+ set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
+ set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
+@@ -92,6 +90,7 @@ set(gateway_c_sources
      ./src/message.c
      ./src/message_queue.c
      ./src/module_loader.c
@@ -22,7 +31,7 @@ index 5f8dd9a..69eabd0 100644
  )
  
  set(gateway_h_sources
-@@ -191,6 +192,7 @@ set(gateway_c_sources
+@@ -217,6 +216,7 @@ set(gateway_c_sources
  )
  
  include_directories(./inc)
@@ -30,30 +39,19 @@ index 5f8dd9a..69eabd0 100644
  
  add_library(module_host_static STATIC
      ${module_host_sources}
-@@ -207,18 +209,18 @@ add_library(gateway_static STATIC
-     ${gateway_h_sources}
- )
+@@ -245,9 +245,9 @@ if(${enable_native_remote_modules} OR ${enable_java_remote_modules})
+     endif()
+ endif()
  
+-target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
+-target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
 -target_link_libraries(module_host_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
++target_link_libraries(gateway nanomsg aziotsharedutil ${dynamic_loader_library})
++target_link_libraries(gateway_static nanomsg aziotsharedutil ${dynamic_loader_library})
 +target_link_libraries(module_host_static nanomsg aziotsharedutil ${dynamic_loader_library})
  
- if(WIN32)
--    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
-+    target_link_libraries(gateway nanomsg aziotsharedutil ${dynamic_loader_library})
- 
--    target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
-+    target_link_libraries(gateway_static nanomsg aziotsharedutil ${dynamic_loader_library})
- else()
--    target_link_libraries(gateway parson nanomsg aziotsharedutil ${dynamic_loader_library})
-+    target_link_libraries(gateway nanomsg aziotsharedutil ${dynamic_loader_library})
-     target_link_libraries(gateway ${NN_REQUIRED_LIBRARIES})
-     target_link_libraries(gateway m)
- 
--    target_link_libraries(gateway_static parson nanomsg aziotsharedutil ${dynamic_loader_library})
-+    target_link_libraries(gateway_static nanomsg aziotsharedutil ${dynamic_loader_library})
-     target_link_libraries(gateway_static ${NN_REQUIRED_LIBRARIES})
-     target_link_libraries(gateway_static m)
- 
+ if(NOT WIN32)
+     target_link_libraries(gateway m ${NN_REQUIRED_LIBRARIES})
 diff --git a/core/deps/CMakeLists.txt b/core/deps/CMakeLists.txt
 deleted file mode 100644
 index 2ebea5f..0000000
@@ -110,31 +108,6 @@ index b2ab951..3902bda 100644
  
  linkSharedUtil(native_module_host)
  linkSharedUtil(native_module_host_static)
--- 
-1.9.1
-
-From a8f217a2a76b3dc3c6b738228337e3fbb4c6b411 Mon Sep 17 00:00:00 2001
-From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 11 Apr 2017 18:22:54 +0100
-Subject: [PATCH 5/5] Remove deps from cmake directory list
-
----
- core/CMakeLists.txt | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index 69eabd0..4106432 100644
---- a/core/CMakeLists.txt
-+++ b/core/CMakeLists.txt
-@@ -12,8 +12,6 @@ if(POLICY CMP0042)
-     cmake_policy(SET CMP0042 NEW)
- endif()
- 
--add_subdirectory(deps)
--
- #this sets a global var that stores where the includes for GW are
- set(GW_INC ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "Needs to be included for gateway includes" FORCE)
- set(GW_SRC ${CMAKE_CURRENT_LIST_DIR}/src CACHE INTERNAL "Needs to be included for gateway sources" FORCE)
 -- 
 1.9.1
 

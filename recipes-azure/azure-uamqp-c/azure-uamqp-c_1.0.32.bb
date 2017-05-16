@@ -10,7 +10,7 @@ inherit cmake
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-uamqp-c.git \
 "
-SRCREV = "8ce91350d2a4a962950ad4edc8d8d14df2de6ca8"
+SRCREV = "b69781ad19a9d1cf4a6a9b842de11e6a024c0d1a"
 
 PR = "r0"
 

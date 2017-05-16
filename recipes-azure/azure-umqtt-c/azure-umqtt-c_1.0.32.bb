@@ -10,7 +10,7 @@ inherit cmake
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-umqtt-c.git \
 "
-SRCREV = "aa4525758a00def2002ebb09640b9042be4d3cac"
+SRCREV = "ebb4d5d80f2b6c1749a9e2e553de46914dc82c78"
 
 PR = "r0"
 

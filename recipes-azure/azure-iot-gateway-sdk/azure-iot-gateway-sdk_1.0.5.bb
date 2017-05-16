@@ -8,6 +8,7 @@ DEPENDS = "\
 	glib-2.0 \
 	azure-iot-sdk \
 	nanomsg \
+	libuv \
 "
 
 # Modbus
@@ -23,6 +24,8 @@ SRC_URI += "\
 	file://0002-Fix-nanomsg-library-detection.patch \
 	file://0003-Skip-parson-submodule-init.patch \
 	file://0004-Include-parson-with-main-library.patch \
+	file://0005-Use-shared-openssl.patch \
+	file://0006-Use-shared-libuv.patch \
 "
 
 SRC_URI += "\
@@ -44,7 +47,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r2"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -59,6 +62,7 @@ PACKAGES = "\
 	${PN}-samples \
 	${PN}-samples-src \
 	${PN}-java \
+	${PN}-nodejs \
 "
 
 # Additional packages
@@ -104,8 +108,13 @@ JAVA_LIB_DIR = "${B}/bindings/java/"
 JDK_ARCH = "${@get_jdk_arch(d)}"
 JDK_HOME = "${@get_jdk_home(d)}"
 
-PACKAGECONFIG ??= "java bluetooth"
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8, azure-iot-gateway-sdk-java-binding"
+## Node.JS ##
+NODE_LIB_DIR = "${B}/bindings/nodejs/"
+
+PACKAGECONFIG ??= "java nodejs bluetooth"
+
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8"
+PACKAGECONFIG[nodejs] = "-Denable_nodejs_binding:BOOL=ON, -Denable_nodejs_binding:BOOL=OFF, nodejs-native (>= 6.%) nodejs-shared (>= 6.%)"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
@@ -131,12 +140,24 @@ do_configure_prepend() {
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${JDK_HOME}"
 	fi
+
+	# Node.JS
+	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
+		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
+		export NODE_LIB="${STAGING_LIBDIR}"
+	fi
 }
 
 do_compile_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${JDK_HOME}"
+	fi
+
+	# Node.JS
+	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
+		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
+		export NODE_LIB="${STAGING_LIBDIR}"
 	fi
 }
 
@@ -412,6 +433,12 @@ do_install() {
 		install -d ${D}${libdir}/azureiot/bindings/java
     		install -m 0755 ${JAVA_LIB_DIR}/libjava_module_host.so ${D}${libdir}/azureiot/bindings/java/
 	fi
+
+	# Node.JS Binding
+	if [ -e ${NODE_LIB_DIR} ]; then
+		install -d ${D}${libdir}/azureiot/bindings/nodejs
+    		install -m 0755 ${NODE_LIB_DIR}/libnodejs_binding.so ${D}${libdir}/azureiot/bindings/nodejs/
+	fi
 }
 
 RDEPENDS_${PN} = "\
@@ -433,6 +460,7 @@ FILES_${PN}-dev += "\
 
 FILES_${PN}-dbg += "\
 	${libdir}/azureiot/bindings/java/.debug \
+	${libdir}/azureiot/bindings/nodejs/.debug \
 	${libdir}/azureiot/modules/azure_functions/.debug \
 	${libdir}/azureiot/modules/ble/.debug \
 	${libdir}/azureiot/modules/hello_world/.debug \
@@ -522,8 +550,15 @@ FILES_${PN}-samples-src-sqlite = "\
 	${exec_prefix}/src/azureiotgatewaysdk/samples/sqlite \
 "
 
+RDEPENDS_${PN}-java += "\
+	azure-iot-gateway-sdk-java-binding \
+"
 FILES_${PN}-java = "\
 	${libdir}/azureiot/bindings/java/*.so \
+"
+
+FILES_${PN}-nodejs = "\
+	${libdir}/azureiot/bindings/nodejs/*.so \
 "
 
 RRECOMMENDS_azure-iot-gateway-sdk-dev[nodeprrecs] = "1"
@@ -536,3 +571,4 @@ INSANE_SKIP_${PN}-samples += "rpaths libdir"
 INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
 INSANE_SKIP_${PN}-java += "rpaths"
+INSANE_SKIP_${PN}-nodejs += "rpaths"

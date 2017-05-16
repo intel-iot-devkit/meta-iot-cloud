@@ -22,7 +22,7 @@ index 6b6cfb0..90d3e95 100644
  
  include(CheckSymbolExists)
  function(detect_architecture symbol arch)
-@@ -188,11 +190,16 @@ macro(compileAsC11)
+@@ -193,11 +195,16 @@ macro(compileAsC11)
    endif()
  endmacro(compileAsC11)
  

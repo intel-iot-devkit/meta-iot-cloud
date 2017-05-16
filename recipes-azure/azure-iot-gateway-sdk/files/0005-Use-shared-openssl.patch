@@ -1,0 +1,25 @@
+From d2442fe12113e807aad966a72effee7dca6b73ea Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 16 May 2017 17:24:36 +0100
+Subject: [PATCH 2/3] Use shared openssl
+
+---
+ bindings/nodejs/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bindings/nodejs/CMakeLists.txt b/bindings/nodejs/CMakeLists.txt
+index 96c4984..0b1582f 100644
+--- a/bindings/nodejs/CMakeLists.txt
++++ b/bindings/nodejs/CMakeLists.txt
+@@ -30,7 +30,7 @@ if(${LINUX})
+         pthread
+         dl
+         uv
+-        openssl
++        ssl
+     )
+ endif()
+ 
+-- 
+1.9.1
+

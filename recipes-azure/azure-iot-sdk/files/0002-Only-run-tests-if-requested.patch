@@ -12,7 +12,7 @@ diff --git a/device/iothub_client_python/CMakeLists.txt b/device/iothub_client_p
 index bfa790c..94ac5af 100644
 --- a/device/iothub_client_python/CMakeLists.txt
 +++ b/device/iothub_client_python/CMakeLists.txt
-@@ -83,4 +83,7 @@ if(${use_wsio})
+@@ -91,4 +91,7 @@ if(${use_wsio})
  endif()
  
  add_subdirectory(src)
@@ -25,7 +25,7 @@ diff --git a/service/CMakeLists.txt b/service/CMakeLists.txt
 index 9849d64..fa43390 100644
 --- a/service/CMakeLists.txt
 +++ b/service/CMakeLists.txt
-@@ -83,5 +83,7 @@ if(${use_wsio})
+@@ -91,5 +91,7 @@ if(${use_wsio})
  endif()
  
  add_subdirectory(src)

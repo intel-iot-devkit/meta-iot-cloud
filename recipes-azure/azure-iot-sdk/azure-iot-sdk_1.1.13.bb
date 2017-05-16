@@ -17,7 +17,7 @@ SRC_URI = "\
 	file://0001-Refactor-cmake-if-statements.patch \
 	file://0002-Only-run-tests-if-requested.patch \
 "
-SRCREV = "b451dedfd522dc4a6b3026245ee798c782f262a6"
+SRCREV = "5af0e09e09ae2ba41c1e6b70efa2f1d431a61a26"
 
 PR = "r0"
 

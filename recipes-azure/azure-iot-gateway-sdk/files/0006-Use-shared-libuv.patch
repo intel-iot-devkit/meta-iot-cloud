@@ -1,0 +1,70 @@
+From 6c02822c710a7b2b4573c1c2cff92133582ac830 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 16 May 2017 17:26:05 +0100
+Subject: [PATCH 3/3] Use shared libuv
+
+---
+ core/CMakeLists.txt | 33 +++------------------------------
+ 1 file changed, 3 insertions(+), 30 deletions(-)
+
+diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
+index cda7c51..137d030 100644
+--- a/core/CMakeLists.txt
++++ b/core/CMakeLists.txt
+@@ -30,30 +30,6 @@ elseif(UNIX) # LINUX or APPLE
+     set(dynamic_library_c_file ./adapters/dynamic_library_linux.c ./adapters/gb_library_linux.c )
+ endif()
+ 
+-# Build libuv with an OS-appropriate script
+-if (${enable_native_remote_modules} OR ${enable_java_remote_modules})
+-    if(WIN32)
+-        if(8 EQUAL CMAKE_SIZEOF_VOID_P)
+-            message(STATUS "Building libuv for 64-bit Windows...")
+-            set(build_libuv build_libuv.cmd x64)
+-        else()
+-            message(STATUS "Building libuv for 32-bit Windows...")
+-            set(build_libuv build_libuv.cmd)
+-        endif()
+-    elseif(LINUX)
+-        message(STATUS "Building libuv for Linux...")
+-        set(build_libuv ./build_libuv.sh)
+-    elseif(APPLE)
+-        message(STATUS "Building libuv for macOS...")
+-        set(build_libuv ./build_libuv_macos.sh)
+-    endif()
+-
+-    execute_process (
+-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/tools/
+-        COMMAND ${build_libuv}
+-    )
+-endif()
+-
+ #setting specific libraries to be loaded based on OS (for example, Linux needs "-ldl", windows does not)
+ if(UNIX) # LINUX or APPLE
+     set(dynamic_loader_library dl)
+@@ -197,9 +173,6 @@ if(${enable_native_remote_modules} OR ${enable_java_remote_modules})
+     add_definitions(-DOUTPROCESS_ENABLED)
+     include_directories( ../proxy/outprocess/inc)
+     include_directories( ../proxy/message/inc)
+-
+-    include_directories(${CMAKE_SOURCE_DIR}/build_libuv/dist/include)
+-    link_directories(${CMAKE_SOURCE_DIR}/build_libuv/dist/lib)
+ endif()
+ 
+ set(module_host_sources
+@@ -239,9 +212,9 @@ if(${enable_native_remote_modules} OR ${enable_java_remote_modules})
+         target_link_libraries(gateway_static ${CMAKE_SOURCE_DIR}/build_libuv/dist/lib/libuv.lib Psapi.lib Iphlpapi.lib Userenv.lib)
+         target_link_libraries(module_host_static ${CMAKE_SOURCE_DIR}/build_libuv/dist/lib/libuv.lib Psapi.lib Iphlpapi.lib Userenv.lib)
+     else()
+-        target_link_libraries(gateway ${CMAKE_SOURCE_DIR}/build_libuv/dist/lib/libuv.a)
+-        target_link_libraries(gateway_static ${CMAKE_SOURCE_DIR}/build_libuv/dist/lib/libuv.a)
+-        target_link_libraries(module_host_static ${CMAKE_SOURCE_DIR}/build_libuv/dist/lib/libuv.a)
++        target_link_libraries(gateway uv)
++        target_link_libraries(gateway_static uv)
++        target_link_libraries(module_host_static uv)
+     endif()
+ endif()
+ 
+-- 
+1.9.1
+
