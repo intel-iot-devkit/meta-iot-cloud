@@ -15,7 +15,10 @@ do_compile() {
 }
 
 do_install() {
-	oe_runmake LIBDIR=${D}${libdir} INCLUDEDIR=${D}${includedir} install
+	oe_libinstall -so libhttp_parser ${D}${libdir}
+
+	install -d ${D}${includedir}
+	install -m 0644 ${S}/*.h ${D}${includedir}
 }
 
 BBCLASSEXTEND = "native"
