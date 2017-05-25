@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=7efa302969517c58e8c15e72b714abf0"
 DEPENDS = "nodejs-native"
 RDEPENDS_${PN} = "node-red"
 
-PR = "r1"
+PR = "r0"
 
 PACKAGES = "\
 	${PN} \
 "
 
 SRC_URI = "git://github.com/Azure/azure-iot-sdk-node.git"
-SRCREV = "eb2a7162490bdae5430a68d85dab8e23109b91fb"
+SRCREV = "b27bd4af8c9e5aaf94eec8886823ed515bdf20ba"
 
 S = "${WORKDIR}/git"
 
