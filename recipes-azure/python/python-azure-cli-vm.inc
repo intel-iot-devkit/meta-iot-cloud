@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools VM Command Module"
 
-PV = "2.0.3"
+PV = "2.0.6"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -14,6 +14,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-paramiko \
 "
 
-SRCREV = "33facd93320f4954d63f5a22e38226cf1b0b6c18"
+SRCREV = "609da2ec18149daee8d657a556768b08b4066b20"
 
 SRC_DIR = "src/command_modules/azure-cli-vm"

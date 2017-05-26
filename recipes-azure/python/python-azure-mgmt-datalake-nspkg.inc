@@ -1,13 +1,13 @@
 DESCRIPTION = "Microsoft Azure Data Lake Management Namespace Package"
 
-PV = "1.0.0"
-PR = "r1"
+PV = "2.0.0"
+PR = "r0"
 
 RDEPENDS_${PN} = "\
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
-SRCREV = "d79f0884668a1c561b45c1e2a23e7f8845509271"
+SRCREV = "bff2a6e39c1f8d0e12199e1970f5feeb783733eb"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/datalake/*.py \

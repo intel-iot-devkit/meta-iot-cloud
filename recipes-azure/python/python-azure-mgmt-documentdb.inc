@@ -1,6 +1,6 @@
-DESCRIPTION = "Microsoft Azure DocumentDB Management Client Library"
+DESCRIPTION = "Microsoft Azure DocumentDB Management Client Library for Python"
 
-PV = "0.1.1"
+PV = "0.1.3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,7 +9,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
-SRCREV = "62f900d177033035e7be174ee652eaf66276af4f"
+SRCREV = "858794d9375dc2ffa3142001691dcb54b9964e91"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/documentdb/* \

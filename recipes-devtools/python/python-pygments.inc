@@ -1,5 +1,5 @@
 DESCRIPTION = "Pygments is a syntax highlighting package written in Python."
-AUTHOR = " Georg Brandl"
+AUTHOR = "Georg Brandl"
 HOMEPAGE = "http://pygments.org/"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4aec35eaf03f2237e4dafea7a7ee1fa6"

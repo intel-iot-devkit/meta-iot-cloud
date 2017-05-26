@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Container Registry Client Library for Python"
 
-PV = "0.2.0"
+PV = "0.2.1"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,7 +8,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 "
 
-SRCREV = "606cd280d522afcef5bb1f60af8472b16ee8b0df"
+SRCREV = "90fdf3a06f62b32f7a1616eccfa7a88eb1e95997"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/containerregistry/* \

@@ -1,6 +1,6 @@
-DESCRIPTION = "Fulltext search and indexing module for Azure CLI"
+DESCRIPTION = "Microsoft Azure Command-Line Tools Find Command Module"
 
-PV = "0.0.2"
+PV = "0.2.2"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,6 +8,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-whoosh \
 "
 
-SRCREV = "6b3efbb6103d391cffd33d2831e0c96b300574df"
+SRCREV = "9c848af7900b7e369fa4639dcd612325f46d5d07"
 
 SRC_DIR = "src/command_modules/azure-cli-find"

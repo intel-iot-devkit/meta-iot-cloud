@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Redis Command Module"
 
-PV = "0.2.0"
+PV = "0.2.3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,6 +8,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "98f4b25eaea51207c604a699f9c0d35638acf5b0"
+SRCREV = "3fb70f38751bbf0dc2b5c2aa9e30e669bdf64298"
 
 SRC_DIR = "src/command_modules/azure-cli-redis"

@@ -1,15 +1,15 @@
 DESCRIPTION = "Microsoft Azure Resource Management Client Library for Python"
 
-PV = "1.0.0rc1"
+PV = "1.1.0rc1"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-azure-mgmt-nspkg \
 	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
-SRCREV = "b724b8cb92739243e42d05b5929792a7d2b8b500"
+SRCREV = "c3838f2c3ce22ad9bb47dd027b796ec0f9129cd7"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/resource/* \
