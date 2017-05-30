@@ -11,9 +11,10 @@ RDEPENDS_${PN} = "\
 	python-grpcio \
 "
 
+# Releases: https://console.cloud.google.com/storage/browser/cloud-sdk-release/
 SRC_URI = "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${PN}-${PV}-linux-x86_64.tar.gz"
-SRC_URI[md5sum] = "21cb7dae0a1e6454ccc008616f143e9c"
-SRC_URI[sha256sum] = "8bfae5fe02005bd6613184d9331debe33beb6757d8fa8b1b2fd38b89a8b5659b"
+SRC_URI[md5sum] = "b6d803703fadd1349bca45b6b9576032"
+SRC_URI[sha256sum] = "f47f41e7c389301dfee4879d6eb71d36c7b06aaf43a2be49a9ea39749be22851"
 
 PR = "r0"
 
@@ -64,9 +65,10 @@ do_install() {
 	# Symlinks
 	ln -s ${libdir}/${PN}/completion.bash.inc ${D}${sysconfdir}/bash_completion.d/gcloud
 	ln -s ${libdir}/${PN}/bin/bq ${D}${bindir}/bq
+	ln -s ${libdir}/${PN}/bin/docker-credential-gcloud ${D}${bindir}/docker-credential-gcloud
 	ln -s ${libdir}/${PN}/bin/gcloud ${D}${bindir}/gcloud
-	ln -s ${libdir}/${PN}/bin/gsutil ${D}${bindir}/gsutil
 	ln -s ${libdir}/${PN}/bin/git-credential-gcloud.sh ${D}${bindir}/git-credential-gcloud.sh
+	ln -s ${libdir}/${PN}/bin/gsutil ${D}${bindir}/gsutil
 
 	# Documentation
 	cp -r ${S}/help/man/* ${D}${mandir}
