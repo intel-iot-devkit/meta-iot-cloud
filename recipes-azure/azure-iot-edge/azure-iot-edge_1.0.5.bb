@@ -48,7 +48,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
