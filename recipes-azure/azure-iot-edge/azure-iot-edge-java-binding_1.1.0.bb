@@ -1,9 +1,13 @@
-DESCRIPTION = "Azure IoT Gateway SDK Java Binding"
+DESCRIPTION = "Azure IoT Edge Java Binding"
 
-require azure-iot-gateway-sdk.inc
+require azure-iot-edge.inc
+
+RPROVIDES_${PN} += "azure-iot-gateway-sdk-java-binding"
+RREPLACES_${PN} += "azure-iot-gateway-sdk-java-binding"
+RCONFLICTS_${PN} += "azure-iot-gateway-sdk-java-binding"
 
 DEPENDS = "maven-native icedtea7-native"
-RDEPENDS_${PN} = "azure-iot-gateway-sdk-java"
+RDEPENDS_${PN} = "azure-iot-edge-java"
 
 PR = "r0"
 

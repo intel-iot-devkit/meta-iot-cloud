@@ -15,10 +15,10 @@ PACKAGECONFIG[c] = "\
 	, \
 	azure-iot-sdk-c \
 	azure-iot-sdk-c-dev \
-	azure-iot-gateway-sdk \
-	azure-iot-gateway-sdk-dev \
-	azure-iot-gateway-sdk-modules \
-	azure-iot-gateway-sdk-samples \
+	azure-iot-edge \
+	azure-iot-edge-dev \
+	azure-iot-edge-modules \
+	azure-iot-edge-samples \
 "
 
 PACKAGECONFIG[python] = "\
@@ -32,8 +32,8 @@ PACKAGECONFIG[java] = "\
 	, \
 	, \
 	, \
-	azure-iot-gateway-sdk-java \
-	azure-iot-gateway-sdk-java-binding \
+	azure-iot-edge-java \
+	azure-iot-edge-java-binding \
 	azure-iot-device-sdk-java \
 	azure-iot-device-sdk-java-samples \
 "

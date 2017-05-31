@@ -21,7 +21,7 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * python-awscli
     * python-aws-iot-device-sdk
 * `packagegroup-cloud-azure`
-    * azure-iot-gateway-sdk
+    * azure-iot-edge
     * azure-iot-sdk
     * azure-iot-device-sdk-java
     * python-azure-iot-sdk

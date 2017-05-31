@@ -6,9 +6,9 @@ output_name=iothub
 rm -f "$build_dir"/"$output_name"
 mkdir -p "$build_dir"
 
-# Check for Azure IoT Gateway SDK headers
+# Check for Azure IoT Edge headers
 if [ ! -f /usr/include/azureiot/gateway.h ]; then
-	echo Gateway SDK headers not found. Please make sure that the azure-iot-gateway-sdk-dev package is installed.
+	echo Azure IoT Edge headers not found. Please make sure that the azure-iot-edge-dev package is installed.
 	exit 1
 fi
 
@@ -34,7 +34,7 @@ else
 	iothub_libs="$iothub_libs -liothub_client_mqtt_transport"
 fi
 
-echo ---------- Building the IoT Hub Gateway SDK module ----------
+echo ---------- Building the IoT Hub IoT Edge module ----------
 gcc -c -fPIC -std=c99 src/"$output_name".c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -Iinc -o "$build_dir"/"$output_name".o
 [ $? -eq 0 ] || exit $?
 gcc -c -fPIC -std=c99 $iothub_flags src/null_protocol.c -I/usr/include/azureiot -o "$build_dir"/null_protocol.o

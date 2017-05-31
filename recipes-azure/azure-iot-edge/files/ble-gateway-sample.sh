@@ -6,9 +6,9 @@ output_name=ble_gateway
 rm -f "$build_dir"/"$output_name"
 mkdir -p "$build_dir"
 
-# Check for Azure IoT Gateway SDK headers
+# Check for Azure IoT Edge headers
 if [ ! -f /usr/include/azureiot/gateway.h ]; then
-	echo Gateway SDK headers not found. Please make sure that the azure-iot-gateway-sdk-dev package is installed.
+	echo Azure IoT Edge headers not found. Please make sure that the azure-iot-edge-dev package is installed.
 	exit 1
 fi
 
@@ -22,11 +22,11 @@ else
 	exit 1
 fi
 
-echo ---------- Building the BLE Gateway SDK sample ----------
+echo ---------- Building the BLE IoT Edge sample ----------
 gcc src/main.c --std=c99 -D_POSIX_C_SOURCE=1 -I/usr/include/azureiot -I/usr/include/glib-2.0 -I"$glib_inc" -L. -lgateway -laziotsharedutil -lglib-2.0 -o "$build_dir"/"$output_name"
 [ $? -eq 0 ] || exit $?
 
-echo ---------- Building the BLE Printer Gateway SDK module ----------
+echo ---------- Building the BLE Printer IoT Edge module ----------
 gcc -c -fPIC ble_printer/src/ble_printer.c --std=c99 -I/usr/include/azureiot -I/usr/include/glib-2.0 -I"$glib_inc" -Ible_printer/inc -I/usr/include/azureiot/modules/ble -I/usr/include/azureiot/modules/common -o "$build_dir"/ble_printer.o
 [ $? -eq 0 ] || exit $?
 gcc -shared -Wl,-soname,libble_printer.so -o "$build_dir"/libble_printer.so "$build_dir"/ble_printer.o -lgateway -laziotsharedutil -lglib-2.0

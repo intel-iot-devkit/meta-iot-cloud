@@ -6,9 +6,9 @@ output_name=ble
 rm -f "$build_dir"/"$output_name"
 mkdir -p "$build_dir"
 
-# Check for Azure IoT Gateway SDK headers
+# Check for Azure IoT Edge headers
 if [ ! -f /usr/include/azureiot/gateway.h ]; then
-	echo Gateway SDK headers not found. Please make sure that the azure-iot-gateway-sdk-dev package is installed.
+	echo Azure IoT Edge headers not found. Please make sure that the azure-iot-edge-dev package is installed.
 	exit 1
 fi
 
@@ -28,7 +28,7 @@ else
 	exit 1
 fi
 
-echo ---------- Building the BLE Gateway SDK module ----------
+echo ---------- Building the BLE IoT Edge module ----------
 gcc -c -fPIC -std=c99 deps/dbus-bluez/src/bluez_characteristic.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -o "$build_dir"/bluez_characteristic.o
 [ $? -eq 0 ] || exit $?
 gcc -c -fPIC -std=c99 deps/dbus-bluez/src/bluez_device.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -o "$build_dir"/bluez_device.o
