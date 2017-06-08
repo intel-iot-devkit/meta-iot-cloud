@@ -1,0 +1,110 @@
+From d1c34a47311465c3c51453409da2afca57c04e84 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 8 Jun 2017 12:33:01 +0100
+Subject: [PATCH 2/2] Skip building RapidJSON
+
+---
+ CMakeLists.txt                       | 9 ++-------
+ cli/CMakeLists.txt                   | 1 -
+ samples/Discovery/CMakeLists.txt     | 1 -
+ samples/PubSub/CMakeLists.txt        | 1 -
+ samples/ShadowDelta/CMakeLists.txt   | 1 -
+ samples/StoryRobotArm/CMakeLists.txt | 1 -
+ samples/StorySwitch/CMakeLists.txt   | 1 -
+ 7 files changed, 2 insertions(+), 13 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 56218ec..858b2c8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -52,13 +52,8 @@ else()
+     add_library(${SDK_TARGET_NAME} "")
+ endif()
+ 
+-# Download and include rapidjson, not optional
+-configure_file(CMakeLists-rapidjson.txt.in ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/download/CMakeLists.txt)
+-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/download)
+-execute_process(COMMAND ${CMAKE_COMMAND} --build .
+-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/download)
+-target_include_directories(${SDK_TARGET_NAME} PRIVATE ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/src/include)
++# Include rapidjson, not optional
++find_package(RapidJSON REQUIRED)
+ 
+ # Get Common SDK Sources
+ file(GLOB_RECURSE SDK_SOURCES FOLLOW_SYMLINKS ${PROJECT_SOURCE_DIR}/src/*.cpp)
+diff --git a/cli/CMakeLists.txt b/cli/CMakeLists.txt
+index dfa5040..d8c4308 100644
+--- a/cli/CMakeLists.txt
++++ b/cli/CMakeLists.txt
+@@ -48,7 +48,6 @@ target_include_directories(${CLI_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../cl
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${CLI_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/third_party/rapidjson/src/include)
+ target_include_directories(${CLI_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../include)
+ 
+ target_link_libraries(${CLI_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/Discovery/CMakeLists.txt b/samples/Discovery/CMakeLists.txt
+index 3147841..cbeac4a 100644
+--- a/samples/Discovery/CMakeLists.txt
++++ b/samples/Discovery/CMakeLists.txt
+@@ -52,7 +52,6 @@ target_include_directories(${DISCOVERY_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOUR
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${DISCOVERY_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/src/include)
+ target_include_directories(${DISCOVERY_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../../include)
+ 
+ target_link_libraries(${DISCOVERY_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/PubSub/CMakeLists.txt b/samples/PubSub/CMakeLists.txt
+index 33531d0..8a806b1 100644
+--- a/samples/PubSub/CMakeLists.txt
++++ b/samples/PubSub/CMakeLists.txt
+@@ -47,7 +47,6 @@ target_include_directories(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/src/include)
+ target_include_directories(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../../include)
+ 
+ target_link_libraries(${PUB_SUB_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/ShadowDelta/CMakeLists.txt b/samples/ShadowDelta/CMakeLists.txt
+index 1ebabed..7b941b3 100644
+--- a/samples/ShadowDelta/CMakeLists.txt
++++ b/samples/ShadowDelta/CMakeLists.txt
+@@ -47,7 +47,6 @@ target_include_directories(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_S
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/src/include)
+ target_include_directories(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../../include)
+ 
+ target_link_libraries(${SHADOW_DELTA_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/StoryRobotArm/CMakeLists.txt b/samples/StoryRobotArm/CMakeLists.txt
+index 13dd16f..ee9d6a5 100644
+--- a/samples/StoryRobotArm/CMakeLists.txt
++++ b/samples/StoryRobotArm/CMakeLists.txt
+@@ -52,7 +52,6 @@ target_include_directories(${ROBOT_ARM_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOUR
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${ROBOT_ARM_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/src/include)
+ target_include_directories(${ROBOT_ARM_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../../include)
+ 
+ target_link_libraries(${ROBOT_ARM_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+diff --git a/samples/StorySwitch/CMakeLists.txt b/samples/StorySwitch/CMakeLists.txt
+index 0096bad..2613c20 100644
+--- a/samples/StorySwitch/CMakeLists.txt
++++ b/samples/StorySwitch/CMakeLists.txt
+@@ -52,7 +52,6 @@ target_include_directories(${SWITCH_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_
+ find_package(Threads REQUIRED)
+ 
+ # Add SDK includes
+-target_include_directories(${SWITCH_SAMPLE_TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/${DEPENDENCY_DIR}/rapidjson/src/include)
+ target_include_directories(${SWITCH_SAMPLE_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/../../include)
+ 
+ target_link_libraries(${SWITCH_SAMPLE_TARGET_NAME} PUBLIC "Threads::Threads")
+-- 
+1.9.1
+
