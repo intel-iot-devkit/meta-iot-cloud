@@ -22,12 +22,13 @@ SRC_URI = "\
 	git://github.com/aws/aws-iot-device-sdk-cpp.git \
 	file://0001-Add-C-as-a-build-language.patch \
 	file://0002-Skip-building-RapidJSON.patch \
+	file://0003-Add-option-to-disable-tests.patch \
 "
 SRCREV = "c20c9e9060ff5ee687636d41c1e508d3ef91ce75"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples ${PN}-samples-src"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
