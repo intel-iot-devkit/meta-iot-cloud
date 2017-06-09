@@ -9,7 +9,7 @@ DEPENDS = "\
 	openssl \
 "
 
-RDEPENDS_${PN} = "openssl"
+RDEPENDS_${PN} += "openssl"
 
 RDEPENDS_${PN}-dev += "\
 	rapidjson-dev \
@@ -29,7 +29,7 @@ SRCREV = "c20c9e9060ff5ee687636d41c1e508d3ef91ce75"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples ${PN}-samples-src"
 
-PR = "r2"
+PR = "r3"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -44,6 +44,8 @@ do_install() {
 	# Includes
 	install -d ${D}${includedir}/awsiot
 	cp -r ${S}/include/* ${D}${includedir}/awsiot
+	install -m 0644 ${S}/common/*.hpp ${D}${includedir}/awsiot
+	install -m 0644 ${S}/network/OpenSSL/*.hpp ${D}${includedir}/awsiot
 
 	# Samples
 	install -d ${D}${datadir}/awsiotsdk/samples/cpp
@@ -59,13 +61,15 @@ do_install() {
 	# Samples Source
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/certs
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/config
+	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/common
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/Discovery
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/PubSub
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/ShadowDelta
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/StoryRobotArm
 	install -d ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/StorySwitch
-	install -m 0644 ${B}/bin/config/SampleConfig.json ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/config/SampleConfig.json
-	install -m 0644 ${B}/bin/certs/* ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/certs/
+	install -m 0644 ${S}/common/*.json ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/config/
+	install -m 0644 ${S}/certs/* ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/certs/
+	install -m 0644 ${S}/common/*.cpp ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/common/
 	install -m 0644 ${S}/samples/Discovery/*.cpp ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/Discovery/
 	install -m 0644 ${S}/samples/Discovery/*.hpp ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/Discovery/
 	install -m 0644 ${S}/samples/PubSub/*.cpp ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/PubSub/
