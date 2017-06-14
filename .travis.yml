@@ -1,0 +1,41 @@
+sudo: required
+
+env:
+  #- PACKAGE=packagegroup-cloud-ibm
+  - PACKAGE=ibm-iotf-embeddedc
+  - PACKAGE=ibm-iotf-java
+  - PACKAGE=node-red-contrib-ibm-watson-iot
+  - PACKAGE=python-ibmiotf
+  #- PACKAGE=packagegroup-cloud-aws
+  - PACKAGE=aws-iot-device-sdk-embedded-c
+  - PACKAGE=aws-iot-device-sdk-cpp
+  - PACKAGE=aws-iot-device-sdk-java
+  - PACKAGE=python-awscli
+  - PACKAGE=python-aws-iot-device-sdk
+  #- PACKAGE=packagegroup-cloud-azure
+  - PACKAGE=azure-iot-edge
+  - PACKAGE=azure-iot-sdk
+  - PACKAGE=azure-iot-device-sdk-java
+  - PACKAGE=python-azure-iot-sdk
+  - PACKAGE=node-red-contrib-azureiothubnode
+  - PACKAGE=node-iothub-explorer
+  - PACKAGE=python-azure-cli
+  #- PACKAGE=packagegroup-cloud-google
+  - PACKAGE=python-google-cloud
+  - PACKAGE=node-red
+
+services:
+  - docker
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - docker pull dnoliver/meta-iot-cloud
+
+script:
+  - export BITBAKE_ARGS="-n"
+  - docker-compose run main
