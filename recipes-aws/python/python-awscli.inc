@@ -4,7 +4,7 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
 
-PR = "r1"
+PR = "r0"
 
 RDEPENDS_${PN} += "\
 	groff \
@@ -26,6 +26,6 @@ RDEPENDS_${PN} += "\
 SRC_NAME = "aws-cli"
 
 SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
-SRCREV = "843f69294007ef63903e6133f183203fee43ab6e"
+SRCREV = "ecb5b6f1aba4cbd02d55809cde825ddf5340cedc"
 
 S = "${WORKDIR}/git"
