@@ -16,7 +16,7 @@ PR = "r2"
 S = "${WORKDIR}/${PN}-${PV}"
 
 def get_nodejs_arch(d):
-    target_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, True)
+    target_arch = d.getVar('TRANSLATED_TARGET_ARCH', True)
 
     if target_arch == "x86-64":
         target_arch = "x64"
@@ -50,7 +50,7 @@ do_compile() {
 
 do_install() {
 	install -d ${D}${NODE_MODULES_DIR}${PN}
-    	cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
+	cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
 
 	# Set permissions
 	chmod 0755 ${D}${NODE_MODULES_DIR}${PN}/red.js

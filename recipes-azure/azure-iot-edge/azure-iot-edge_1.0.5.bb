@@ -78,7 +78,7 @@ PACKAGES += "\
 
 ## Java ##
 def get_jdk_arch(d):
-    jdk_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, True)
+    jdk_arch = d.getVar('TRANSLATED_TARGET_ARCH', True)
 
     if jdk_arch == "x86-64":
         jdk_arch = "amd64"
@@ -92,7 +92,7 @@ def get_jdk_arch(d):
     return jdk_arch
 
 def get_jdk_home(d):
-    jdk_home = bb.data.getVar("STAGING_LIBDIR", d, True)
+    jdk_home = d.getVar("STAGING_LIBDIR", True)
     jdk_home += "/jvm/"
 
     if os.path.exists(jdk_home):

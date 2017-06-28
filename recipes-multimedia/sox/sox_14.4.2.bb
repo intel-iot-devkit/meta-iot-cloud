@@ -15,8 +15,8 @@ PR = "r0"
 
 EXTRA_OECONF += "--without-ladspa --without-twolame"
 
-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-                   ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
 		   magic \
 		   vorbis \
 		   sndfile \

@@ -19,7 +19,7 @@ SRCREV = "491edb323fb18891b03682849aec9b835d2d3b7b"
 S = "${WORKDIR}/git"
 
 def get_nodejs_arch(d):
-    target_arch = bb.data.getVar('TRANSLATED_TARGET_ARCH', d, True)
+    target_arch = d.getVar('TRANSLATED_TARGET_ARCH', True)
 
     if target_arch == "x86-64":
         target_arch = "x64"
