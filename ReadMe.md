@@ -29,6 +29,7 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * node-iothub-explorer
     * python-azure-cli
 * `packagegroup-cloud-google`
+    * google-cloud-sdk
     * python-google-cloud
 * `node-red`
 * `node-red-contrib-upm`
