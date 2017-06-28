@@ -36,6 +36,7 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 ## Dependencies
 This layer depends on packages provided by the following layers:
 * `meta-openembedded` [http://cgit.openembedded.org/meta-openembedded/]
+* `meta-java` [http://git.yoctoproject.org/cgit/cgit.cgi/meta-java/]
 
 Configuration
 =============
@@ -48,6 +49,7 @@ Configuration
 ```bitbake
 	BBLAYERS += "path/to/meta-openembedded/meta-oe"
 	BBLAYERS += "path/to/meta-openembedded/meta-python"
+	BBLAYERS += "path/to/meta-java"
 ```
 
 Usage
