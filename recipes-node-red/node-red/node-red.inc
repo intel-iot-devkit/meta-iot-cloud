@@ -3,7 +3,7 @@ HOMEPAGE = "http://nodered.org"
 LICENSE = "Apache-2.0"
 
 DEPENDS = "nodejs-native"
-RDEPENDS_${PN} = "bash python nodejs"
+RDEPENDS_${PN} += "bash python"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
@@ -11,7 +11,6 @@ SRC_URI = "\
 	https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
 	file://node-red.service \
 "
-PR = "r2"
 
 S = "${WORKDIR}/${PN}-${PV}"
 
