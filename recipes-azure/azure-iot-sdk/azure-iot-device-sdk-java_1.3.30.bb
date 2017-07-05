@@ -9,7 +9,7 @@ DEPENDS = "maven-native icedtea7-native"
 PR = "r0"
 
 SRC_URI = "git://github.com/Azure/azure-iot-sdk-java.git"
-SRCREV = "6fb311f80e3f92118f6fdb655bad9578d29f0861"
+SRCREV = "91835fddb9041fab2447dff801851f8162585c92"
 
 S = "${WORKDIR}/git"
 
@@ -40,6 +40,7 @@ do_install() {
         install -d ${D}${datadir}/azureiotsdk/samples/java/device
 	install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/device-method-sample/target/device-method-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/device-method-sample.jar
 	install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/device-twin-sample/target/device-twin-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/device-twin-sample.jar
+	install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/file-upload-sample/target/file-upload-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/file-upload-sample.jar
         install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/handle-messages/target/handle-messages-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/handle-messages.jar
         install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-event/target/send-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-event.jar
         install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-receive-sample/target/send-receive-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-receive-sample.jar
