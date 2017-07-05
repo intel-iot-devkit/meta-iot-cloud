@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0296d24e582db92fa4e33fd40e18099a"
 DEPENDS = "nodejs-native"
 RDEPENDS_${PN} = "bash nodejs"
 
-PR = "r2"
+PR = "r0"
 
 PACKAGES = "\
 	${PN} \
 "
 
 SRC_URI = "git://github.com/Azure/iothub-explorer.git"
-SRCREV = "491edb323fb18891b03682849aec9b835d2d3b7b"
+SRCREV = "23eae406be574ad7c48d450ffa2cb10f1188ec1d"
 
 S = "${WORKDIR}/git"
 
