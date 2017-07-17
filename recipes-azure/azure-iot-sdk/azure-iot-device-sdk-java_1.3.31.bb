@@ -9,7 +9,7 @@ DEPENDS = "maven-native icedtea7-native"
 PR = "r0"
 
 SRC_URI = "git://github.com/Azure/azure-iot-sdk-java.git"
-SRCREV = "91835fddb9041fab2447dff801851f8162585c92"
+SRCREV = "7e6eb404a57016cdc71e600116bf3a7eca0f4678"
 
 S = "${WORKDIR}/git"
 
