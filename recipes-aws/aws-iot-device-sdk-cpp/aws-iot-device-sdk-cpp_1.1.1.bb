@@ -25,11 +25,11 @@ SRC_URI = "\
 	file://0003-Add-option-to-disable-tests.patch \
 	file://0004-Fix-cli-includes.patch \
 "
-SRCREV = "c20c9e9060ff5ee687636d41c1e508d3ef91ce75"
+SRCREV = "63e8ce25e6b282719d112f3f58966cc1e78d271b"
 
 PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples ${PN}-samples-src"
 
-PR = "r3"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
