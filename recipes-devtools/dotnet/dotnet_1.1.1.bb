@@ -16,6 +16,8 @@ RDEPENDS_${PN}_class-target = "\
 
 PR = "r0"
 
+COMPATIBLE_MACHINE ?= "intel-corei7-64|intel-baytrail-64|qemux86-64"
+
 SRC_URI =  "https://go.microsoft.com/fwlink/?linkid=847089;downloadfilename=dotnet-${PV}.tar.gz"
 SRC_URI[md5sum] = "daa45dd4b751b0ef3bd848933e912f15"
 SRC_URI[sha256sum] = "f8f86814eeac64b1b20faabd9c0d80476279c309d68b4c73a5bff20f4d899e44"
@@ -64,7 +66,7 @@ FILES_${PN}-dev += "\
 	${datadir}/dotnet/sdk \
 "
 
-INSANE_SKIP_${PN} = "already-stripped textrel staticdev ldflags"
+INSANE_SKIP_${PN} = "already-stripped textrel staticdev ldflags libdir"
 INSANE_SKIP_${PN}-dev = "ldflags"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
