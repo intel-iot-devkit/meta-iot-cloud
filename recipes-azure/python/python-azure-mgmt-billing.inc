@@ -6,7 +6,6 @@ PR = "r0"
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrestazure \
 	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
 SRCREV = "d927b78745d8b85e603242f66f62ed9d36904cb1"
