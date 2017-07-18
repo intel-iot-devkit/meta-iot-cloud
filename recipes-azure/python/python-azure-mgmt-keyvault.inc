@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure KeyVault Resource Management Client Library for Python"
 
-PV = "0.31.0"
+PV = "0.40.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,7 +9,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
-SRCREV = "dee90742ff3eb352938013292c0182d76821df49"
+SRCREV = "4f0567c069bf58732aa90315c8bdf583dc381df3"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/keyvault/* \

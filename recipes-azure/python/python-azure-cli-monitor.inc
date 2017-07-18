@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Monitor Command Module"
 
-PV = "0.0.4"
+PV = "0.0.8"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-monitor \
 "
 
-SRCREV = "b4cc24069ecdf1054d3836d70723f33ec859f797"
+SRCREV = "799428954711a427fd3172435b1cbbaa57e688ad"
 
 SRC_DIR = "src/command_modules/azure-cli-monitor"

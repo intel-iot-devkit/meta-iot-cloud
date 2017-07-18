@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools SQL Command Module"
 
-PV = "2.0.3"
+PV = "2.0.7"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -10,6 +10,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-six \
 "
 
-SRCREV = "e97cbb35cf83580362d33646e3ff769f6c3a1671"
+SRCREV = "db56d6535d7fdf8873fc045035f44921421a20de"
 
 SRC_DIR = "src/command_modules/azure-cli-sql"

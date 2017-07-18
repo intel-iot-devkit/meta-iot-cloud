@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "\
 "
 
 SRC_URI = "git://github.com/Azure/azure-data-lake-store-python.git"
-SRCREV = "47b821499d1225d1e93d5150240d8a7bebe802f2"
+SRCREV = "ea26f7ef9a2e737b525a20f8e52f188025febfad"
 
 S = "${WORKDIR}/git"
 

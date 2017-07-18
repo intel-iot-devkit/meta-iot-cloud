@@ -1,7 +1,7 @@
 HOMEPAGE = "https://github.com/Azure/azure-cli"
 AUTHOR = "Microsoft Corporation"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f74e59e099e328d80285c9eba6d4a53f"
+LIC_FILES_CHKSUM ?= "file://LICENSE.txt;md5=8119811f845dd3fd268c9a7a144793c5"
 
 SRC_NAME = "azure-cli"
 

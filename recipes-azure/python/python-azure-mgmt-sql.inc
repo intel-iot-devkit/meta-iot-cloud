@@ -1,15 +1,15 @@
 DESCRIPTION = "Microsoft Azure SQL Management Client Library for Python"
 
-PV = "0.4.0"
+PV = "0.6.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-mgmt-nspkg \
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
-SRCREV = "f0600b9d80ae608685f1b4cf99aa764bdf4b0902"
+SRCREV = "d28a73d3c7dc9ee06927cc28050cb397a8da9ac9"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/sql/* \

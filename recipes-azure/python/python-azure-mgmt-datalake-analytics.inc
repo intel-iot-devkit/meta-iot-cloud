@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Data Lake Analytics Management Client Library for Python"
 
-PV = "0.1.4"
+PV = "0.1.6"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,7 +9,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-datalake-nspkg \
 "
 
-SRCREV = "cbbab80abf89273fa1eee4137bde880cdf7a76b9"
+SRCREV = "6001b03e34088ef939a0964df7de586d0b21400b"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/datalake/analytics/* \

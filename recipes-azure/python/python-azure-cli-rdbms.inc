@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools MySQL and PostgreSQL Command Module"
 
-PV = "0.0.1"
+PV = "0.0.5"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-six \
 "
 
-SRCREV = "0892106641c71a0f8c15d0cf7d1ac9b50fb8cf13"
+SRCREV = "b1e4d490940b8aaf859d0e7d52527dbe0cc6561a"
 
 SRC_DIR = "src/command_modules/azure-cli-rdbms"

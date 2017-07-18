@@ -1,6 +1,6 @@
 DESCRIPTION = "Next generation multi-platform command line experience for Azure."
 
-PV = "2.0.6"
+PV = "2.0.10"
 PR = "r0"
 
 RDEPENDS_${PN} = "\
@@ -12,11 +12,13 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-acs \
 	${PYTHON_PN}-azure-cli-appservice \
 	${PYTHON_PN}-azure-cli-batch \
+	${PYTHON_PN}-azure-cli-billing \
 	${PYTHON_PN}-azure-cli-cdn \
 	${PYTHON_PN}-azure-cli-cloud \
 	${PYTHON_PN}-azure-cli-cognitiveservices \
 	${PYTHON_PN}-azure-cli-component \
 	${PYTHON_PN}-azure-cli-configure \
+	${PYTHON_PN}-azure-cli-consumption \
 	${PYTHON_PN}-azure-cli-core \
 	${PYTHON_PN}-azure-cli-cosmosdb \
 	${PYTHON_PN}-azure-cli-dla \
@@ -41,6 +43,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-vm \
 "
 
-SRCREV = "0b59a2973a7bdc09df7fb7cbe42c25d66ac784f0"
+SRCREV = "346196f44a5b0bab6d56a736e62aa918fad500ec"
 
 SRC_DIR = "src/azure-cli"

@@ -5,7 +5,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1d457bcffb9661b45f799d4efee72f16"
 
 SRC_URI = "git://github.com/Anorov/PySocks.git"
-SRCREV = "fc1d646a3c0007de53d43405a9b4e871470a3d33"
+SRCREV = "010c31bf1ae6cd93449089b73cefb35ca1ff6862"
 
 PR = "r0"
 

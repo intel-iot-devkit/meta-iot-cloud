@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Service Fabric Client Command-Line Tools"
 
-PV = "1.0.1"
+PV = "1.0.5"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-adal \
 "
 
-SRCREV = "5d766cddf4180d65f52d1874963e6d46a112a9e2"
+SRCREV = "9975c629683f1348ab004bc276d6a4a7d2a3cb28"
 
 SRC_DIR = "src/command_modules/azure-cli-sf"

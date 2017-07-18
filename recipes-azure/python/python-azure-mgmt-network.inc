@@ -1,15 +1,15 @@
 DESCRIPTION = "Microsoft Azure Network Resource Management Client Library for Python"
 
-PV = "1.0.0rc3"
+PV = "1.2.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-azure-mgmt-nspkg \
 "
 
-SRCREV = "10907f8124829582bc98b955f4ecafd745ffdfb4"
+SRCREV = "724ac8571f9425145bbccd0355a7b8c96eb696c5"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/network/* \

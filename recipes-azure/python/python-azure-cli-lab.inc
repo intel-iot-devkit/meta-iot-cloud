@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools DevTestLabs Command Module"
 
-PV = "0.0.4"
+PV = "0.0.8"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-devtestlabs \
 "
 
-SRCREV = "417f611407966cdccfdd93b8ac3e625ca6b97a94"
+SRCREV = "8eeb51cf83278374bec8dde136af442b76098b31"
 
 SRC_DIR = "src/command_modules/azure-cli-lab"

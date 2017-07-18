@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Keyvault Command Module"
 
-PV = "2.0.4"
+PV = "2.0.8"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -10,6 +10,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-pyopenssl \
 "
 
-SRCREV = "224be455990a572ce87d76c2b58838bbc73290ac"
+SRCREV = "42fca23d6179941c3c5ecfd0a899aef58c626cf8"
 
 SRC_DIR = "src/command_modules/azure-cli-keyvault"

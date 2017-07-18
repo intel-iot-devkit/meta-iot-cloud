@@ -1,12 +1,12 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Cloud Command Module"
 
-PV = "2.0.1"
+PV = "2.0.6"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "871d241d0e28ed4ed6daa294053c546a476a4973"
+SRCREV = "bb999bfd7aa65df3881b1336c71140a943460ecf"
 
 SRC_DIR = "src/command_modules/azure-cli-cloud"

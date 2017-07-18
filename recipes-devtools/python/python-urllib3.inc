@@ -5,18 +5,22 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ea114851ad9a8c311aac8728a681a067"
 
 RDEPENDS_${PN} += "\
-    ${PYTHON_PN}-email \
-    ${PYTHON_PN}-netclient \
-    ${PYTHON_PN}-threading \
-    ${PYTHON_PN}-pyopenssl \
-    ${PYTHON_PN}-ndg-httpsclient \
-    ${PYTHON_PN}-pyasn1 \
-    ${PYTHON_PN}-certifi \
-    ${PYTHON_PN}-pysocks \
+	${PYTHON_PN}-email \
+	${PYTHON_PN}-netclient \
+	${PYTHON_PN}-threading \
+"
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-pyopenssl \
+	${PYTHON_PN}-cryptography \
+	${PYTHON_PN}-idna \
+	${PYTHON_PN}-certifi \
+	${PYTHON_PN}-ipaddress \
+	${PYTHON_PN}-pysocks \
 "
 
 SRC_URI = "git://github.com/shazow/urllib3.git;branch=release"
-SRCREV = "52463752d3a79790b43e23182bcc750d6bb53554"
+SRCREV = "bce03aa7f06669254e63baef54fb6278e7fa6728"
 
 PR = "r0"
 
