@@ -48,7 +48,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r1"
+PR = "r2"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -62,6 +62,7 @@ PACKAGES = "\
 	${PN}-modules-src \
 	${PN}-samples \
 	${PN}-samples-src \
+	${PN}-dotnetcore \
 	${PN}-java \
 	${PN}-nodejs \
 "
@@ -112,13 +113,17 @@ JDK_HOME = "${@get_jdk_home(d)}"
 ## Node.JS ##
 NODE_LIB_DIR = "${B}/bindings/nodejs/"
 
-PACKAGECONFIG ??= "java nodejs bluetooth"
+## .NET Core ##
+DOTNET_LIB_DIR = "${B}/bindings/dotnetcore/"
+
+PACKAGECONFIG ??= "java nodejs dotnetcore bluetooth"
 
 PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8"
 PACKAGECONFIG[nodejs] = "-Denable_nodejs_binding:BOOL=ON, -Denable_nodejs_binding:BOOL=OFF, nodejs-native (>= 6.%) nodejs-shared (>= 6.%)"
+PACKAGECONFIG[dotnetcore] = "-Denable_dotnet_core_binding:BOOL=ON, -Denable_dotnet_core_binding:BOOL=OFF, dotnet-native"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
+EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
 
 do_modules() {
 	# Modbus Module
@@ -147,6 +152,12 @@ do_configure_prepend() {
 		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
 		export NODE_LIB="${STAGING_LIBDIR}"
 	fi
+
+	# .NET Core
+	if ${@bb.utils.contains('PACKAGECONFIG','dotnetcore','true','false',d)}; then
+		sed -i 's|\${CMAKE_CURRENT_BINARY_DIR}/\.\.|${S}|g' ${S}/CMakeLists.txt		
+		sed -i 's|projects_to_test=\"$binding_path/Microsoft.Azure.Devices.Gateway.Tests/Microsoft.Azure.Devices.Gateway.Tests.csproj\"|projects_to_test=\"\"|g' ${S}/tools/build_dotnet_core.sh
+	fi
 }
 
 do_compile_prepend() {
@@ -159,6 +170,11 @@ do_compile_prepend() {
 	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
 		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
 		export NODE_LIB="${STAGING_LIBDIR}"
+	fi
+
+	# .NET Core
+	if ${@bb.utils.contains('PACKAGECONFIG','dotnetcore','true','false',d)}; then
+		${S}/tools/build_dotnet_core.sh --config Release
 	fi
 }
 
@@ -440,6 +456,12 @@ do_install() {
 		install -d ${D}${libdir}/azureiot/bindings/nodejs
     		install -m 0755 ${NODE_LIB_DIR}/libnodejs_binding.so ${D}${libdir}/azureiot/bindings/nodejs/
 	fi
+
+	# .NET Core Binding
+	if [ -e ${DOTNET_LIB_DIR} ]; then
+		install -d ${D}${libdir}/azureiot/bindings/dotnetcore
+    		install -m 0755 ${DOTNET_LIB_DIR}/libdotnetcore.so ${D}${libdir}/azureiot/bindings/dotnetcore/
+	fi
 }
 
 RDEPENDS_${PN} = "\
@@ -460,6 +482,7 @@ FILES_${PN}-dev += "\
 "
 
 FILES_${PN}-dbg += "\
+	${libdir}/azureiot/bindings/dotnetcore/.debug \
 	${libdir}/azureiot/bindings/java/.debug \
 	${libdir}/azureiot/bindings/nodejs/.debug \
 	${libdir}/azureiot/modules/azure_functions/.debug \
@@ -551,6 +574,10 @@ FILES_${PN}-samples-src-sqlite = "\
 	${exec_prefix}/src/azureiotedge/samples/sqlite \
 "
 
+FILES_${PN}-dotnetcore = "\
+	${libdir}/azureiot/bindings/dotnetcore/*.so \
+"
+
 FILES_${PN}-java = "\
 	${libdir}/azureiot/bindings/java/*.so \
 "
@@ -568,5 +595,6 @@ INSANE_SKIP_${PN}-module-sqlite += "rpaths"
 INSANE_SKIP_${PN}-samples += "rpaths libdir"
 INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
+INSANE_SKIP_${PN}-dotnetcore += "rpaths"
 INSANE_SKIP_${PN}-java += "rpaths"
 INSANE_SKIP_${PN}-nodejs += "rpaths"
