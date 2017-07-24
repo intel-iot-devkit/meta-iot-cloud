@@ -17,7 +17,7 @@ RDEPENDS_${PN}_class-target += "\
 	krb5 \
 "
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI =  "https://download.microsoft.com/download/F/A/A/FAAE9280-F410-458E-8819-279C5A68EDCF/dotnet-sdk-2.0.0-preview2-006497-linux-x64.tar.gz;downloadfilename=dotnet-${PV}.tar.gz"
 SRC_URI[md5sum] = "5d3019383edd2247207814f224f9bd42"
@@ -71,8 +71,9 @@ FILES_${PN}-dev += "\
 	${datadir}/dotnet/store \
 "
 
-INSANE_SKIP_${PN} = "already-stripped staticdev ldflags libdir"
+RRECOMMENDS_dotnet-dev[nodeprrecs] = "1"
 
+INSANE_SKIP_${PN} = "already-stripped staticdev ldflags libdir"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
 BBCLASSEXTEND = "native"
