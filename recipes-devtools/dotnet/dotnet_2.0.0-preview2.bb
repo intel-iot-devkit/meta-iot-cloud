@@ -15,6 +15,8 @@ DEPENDS += "\
 RDEPENDS_${PN}_class-target += "\
 	lttng-ust \
 	krb5 \
+	libicuuc \
+	libicui18n \
 "
 
 PR = "r2"
