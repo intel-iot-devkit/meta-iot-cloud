@@ -13,8 +13,8 @@ RDEPENDS_${PN} = "\
 
 # Releases: https://console.cloud.google.com/storage/browser/cloud-sdk-release/
 SRC_URI = "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${PN}-${PV}-linux-x86_64.tar.gz"
-SRC_URI[md5sum] = "3c9fa51b3547256cbbbb7869787568bb"
-SRC_URI[sha256sum] = "5b408575407514f99ad913bd0c6991be4b46408ddc7080a6494bbf43e6ce222a"
+SRC_URI[md5sum] = "790fc9bad840b5d784e2a286e8313f4c"
+SRC_URI[sha256sum] = "261bc89bd2306d6bef9185fd0a2241f0f64b1a86a04eb3e12c38d883bfabe70b"
 
 PR = "r0"
 
