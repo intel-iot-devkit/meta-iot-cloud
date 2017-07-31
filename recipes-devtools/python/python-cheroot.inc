@@ -9,13 +9,15 @@ RDEPENDS_${PN} += " \
 "
 
 SRC_URI = "git://github.com/cherrypy/cheroot.git"
-SRCREV = "7a4fcd0ea8b653ae46a90ecd2205078cab5d3d32"
+SRCREV = "f7751bff2d935427a9ec653bb682379b1f3d8dce"
+
+PR = "r0"
 
 S = "${WORKDIR}/git"
 
 do_compile_prepend() {
-	# Fix up setup script for older versions of setuptools
-	sed -i '33 d' ${S}/setup.py
+	# Fix-up setup script for older versions of setuptools
+	sed -i '39,41d' ${S}/setup.py
 }
 
 BBCLASSEXTEND = "native nativesdk"

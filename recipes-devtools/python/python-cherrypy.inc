@@ -8,9 +8,6 @@ RDEPENDS_${PN} += " \
 	${PYTHON_PN}-six \
 	${PYTHON_PN}-cheroot \
 	${PYTHON_PN}-portend \
-"
-
-RDEPENDS_${PN} += " \
 	${PYTHON_PN}-simplejson \
 	${PYTHON_PN}-routes \
 	${PYTHON_PN}-pyopenssl \
@@ -22,15 +19,15 @@ RREPLACES_${PN} += "cherrypy"
 RCONFLICTS_${PN} += "cherrypy"
 
 SRC_URI = "git://github.com/cherrypy/cherrypy.git"
-SRCREV = "46c670e69b7c9620e11999f84b9bcdf57d806649"
+SRCREV = "5af46f1848d9a5c60c6b2978f31309b2b81ba697"
 
-PR = "r3"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 
 do_compile_prepend() {
-	# Fix up setup script for older versions of setuptools
-	sed -i '87 d' ${S}/setup.py
+	# Fix-up setup script for older versions of setuptools
+	sed -i '119,121d' ${S}/setup.py
 }
 
 BBCLASSEXTEND = "native nativesdk"
