@@ -48,10 +48,10 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r2"
+PR = "r3"
 
 S = "${WORKDIR}/git"
-B ?= "${WORKDIR}/build"
+B = "${WORKDIR}/build"
 
 # Default packages
 PACKAGES = "\
@@ -473,7 +473,7 @@ FILES_${PN} += "\
 "
 
 RDEPENDS_${PN}-dev += "\
-	azure-iot-sdk-c-dev \
+	azure-iot-sdk-dev \
 	nanomsg-dev \
 	glib-2.0-dev \
 "

@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 inherit cmake python-dir
 
+RPROVIDES_${PN} += "azure-iot-sdk-c"
+RPROVIDES_${PN}-dev += "azure-iot-sdk-c-dev"
+
 DEPENDS = "\
 	azure-c-shared-utility \
 	azure-uamqp-c \
@@ -19,21 +22,21 @@ SRC_URI = "\
 "
 SRCREV = "5af0e09e09ae2ba41c1e6b70efa2f1d431a61a26"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
-B = "${WORKDIR}/build"
+B ?= "${WORKDIR}/build"
 
 # List of packages to build
 PACKAGES = "\
-	${PN}-c \
-	${PN}-c-dev \
-	python-${PN} \
+	${PN} \
+	${PN}-dev \
 	${PN}-dbg \
+	python-${PN} \
 "
 
 PACKAGECONFIG ??= "python"
-PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_python:BOOL=OFF, ${PYTHON_PN} boost, boost-python azure-iot-sdk-c"
+PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_python:BOOL=OFF, ${PYTHON_PN} boost, boost-python"
 
 do_configure_prepend() {
 	cd ${S}
@@ -63,21 +66,17 @@ sysroot_stage_all_append () {
 	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_iot_sdksTargets*
 }
 
-FILES_${PN}-c = "${libdir}/*.so"
+FILES_${PN} = "${libdir}/*.so"
 
-RDEPENDS_${PN}-c-dev = "\
-	azure-iot-sdk-c \
+RDEPENDS_${PN}-dev = "\
+	azure-iot-sdk \
 	azure-umqtt-c-dev \
 	azure-uamqp-c-dev \
 	azure-c-shared-utility-dev \
 "
-FILES_${PN}-c-dev += "\
+FILES_${PN}-dev += "\
 	${includedir} \
 	${exec_prefix}/cmake \
-"
-
-FILES_python-${PN} += "\
-	${PYTHON_SITEPACKAGES_DIR}/*.so \
 "
 
 FILES_${PN}-dbg += "\
@@ -85,6 +84,10 @@ FILES_${PN}-dbg += "\
 	${PYTHON_SITEPACKAGES_DIR}/.debug \
 "
 
-RRECOMMENDS_azure-iot-sdk-c-dev[nodeprrecs] = "1"
+FILES_python-${PN} += "\
+	${PYTHON_SITEPACKAGES_DIR}/*.so \
+"
+
+RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_python-${PN} += "rpaths"
