@@ -51,7 +51,7 @@ SRC_URI += "\
 PR = "r2"
 
 S = "${WORKDIR}/git"
-B = "${WORKDIR}/build"
+B ?= "${WORKDIR}/build"
 
 # Default packages
 PACKAGES = "\
