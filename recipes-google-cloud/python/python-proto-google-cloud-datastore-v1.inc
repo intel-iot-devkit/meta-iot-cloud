@@ -14,8 +14,8 @@ PR = "r0"
 
 SRC_NAME = "proto-google-cloud-datastore-v1"
 
-SRC_URI = "https://pypi.python.org/packages/ff/43/6cadc2b700dbce3ae77b573c40bd7c324778cf32c82e3471ffa761f6088c/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "1a2eaf7c1f73ededff023ff8bb2f59a5"
-SRC_URI[sha256sum] = "8082a9f2241f31a97b749551cf6ab848b92f5abf75f632746f223031fed35b39"
+SRC_URI = "https://pypi.python.org/packages/2a/1f/4124f15e1132a2eeeaf616d825990bb1d395b4c2c37362654ea5cd89bb42/${SRC_NAME}-${PV}.tar.gz"
+SRC_URI[md5sum] = "552c85af00831db40cf4f2db1c160f0f"
+SRC_URI[sha256sum] = "a431bb6a286107900c9ce3c48d316378867293c50a4d8a6c7393264600e916f9"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"

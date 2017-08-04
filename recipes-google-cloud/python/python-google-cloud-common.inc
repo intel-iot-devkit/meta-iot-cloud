@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM ?= "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 SRC_NAME ?= "google-cloud-python"
 SRC_URI = "git://github.com/GoogleCloudPlatform/${SRC_NAME}.git"
-SRCREV ?= "920345ae74eaf3eeed1c848e28cde687d8ccdcd3"
+SRCREV ?= "214aba604fbcaa9e4936fa1798efde050389992a"
 
 S = "${WORKDIR}/git"
 

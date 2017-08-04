@@ -9,14 +9,15 @@ RDEPENDS_${PN} += " \
 	${PYTHON_PN}-future \
 	${PYTHON_PN}-googleapis-common-protos \
 	${PYTHON_PN}-grpcio \
-	${PYTHON_PN}-oauth2client \
+	${PYTHON_PN}-google-auth \
 	${PYTHON_PN}-ply \
 	${PYTHON_PN}-protobuf \
+	${PYTHON_PN}-requests \
 "
 
 PR = "r0"
 
 SRC_URI = "git://github.com/googleapis/gax-python.git"
-SRCREV = "7bbc1f40519b8312bab5675c8a9e40c85b285278"
+SRCREV = "7cc359156ad421e408dddc93cdf66ddf0c875f1c"
 
 S = "${WORKDIR}/git"

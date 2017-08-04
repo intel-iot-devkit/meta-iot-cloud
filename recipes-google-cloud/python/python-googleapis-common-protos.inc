@@ -12,9 +12,8 @@ RDEPENDS_${PN} += " \
 PR = "r0"
 
 SRC_NAME = "googleapis-common-protos"
-
-SRC_URI = "https://pypi.python.org/packages/8e/64/9568c7b7da6b10ea1745a182dedec13ee991459d868cb72c2aee781e80cb/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "cb04ff30e827c88e4e7ae0d96d46d118"
-SRC_URI[sha256sum] = "8bce753ce88d4a61533b7c1569c94b2f75e07899b598d2ba771ff693087afc43"
+SRC_URI = "https://pypi.python.org/packages/96/6a/34759a4a2119a8aae0b19d045917ee4a39ffaaeda2df3a892730fdcda408/${SRC_NAME}-${PV}.tar.gz"
+SRC_URI[md5sum] = "9aaee9e196555a6f12e09e0e8db301d6"
+SRC_URI[sha256sum] = "f94cc66efba677a086b8b17b1240239433495b77631cd410f70151a8ff14435d"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"

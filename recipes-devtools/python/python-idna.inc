@@ -2,12 +2,14 @@ DESCRIPTION = "A library to support the Internationalised Domain Names in Applic
 HOMEPAGE = "https://github.com/kjd/idna"
 AUTHOR = "Kim Davies"
 LICENSE = "BSD-3-Clause | Python-2.0 | Unicode"
-LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=134bdad79491c37bdae32811572b4bc6"
+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=c9ba5acd829579492fd5eb306c7a0565"
 
 SRC_NAME = "idna"
 
 SRC_URI = "git://github.com/kjd/${SRC_NAME}.git"
-SRCREV = "cb8ae9acf100c9faba02737ac82b31a0152d19e8"
+SRCREV = "0088bfce9c3270e15d8356f0709110c1a9589d35"
+
+PR = "r0"
 
 S = "${WORKDIR}/git"
 

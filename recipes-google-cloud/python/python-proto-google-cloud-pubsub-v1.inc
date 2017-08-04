@@ -14,16 +14,8 @@ PR = "r0"
 
 SRC_NAME = "proto-google-cloud-pubsub-v1"
 
-SRC_URI = "https://pypi.python.org/packages/d0/2b/cf923d84853e4fdd0803015990148a2ca0c42371e6430528b8ea0f79ad52/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "cc8b4af1dd21b050776fcd8bdaa3384b"
-SRC_URI[sha256sum] = "99b780ea35d81dce2311cd0a5eab07972bdaf48d448e417632e0df30572754ea"
+SRC_URI = "https://pypi.python.org/packages/c0/a2/2eeffa0069830f00016196dfdd69491cf562372b5353f2e8e378b3c2cb0a/${SRC_NAME}-${PV}.tar.gz"
+SRC_URI[md5sum] = "1ee8cce13dbb02ad404eb97148de0404"
+SRC_URI[sha256sum] = "74549d55cd492744cff255e8ab2c4df81153be06c08fb6345131fd034976d235"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
-
-# Temporary patch until this is fixed upstream
-do_compile_prepend() {
-	# Fix requires list
-	if [ -e setup.py ]; then
-		sed -i -- '13s/$/,/' setup.py
-	fi
-}
