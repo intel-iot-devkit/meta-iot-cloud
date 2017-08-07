@@ -1,4 +1,4 @@
-DESCRIPTION = "Google Assistant API gRPC bindings"
+DESCRIPTION = "Google Assistant Library Python wrapper"
 HOMEPAGE = "https://developers.google.com/assistant/sdk"
 AUTHOR = "Google Assistant SDK Team"
 LICENSE = "Apache-2.0"
