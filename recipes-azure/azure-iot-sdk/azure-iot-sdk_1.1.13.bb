@@ -25,7 +25,9 @@ SRCREV = "5af0e09e09ae2ba41c1e6b70efa2f1d431a61a26"
 PR = "r1"
 
 S = "${WORKDIR}/git"
-B ?= "${WORKDIR}/build"
+B = "${WORKDIR}/build"
+
+OUTDIR ?= "${B}"
 
 # List of packages to build
 PACKAGES = "\
@@ -48,13 +50,12 @@ do_configure_prepend() {
 OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
-
 do_install_append() {
 	# Python
 	if ${@bb.utils.contains('PACKAGECONFIG','python','true','false',d)}; then
 		install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-		oe_libinstall -C ${B}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
-		oe_libinstall -C ${B}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
+		oe_libinstall -C ${OUTDIR}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
+		oe_libinstall -C ${OUTDIR}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
 	fi
 }
 
