@@ -17,3 +17,5 @@ do_compile_prepend() {
 do_install_prepend() {
 	cd ${S}/python
 }
+
+BBCLASSEXTEND = "native"
