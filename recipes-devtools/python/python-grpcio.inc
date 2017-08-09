@@ -6,7 +6,6 @@ DEPENDS += "\
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-six \
-	${PYTHON_PN}-enum34 \
 	${PYTHON_PN}-protobuf \
 "
 
