@@ -4,8 +4,6 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9ac49901b833e769c7d6f21e8dbd7b30"
 
-inherit setuptools
-
 PR = "r0"
 
 PACKAGES = "${PN} ${PN}-samples"
@@ -13,7 +11,7 @@ PACKAGES = "${PN} ${PN}-samples"
 SRC_NAME = "aws-iot-device-sdk-python"
 
 SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
-SRCREV = "cb67058517681d2ffddc8064b1439988c78ee822"
+SRCREV = "f1d03572a1e8c0d07dcd47c2060204c0a379930f"
 
 S = "${WORKDIR}/git"
 
