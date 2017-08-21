@@ -9,11 +9,11 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 DEPENDS = "maven-native icedtea7-native"
 
 SRC_URI = "git://github.com/aws/${PN}.git \
-	   file://build_with_deps.patch \
+	   file://0001-build-with-deps.patch \
 "
-SRCREV = "e14223a34133e2db6284eda8dad5adb17d64b64e"
+SRCREV = "5d9830bb21d167eea995dcad38e77ad6835adc7e"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${S}/${PN}/target"
