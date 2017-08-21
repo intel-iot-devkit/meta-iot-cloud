@@ -1,8 +1,9 @@
-From d1c34a47311465c3c51453409da2afca57c04e84 Mon Sep 17 00:00:00 2001
+From cf7afb68708ef707ddc3ba22e2f7b498657f52d0 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Thu, 8 Jun 2017 12:33:01 +0100
-Subject: [PATCH 2/4] Skip building RapidJSON
+Date: Mon, 21 Aug 2017 10:48:03 +0100
+Subject: [PATCH 2/7] Skip building RapidJSON
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  CMakeLists.txt                       | 9 ++-------
  cli/CMakeLists.txt                   | 1 -

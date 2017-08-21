@@ -16,36 +16,33 @@ RDEPENDS_${PN}-dev += "\
 	openssl-dev \
 "
 
-inherit cmake
+inherit cmake pkgconfig
 
 SRC_URI = "\
 	git://github.com/aws/aws-iot-device-sdk-cpp.git \
 	file://0001-Add-C-as-a-build-language.patch \
 	file://0002-Skip-building-RapidJSON.patch \
 	file://0003-Add-option-to-disable-tests.patch \
-	file://0004-Fix-cli-includes.patch \
+	file://0004-Add-option-to-build-samples.patch \
+	file://0005-Fix-cli-includes.patch \
+	file://0006-Packaging-fixes.patch \
+	file://0007-Add-pkgconfig-support.patch \
 "
 SRCREV = "63e8ce25e6b282719d112f3f58966cc1e78d271b"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-samples ${PN}-samples-src"
+PACKAGES += "${PN}-samples ${PN}-samples-src"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-EXTRA_OECMAKE += "-DTHREADS_PTHREAD_ARG=OFF -DBUILD_SHARED_LIBRARY=ON -DRapidJSON_DIR=${STAGING_LIBDIR}/cmake/RapidJSON"
+EXTRA_OECMAKE += "-DTHREADS_PTHREAD_ARG=OFF -DBUILD_SHARED_LIBRARY=ON -DBUILD_SAMPLES=ON -DRapidJSON_DIR=${STAGING_LIBDIR}/cmake/RapidJSON"
 
-do_install() {
-	# Library
-	install -d ${D}${libdir}
-    	oe_libinstall -C ${B}/lib -so libaws-iot-sdk-cpp ${D}${libdir}
-
+do_install_append() {
 	# Includes
-	install -d ${D}${includedir}/awsiot
-	cp -r ${S}/include/* ${D}${includedir}/awsiot
-	install -m 0644 ${S}/common/*.hpp ${D}${includedir}/awsiot
-	install -m 0644 ${S}/network/OpenSSL/*.hpp ${D}${includedir}/awsiot
+	install -m 0644 ${S}/common/*.hpp ${D}${includedir}/awsiotsdk
+	install -m 0644 ${S}/network/OpenSSL/*.hpp ${D}${includedir}/awsiotsdk
 
 	# Samples
 	install -d ${D}${datadir}/awsiotsdk/samples/cpp
@@ -82,16 +79,9 @@ do_install() {
 	install -m 0644 ${S}/samples/StorySwitch/*.hpp ${D}${exec_prefix}/src/awsiotsdk/samples/cpp/StorySwitch/
 }
 
-FILES_${PN} = "${libdir}/*.so"
-
-FILES_${PN}-dbg = "\
-	${libdir}/.debug \
+FILES_${PN}-dbg += "\
 	${exec_prefix}/src/debug \
 	${datadir}/awsiotsdk/samples/cpp/.debug \
-"
-
-FILES_${PN}-dev = "\
-	${includedir}/awsiot \
 "
 
 FILES_${PN}-samples = "\

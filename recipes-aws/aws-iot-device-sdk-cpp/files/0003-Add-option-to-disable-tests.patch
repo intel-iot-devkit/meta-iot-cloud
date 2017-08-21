@@ -1,8 +1,9 @@
-From cd309f198c3b97f1d2c275bcbbb349073132a5bf Mon Sep 17 00:00:00 2001
+From b905b83ed638bce00b80cb9e22c9fa4626280c88 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Thu, 8 Jun 2017 19:03:42 +0100
-Subject: [PATCH 3/4] Add option to disable tests
+Date: Mon, 21 Aug 2017 10:58:25 +0100
+Subject: [PATCH 3/7] Add option to disable tests
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  CMakeLists.txt | 8 +++++---
  1 file changed, 5 insertions(+), 3 deletions(-)

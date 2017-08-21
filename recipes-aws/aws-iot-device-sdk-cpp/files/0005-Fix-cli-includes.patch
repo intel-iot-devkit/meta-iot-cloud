@@ -1,7 +1,7 @@
-From f213cbc3a8ae8554d706e408592ba3b664e21fcd Mon Sep 17 00:00:00 2001
+From a9acc8c9af8f1bef129c899d82b99d5d3e8d551b Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Fri, 9 Jun 2017 09:29:40 +0100
-Subject: [PATCH 4/4] Fix cli includes
+Date: Mon, 21 Aug 2017 11:05:46 +0100
+Subject: [PATCH 5/7] Fix cli includes
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---

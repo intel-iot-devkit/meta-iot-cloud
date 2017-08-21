@@ -1,0 +1,46 @@
+From 479a1fd4749e9bb11960106c584c57af64ed299e Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Mon, 21 Aug 2017 11:13:14 +0100
+Subject: [PATCH 6/7] Packaging fixes
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e814963..a0a8890 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,7 +1,9 @@
+ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+-project(aws-iot-sdk-cpp C CXX)
++project(aws-iot-sdk-cpp VERSION 1.1.1 LANGUAGES C CXX)
+ option(BUILD_SHARED_LIBRARY "Build the library as a shared object, will build it as a static library otherwise" NO)
+ 
++include(GNUInstallDirs)
++
+ ######################################
+ # Section : Disable in-source builds #
+ ######################################
+@@ -49,7 +51,7 @@ endif()
+ set(SDK_TARGET_NAME aws-iot-sdk-cpp)
+ if (BUILD_SHARED_LIBRARY)
+     add_library(${SDK_TARGET_NAME} SHARED "")
+-    set_target_properties(${SDK_TARGET_NAME} PROPERTIES SUFFIX ".so")
++    set_target_properties(${SDK_TARGET_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ else()
+     add_library(${SDK_TARGET_NAME} "")
+ endif()
+@@ -150,6 +152,6 @@ endif()
+ # Section: Define Install Target #
+ ##################################
+ if(NOT MSVC)
+-    install(TARGETS aws-iot-sdk-cpp DESTINATION lib)
+-    install(DIRECTORY include/ DESTINATION include)
++    install(TARGETS aws-iot-sdk-cpp DESTINATION ${CMAKE_INSTALL_LIBDIR})
++    install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/awsiotsdk)
+ endif()
+-- 
+1.9.1
+

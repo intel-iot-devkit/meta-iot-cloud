@@ -1,0 +1,43 @@
+From 6a3ea83b930086f583f447e40cc075108ef989d5 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Mon, 21 Aug 2017 11:22:00 +0100
+Subject: [PATCH 7/7] Add pkgconfig support
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt     |  2 ++
+ awsiotdk-cpp.pc.in | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 awsiotsdk-cpp.pc.in
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a0a8890..6ec4b45 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -154,4 +154,6 @@ endif()
+ if(NOT MSVC)
+     install(TARGETS aws-iot-sdk-cpp DESTINATION ${CMAKE_INSTALL_LIBDIR})
+     install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/awsiotsdk)
++    configure_file (awsiotsdk-cpp.pc.in ${CMAKE_CURRENT_BINARY_DIR}/awsiotsdk-cpp.pc @ONLY)
++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/awsiotsdk-cpp.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ endif()
+diff --git a/awsiotsdk-cpp.pc.in b/awsiotsdk-cpp.pc.in
+new file mode 100644s
+index 0000000..56f4424
+--- /dev/null
++++ b/awsiotsdk-cpp.pc.in
+@@ -0,0 +1,11 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=@CMAKE_INSTALL_PREFIX@
++libdir=@CMAKE_INSTALL_LIBDIR@
++includedir=@CMAKE_INSTALL_INCLUDEDIR@/awsiotsdk
++
++Name: awsiotsdk-cpp
++Description: SDK for connecting to AWS IoT from a device using C++
++Version: @PROJECT_VERSION@
++
++Libs: -L${libdir} -laws-iot-sdk-cpp
++Cflags: -I${includedir}
+-- 
+1.9.1
+
