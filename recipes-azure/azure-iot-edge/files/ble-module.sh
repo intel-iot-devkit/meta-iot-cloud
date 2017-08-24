@@ -7,7 +7,7 @@ rm -f "$build_dir"/"$output_name"
 mkdir -p "$build_dir"
 
 # Check for Azure IoT Edge headers
-if [ ! -f /usr/include/azureiot/gateway.h ]; then
+if [ ! -f /usr/include/azureiotedge/gateway.h ]; then
 	echo Azure IoT Edge headers not found. Please make sure that the azure-iot-edge-dev package is installed.
 	exit 1
 fi
@@ -29,37 +29,37 @@ else
 fi
 
 echo ---------- Building the BLE IoT Edge module ----------
-gcc -c -fPIC -std=c99 deps/dbus-bluez/src/bluez_characteristic.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -o "$build_dir"/bluez_characteristic.o
+gcc -c -fPIC -std=c99 deps/dbus-bluez/src/bluez_characteristic.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -o "$build_dir"/bluez_characteristic.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 deps/dbus-bluez/src/bluez_device.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -o "$build_dir"/bluez_device.o
+gcc -c -fPIC -std=c99 deps/dbus-bluez/src/bluez_device.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -o "$build_dir"/bluez_device.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Iinc -o "$build_dir"/ble.o
+gcc -c -fPIC -std=c99 src/ble.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Iinc -o "$build_dir"/ble.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_c2d.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -Iinc -o "$build_dir"/ble_c2d.o
+gcc -c -fPIC -std=c99 src/ble_c2d.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -Iinc -o "$build_dir"/ble_c2d.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_gatt_io_linux.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux.o
+gcc -c -fPIC -std=c99 src/ble_gatt_io_linux.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_connect.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_connect.o
+gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_connect.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_connect.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_disconnect.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_disconnect.o
+gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_disconnect.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_disconnect.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_read.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_read.o
+gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_read.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_read.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_write.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_write.o
+gcc -c -fPIC -std=c99 src/ble_gatt_io_linux_write.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Ideps/dbus-bluez/inc -Iinc -o "$build_dir"/ble_gatt_io_linux_write.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_instr_utils.c -I/usr/include/azureiot -Iinc -o "$build_dir"/ble_instr_utils.o
+gcc -c -fPIC -std=c99 src/ble_instr_utils.c -I/usr/include/azureiot -I/usr/include/azureiotedge -Iinc -o "$build_dir"/ble_instr_utils.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/bleio_seq_linux.c -I/usr/include/azureiot -Iinc -o "$build_dir"/bleio_seq_linux.o
+gcc -c -fPIC -std=c99 src/bleio_seq_linux.c -I/usr/include/azureiot -I/usr/include/azureiotedge -Iinc -o "$build_dir"/bleio_seq_linux.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/bleio_seq_linux_schedule_periodic.c -I/usr/include/azureiot -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Iinc -o "$build_dir"/bleio_seq_linux_schedule_periodic.o
+gcc -c -fPIC -std=c99 src/bleio_seq_linux_schedule_periodic.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Iinc -o "$build_dir"/bleio_seq_linux_schedule_periodic.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/bleio_seq_linux_schedule_read.c -I/usr/include/azureiot -Iinc -o "$build_dir"/bleio_seq_linux_schedule_read.o
+gcc -c -fPIC -std=c99 src/bleio_seq_linux_schedule_read.c -I/usr/include/azureiot -I/usr/include/azureiotedge -Iinc -o "$build_dir"/bleio_seq_linux_schedule_read.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/bleio_seq_linux_schedule_write.c -I/usr/include/azureiot -Iinc -o "$build_dir"/bleio_seq_linux_schedule_write.o
+gcc -c -fPIC -std=c99 src/bleio_seq_linux_schedule_write.c -I/usr/include/azureiot -I/usr/include/azureiotedge -Iinc -o "$build_dir"/bleio_seq_linux_schedule_write.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/ble_utils.c -I/usr/include/azureiot -Iinc -o "$build_dir"/ble_utils.o
+gcc -c -fPIC -std=c99 src/ble_utils.c -I/usr/include/azureiot -I/usr/include/azureiotedge -Iinc -o "$build_dir"/ble_utils.o
 [ $? -eq 0 ] || exit $?
-gcc -c -fPIC -std=c99 src/gio_async_seq.c -I/usr/include/azureiot -I/usr/include/azureiot/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Iinc -o "$build_dir"/gio_async_seq.o
+gcc -c -fPIC -std=c99 src/gio_async_seq.c -I/usr/include/azureiot -I/usr/include/azureiotedge -I/usr/include/azureiotedge/modules/common -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I"$glib_inc" -Iinc -o "$build_dir"/gio_async_seq.o
 [ $? -eq 0 ] || exit $?
 
 

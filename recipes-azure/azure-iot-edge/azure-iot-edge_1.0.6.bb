@@ -48,7 +48,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r3"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -180,9 +180,9 @@ do_compile_prepend() {
 
 do_install_prepend() {
 	# Fix sample module paths
-	find ${S}/samples -type f -name "*.json" -exec sed -i 's|\.\./\.\./modules|${libdir}/azureiot/modules|g' {} +
-	find ${S}/samples -type f -name "*.json" -exec sed -i 's|\./modules|${libdir}/azureiot/modules|g' {} +
-	find ${S}/samples -type f -name "*.json" -exec sed -i 's|build/modules|${libdir}/azureiot/modules|g' {} +
+	find ${S}/samples -type f -name "*.json" -exec sed -i 's|\.\./\.\./modules|${libdir}/azureiotedge/modules|g' {} +
+	find ${S}/samples -type f -name "*.json" -exec sed -i 's|\./modules|${libdir}/azureiotedge/modules|g' {} +
+	find ${S}/samples -type f -name "*.json" -exec sed -i 's|build/modules|${libdir}/azureiotedge/modules|g' {} +
 	sed -i 's|build/samples/ble_gateway/ble_printer|\.|g' ${S}/samples/ble_gateway/src/*.json
 }
 
@@ -191,49 +191,49 @@ do_install() {
     	install -d ${D}${libdir}
 	install -m 0755 ${B}/core/libgateway.so ${D}${libdir}
 
-	install -d ${D}${includedir}/azureiot
-	install -m 0644 ${S}/core/inc/*.h ${D}${includedir}/azureiot
-	install -m 0644 ${S}/core/inc/linux/*.h ${D}${includedir}/azureiot
+	install -d ${D}${includedir}/azureiotedge
+	install -m 0644 ${S}/core/inc/*.h ${D}${includedir}/azureiotedge
+	install -m 0644 ${S}/core/inc/linux/*.h ${D}${includedir}/azureiotedge
 
-	install -d ${D}${includedir}/azureiot/experimental
-	install -m 0644 ${S}/core/inc/experimental/*.h ${D}${includedir}/azureiot/experimental
+	install -d ${D}${includedir}/azureiotedge/experimental
+	install -m 0644 ${S}/core/inc/experimental/*.h ${D}${includedir}/azureiotedge/experimental
 
-	install -d ${D}${includedir}/azureiot/module_loaders
-	install -m 0644 ${S}/core/inc/module_loaders/dynamic_loader.h ${D}${includedir}/azureiot/module_loaders
-	install -m 0644 ${S}/proxy/outprocess/inc/module_loaders/*.h ${D}${includedir}/azureiot/module_loaders
+	install -d ${D}${includedir}/azureiotedge/module_loaders
+	install -m 0644 ${S}/core/inc/module_loaders/dynamic_loader.h ${D}${includedir}/azureiotedge/module_loaders
+	install -m 0644 ${S}/proxy/outprocess/inc/module_loaders/*.h ${D}${includedir}/azureiotedge/module_loaders
 	
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		install -m 0644 ${S}/core/inc/module_loaders/java_loader.h ${D}${includedir}/azureiot/module_loaders
+		install -m 0644 ${S}/core/inc/module_loaders/java_loader.h ${D}${includedir}/azureiotedge/module_loaders
 	fi
 
 	# Native Proxy Gateway
 	install -d ${D}${libdir}
 	install -m 0755 ${B}/proxy/gateway/native/libproxy_gateway.so ${D}${libdir}
 
-	install -d ${D}${includedir}/azureiot
-	install -m 0644 ${S}/proxy/gateway/native/inc/*.h ${D}${includedir}/azureiot
-	install -m 0644 ${S}/proxy/message/inc/*.h ${D}${includedir}/azureiot
+	install -d ${D}${includedir}/azureiotedge
+	install -m 0644 ${S}/proxy/gateway/native/inc/*.h ${D}${includedir}/azureiotedge
+	install -m 0644 ${S}/proxy/message/inc/*.h ${D}${includedir}/azureiotedge
 
 	# Native Module Host
 	install -d ${D}${libdir}
 	install -m 0755 ${B}/proxy/modules/native_module_host/libnative_module_host.so ${D}${libdir}
 
-	install -d ${D}${includedir}/azureiot
-	install -m 0644 ${S}/proxy/modules/native_module_host/inc/*.h ${D}${includedir}/azureiot
+	install -d ${D}${includedir}/azureiotedge
+	install -m 0644 ${S}/proxy/modules/native_module_host/inc/*.h ${D}${includedir}/azureiotedge
 
 	# Modules
-	install -d ${D}${includedir}/azureiot/modules/common
-	install -m 0644 ${S}/modules/common/*.h ${D}${includedir}/azureiot/modules/common
+	install -d ${D}${includedir}/azureiotedge/modules/common
+	install -m 0644 ${S}/modules/common/*.h ${D}${includedir}/azureiotedge/modules/common
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/common
 	install -m 0644 ${S}/modules/common/*.h ${D}${exec_prefix}/src/azureiotedge/modules/common/
 
 	# Azure Functions Module
-	install -d ${D}${libdir}/azureiot/modules/azure_functions
-	install -m 0755 ${B}/modules/azure_functions/libazure_functions.so ${D}${libdir}/azureiot/modules/azure_functions/
+	install -d ${D}${libdir}/azureiotedge/modules/azure_functions
+	install -m 0755 ${B}/modules/azure_functions/libazure_functions.so ${D}${libdir}/azureiotedge/modules/azure_functions/
 
-	install -d ${D}${includedir}/azureiot/modules/azure_functions
-	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${includedir}/azureiot/modules/azure_functions
+	install -d ${D}${includedir}/azureiotedge/modules/azure_functions
+	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${includedir}/azureiotedge/modules/azure_functions
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/azure_functions/src
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/azure_functions/inc
@@ -243,13 +243,13 @@ do_install() {
 
 	# BLE Module
 	if [ -e ${B}/modules/ble/ ]; then
-		install -d ${D}${libdir}/azureiot/modules/ble
-		install -m 0755 ${B}/modules/ble/libble.so ${D}${libdir}/azureiot/modules/ble/
-		install -m 0755 ${B}/modules/ble/libble_c2d.so ${D}${libdir}/azureiot/modules/ble/
+		install -d ${D}${libdir}/azureiotedge/modules/ble
+		install -m 0755 ${B}/modules/ble/libble.so ${D}${libdir}/azureiotedge/modules/ble/
+		install -m 0755 ${B}/modules/ble/libble_c2d.so ${D}${libdir}/azureiotedge/modules/ble/
 
-		install -d ${D}${includedir}/azureiot/modules/ble
-		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiot/modules/ble
-		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${includedir}/azureiot/modules/ble
+		install -d ${D}${includedir}/azureiotedge/modules/ble
+		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiotedge/modules/ble
+		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${includedir}/azureiotedge/modules/ble
 
 		install -d ${D}${exec_prefix}/src/azureiotedge/modules/ble/src
 		install -d ${D}${exec_prefix}/src/azureiotedge/modules/ble/inc
@@ -264,11 +264,11 @@ do_install() {
 	fi
 
 	# Hello World Module
-	install -d ${D}${libdir}/azureiot/modules/hello_world
-	install -m 0755 ${B}/modules/hello_world/libhello_world.so ${D}${libdir}/azureiot/modules/hello_world/
+	install -d ${D}${libdir}/azureiotedge/modules/hello_world
+	install -m 0755 ${B}/modules/hello_world/libhello_world.so ${D}${libdir}/azureiotedge/modules/hello_world/
 
-	install -d ${D}${includedir}/azureiot/modules/hello_world
-	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${includedir}/azureiot/modules/hello_world
+	install -d ${D}${includedir}/azureiotedge/modules/hello_world
+	install -m 0644 ${S}/modules/hello_world/inc/*.h ${D}${includedir}/azureiotedge/modules/hello_world
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/hello_world/src
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/hello_world/inc
@@ -277,11 +277,11 @@ do_install() {
 	install -m 0755 ${WORKDIR}/hello-world-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/hello_world/build.sh
 
 	# Identity Map Module
-	install -d ${D}${libdir}/azureiot/modules/identitymap
-	install -m 0755 ${B}/modules/identitymap/libidentity_map.so ${D}${libdir}/azureiot/modules/identitymap/
+	install -d ${D}${libdir}/azureiotedge/modules/identitymap
+	install -m 0755 ${B}/modules/identitymap/libidentity_map.so ${D}${libdir}/azureiotedge/modules/identitymap/
 	
-	install -d ${D}${includedir}/azureiot/modules/identitymap
-	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${includedir}/azureiot/modules/identitymap
+	install -d ${D}${includedir}/azureiotedge/modules/identitymap
+	install -m 0644 ${S}/modules/identitymap/inc/*.h ${D}${includedir}/azureiotedge/modules/identitymap
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/identitymap/src
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/identitymap/inc
@@ -290,11 +290,11 @@ do_install() {
 	install -m 0755 ${WORKDIR}/identitymap-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/identitymap/build.sh
 
 	# IoT Hub Module
-	install -d ${D}${libdir}/azureiot/modules/iothub
-	install -m 0755 ${B}/modules/iothub/libiothub.so ${D}${libdir}/azureiot/modules/iothub/
+	install -d ${D}${libdir}/azureiotedge/modules/iothub
+	install -m 0755 ${B}/modules/iothub/libiothub.so ${D}${libdir}/azureiotedge/modules/iothub/
 
-	install -d ${D}${includedir}/azureiot/modules/iothub
-	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${includedir}/azureiot/modules/iothub
+	install -d ${D}${includedir}/azureiotedge/modules/iothub
+	install -m 0644 ${S}/modules/iothub/inc/*.h ${D}${includedir}/azureiotedge/modules/iothub
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/iothub/src
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/iothub/inc
@@ -303,11 +303,11 @@ do_install() {
 	install -m 0755 ${WORKDIR}/iothub-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/iothub/build.sh
 
 	# Logger Module
-	install -d ${D}${libdir}/azureiot/modules/logger
-	install -m 0755 ${B}/modules/logger/liblogger.so ${D}${libdir}/azureiot/modules/logger/
+	install -d ${D}${libdir}/azureiotedge/modules/logger
+	install -m 0755 ${B}/modules/logger/liblogger.so ${D}${libdir}/azureiotedge/modules/logger/
 
-	install -d ${D}${includedir}/azureiot/modules/logger
-	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${includedir}/azureiot/modules/logger
+	install -d ${D}${includedir}/azureiotedge/modules/logger
+	install -m 0644 ${S}/modules/logger/inc/*.h ${D}${includedir}/azureiotedge/modules/logger
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/logger/src
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/logger/inc
@@ -316,11 +316,11 @@ do_install() {
 	install -m 0755 ${WORKDIR}/logger-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/logger/build.sh
 
 	# Simulated Device Module
-	install -d ${D}${libdir}/azureiot/modules/simulated_device
-	install -m 0755 ${B}/modules/simulated_device/libsimulated_device.so ${D}${libdir}/azureiot/modules/simulated_device/
+	install -d ${D}${libdir}/azureiotedge/modules/simulated_device
+	install -m 0755 ${B}/modules/simulated_device/libsimulated_device.so ${D}${libdir}/azureiotedge/modules/simulated_device/
 
-	install -d ${D}${includedir}/azureiot/modules/simulated_device
-	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${includedir}/azureiot/modules/simulated_device
+	install -d ${D}${includedir}/azureiotedge/modules/simulated_device
+	install -m 0644 ${S}/modules/simulated_device/inc/*.h ${D}${includedir}/azureiotedge/modules/simulated_device
 
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/simulated_device/src
 	install -d ${D}${exec_prefix}/src/azureiotedge/modules/simulated_device/inc
@@ -329,18 +329,18 @@ do_install() {
 	install -m 0755 ${WORKDIR}/simulated-device-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/simulated_device/build.sh
 
 	# Modbus Module
-	install -d ${D}${libdir}/azureiot/modules/modbus_read
-	install -m 0755 ${B}/modules/modbus_read/libmodbus_read.so ${D}${libdir}/azureiot/modules/modbus_read/
+	install -d ${D}${libdir}/azureiotedge/modules/modbus_read
+	install -m 0755 ${B}/modules/modbus_read/libmodbus_read.so ${D}${libdir}/azureiotedge/modules/modbus_read/
 
-	install -d ${D}${includedir}/azureiot/modules/modbus_read
-	install -m 0644 ${S}/modules/modbus_read/inc/*.h ${D}${includedir}/azureiot/modules/modbus_read
+	install -d ${D}${includedir}/azureiotedge/modules/modbus_read
+	install -m 0644 ${S}/modules/modbus_read/inc/*.h ${D}${includedir}/azureiotedge/modules/modbus_read
 
 	# SQLite Module
-	install -d ${D}${libdir}/azureiot/modules/sqlite
-	install -m 0755 ${B}/modules/sqlite/libsqlite.so ${D}${libdir}/azureiot/modules/sqlite/
+	install -d ${D}${libdir}/azureiotedge/modules/sqlite
+	install -m 0755 ${B}/modules/sqlite/libsqlite.so ${D}${libdir}/azureiotedge/modules/sqlite/
 
-	install -d ${D}${includedir}/azureiot/modules/sqlite
-	install -m 0644 ${S}/modules/sqlite/inc/*.h ${D}${includedir}/azureiot/modules/sqlite
+	install -d ${D}${includedir}/azureiotedge/modules/sqlite
+	install -m 0644 ${S}/modules/sqlite/inc/*.h ${D}${includedir}/azureiotedge/modules/sqlite
 
 	# Azure Functions Sample
 	install -d ${D}${datadir}/azureiotedge/samples/azure_functions
@@ -447,20 +447,20 @@ do_install() {
 
 	# Java Binding
 	if [ -e ${JAVA_LIB_DIR} ]; then
-		install -d ${D}${libdir}/azureiot/bindings/java
-    		install -m 0755 ${JAVA_LIB_DIR}/libjava_module_host.so ${D}${libdir}/azureiot/bindings/java/
+		install -d ${D}${libdir}/azureiotedge/bindings/java
+    		install -m 0755 ${JAVA_LIB_DIR}/libjava_module_host.so ${D}${libdir}/azureiotedge/bindings/java/
 	fi
 
 	# Node.JS Binding
 	if [ -e ${NODE_LIB_DIR} ]; then
-		install -d ${D}${libdir}/azureiot/bindings/nodejs
-    		install -m 0755 ${NODE_LIB_DIR}/libnodejs_binding.so ${D}${libdir}/azureiot/bindings/nodejs/
+		install -d ${D}${libdir}/azureiotedge/bindings/nodejs
+    		install -m 0755 ${NODE_LIB_DIR}/libnodejs_binding.so ${D}${libdir}/azureiotedge/bindings/nodejs/
 	fi
 
 	# .NET Core Binding
 	if [ -e ${DOTNET_LIB_DIR} ]; then
-		install -d ${D}${libdir}/azureiot/bindings/dotnetcore
-    		install -m 0755 ${DOTNET_LIB_DIR}/libdotnetcore.so ${D}${libdir}/azureiot/bindings/dotnetcore/
+		install -d ${D}${libdir}/azureiotedge/bindings/dotnetcore
+    		install -m 0755 ${DOTNET_LIB_DIR}/libdotnetcore.so ${D}${libdir}/azureiotedge/bindings/dotnetcore/
 	fi
 }
 
@@ -478,22 +478,22 @@ RDEPENDS_${PN}-dev += "\
 	glib-2.0-dev \
 "
 FILES_${PN}-dev += "\
-	${includedir}/azureiot \
+	${includedir}/azureiotedge \
 "
 
 FILES_${PN}-dbg += "\
-	${libdir}/azureiot/bindings/dotnetcore/.debug \
-	${libdir}/azureiot/bindings/java/.debug \
-	${libdir}/azureiot/bindings/nodejs/.debug \
-	${libdir}/azureiot/modules/azure_functions/.debug \
-	${libdir}/azureiot/modules/ble/.debug \
-	${libdir}/azureiot/modules/hello_world/.debug \
-	${libdir}/azureiot/modules/identitymap/.debug \
-	${libdir}/azureiot/modules/iothub/.debug \
-	${libdir}/azureiot/modules/logger/.debug \
-	${libdir}/azureiot/modules/simulated_device/.debug \
-	${libdir}/azureiot/modules/modbus_read/.debug \
-	${libdir}/azureiot/modules/sqlite/.debug \
+	${libdir}/azureiotedge/bindings/dotnetcore/.debug \
+	${libdir}/azureiotedge/bindings/java/.debug \
+	${libdir}/azureiotedge/bindings/nodejs/.debug \
+	${libdir}/azureiotedge/modules/azure_functions/.debug \
+	${libdir}/azureiotedge/modules/ble/.debug \
+	${libdir}/azureiotedge/modules/hello_world/.debug \
+	${libdir}/azureiotedge/modules/identitymap/.debug \
+	${libdir}/azureiotedge/modules/iothub/.debug \
+	${libdir}/azureiotedge/modules/logger/.debug \
+	${libdir}/azureiotedge/modules/simulated_device/.debug \
+	${libdir}/azureiotedge/modules/modbus_read/.debug \
+	${libdir}/azureiotedge/modules/sqlite/.debug \
 	${datadir}/azureiotedge/samples/azure_functions/.debug \
 	${datadir}/azureiotedge/samples/ble_gateway/.debug \
 	${datadir}/azureiotedge/samples/dynamically_add_module/.debug \
@@ -506,14 +506,14 @@ FILES_${PN}-dbg += "\
 "
 
 FILES_${PN}-modules = "\
-	${libdir}/azureiot/modules/azure_functions/libazure_functions.so \
-	${libdir}/azureiot/modules/ble/libble.so \
-	${libdir}/azureiot/modules/ble/libble_c2d.so \
-	${libdir}/azureiot/modules/hello_world/libhello_world.so \
-	${libdir}/azureiot/modules/identitymap/libidentity_map.so \
-	${libdir}/azureiot/modules/iothub/libiothub.so \
-	${libdir}/azureiot/modules/logger/liblogger.so \
-	${libdir}/azureiot/modules/simulated_device/libsimulated_device.so \
+	${libdir}/azureiotedge/modules/azure_functions/libazure_functions.so \
+	${libdir}/azureiotedge/modules/ble/libble.so \
+	${libdir}/azureiotedge/modules/ble/libble_c2d.so \
+	${libdir}/azureiotedge/modules/hello_world/libhello_world.so \
+	${libdir}/azureiotedge/modules/identitymap/libidentity_map.so \
+	${libdir}/azureiotedge/modules/iothub/libiothub.so \
+	${libdir}/azureiotedge/modules/logger/liblogger.so \
+	${libdir}/azureiotedge/modules/simulated_device/libsimulated_device.so \
 "
 
 FILES_${PN}-modules-src = "\
@@ -542,7 +542,7 @@ FILES_${PN}-samples-src = "\
 "
 
 FILES_${PN}-module-modbus = "\
-	${libdir}/azureiot/modules/modbus_read/*.so \
+	${libdir}/azureiotedge/modules/modbus_read/*.so \
 "
 
 RDEPENDS_${PN}-samples-modbus += "\
@@ -558,7 +558,7 @@ FILES_${PN}-samples-src-modbus = "\
 "
 
 FILES_${PN}-module-sqlite = "\
-	${libdir}/azureiot/modules/sqlite/*.so \
+	${libdir}/azureiotedge/modules/sqlite/*.so \
 "
 
 RDEPENDS_${PN}-samples-sqlite += "\
@@ -575,15 +575,15 @@ FILES_${PN}-samples-src-sqlite = "\
 "
 
 FILES_${PN}-dotnetcore = "\
-	${libdir}/azureiot/bindings/dotnetcore/*.so \
+	${libdir}/azureiotedge/bindings/dotnetcore/*.so \
 "
 
 FILES_${PN}-java = "\
-	${libdir}/azureiot/bindings/java/*.so \
+	${libdir}/azureiotedge/bindings/java/*.so \
 "
 
 FILES_${PN}-nodejs = "\
-	${libdir}/azureiot/bindings/nodejs/*.so \
+	${libdir}/azureiotedge/bindings/nodejs/*.so \
 "
 
 RRECOMMENDS_azure-iot-edge-dev[nodeprrecs] = "1"

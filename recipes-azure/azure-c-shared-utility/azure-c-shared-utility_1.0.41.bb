@@ -22,30 +22,34 @@ RDEPENDS_${PN}-dev += "\
 inherit cmake
 
 SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git"
-SRCREV = "3a38c00dd4089fd5d58ee61cff13473993218645"
+SRCREV = "883b618258097a51bfd226386ca4f04751d11847"
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
+PACKAGES = "${PN} ${PN}-dev ${PN}-staticdev ${PN}-dbg"
 
-EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
+EXTRA_OECMAKE = "-Dbuild_as_dynamic:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 
 	# Fix CMake configs
-	sed -i 's#${libdir}/libaziotsharedutil.so#${STAGING_LIBDIR}/libaziotsharedutil.so#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_c_shared_utility*
+	sed -i 's#${libdir}/libaziotsharedutil#${STAGING_LIBDIR}/libaziotsharedutil#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_c_shared_utility*
 	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_c_shared_utility*
 }
 
 FILES_${PN} = "${libdir}/*.so"
+
+FILES_${PN}-staticdev = "${libdir}/*.a"
+
 FILES_${PN}-dev += "\
 	${includedir} \
 	${exec_prefix}/cmake \
 "
+
 FILES_${PN}-dbg += "${libdir}/.debug"
 
 RRECOMMENDS_azure-c-shared-utility-dev[nodeprrecs] = "1"

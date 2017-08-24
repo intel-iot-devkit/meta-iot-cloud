@@ -1,14 +1,15 @@
-From cdae7a8be7909ded07689ab0ea39c0e0b764227c Mon Sep 17 00:00:00 2001
+From de8747c61e75bc64532ecaedc9775d306784b4e1 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 11 Apr 2017 18:06:17 +0100
-Subject: [PATCH 3/4] Skip parson submodule init
+Date: Wed, 23 Aug 2017 16:15:26 +0100
+Subject: [PATCH 3/6] Skip parson submodule init
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  modules/dependencies.cmake | 20 --------------------
  1 file changed, 20 deletions(-)
 
 diff --git a/modules/dependencies.cmake b/modules/dependencies.cmake
-index df6fa30..1bfa435 100644
+index 33b8a3d..1f7890f 100644
 --- a/modules/dependencies.cmake
 +++ b/modules/dependencies.cmake
 @@ -16,24 +16,4 @@ findAndInstall(umqtt 1.0.25 ${PROJECT_SOURCE_DIR}/deps/umqtt ${PROJECT_SOURCE_DI
@@ -35,7 +36,7 @@ index df6fa30..1bfa435 100644
 -        message(FATAL_ERROR "Error pulling parson submodule: ${res}")
 -    endif()
 -endif()
- findAndInstall(azure_iot_sdks 1.1.5 ${PROJECT_SOURCE_DIR}/deps/iot-sdk-c ${PROJECT_SOURCE_DIR}/deps/iot-sdk-c -Duse_installed_dependencies=ON -Duse_openssl=OFF -Dbuild_as_dynamic=ON -Drun_e2e_tests=ON -Dskip_samples=ON -G "${CMAKE_GENERATOR}")
+ findAndInstall(azure_iot_sdks 1.1.5 ${PROJECT_SOURCE_DIR}/deps/iot-sdk-c ${PROJECT_SOURCE_DIR}/deps/iot-sdk-c -Duse_installed_dependencies=ON -Duse_openssl=OFF -Dbuild_as_dynamic=ON -Dskip_samples=ON -G "${CMAKE_GENERATOR}")
 -- 
 1.9.1
 

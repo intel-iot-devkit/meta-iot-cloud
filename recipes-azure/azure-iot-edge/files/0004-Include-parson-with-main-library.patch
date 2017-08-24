@@ -1,8 +1,9 @@
-From 2a913c78442ad1468fb2f2451aad749b9600bb7a Mon Sep 17 00:00:00 2001
+From e88c9165b632426b37f9ea609d8624ad6ce6fe38 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Mon, 15 May 2017 14:12:22 +0100
-Subject: [PATCH] Include parson with main library
+Date: Wed, 23 Aug 2017 16:19:13 +0100
+Subject: [PATCH 4/6] Include parson with main library
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  core/CMakeLists.txt                             | 10 ++++-----
  core/deps/CMakeLists.txt                        | 30 -------------------------
@@ -11,7 +12,7 @@ Subject: [PATCH] Include parson with main library
  delete mode 100644 core/deps/CMakeLists.txt
 
 diff --git a/core/CMakeLists.txt b/core/CMakeLists.txt
-index 24f792f..cda7c51 100644
+index 41c7cbf..b9601a0 100644
 --- a/core/CMakeLists.txt
 +++ b/core/CMakeLists.txt
 @@ -12,8 +12,6 @@ if(POLICY CMP0042)
@@ -31,7 +32,7 @@ index 24f792f..cda7c51 100644
  )
  
  set(gateway_h_sources
-@@ -217,6 +216,7 @@ set(gateway_c_sources
+@@ -223,6 +222,7 @@ set(gateway_c_sources
  )
  
  include_directories(./inc)
@@ -39,7 +40,7 @@ index 24f792f..cda7c51 100644
  
  add_library(module_host_static STATIC
      ${module_host_sources}
-@@ -245,9 +245,9 @@ if(${enable_native_remote_modules} OR ${enable_java_remote_modules})
+@@ -251,9 +251,9 @@ if(${enable_core_remote_module_support})
      endif()
  endif()
  

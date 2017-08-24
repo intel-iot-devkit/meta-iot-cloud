@@ -10,7 +10,7 @@ inherit cmake
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-umqtt-c.git \
 "
-SRCREV = "ebb4d5d80f2b6c1749a9e2e553de46914dc82c78"
+SRCREV = "8758a2ddd36dabd6bca206993a2150202a818bf1"
 
 PR = "r0"
 
@@ -25,13 +25,15 @@ sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 
 	# Fix CMake configs
-	sed -i 's#${libdir}/libumqtt.so#${STAGING_LIBDIR}/libumqtt.so#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/umqtt*
+	sed -i 's#${libdir}/libumqtt#${STAGING_LIBDIR}/libumqtt#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/umqtt*
 	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/umqtt*
 }
 
 FILES_${PN} = "${libdir}/*.so"
+
 FILES_${PN}-dev += "\
 	${includedir} \
 	${exec_prefix}/cmake \
 "
+
 FILES_${PN}-dbg += "${libdir}/.debug"

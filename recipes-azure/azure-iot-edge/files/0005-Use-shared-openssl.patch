@@ -1,8 +1,9 @@
-From d2442fe12113e807aad966a72effee7dca6b73ea Mon Sep 17 00:00:00 2001
+From 2d9c5a5006bdbe96b6e73a67d8df7341495d272d Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 16 May 2017 17:24:36 +0100
-Subject: [PATCH 2/3] Use shared openssl
+Date: Wed, 23 Aug 2017 16:20:00 +0100
+Subject: [PATCH 5/6] Use shared openssl
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  bindings/nodejs/CMakeLists.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

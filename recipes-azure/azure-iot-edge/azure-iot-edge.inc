@@ -1,9 +1,9 @@
 AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/Azure/iot-edge"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://License.txt;md5=9cc1d02a339a3e756ac7975262cf739d"
+LIC_FILES_CHKSUM = "file://License.txt;md5=faecdf5ffdbb00b2ad988ee32fae9a2d"
 
 SRC_URI = "gitsm://github.com/Azure/iot-edge.git;name=main"
-SRCREV_main = "3b008a13d4ce6594136529658664ba1eb1366f3e"
+SRCREV_main = "3621b6c47eb3d3178070e3f0d4c7c188a995774b"
 
 S = "${WORKDIR}/git"

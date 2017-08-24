@@ -20,9 +20,9 @@ SRC_URI = "\
 	file://0001-Refactor-cmake-if-statements.patch \
 	file://0002-Only-run-tests-if-requested.patch \
 "
-SRCREV = "5af0e09e09ae2ba41c1e6b70efa2f1d431a61a26"
+SRCREV = "1db4e329756eedcb984a8cb3cd0f26e2b64ff3bf"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -33,6 +33,7 @@ OUTDIR ?= "${B}"
 PACKAGES = "\
 	${PN} \
 	${PN}-dev \
+	${PN}-staticdev \
 	${PN}-dbg \
 	python-${PN} \
 "
@@ -56,6 +57,8 @@ do_install_append() {
 		install -d ${D}${PYTHON_SITEPACKAGES_DIR}
 		oe_libinstall -C ${OUTDIR}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
 		oe_libinstall -C ${OUTDIR}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
+		rm ${D}${libdir}/iothub_client.so
+		rm ${D}${libdir}/iothub_service_client.so
 	fi
 }
 
@@ -79,6 +82,8 @@ FILES_${PN}-dev += "\
 	${includedir} \
 	${exec_prefix}/cmake \
 "
+
+FILES_${PN}-staticdev += "${libdir}/*.a"
 
 FILES_${PN}-dbg += "\
 	${libdir}/.debug \

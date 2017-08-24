@@ -10,7 +10,7 @@ inherit cmake
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-uamqp-c.git \
 "
-SRCREV = "b69781ad19a9d1cf4a6a9b842de11e6a024c0d1a"
+SRCREV = "ce53717e3e5ecd2a7c673ed2d317fb4040a85e81"
 
 PR = "r0"
 
@@ -25,13 +25,15 @@ sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 
 	# Fix CMake configs
-	sed -i 's#${libdir}/libuamqp.so#${STAGING_LIBDIR}/libuamqp.so#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/uamqp*
+	sed -i 's#${libdir}/libuamqp#${STAGING_LIBDIR}/libuamqp#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/uamqp*
 	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/uamqp*
 }
 
 FILES_${PN} = "${libdir}/*.so"
+
 FILES_${PN}-dev += "\
 	${includedir} \
 	${exec_prefix}/cmake \
 "
+
 FILES_${PN}-dbg += "${libdir}/.debug"

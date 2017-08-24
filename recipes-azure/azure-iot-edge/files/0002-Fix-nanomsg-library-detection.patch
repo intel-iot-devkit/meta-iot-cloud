@@ -1,17 +1,18 @@
-From 734bde80b50cd3d8da2e8018e5f98cb4d9a5a91a Mon Sep 17 00:00:00 2001
+From 98cdd2a76c2309299a1b39561e30de5a6e198239 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 11 Apr 2017 18:04:45 +0100
-Subject: [PATCH 2/4] Fix nanomsg library detection
+Date: Wed, 23 Aug 2017 16:14:31 +0100
+Subject: [PATCH 2/6] Fix nanomsg library detection
 
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  dependencies.cmake | 17 -----------------
  1 file changed, 17 deletions(-)
 
 diff --git a/dependencies.cmake b/dependencies.cmake
-index 6a05bb4..4d49d6a 100644
+index 68223b9..acad734 100644
 --- a/dependencies.cmake
 +++ b/dependencies.cmake
-@@ -87,23 +87,6 @@ else()
+@@ -88,23 +88,6 @@ else()
  
      endif()
  
