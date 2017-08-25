@@ -15,7 +15,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-cryptography \
 	${PYTHON_PN}-idna \
 	${PYTHON_PN}-certifi \
-	${PYTHON_PN}-ipaddress \
 	${PYTHON_PN}-pysocks \
 "
 
