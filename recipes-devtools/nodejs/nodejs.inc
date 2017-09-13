@@ -37,6 +37,8 @@ def get_nodejs_arch(d):
 
 NODEJS_ARCH = "${@get_nodejs_arch(d)}"
 
+DISABLE_STATIC = ""
+
 EXTRA_OECONF += "\
 	--without-snapshot \
 	--shared-openssl \
@@ -54,7 +56,6 @@ do_configure () {
 		--prefix=${prefix} \
 		--dest-cpu="${NODEJS_ARCH}" \
 		--dest-os=linux \
-        	${ARCHFLAGS} \
 		${EXTRA_OECONF}
 }
 
