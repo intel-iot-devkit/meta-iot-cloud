@@ -6,7 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=2ee41112a44fe7014dce33e26468ba93"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-argparse \
+	${PYTHON_PN}-contextlib \
 "
+
+PR = "r1"
 
 SRC_NAME = "argcomplete"
 
