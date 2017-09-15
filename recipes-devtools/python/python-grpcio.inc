@@ -1,4 +1,15 @@
-require recipes-support/grpc/grpc.inc
+DESCRIPTION = "HTTP/2-based RPC framework"
+AUTHOR = "The gRPC Authors"
+HOMEPAGE = "https://grpc.io"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=dc0d1d7d86350a5c51c835e3cea3f896"
+
+SRC_URI = "gitsm://github.com/grpc/grpc.git;branch=v1.4.x"
+SRCREV = "b108847dd613d324ebe69438171a8808ca030acc"
+
+PV = "1.4.3"
+
+S = "${WORKDIR}/git"
 
 DEPENDS += "\
 	${PYTHON_PN}-cython-native \
