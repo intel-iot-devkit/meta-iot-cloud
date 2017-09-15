@@ -1,6 +1,6 @@
-DESCRIPTION = "IBM Internet of Things Foundation Client for Python"
+DESCRIPTION = "Python Client for IBM Watson IoT Platform"
 AUTHOR = "David Parker"
-HOMEPAGE = "https://github.com/ibm-messaging/iot-python"
+HOMEPAGE = "https://github.com/ibm-watson-iot/iot-python"
 LICENSE = "EPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
@@ -25,6 +25,6 @@ RDEPENDS_${PN} += "\
 "
 
 SRC_URI = "git://github.com/ibm-watson-iot/iot-python.git"
-SRCREV = "8a680417032b4de70ed34bc7fa278f710577cc38"
+SRCREV = "e6f81c7b1bd5d208bae738b864ac885e2f4faf88"
 
 S = "${WORKDIR}/git"
