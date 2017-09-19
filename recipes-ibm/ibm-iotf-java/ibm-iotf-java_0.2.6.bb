@@ -5,8 +5,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=30b3836521b3d65bef598bbc358a3afa"
 
 DEPENDS = "maven-native icedtea7-native"
 
-SRC_URI = "git://github.com/ibm-watson-iot/iot-java.git"
-SRCREV = "450dc69ebeb13fc0f7cd7b9d3cae5dad692e26db"
+SRC_URI = "\
+	git://github.com/ibm-watson-iot/iot-java.git \
+	file://0001-Fix-Paho-dependency.patch \
+"
+
+SRCREV = "e969d1a8206a6bc74958e7486105b70f1db3b25b"
 
 PR = "r0"
 
