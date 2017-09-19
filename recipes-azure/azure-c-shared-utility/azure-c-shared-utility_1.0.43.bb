@@ -22,14 +22,19 @@ RDEPENDS_${PN}-dev += "\
 inherit cmake
 
 SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git"
-SRCREV = "883b618258097a51bfd226386ca4f04751d11847"
+SRCREV = "942909698415cc0bd6483e063a2cfa8da626edc6"
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-staticdev ${PN}-dbg"
+PACKAGES = "\
+	${PN} \
+	${PN}-dev \
+	${PN}-staticdev \
+	${PN}-dbg \
+"
 
 EXTRA_OECMAKE = "-Dbuild_as_dynamic:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 

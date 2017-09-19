@@ -10,14 +10,18 @@ inherit cmake
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-umqtt-c.git \
 "
-SRCREV = "8758a2ddd36dabd6bca206993a2150202a818bf1"
+SRCREV = "b2b733ad7c7f609d4868c381f1d647abf431cbb0"
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
+PACKAGES = "\
+	${PN} \
+	${PN}-dev \
+	${PN}-dbg \
+"
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 

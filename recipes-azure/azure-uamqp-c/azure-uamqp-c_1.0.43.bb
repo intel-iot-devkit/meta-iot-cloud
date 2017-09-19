@@ -10,14 +10,18 @@ inherit cmake
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-uamqp-c.git \
 "
-SRCREV = "ce53717e3e5ecd2a7c673ed2d317fb4040a85e81"
+SRCREV = "48523f806b2e1b59bc19a5baf3502e9e20c9878e"
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-PACKAGES = "${PN} ${PN}-dev ${PN}-dbg"
+PACKAGES = "\
+	${PN} \
+	${PN}-dev \
+	${PN}-dbg \
+"
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
