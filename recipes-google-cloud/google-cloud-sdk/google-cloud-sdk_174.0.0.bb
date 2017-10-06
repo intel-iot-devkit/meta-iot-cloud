@@ -13,8 +13,8 @@ RDEPENDS_${PN} = "\
 
 # Releases: https://console.cloud.google.com/storage/browser/cloud-sdk-release/
 SRC_URI = "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${PN}-${PV}-linux-x86_64.tar.gz"
-SRC_URI[md5sum] = "790fc9bad840b5d784e2a286e8313f4c"
-SRC_URI[sha256sum] = "261bc89bd2306d6bef9185fd0a2241f0f64b1a86a04eb3e12c38d883bfabe70b"
+SRC_URI[md5sum] = "edbc21b4e7a1ebe78dea28e68e719475"
+SRC_URI[sha256sum] = "b8e6520aa071d59b31d4477e81be5d240205c5307f6b0072765c827a7d969b58"
 
 PR = "r0"
 
@@ -23,7 +23,6 @@ S = "${WORKDIR}/${PN}"
 # Default packages
 PACKAGES = "\
 	${PN} \
-	${PN}-doc \
 "
 
 do_compile[noexec] = "1"
@@ -49,7 +48,6 @@ do_install() {
 	install -d ${D}${bindir}
 	install -d ${D}${libdir}/${PN}
 	install -d ${D}${sysconfdir}/bash_completion.d
-	install -d ${D}${mandir}
 
 	install -m 0644 ${S}/completion.bash.inc ${D}${libdir}/${PN}
 	install -m 0644 ${S}/properties ${D}${libdir}/${PN}
@@ -69,17 +67,10 @@ do_install() {
 	ln -s ${libdir}/${PN}/bin/gcloud ${D}${bindir}/gcloud
 	ln -s ${libdir}/${PN}/bin/git-credential-gcloud.sh ${D}${bindir}/git-credential-gcloud.sh
 	ln -s ${libdir}/${PN}/bin/gsutil ${D}${bindir}/gsutil
-
-	# Documentation
-	cp -r ${S}/help/man/* ${D}${mandir}
 }
 
 FILES_${PN} = "\
 	${bindir} \
 	${libdir}/${PN} \
 	${sysconfdir}/bash_completion.d \
-"
-
-FILES_${PN}-doc = "\
-	${mandir} \
 "
