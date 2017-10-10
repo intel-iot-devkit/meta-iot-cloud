@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Interactive Shell"
 
-PV = "0.3.6"
+PV = "0.3.10"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -12,6 +12,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-six \
 "
 
-SRCREV = "e6a6fd66529389f52ae4b068c27b5f492942a4fc"
+SRCREV = "d897a1578b8cb4ec1a614431d83dabc998e5302e"
 
 SRC_DIR = "src/command_modules/azure-cli-interactive"

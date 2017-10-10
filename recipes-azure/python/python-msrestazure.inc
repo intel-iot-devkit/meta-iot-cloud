@@ -15,7 +15,7 @@ PR = "r0"
 SRC_NAME = "msrestazure-for-python"
 
 SRC_URI = "git://github.com/Azure/${SRC_NAME}.git"
-SRCREV = "3fa7f580a5694e4f0cd1cacf9b5d3d5321296d41"
+SRCREV = "bfb9f4c7ee89eb47d4d7f2502a220b8d7e00c7b0"
 
 S = "${WORKDIR}/git"
 

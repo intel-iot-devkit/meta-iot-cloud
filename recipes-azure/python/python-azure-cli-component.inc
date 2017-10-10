@@ -1,14 +1,14 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Component Command Module"
 
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f74e59e099e328d80285c9eba6d4a53f"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8119811f845dd3fd268c9a7a144793c5"
 
-PV = "2.0.6"
+PV = "2.0.7"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "0dd781dbcfc2abf331c025acd6e9ff2dc5975821"
+SRCREV = "bc1055d1ada07c20f3068eda20f53fa0868bbda6"
 
 SRC_DIR = "src/command_modules/azure-cli-component"

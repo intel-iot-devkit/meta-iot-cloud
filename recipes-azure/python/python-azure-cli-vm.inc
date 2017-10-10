@@ -1,9 +1,10 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools VM Command Module"
 
-PV = "2.0.10"
+PV = "2.0.16"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
+	${PYTHON_PN}-azure-mgmt-authorization \
 	${PYTHON_PN}-azure-mgmt-compute \
 	${PYTHON_PN}-azure-mgmt-keyvault \
 	${PYTHON_PN}-azure-keyvault \
@@ -13,6 +14,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "d8575d17bdf0ffb9ac17d517aafce2c100eb1b79"
+SRCREV = "8aac031090e6d3b80e5b669b8a16532b4ceaa3b3"
 
 SRC_DIR = "src/command_modules/azure-cli-vm"

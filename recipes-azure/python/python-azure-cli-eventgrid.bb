@@ -1,3 +1,3 @@
 inherit setuptools
-require python-azure-cli-sf.inc
+require python-azure-cli-eventgrid.inc
 require azure-cli-command-modules.inc

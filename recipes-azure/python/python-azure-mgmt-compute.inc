@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Compute Resource Management Client Library for Python"
 
-PV = "2.0.0"
+PV = "3.0.1"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,7 +8,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "7b4e427ac21257ef972155cd9be5a51fc6d223cb"
+SRCREV = "06c79c78859f27206f0f9a3ed5ffdf904167097a"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/compute/* \

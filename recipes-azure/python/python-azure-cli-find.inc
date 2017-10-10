@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Find Command Module"
 
-PV = "0.2.6"
+PV = "0.2.7"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,6 +8,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-whoosh \
 "
 
-SRCREV = "7e2184a302560e9db30092a95e08b0518a07f22a"
+SRCREV = "643e96476672f3bcc8aa793d5fa6e9ecc198081c"
 
 SRC_DIR = "src/command_modules/azure-cli-find"

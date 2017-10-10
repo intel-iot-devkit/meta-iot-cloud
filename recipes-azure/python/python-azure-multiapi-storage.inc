@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "\
 "
 
 SRC_URI = "git://github.com/Azure/azure-multiapi-storage-python.git"
-SRCREV = "b0242f38e11a9962f7e7254459d168fa71d13983"
+SRCREV = "d4329a838f7d2fa6f0dab584274fd1bd3e77bcc4"
 
 S = "${WORKDIR}/git"
 

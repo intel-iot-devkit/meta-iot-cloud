@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools AppService Command Module"
 
-PV = "0.1.10"
+PV = "0.1.18"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -13,6 +13,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-vsts-cd-manager \
 "
 
-SRCREV = "9f1b479a064a01cf4f0017441b41c0d2ee33e218"
+SRCREV = "5b6b2c09558fdbe46ce9ad48ab4437dc43d78cc2"
 
 SRC_DIR = "src/command_modules/azure-cli-appservice"

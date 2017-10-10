@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Cosmos DB Command Module"
 
-PV = "0.1.10"
+PV = "0.1.13"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-pydocumentdb \
 "
 
-SRCREV = "04a404d24719f690f226df4b621008bb32335ce0"
+SRCREV = "9b3bc6451fa58d8512390e0595ee4e46df34cef3"
 
 SRC_DIR = "src/command_modules/azure-cli-cosmosdb"

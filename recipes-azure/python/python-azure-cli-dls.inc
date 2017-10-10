@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Data Lake Store Command Module"
 
-PV = "0.0.10"
+PV = "0.0.15"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "014a2c0f9d4f3d23c44c13e75fef49de96d47790"
+SRCREV = "d6eb4e11a17137ff00769a69553379fa77881402"
 
 SRC_DIR = "src/command_modules/azure-cli-dls"

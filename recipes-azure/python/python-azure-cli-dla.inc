@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Data Lake Analytics Command Module"
 
-PV = "0.0.10"
+PV = "0.0.12"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "81fddb81fe1cd96a24d8f0ca6b1648a057b27225"
+SRCREV = "d2b92dfcf83f77e8584bb65f7d46446e30169c74"
 
 SRC_DIR = "src/command_modules/azure-cli-dla"

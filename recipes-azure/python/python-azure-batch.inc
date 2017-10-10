@@ -1,11 +1,11 @@
 DESCRIPTION = "Microsoft Azure Batch Client Library for Python"
 
-PV = "3.0.0"
+PV = "4.0.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-azure-common \
 "
 
 FILES_${PN} = "\
@@ -15,4 +15,4 @@ FILES_${PN} = "\
 
 SRC_DIR = "azure-batch"
 
-SRCREV = "66bdc0c1fbfd4c2c6f68ad26d55603e2ff2c7b73"
+SRCREV = "c801fad45ce3b089aa9037bc9270f754ea2815fa"

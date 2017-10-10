@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools IoT Command Module"
 
-PV = "0.1.9"
+PV = "0.1.12"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -9,6 +9,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "337dc767392754d96515837b0a3aae2488de14a9"
+SRCREV = "c94e524373a99f718e2a02361f46a9d81ae9f943"
 
 SRC_DIR = "src/command_modules/azure-cli-iot"

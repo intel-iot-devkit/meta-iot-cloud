@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Batch Management Client Library for Python"
 
-PV = "4.0.0"
+PV = "4.1.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,7 +8,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 "
 
-SRCREV = "66bdc0c1fbfd4c2c6f68ad26d55603e2ff2c7b73"
+SRCREV = "140dda2288fe9e2f3490d12ed53276af95c1d1cd"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/batch/* \

@@ -1,6 +1,6 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Billing Command Module"
 
-PV = "0.1.3"
+PV = "0.1.5"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
@@ -8,6 +8,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-cli-core \
 "
 
-SRCREV = "f27d0d7ad63384b29c8a61971830846cb6f089e7"
+SRCREV = "92f6f59c22f1ce44a0250103ba252989fb899ba6"
 
 SRC_DIR = "src/command_modules/azure-cli-billing"

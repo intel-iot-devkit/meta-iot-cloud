@@ -1,13 +1,14 @@
 DESCRIPTION = "Microsoft Azure Redis Cache Resource Management Client Library for Python"
 
-PV = "1.0.0"
+PV = "4.1.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "c0e7da5389a96b2ce17ea7813b8504381c377c80"
+SRCREV = "dfc54251bcd5f1592fe86e1d5f630c10f0367178"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/redis/* \

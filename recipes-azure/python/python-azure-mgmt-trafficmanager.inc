@@ -1,14 +1,14 @@
 DESCRIPTION = "Microsoft Azure Traffic Manager Client Library for Python"
 
-PV = "0.30.0"
+PV = "0.40.0"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-azure-common \
 "
 
-SRCREV = "0acbdaf956dfcb9e759fc90dd2929935e6c2c417"
+SRCREV = "d2b8d92fdaeff2c5650a298c322cd20ef117a1da"
 
 FILES_${PN} = "\
 	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/trafficmanager/* \
