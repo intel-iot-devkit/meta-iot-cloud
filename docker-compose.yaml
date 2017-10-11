@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+
+  main:
+    image: dnoliver/meta-iot-cloud
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+        - ftp_proxy
+    environment:
+      - http_proxy
+      - https_proxy
+      - no_proxy
+      - ftp_proxy
+      - PACKAGE=${PACKAGE:-edison-image}
+      - TIMEOUT=${TIMEOUT:-1800}
+      - BITBAKE_ARGS=${BITBAKE_ARGS:-build}
+    volumes:
+      - .:/usr/src/app/
+    command: bash -c "./scripts/prepare-workspace.sh && ./scripts/build-devkit.sh $PACKAGE"

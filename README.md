@@ -1,6 +1,9 @@
 meta-iot-cloud
 ==============
-OpenEmbedded layer to add support for multiple cloud service provider solutions.
+
+> OpenEmbedded layer to add support for multiple cloud service provider solutions.
+
+[![Build Status](https://travis-ci.org/intel-iot-devkit/meta-iot-cloud.svg?branch=master)](https://travis-ci.org/intel-iot-devkit/meta-iot-cloud)
 
 ## Supported Platforms
 * [IBM Bluemix](https://console.ng.bluemix.net/)
@@ -59,7 +62,7 @@ To build packages related to IBM Bluemix:
 ```shell
 	bitbake packagegroup-cloud-ibm
 ```
-	
+
 To build packages related to Amazon Web Services:
 ```shell
 	bitbake packagegroup-cloud-aws

@@ -1,0 +1,6 @@
+Dockerfile
+docker-compose.yaml
+.git
+LICENSE
+README.md
+workspace/
