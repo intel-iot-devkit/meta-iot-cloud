@@ -1,7 +1,7 @@
 DESCRIPTION = ".NET Core Runtime, SDK & CLI tools"
 HOMEPAGE = "https://www.microsoft.com/net/core"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4283671594edec4c13aeb073c219237a"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=42b611e7375c06a28601953626ab16cb"
 
 COMPATIBLE_HOST ?= "x86_64.*-linux"
 
