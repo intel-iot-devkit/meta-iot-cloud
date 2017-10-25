@@ -4,7 +4,7 @@ AUTHOR = "Google Assistant SDK Team"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${SRC_NAME}-${PV}.dist-info/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327"
 
-COMPATIBLE_MACHINE ?= "intel-corei7-64|intel-baytrail-64|qemux86-64"
+COMPATIBLE_HOST ?= "x86_64.*-linux"
 
 RDEPENDS_${PN} += " \
 	libasound \
