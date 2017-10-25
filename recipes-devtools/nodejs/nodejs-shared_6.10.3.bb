@@ -1,5 +1,9 @@
 require nodejs.inc
 
+PR = "r1"
+
+SRC_URI += "file://0001-Do-not-build-thin-archive.patch"
+
 EXTRA_OECONF += "--shared"
 
 do_install () {
