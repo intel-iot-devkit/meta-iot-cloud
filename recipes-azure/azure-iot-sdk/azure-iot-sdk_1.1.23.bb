@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 inherit cmake python-dir
 
+RPROVIDES_nativesdk-${PN} += "nativesdk-azure-iot-sdk-c"
+RPROVIDES_nativesdk-${PN}-dev += "nativesdk-azure-iot-sdk-c-dev"
 RPROVIDES_${PN} += "azure-iot-sdk-c"
 RPROVIDES_${PN}-dev += "azure-iot-sdk-c-dev"
 
@@ -97,3 +99,5 @@ FILES_python-${PN} += "\
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_python-${PN} += "rpaths"
+
+BBCLASSEXTEND = "native nativesdk"

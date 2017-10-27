@@ -58,3 +58,5 @@ FILES_${PN}-dev += "\
 FILES_${PN}-dbg += "${libdir}/.debug"
 
 RRECOMMENDS_azure-c-shared-utility-dev[nodeprrecs] = "1"
+
+BBCLASSEXTEND = "native nativesdk"
