@@ -14,7 +14,11 @@ DEPENDS = "\
 
 INC_PR = "r0"
 
-SRC_URI = "git://github.com/nodejs/node.git;branch=v6.x"
+SRC_URI = "\
+	git://github.com/nodejs/node.git;branch=v6.x \
+	file://Add-mips64-support.patch \
+"
+
 SRCREV = "a0bfd4f5a09d1dc2d6d4efb6f21594ec0b39650f"
 
 S = "${WORKDIR}/git"
@@ -39,6 +43,10 @@ NODEJS_ARCH = "${@get_nodejs_arch(d)}"
 
 DISABLE_STATIC = ""
 
+ARCH_SETTINGS ?= ""
+ARCH_SETTINGS_mips64 = "--with-mips-arch-variant=r2"
+ARCH_SETTINGS_mips64el = "--with-mips-arch-variant=r2"
+
 EXTRA_OECONF += "\
 	--without-snapshot \
 	--shared-openssl \
@@ -47,6 +55,7 @@ EXTRA_OECONF += "\
 	--shared-cares \
 	--shared-http-parser \
 	--with-intl=system-icu \
+	${ARCH_SETTINGS} \
 "
 
 do_configure () {
