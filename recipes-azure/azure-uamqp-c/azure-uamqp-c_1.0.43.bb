@@ -41,3 +41,5 @@ FILES_${PN}-dev += "\
 "
 
 FILES_${PN}-dbg += "${libdir}/.debug"
+
+BBCLASSEXTEND = "native nativesdk"

@@ -23,4 +23,4 @@ do_install() {
 	install -m 0644 ${S}/*.h ${D}${includedir}
 }
 
-BBCLASSEXTEND = "native"
+BBCLASSEXTEND = "native nativesdk"
