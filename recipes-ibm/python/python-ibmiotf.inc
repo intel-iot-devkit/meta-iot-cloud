@@ -25,6 +25,6 @@ RDEPENDS_${PN} += "\
 "
 
 SRC_URI = "git://github.com/ibm-watson-iot/iot-python.git"
-SRCREV = "e6f81c7b1bd5d208bae738b864ac885e2f4faf88"
+SRCREV = "1b137c24d058363d6932bbc14a0572ab93d69b2c"
 
 S = "${WORKDIR}/git"

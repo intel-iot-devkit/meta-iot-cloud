@@ -8,9 +8,9 @@ DEPENDS = "nodejs-native"
 RDEPENDS_${PN} = "bash node-red"
 
 SRC_URI = "git://github.com/ibm-watson-iot/node-red-contrib-ibm-watson-iot.git"
-SRCREV = "5dafdaa723d135956da104ebbf780457c8737356"
+SRCREV = "53ebf7d58def7d05a26b5f3b6c0e370149296b3f"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 
