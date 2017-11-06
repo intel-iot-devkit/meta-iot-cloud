@@ -3,7 +3,7 @@ meta-iot-cloud
 OpenEmbedded layer to add support for multiple cloud service provider solutions.
 
 ## Supported Platforms
-* [IBM Bluemix](https://console.ng.bluemix.net/)
+* [IBM Cloud](https://www.ibm.com/cloud/)
 * [Amazon Web Services](https://aws.amazon.com/)
 * [Microsoft Azure](https://azure.microsoft.com/)
 * [Google Cloud Platform](https://cloud.google.com/)
@@ -55,7 +55,7 @@ Configuration
 
 Usage
 =====
-To build packages related to IBM Bluemix:
+To build packages related to IBM Cloud:
 ```shell
 	bitbake packagegroup-cloud-ibm
 ```
