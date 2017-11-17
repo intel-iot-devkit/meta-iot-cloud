@@ -8,6 +8,7 @@ DEPENDS = "nodejs-native"
 
 RDEPENDS_${PN} += "\
 	nodejs \
+	node-upm \
 "
 
 RPROVIDES_${PN} += "node-red-node-upm"
