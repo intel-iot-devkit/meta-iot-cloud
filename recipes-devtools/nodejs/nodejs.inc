@@ -12,6 +12,15 @@ DEPENDS = "\
 	icu \
 "
 
+RDEPENDS_${PN}-dev = "\
+	openssl-dev \
+	zlib-dev \
+	c-ares-dev \
+	libuv-dev \
+	http-parser-dev \
+	icu-dev \
+"
+
 INC_PR = "r0"
 
 SRC_URI = "\

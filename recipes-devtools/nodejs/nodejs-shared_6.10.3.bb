@@ -1,6 +1,6 @@
 require nodejs.inc
 
-PR = "r1"
+PR = "r2"
 
 SRC_URI += "file://Do-not-build-thin-archive.patch"
 
@@ -21,3 +21,5 @@ FILES_${PN}-dbg = "\
 	${libdir}/.debug \
 	${exec_prefix}/src/debug \
 "
+
+RRECOMMENDS_nodejs-shared-dev[nodeprrecs] = "1"

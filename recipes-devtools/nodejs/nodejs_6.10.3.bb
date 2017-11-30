@@ -3,7 +3,7 @@ require nodejs.inc
 PROVIDES = "node"
 RPROVIDES_${PN} = "node"
 
-PR = "r0"
+PR = "r1"
 
 do_install () {
 	oe_runmake install DESTDIR=${D}
@@ -42,3 +42,5 @@ FILES_${PN}-npm = "\
 
 PACKAGES =+ "${PN}-systemtap"
 FILES_${PN}-systemtap = "${datadir}/systemtap"
+
+RRECOMMENDS_nodejs-dev[nodeprrecs] = "1"
