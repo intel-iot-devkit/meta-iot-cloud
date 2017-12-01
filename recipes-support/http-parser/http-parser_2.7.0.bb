@@ -10,6 +10,10 @@ PR = "r1"
 
 S = "${WORKDIR}/git"
 
+EXTRA_OEMAKE = "\
+    'CFLAGS=${CFLAGS} -Wno-implicit-fallthrough' \
+"
+
 do_configure[noexec] = "1"
 
 do_compile() {
