@@ -41,7 +41,12 @@ PACKAGES = "\
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 
-do_install() {
+python do_install () {
+    bb.build.exec_func("shell_do_install", d)
+    oe.path.make_relative_symlink(d.expand("${D}${bindir}/dotnet"))
+}
+
+shell_do_install() {
 	install -d ${D}${bindir}
 	install -d ${D}${datadir}/dotnet
 	install -d ${D}${datadir}/dotnet/host/fxr
@@ -55,11 +60,9 @@ do_install() {
 	cp -r ${S}/sdk/${SDK} ${D}${datadir}/dotnet/sdk
 	cp -r ${S}/host/fxr/${HOST_FXR} ${D}${datadir}/dotnet/host/fxr
 	cp -r ${S}/shared/Microsoft.NETCore.App/${SHARED_FRAMEWORK} ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
-	cp -r ${S}/store ${D}${datadir}/dotnet
-	cp -r ${S}/additionalDeps ${D}${datadir}/dotnet
 
 	# Symlinks
-	ln -s ${datadir}/dotnet/dotnet ${D}${bindir}/dotnet
+	ln -s ${D}${datadir}/dotnet/dotnet ${D}${bindir}/dotnet
 }
 
 FILES_${PN} = "\
@@ -71,9 +74,7 @@ FILES_${PN} = "\
 "
 
 FILES_${PN}-dev = "\
-	${datadir}/dotnet/additionalDeps \
 	${datadir}/dotnet/sdk \
-	${datadir}/dotnet/store \
 "
 
 RRECOMMENDS_dotnet-dev[nodeprrecs] = "1"
