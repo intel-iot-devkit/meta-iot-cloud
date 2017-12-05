@@ -48,7 +48,7 @@ shell_do_install() {
 	install -m 0644 ${S}/lib/*.license ${D}${libdir}/${PN}/lib/
 
 	install -d ${D}${bindir}
-	ln -sf ${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn
+	ln -sf ${D}${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn
 }
 
 FILES_${PN} = "\
