@@ -23,7 +23,12 @@ do_configure() {
     cp ${WORKDIR}/settings.xml ${S}/conf/settings.xml
 }
 
-do_install() {
+python do_install () {
+    bb.build.exec_func("shell_do_install", d)
+    oe.path.make_relative_symlink(d.expand("${D}${bindir}/mvn"))
+}
+
+shell_do_install() {
 	install -d ${D}${libdir}/${PN}/bin
 	install -m 0755 ${S}/bin/mvn ${D}${libdir}/${PN}/bin/
 	install -m 0755 ${S}/bin/mvnDebug ${D}${libdir}/${PN}/bin/
@@ -43,7 +48,7 @@ do_install() {
 	install -m 0644 ${S}/lib/*.license ${D}${libdir}/${PN}/lib/
 
 	install -d ${D}${bindir}
-	ln -sf ${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn 
+	ln -sf ${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn
 }
 
 FILES_${PN} = "\
