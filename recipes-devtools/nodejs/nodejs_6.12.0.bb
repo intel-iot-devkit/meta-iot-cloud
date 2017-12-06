@@ -3,7 +3,7 @@ require nodejs.inc
 PROVIDES = "node"
 RPROVIDES_${PN} = "node"
 
-PR = "r1"
+PR = "r0"
 
 do_install () {
 	oe_runmake install DESTDIR=${D}

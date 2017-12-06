@@ -1,7 +1,9 @@
 DESCRIPTION = "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine"
 HOMEPAGE = "http://nodejs.org"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=41a3a0ccf7f515cac3377389dd8faac8"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=14152103612601231d62308345463670"
+
+inherit pkgconfig
 
 DEPENDS = "\
 	openssl (>= 1.0.2%) \
@@ -24,11 +26,8 @@ RDEPENDS_${PN}-dev = "\
 INC_PR = "r0"
 
 SRC_URI = "\
-	git://github.com/nodejs/node.git;branch=v6.x \
-	file://Add-mips64-support.patch \
+	git://github.com/nodejs/node.git;branch=v6.x;tag=v${PV} \
 "
-
-SRCREV = "a0bfd4f5a09d1dc2d6d4efb6f21594ec0b39650f"
 
 S = "${WORKDIR}/git"
 

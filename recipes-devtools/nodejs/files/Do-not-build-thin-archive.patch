@@ -12,7 +12,7 @@ diff --git a/common.gypi b/common.gypi
 index af9c6ba..7a7bb89 100644
 --- a/common.gypi
 +++ b/common.gypi
-@@ -275,8 +275,7 @@
+@@ -284,8 +291,7 @@
          'cflags_cc': [ '-fno-rtti', '-fno-exceptions', '-std=gnu++0x' ],
          'ldflags': [ '-rdynamic' ],
          'target_conditions': [

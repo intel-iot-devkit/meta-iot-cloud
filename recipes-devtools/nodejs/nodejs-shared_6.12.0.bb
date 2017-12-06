@@ -1,6 +1,6 @@
 require nodejs.inc
 
-PR = "r2"
+PR = "r0"
 
 SRC_URI += "file://Do-not-build-thin-archive.patch"
 
