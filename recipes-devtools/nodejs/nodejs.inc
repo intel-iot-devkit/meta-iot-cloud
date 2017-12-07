@@ -78,7 +78,7 @@ do_configure () {
 
 do_compile () {
 	export LD="${CXX}"
-	oe_runmake BUILDTYPE=Release
+	oe_runmake -C out node BUILDTYPE=Release
 }
 
 BBCLASSEXTEND = "native nativesdk"
