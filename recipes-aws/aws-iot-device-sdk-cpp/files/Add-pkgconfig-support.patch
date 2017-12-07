@@ -14,7 +14,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index a0a8890..6ec4b45 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -154,4 +154,6 @@ endif()
+@@ -175,4 +175,6 @@ endif()
  if(NOT MSVC)
      install(TARGETS aws-iot-sdk-cpp DESTINATION ${CMAKE_INSTALL_LIBDIR})
      install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/awsiotsdk)

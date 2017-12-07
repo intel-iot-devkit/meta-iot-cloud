@@ -18,7 +18,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 56218ec..858b2c8 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -52,13 +52,8 @@ else()
+@@ -54,13 +54,8 @@ else()
      add_library(${SDK_TARGET_NAME} "")
  endif()
  

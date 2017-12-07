@@ -2,7 +2,7 @@ DESCRIPTION = "SDK for connecting to AWS IoT from a device using C++"
 AUTHOR = "Amazon"
 HOMEPAGE = "https://github.com/aws/aws-iot-device-sdk-cpp"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=5c5f860bd5a8be2c5ff164136c27fbad"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=218aad61fa604dacf420e699fc7d8679"
 
 DEPENDS = "\
 	rapidjson \
@@ -19,20 +19,20 @@ RDEPENDS_${PN}-dev += "\
 inherit cmake pkgconfig
 
 SRC_URI = "\
-	git://github.com/aws/aws-iot-device-sdk-cpp.git \
-	file://0001-Add-C-as-a-build-language.patch \
-	file://0002-Skip-building-RapidJSON.patch \
-	file://0003-Add-option-to-disable-tests.patch \
-	file://0004-Add-option-to-build-samples.patch \
-	file://0005-Fix-cli-includes.patch \
-	file://0006-Packaging-fixes.patch \
-	file://0007-Add-pkgconfig-support.patch \
+	git://github.com/aws/${PN}.git;branch=master \
+	file://Skip-building-RapidJSON.patch \
+	file://Add-option-to-disable-tests.patch \
+	file://Add-option-to-build-samples.patch \
+	file://Fix-cli-includes.patch \
+	file://Packaging-fixes.patch \
+	file://Add-pkgconfig-support.patch \
 "
-SRCREV = "63e8ce25e6b282719d112f3f58966cc1e78d271b"
+
+SRCREV = "bf20603154eeda78f52d69eaf9c79189f0b603ea"
 
 PACKAGES += "${PN}-samples ${PN}-samples-src"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"

@@ -20,7 +20,7 @@ index 5738e5d..e814963 100644
  option(RUN_TESTS "Run unit and integration tests" OFF)
  
  ########################################
-@@ -137,15 +138,13 @@ if(RUN_TESTS)
+@@ -161,15 +162,13 @@ if(RUN_TESTS)
  	add_subdirectory(tests/unit)
  endif()
  

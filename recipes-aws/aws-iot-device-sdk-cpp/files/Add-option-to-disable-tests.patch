@@ -20,7 +20,7 @@ index 858b2c8..5738e5d 100644
  
  ########################################
  # Section : Common SDK Build setttings #
-@@ -131,9 +132,10 @@ if(UNIX)
+@@ -155,9 +155,10 @@ if(UNIX)
  	add_subdirectory(cli)
  endif()
  
