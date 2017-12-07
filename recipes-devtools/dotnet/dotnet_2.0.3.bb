@@ -23,15 +23,15 @@ RDEPENDS_${PN}_class-target += "\
 
 PR = "r0"
 
-SRC_URI =  "https://download.microsoft.com/download/7/3/A/73A3E4DC-F019-47D1-9951-0453676E059B/dotnet-sdk-2.0.2-linux-x64.tar.gz;downloadfilename=dotnet-${PV}.tar.gz"
-SRC_URI[md5sum] = "2894653e9465fa67dbddd9ec3ae3c47a"
-SRC_URI[sha256sum] = "2a9e0ed251a7f98a46473f694532acdc5a0960d32204e82315c38c1b29fdd317"
+SRC_URI =  "https://download.microsoft.com/download/D/7/2/D725E47F-A4F1-4285-8935-A91AE2FCC06A/dotnet-sdk-2.0.3-linux-x64.tar.gz;downloadfilename=dotnet-${PV}.tar.gz"
+SRC_URI[md5sum] = "add756a84292da3a04cbadfc514d2c69"
+SRC_URI[sha256sum] = "6c4223094b1e3e93a466c6d91d3aa1053a3b2aef99b63bf45023bda3fca1aede"
 
 S = "${WORKDIR}"
 
-HOST_FXR = "2.0.0"
-SHARED_FRAMEWORK = "2.0.0"
-SDK = "2.0.2"
+HOST_FXR = "2.0.3"
+SHARED_FRAMEWORK = "2.0.3"
+SDK = "2.0.3"
 
 PACKAGES = "\
 	${PN} \
