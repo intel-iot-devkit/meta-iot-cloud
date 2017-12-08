@@ -1,21 +1,23 @@
-From 479a1fd4749e9bb11960106c584c57af64ed299e Mon Sep 17 00:00:00 2001
+From 3db20a53f35f9d0413c312b46815f6b16fe0afa4 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Mon, 21 Aug 2017 11:13:14 +0100
-Subject: [PATCH 6/7] Packaging fixes
+Date: Fri, 8 Dec 2017 10:52:20 +0000
+Subject: [PATCH 4/5] Packaging fixes
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
- CMakeLists.txt | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ CMakeLists.txt      | 12 ++++++++----
+ awsiotsdk-cpp.pc.in | 11 +++++++++++
+ 2 files changed, 19 insertions(+), 4 deletions(-)
+ create mode 100644 awsiotsdk-cpp.pc.in
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e814963..a0a8890 100644
+index cb0ad9d..fa98c30 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,7 +1,9 @@
  cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
--project(aws-iot-sdk-cpp CXX)
-+project(aws-iot-sdk-cpp VERSION 1.3.0 LANGUAGES CXX)
+-project(aws-iot-sdk-cpp C CXX)
++project(aws-iot-sdk-cpp VERSION 1.3.0 LANGUAGES C CXX)
  option(BUILD_SHARED_LIBRARY "Build the library as a shared object, will build it as a static library otherwise" NO)
  
 +include(GNUInstallDirs)
@@ -23,7 +25,7 @@ index e814963..a0a8890 100644
  ######################################
  # Section : Disable in-source builds #
  ######################################
-@@ -49,7 +51,7 @@ endif()
+@@ -51,7 +53,7 @@ add_definitions(-DSDK_VERSION_STRING="1.3.0")
  set(SDK_TARGET_NAME aws-iot-sdk-cpp)
  if (BUILD_SHARED_LIBRARY)
      add_library(${SDK_TARGET_NAME} SHARED "")
@@ -32,7 +34,7 @@ index e814963..a0a8890 100644
  else()
      add_library(${SDK_TARGET_NAME} "")
  endif()
-@@ -173,6 +175,6 @@ endif()
+@@ -174,6 +176,8 @@ endif()
  # Section: Define Install Target #
  ##################################
  if(NOT MSVC)
@@ -40,7 +42,26 @@ index e814963..a0a8890 100644
 -    install(DIRECTORY include/ DESTINATION include)
 +    install(TARGETS aws-iot-sdk-cpp DESTINATION ${CMAKE_INSTALL_LIBDIR})
 +    install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/awsiotsdk)
++    configure_file (awsiotsdk-cpp.pc.in ${CMAKE_CURRENT_BINARY_DIR}/awsiotsdk-cpp.pc @ONLY)
++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/awsiotsdk-cpp.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
  endif()
+diff --git a/awsiotsdk-cpp.pc.in b/awsiotsdk-cpp.pc.in
+new file mode 100644
+index 0000000..0828942
+--- /dev/null
++++ b/awsiotsdk-cpp.pc.in
+@@ -0,0 +1,11 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=@CMAKE_INSTALL_PREFIX@
++libdir=@CMAKE_INSTALL_LIBDIR@
++includedir=@CMAKE_INSTALL_INCLUDEDIR@/awsiotsdk
++
++Name: awsiotsdk-cpp
++Description: SDK for connecting to AWS IoT from a device using C++
++Version: @PROJECT_VERSION@
++
++Libs: -L${libdir} -laws-iot-sdk-cpp
++Cflags: -I${includedir}
 -- 
 1.9.1
 

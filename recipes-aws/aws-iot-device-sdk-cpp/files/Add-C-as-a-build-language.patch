@@ -1,7 +1,7 @@
-From 9637b5f90908269850a082b200b7e8e5fd040f3b Mon Sep 17 00:00:00 2001
+From ec1e8828ce3067d6902c04a75952a3535292040c Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Mon, 21 Aug 2017 10:43:50 +0100
-Subject: [PATCH 1/7] Add C as a build language
+Date: Fri, 8 Dec 2017 10:41:10 +0000
+Subject: [PATCH 1/5] Add C as a build language
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
@@ -15,7 +15,7 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  7 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6362809..56218ec 100644
+index ad8a4e1..9df255f 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,5 +1,5 @@

@@ -20,12 +20,11 @@ inherit cmake pkgconfig
 
 SRC_URI = "\
 	git://github.com/aws/${PN}.git;branch=master \
-	file://Skip-building-RapidJSON.patch \
-	file://Add-option-to-disable-tests.patch \
-	file://Add-option-to-build-samples.patch \
-	file://Fix-cli-includes.patch \
+	file://Add-C-as-a-build-language.patch \
+	file://Add-build-options-for-tests-and-samples.patch \
+	file://Fix-CLI-includes.patch \
 	file://Packaging-fixes.patch \
-	file://Add-pkgconfig-support.patch \
+	file://Skip-building-RapidJSON.patch \
 "
 
 SRCREV = "bf20603154eeda78f52d69eaf9c79189f0b603ea"

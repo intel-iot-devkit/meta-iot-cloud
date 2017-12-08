@@ -1,7 +1,7 @@
-From cf7afb68708ef707ddc3ba22e2f7b498657f52d0 Mon Sep 17 00:00:00 2001
+From 589e2395d189209aa509c31b844dd3a34b907b55 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Mon, 21 Aug 2017 10:48:03 +0100
-Subject: [PATCH 2/7] Skip building RapidJSON
+Date: Fri, 8 Dec 2017 10:55:57 +0000
+Subject: [PATCH 5/5] Skip building RapidJSON
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
@@ -15,10 +15,10 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  7 files changed, 2 insertions(+), 13 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 56218ec..858b2c8 100644
+index fa98c30..128cb46 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -54,13 +54,8 @@ else()
+@@ -58,13 +58,8 @@ else()
      add_library(${SDK_TARGET_NAME} "")
  endif()
  
@@ -32,8 +32,8 @@ index 56218ec..858b2c8 100644
 +# Include rapidjson, not optional
 +find_package(RapidJSON REQUIRED)
  
- # Get Common SDK Sources
- file(GLOB_RECURSE SDK_SOURCES FOLLOW_SYMLINKS ${PROJECT_SOURCE_DIR}/src/*.cpp)
+ # Download sanitizers, optional
+ if (SANITIZE_THREAD OR SANITIZE_ADDRESS OR SANITIZE_MEMORY OR SANITIZE_UNDEFINED)
 diff --git a/cli/CMakeLists.txt b/cli/CMakeLists.txt
 index dfa5040..d8c4308 100644
 --- a/cli/CMakeLists.txt
