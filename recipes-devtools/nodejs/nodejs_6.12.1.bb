@@ -1,9 +1,12 @@
 require nodejs.inc
 
 PROVIDES = "node"
-RPROVIDES_${PN} = "node"
 
-PR = "r0"
+RPROVIDES_${PN} = "node"
+RREPLACES_${PN} = "node"
+RCONFLICTS_${PN} = "node"
+
+PR = "r1"
 
 do_install () {
 	oe_runmake install DESTDIR=${D}
