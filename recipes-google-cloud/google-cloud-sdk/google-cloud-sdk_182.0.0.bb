@@ -11,10 +11,9 @@ RDEPENDS_${PN} = "\
 	python-grpcio \
 "
 
-# Releases: https://console.cloud.google.com/storage/browser/cloud-sdk-release/
 SRC_URI = "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${PN}-${PV}-linux-x86_64.tar.gz"
-SRC_URI[md5sum] = "edbc21b4e7a1ebe78dea28e68e719475"
-SRC_URI[sha256sum] = "b8e6520aa071d59b31d4477e81be5d240205c5307f6b0072765c827a7d969b58"
+SRC_URI[md5sum] = "016ba1e10f8d916ab0e41402d39fe55d"
+SRC_URI[sha256sum] = "3cae8a7b021f3c9eaab6c0b59a1301eb7cda3a422e645b3b0c6ccfe89b1e0332"
 
 PR = "r0"
 
@@ -57,6 +56,7 @@ do_install() {
 
 	cp -r ${S}/.install ${D}${libdir}/${PN}
 	cp -r ${S}/bin ${D}${libdir}/${PN}
+	cp -r ${S}/data ${D}${libdir}/${PN}
 	cp -r ${S}/lib ${D}${libdir}/${PN}
 	cp -r ${S}/platform ${D}${libdir}/${PN}
 
