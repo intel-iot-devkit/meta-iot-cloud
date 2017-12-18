@@ -2,9 +2,9 @@ DESCRIPTION = "Microsoft Azure Batch Extended Features"
 AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/Azure/azure-batch-cli-extensions"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://License.txt;md5=8044bfe96e0a6b1824adf55d45c9873b"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f74e59e099e328d80285c9eba6d4a53f"
 
-PR = "r0"
+PR = "r1"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-msrestazure \
@@ -14,8 +14,8 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-mgmt-storage \
 "
 
-SRC_URI = "git://github.com/Azure/azure-data-lake-store-python.git"
-SRCREV = "d18e47dcbe4d1e9d7d6a9ecef72448abf6a5c325"
+SRC_URI = "git://github.com/Azure/azure-batch-cli-extensions.git"
+SRCREV = "49ceebfec6d8beb60e447328f869a65e102d1881"
 
 S = "${WORKDIR}/git"
 
