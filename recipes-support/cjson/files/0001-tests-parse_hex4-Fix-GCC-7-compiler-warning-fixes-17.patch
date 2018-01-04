@@ -1,0 +1,40 @@
+From bfbd8fe0d85f1dd21e508748fc10fc4c27cc51be Mon Sep 17 00:00:00 2001
+From: Max Bruckner <max@maxbruckner.de>
+Date: Sun, 4 Jun 2017 21:24:28 +0200
+Subject: [PATCH] tests/parse_hex4: Fix GCC 7 compiler warning (fixes #179)
+
+---
+ CMakeLists.txt     | 1 +
+ tests/parse_hex4.c | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 88484de..b1b705d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -41,6 +41,7 @@ if (ENABLE_CUSTOM_COMPILER_FLAGS)
+         -Wcomma
+         -Wdouble-promotion
+         -Wparentheses
++        -Wformat-overflow
+         )
+ endif()
+ 
+diff --git a/tests/parse_hex4.c b/tests/parse_hex4.c
+index 59b07ee..7115cba 100644
+--- a/tests/parse_hex4.c
++++ b/tests/parse_hex4.c
+@@ -31,8 +31,8 @@
+ static void parse_hex4_should_parse_all_combinations(void)
+ {
+     unsigned int number = 0;
+-    unsigned char digits_lower[5];
+-    unsigned char digits_upper[5];
++    unsigned char digits_lower[6];
++    unsigned char digits_upper[6];
+     /* test all combinations */
+     for (number = 0; number <= 0xFFFF; number++)
+     {
+-- 
+2.7.4
+
