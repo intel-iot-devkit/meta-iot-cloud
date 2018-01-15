@@ -10,17 +10,14 @@ PACKAGES = "${PN} ${PN}-samples"
 
 SRC_NAME = "aws-iot-device-sdk-python"
 
-SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
-SRCREV = "f1d03572a1e8c0d07dcd47c2060204c0a379930f"
+SRC_URI = "git://github.com/aws/${SRC_NAME}.git;tag=v${PV}"
 
 S = "${WORKDIR}/git"
 
 do_install_append() {
 	# Samples
 	install -d ${D}${datadir}/awsiotsdk/samples/python
-    	install -m 0755 ${S}/samples/basicPubSub/*.py ${D}${datadir}/awsiotsdk/samples/python/
-	install -m 0755 ${S}/samples/basicShadow/*.py ${D}${datadir}/awsiotsdk/samples/python/
-	install -m 0755 ${S}/samples/ThingShadowEcho/*.py ${D}${datadir}/awsiotsdk/samples/python/
+	cp -r ${S}/samples/* ${D}${datadir}/awsiotsdk/samples/python/
 }
 
 ## Samples ##
