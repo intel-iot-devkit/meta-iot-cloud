@@ -4,6 +4,10 @@ HOMEPAGE = "https://github.com/jaraco/keyring"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://README.rst;md5=5d684c83afc5669b0f4e6223015f55c4"
 
+DEPENDS = "\
+    ${PYTHON_PN}-setuptools-scm \
+"
+    
 SRC_NAME = "keyring"
 
 SRC_URI = "git://github.com/jaraco/${SRC_NAME}.git"
