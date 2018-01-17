@@ -63,7 +63,6 @@ PACKAGES = "\
 	${PN}-samples \
 	${PN}-samples-src \
 	${PN}-dotnetcore \
-	${PN}-java \
 	${PN}-nodejs \
 "
 
@@ -77,48 +76,14 @@ PACKAGES += "\
 	${PN}-samples-src-sqlite \
 "
 
-## Java ##
-def get_jdk_arch(d):
-    jdk_arch = d.getVar('TRANSLATED_TARGET_ARCH', True)
-
-    if jdk_arch == "x86-64":
-        jdk_arch = "amd64"
-    elif jdk_arch == "powerpc":
-        jdk_arch = "ppc"
-    elif jdk_arch == "powerpc64":
-        jdk_arch = "ppc64"
-    elif (jdk_arch == "i486" or jdk_arch == "i586" or jdk_arch == "i686"):
-        jdk_arch = "i386"
-
-    return jdk_arch
-
-def get_jdk_home(d):
-    jdk_home = d.getVar("STAGING_LIBDIR", True)
-    jdk_home += "/jvm/"
-
-    if os.path.exists(jdk_home):
-        for child in os.listdir(jdk_home):
-            test_path = os.path.join(jdk_home, child)
-            if os.path.isdir(test_path):
-                jdk_home = test_path
-                break
-
-    return jdk_home
-
-## Java ##
-JAVA_LIB_DIR = "${B}/bindings/java/"
-JDK_ARCH = "${@get_jdk_arch(d)}"
-JDK_HOME = "${@get_jdk_home(d)}"
-
 ## Node.JS ##
 NODE_LIB_DIR = "${B}/bindings/nodejs/"
 
 ## .NET Core ##
 DOTNET_LIB_DIR = "${B}/bindings/dotnetcore/"
 
-PACKAGECONFIG ??= "java nodejs dotnetcore bluetooth"
+PACKAGECONFIG ??= "nodejs dotnetcore bluetooth"
 
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8"
 PACKAGECONFIG[nodejs] = "-Denable_nodejs_binding:BOOL=ON, -Denable_nodejs_binding:BOOL=OFF, nodejs-native (>= 6.%) nodejs-shared (>= 6.%)"
 PACKAGECONFIG[dotnetcore] = "-Denable_dotnet_core_binding:BOOL=ON, -Denable_dotnet_core_binding:BOOL=OFF, dotnet-native"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
@@ -142,11 +107,6 @@ do_modules() {
 addtask do_modules after do_unpack before do_patch
 
 do_configure_prepend() {
-	# Java
-	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${JDK_HOME}"
-	fi
-
 	# Node.JS
 	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
 		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
@@ -161,11 +121,6 @@ do_configure_prepend() {
 }
 
 do_compile_prepend() {
-	# Java
-	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		export JAVA_HOME="${JDK_HOME}"
-	fi
-
 	# Node.JS
 	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
 		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
@@ -201,10 +156,6 @@ do_install() {
 	install -d ${D}${includedir}/azureiotedge/module_loaders
 	install -m 0644 ${S}/core/inc/module_loaders/dynamic_loader.h ${D}${includedir}/azureiotedge/module_loaders
 	install -m 0644 ${S}/proxy/outprocess/inc/module_loaders/*.h ${D}${includedir}/azureiotedge/module_loaders
-	
-	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
-		install -m 0644 ${S}/core/inc/module_loaders/java_loader.h ${D}${includedir}/azureiotedge/module_loaders
-	fi
 
 	# Native Proxy Gateway
 	install -d ${D}${libdir}
@@ -445,12 +396,6 @@ do_install() {
 	install -m 0644 ${S}/samples/sqlite_sample/src/sqlite_lin.json ${D}${exec_prefix}/src/azureiotedge/samples/sqlite/src/sqlite.json
 	install -m 0755 ${WORKDIR}/sqlite-sample.sh ${D}${exec_prefix}/src/azureiotedge/samples/sqlite/build.sh
 
-	# Java Binding
-	if [ -e ${JAVA_LIB_DIR} ]; then
-		install -d ${D}${libdir}/azureiotedge/bindings/java
-    		install -m 0755 ${JAVA_LIB_DIR}/libjava_module_host.so ${D}${libdir}/azureiotedge/bindings/java/
-	fi
-
 	# Node.JS Binding
 	if [ -e ${NODE_LIB_DIR} ]; then
 		install -d ${D}${libdir}/azureiotedge/bindings/nodejs
@@ -483,7 +428,6 @@ FILES_${PN}-dev += "\
 
 FILES_${PN}-dbg += "\
 	${libdir}/azureiotedge/bindings/dotnetcore/.debug \
-	${libdir}/azureiotedge/bindings/java/.debug \
 	${libdir}/azureiotedge/bindings/nodejs/.debug \
 	${libdir}/azureiotedge/modules/azure_functions/.debug \
 	${libdir}/azureiotedge/modules/ble/.debug \
@@ -578,10 +522,6 @@ FILES_${PN}-dotnetcore = "\
 	${libdir}/azureiotedge/bindings/dotnetcore/*.so \
 "
 
-FILES_${PN}-java = "\
-	${libdir}/azureiotedge/bindings/java/*.so \
-"
-
 FILES_${PN}-nodejs = "\
 	${libdir}/azureiotedge/bindings/nodejs/*.so \
 "
@@ -596,5 +536,4 @@ INSANE_SKIP_${PN}-samples += "rpaths libdir"
 INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
 INSANE_SKIP_${PN}-dotnetcore += "rpaths"
-INSANE_SKIP_${PN}-java += "rpaths"
 INSANE_SKIP_${PN}-nodejs += "rpaths"

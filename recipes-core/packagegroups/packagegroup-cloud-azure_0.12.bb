@@ -7,7 +7,7 @@ PR = "r2"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "c python java node-red cli"
+PACKAGECONFIG ??= "c python node-red cli"
 
 PACKAGECONFIG[c] = "\
 	, \
@@ -26,16 +26,6 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	${PYTHON_PN}-azure-iot-sdk \
-"
-
-PACKAGECONFIG[java] = "\
-	, \
-	, \
-	, \
-	azure-iot-edge-java \
-	azure-iot-edge-java-binding \
-	azure-iot-device-sdk-java \
-	azure-iot-device-sdk-java-samples \
 "
 
 PACKAGECONFIG[node-red] = "\
