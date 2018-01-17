@@ -79,8 +79,10 @@ FILES_${PN}-dev = "\
 
 RRECOMMENDS_dotnet-dev[nodeprrecs] = "1"
 
-INSANE_SKIP_${PN} = "already-stripped staticdev ldflags libdir"
+INSANE_SKIP_${PN} += "already-stripped staticdev ldflags libdir"
 INSANE_SKIP_${PN}-dev = "libdir"
+
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+INHIBIT_SYSROOT_STRIP = "1"
 
 BBCLASSEXTEND = "native"
