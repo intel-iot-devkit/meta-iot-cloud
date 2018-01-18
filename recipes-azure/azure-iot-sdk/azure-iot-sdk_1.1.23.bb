@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/Azure/azure-iot-sdk-c"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
-inherit cmake python-dir
+inherit cmake
 
 RPROVIDES_nativesdk-${PN} += "nativesdk-azure-iot-sdk-c"
 RPROVIDES_nativesdk-${PN}-dev += "nativesdk-azure-iot-sdk-c-dev"
@@ -19,8 +19,6 @@ DEPENDS = "\
 
 SRC_URI = "\
 	gitsm://github.com/Azure/azure-iot-sdk-python.git \
-	file://0001-Refactor-cmake-if-statements.patch \
-	file://0002-Only-run-tests-if-requested.patch \
 "
 SRCREV = "db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8"
 
@@ -37,11 +35,7 @@ PACKAGES = "\
 	${PN}-dev \
 	${PN}-staticdev \
 	${PN}-dbg \
-	python-${PN} \
 "
-
-PACKAGECONFIG ??= "python"
-PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_python:BOOL=OFF, ${PYTHON_PN} boost, boost-python"
 
 do_configure_prepend() {
 	cd ${S}
@@ -52,17 +46,6 @@ do_configure_prepend() {
 ## CMake ##
 OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
-
-do_install_append() {
-	# Python
-	if ${@bb.utils.contains('PACKAGECONFIG','python','true','false',d)}; then
-		install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-		oe_libinstall -C ${OUTDIR}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
-		oe_libinstall -C ${OUTDIR}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
-		rm ${D}${libdir}/iothub_client.so
-		rm ${D}${libdir}/iothub_service_client.so
-	fi
-}
 
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
@@ -89,15 +72,8 @@ FILES_${PN}-staticdev += "${libdir}/*.a"
 
 FILES_${PN}-dbg += "\
 	${libdir}/.debug \
-	${PYTHON_SITEPACKAGES_DIR}/.debug \
-"
-
-FILES_python-${PN} += "\
-	${PYTHON_SITEPACKAGES_DIR}/*.so \
 "
 
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
-
-INSANE_SKIP_python-${PN} += "rpaths"
 
 BBCLASSEXTEND = "native nativesdk"
