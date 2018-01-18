@@ -578,6 +578,9 @@ FILES_${PN}-dotnetcore = "\
 	${libdir}/azureiotedge/bindings/dotnetcore/*.so \
 "
 
+RDEPENDS_${PN}-java += "\
+    openjdk-8 \
+"
 FILES_${PN}-java = "\
 	${libdir}/azureiotedge/bindings/java/*.so \
 "
