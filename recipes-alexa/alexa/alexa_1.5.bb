@@ -2,7 +2,7 @@ DESCRIPTION = "This is a client for Amazon's Alexa service."
 AUTHOR = "AlexaPi Developers"
 HOMEPAGE = "https://github.com/alexa-pi/AlexaPi"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=5c5f860bd5a8be2c5ff164136c27fbad"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1d0e51f67100e3dc1a39b4653653a38c"
 
 inherit python-dir systemd
 
