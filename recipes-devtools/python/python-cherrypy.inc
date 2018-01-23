@@ -18,16 +18,10 @@ RPROVIDES_${PN} += "cherrypy"
 RREPLACES_${PN} += "cherrypy"
 RCONFLICTS_${PN} += "cherrypy"
 
-SRC_URI = "git://github.com/cherrypy/cherrypy.git"
-SRCREV = "5af46f1848d9a5c60c6b2978f31309b2b81ba697"
+SRC_URI = "git://github.com/cherrypy/cherrypy.git;tag=v${PV}"
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
-
-do_compile_prepend() {
-	# Fix-up setup script for older versions of setuptools
-	sed -i '119,121d' ${S}/setup.py
-}
 
 BBCLASSEXTEND = "native nativesdk"
