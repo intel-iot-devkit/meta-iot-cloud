@@ -19,6 +19,8 @@ SRCREV = "a731be362014d61630044c46495c5b750437ab88"
 
 PR = "r0"
 
+CLEANBROKEN = "1"
+
 S = "${WORKDIR}/git"
 
 BBCLASSEXTEND = "native nativesdk"
