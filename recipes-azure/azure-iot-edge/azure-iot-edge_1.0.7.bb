@@ -118,7 +118,7 @@ DOTNET_LIB_DIR = "${B}/bindings/dotnetcore/"
 
 PACKAGECONFIG ??= "java nodejs dotnetcore bluetooth"
 
-PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-8"
+PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-7"
 PACKAGECONFIG[nodejs] = "-Denable_nodejs_binding:BOOL=ON, -Denable_nodejs_binding:BOOL=OFF, nodejs-native (>= 6.%) nodejs-shared (>= 6.%)"
 PACKAGECONFIG[dotnetcore] = "-Denable_dotnet_core_binding:BOOL=ON, -Denable_dotnet_core_binding:BOOL=OFF, dotnet-native"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
