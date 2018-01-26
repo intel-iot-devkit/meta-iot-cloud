@@ -37,12 +37,6 @@ PACKAGES = "\
 	${PN}-dbg \
 "
 
-do_configure_prepend() {
-	cd ${S}
-	git config --global http.sslverify "false"
-	git submodule update --init --recursive
-}
-
 ## CMake ##
 OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
