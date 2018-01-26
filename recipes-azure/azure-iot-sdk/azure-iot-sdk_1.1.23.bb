@@ -45,7 +45,6 @@ PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_py
 
 do_configure_prepend() {
 	cd ${S}
-	git config --global http.sslverify "false"
 	git submodule update --init --recursive
 }
 
