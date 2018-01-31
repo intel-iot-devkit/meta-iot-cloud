@@ -1,0 +1,145 @@
+<!--
+Chart Tag Node
+Version 0.4
+
+Copyright (c) 2015 Intel Corp.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<script type="text/javascript">
+  RED.nodes.registerType('chart tag',{
+  category: 'function',
+  color: '#a6bbcf',
+  defaults: {
+  title: {value:"", required:true},
+  chartType: {value:"line", required:true},
+  dataSource: {value:"Local", required:true},
+  units: {value:""},
+  min: {value:""},
+  max: {value:""},
+  targetLow: {value:""},
+  targetHigh: {value:""},
+  priority: {value:""},
+  sourcePriority: {value:""},
+  ttl: {value:60, validate:RED.validators.number()},
+  points: {value:50, validate:RED.validators.number()}
+  },
+  inputs:1,
+  outputs:1,
+  icon: "hash.png",
+  label: function() {
+  return this.title||"chart tag";
+  },
+  oneditprepare: function() {
+  $("#node-input-chartType").change(function() {
+  var id = $("#node-input-chartType option:selected").val();
+  if (id == "text" || id == "led") {
+  $(".extended-chart-option").hide();
+  }
+  else {
+  $(".extended-chart-option").show();
+  }
+  });
+  $("#node-input-chartType").change();
+  }
+  });
+</script>
+
+<script type="text/x-red" data-template-name="chart tag">
+    <div class="form-row">
+        <label for="node-input-title"><i class="icon-tag"></i> Title</label>
+        <input type="text" id="node-input-title" placeholder="Title">
+    </div>
+    <div class="form-row">
+        <label for="node-input-chartType"><i class="fa fa-line-chart"></i> Type</label>
+	<select id="node-input-chartType" style="width:157px">
+	  <option value="line" selected>Line</option>
+	  <option value="gauge">Gauge</option>
+	  <option value="text">Status Text</option>
+	  <option value="led">LED</option>
+	</select>
+	&nbsp;&nbsp;<i class="fa fa-sort-amount-asc"></i> <span>Priority</span>
+        <input type="text" id="node-input-priority" style="width:80px">
+    </div>
+    <div class="form-row extended-chart-option">
+        <label for="node-input-units"><i class="icon-info-sign"></i> Units</label>
+        <input type="text" id="node-input-units">
+    </div>
+    <div class="form-row extended-chart-option">
+        <label for="node-input-min"><i class="icon-resize-full"></i> Range</label>
+        <input type="text" id="node-input-min" placeholder="Min" style="width:80px"> to 
+        <input type="text" id="node-input-max" placeholder="Max" style="width:80px">
+    </div>
+    <div class="form-row extended-chart-option">
+      <label for="node-input-targetLow"><i class="icon-resize-small"></i> Target</label>
+      <input type="text" id="node-input-targetLow" placeholder="Low" style="width:80px !important"> to
+      <input type="text" id="node-input-targetHigh" placeholder="High" style="width:80px !important">
+    </div>
+    <div class="form-row">
+      <label for="node-input-points"><i class="icon-map-marker"></i> Points</label>
+      <input type="text" id="node-input-points" placeholder="Number of Data Points" style="width:80px; margin-right:46px">
+      &nbsp;&nbsp;<i class="fa fa-clock-o"></i> <span>TTL (seconds)</span>
+      <input type="text" id="node-input-ttl" style="width:50px" placeholder="TTL">
+    </div>
+    <div class="form-row">
+      <label for="node-input-dataSource"><i class="icon-arrow-right"></i> Source</label>
+      <input type="text" id="node-input-dataSource" placeholder="Data Source" style="width:124px">
+      &nbsp;&nbsp;<i class="fa fa-sort-amount-asc"></i> <span>Source Priority</span>
+      <input type="text" id="node-input-sourcePriority" style="width:50px">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="chart tag">
+  <p>Takes the <b>msg.payload</b> and a collection of chart settings and outputs an object as the <b>msg.payload</b> that can be consumed by a charting solution.</p>
+  <p>The output <b>msg.payload</b> is an object with the following fields.</p>
+  <table class="node-info">
+    <tr>
+      <td>title</td><td>The title of the chart.</td>
+    </tr><tr>
+      <td>id</td><td>The title with underscores replacing any spaces. Example: If the title is "Refrigerator Temperature", the id will be "Refrigerator_Temperature".</td>
+    </tr><tr>
+      <td>chartType</td><td>The selected chart type. Examples: "line" or "gauge".</td>
+    </tr><tr>
+      <td>priority</td><td>The priority for this chart. This is useful when sorting multiple charts on a page.</td>
+    </tr><tr>
+      <td>datum</td><td>A timestamped data point in the form [&lt;timestamp&gt;, &lt;msg.payload&gt;]. The timestamp is the system time in milliseconds.</td>
+    </tr><tr>
+      <td>units</td><td>Optional units of measure.</td>
+    </tr><tr>
+      <td>min</td><td>The lower bound on the Range field, usually used to set the minimum value of the <i>y</i> axis.</td>
+    </tr><tr>
+      <td>max</td><td>The upper bound on the Range field, usually used to set the maximum value of the <i>y</i> axis.</td>
+    </tr><tr>
+      <td>targetLow</td><td>The lower bound on an "acceptable" range of data.</td>
+    </tr><tr>
+      <td>targetHigh</td><td>The upper bound on an "acceptable" range of data.</td>
+    </tr><tr>
+      <td>points</td><td>The number of data points to display. If left blank, the default is 50.</td>
+    </tr><tr>
+      <td>ttl</td><td>The time-to-live (TTL) in seconds for how long a data point is valid. If a sensor is being polled, this is usually ~2x the polling interval. Default: 60 seconds.</td>
+    </tr><tr>
+      <td>source</td><td>An additional tag to identify the source of the data. Examples: "Local" (default), "Cloud", "My Application".</td>
+    </tr><tr>
+      <td>sourcePriority</td><td>The priority of a data source. Useful when a given sensor value has multiple flows from various sources.</td>
+    </tr><tr>
+      <td>nodeID</td><td>Node-RED's unique identifier for this Chart Tag node.</td>
+    </tr>
+  </table>
+</script>

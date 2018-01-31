@@ -1,0 +1,18 @@
+[Unit]
+Description=Node-Red Web Service
+After=syslog.target network.target iot-dev-hub.service
+Wants=imraa.service
+
+[Service]
+EnvironmentFile=-/var/www/www-repo-gui/proxy_env
+ExecStart=/usr/bin/node /usr/lib/node_modules/node-red/red.js --flowFile flows_IoTGateway.json
+WorkingDirectory=/usr/lib/node_modules/node-red/
+Environment="HOME=/home/gwuser/"
+Environment="NODE_PATH=/usr/lib/node_modules"
+Environment="HDC_CONFIG_PK=6e6e6d2d323031352d686463"
+Environment="SB_CONFIG_PK=6e6e6d2d323031352d686463"
+Restart=on-failure
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

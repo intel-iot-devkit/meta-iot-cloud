@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", ENV{ID_MODEL}=="RH-USB", SYMLINK+="ttyRH-USB"
