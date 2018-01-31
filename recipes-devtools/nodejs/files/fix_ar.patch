@@ -1,0 +1,52 @@
+diff -ur a/tools/gyp/pylib/gyp/generator/make.py b/tools/gyp/pylib/gyp/generator/make.py
+--- a/tools/gyp/pylib/gyp/generator/make.py	2016-03-08 18:35:29.000000000 -0800
++++ b/tools/gyp/pylib/gyp/generator/make.py	2016-05-24 16:45:02.633265088 -0700
+@@ -144,6 +144,37 @@
+ quiet_cmd_link = LINK($(TOOLSET)) $@
+ cmd_link = $(LINK.$(TOOLSET)) $(GYP_LDFLAGS) $(LDFLAGS.$(TOOLSET)) -o $@ -Wl,--start-group $(LD_INPUTS) -Wl,--end-group $(LIBS)
+ 
++
++define libopenssl
++rm -f $(1) ; mkdir -p `dirname $(1)`
++$(foreach archive, $(filter %.o,$(2)), $(call create_archive, $1, $(archive)))
++endef
++
++define create_archive
++@printf "building $(2) now"
++$(AR.$(TOOLSET)) crs $(1) $(2)
++@printf "done"
++endef
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
+ # We support two kinds of shared objects (.so):
+ # 1) shared_library, which is just bundling together many dependent libraries
+ # into a link line.
+@@ -1584,8 +1615,7 @@
+         self.WriteDoCmd([self.output_binary], link_deps, 'alink_thin',
+                         part_of_all, postbuilds=postbuilds)
+       else:
+-        self.WriteDoCmd([self.output_binary], link_deps, 'alink', part_of_all,
+-                        postbuilds=postbuilds)
++        self.WriteMakeRule([self.output_binary], link_deps, actions = ['$(if $(filter libopenssl.a, $(notdir $@)),$(call libopenssl,$@,$(filter %.o,$^)),$(call do_cmd,alink))'])
+     elif self.type == 'shared_library':
+       self.WriteLn('%s: LD_INPUTS := %s' % (
+             QuoteSpaces(self.output_binary),
+Only in b/tools/gyp/pylib/gyp/generator: make.py~
