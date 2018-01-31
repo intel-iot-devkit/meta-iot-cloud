@@ -36,6 +36,7 @@ def get_nodejs_arch(d):
 
 ## NPM ##
 NODE_MODULES_DIR = "${prefix}/lib/node_modules/"
+NPM ?= "/usr/bin/env npm"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "http://registry.npmjs.org/"
 NPM_ARCH = "${@get_nodejs_arch(d)}"
@@ -47,9 +48,9 @@ do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 
 	cd ${SRC_DIR}
-	npm cache clear
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
-	npm prune --production
+	${NPM} cache clear
+	${NPM} --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+	${NPM} prune --production
 
 	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
 	find . -type f -name "switch-bench.js" -exec rm -f {} \;
