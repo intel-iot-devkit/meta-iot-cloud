@@ -1,0 +1,26 @@
+From cd3fab2f4457613a92f300b7afea469b714faa2f Mon Sep 17 00:00:00 2001
+From: Andrei Vasiliu <andrei.vasiliu@intel.com>
+Date: Thu, 21 Jan 2016 14:53:26 +0200
+Subject: [PATCH] Run bluetoothd with experimental option
+
+Signed-off-by: Andrei Vasiliu <andrei.vasiliu@intel.com>
+---
+ src/bluetooth.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/bluetooth.service.in b/src/bluetooth.service.in
+index 83e4732..1f33bd2 100644
+--- a/src/bluetooth.service.in
++++ b/src/bluetooth.service.in
+@@ -6,7 +6,7 @@ ConditionPathIsDirectory=/sys/class/bluetooth
+ [Service]
+ Type=dbus
+ BusName=org.bluez
+-ExecStart=@libexecdir@/bluetoothd
++ExecStart=@libexecdir@/bluetoothd -E
+ NotifyAccess=main
+ #WatchdogSec=10
+ #Restart=on-failure
+--
+1.9.1
+
