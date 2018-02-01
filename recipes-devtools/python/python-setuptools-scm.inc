@@ -12,7 +12,8 @@ RDEPENDS_${PN}_class-native = "\
 
 PR = "r0"
 
-SRC_URI = "git://github.com/pypa/setuptools_scm.git;tag=v${PV}"
+SRC_URI = "git://github.com/pypa/setuptools_scm.git"
+SRCREV = "a6f0878a67e6c2eb91ba4db1bbeb5f6c759bca00"
 
 S = "${WORKDIR}/git"
 
