@@ -35,6 +35,7 @@ def get_nodejs_arch(d):
     return target_arch
 
 NODE_MODULES_DIR = "${prefix}/lib/node_modules"
+NPM ?= "/usr/bin/env npm"
 NPM_CACHE_DIR ?= "${WORKDIR}/npm_cache"
 NPM_REGISTRY ?= "http://registry.npmjs.org/"
 NPM_ARCH = "${@get_nodejs_arch(d)}"
@@ -44,10 +45,10 @@ do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 	
 	# Clear cache
-	npm cache clear
+	${NPM} cache clear
 
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
-	npm prune --production
+	${NPM} --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+	${NPM} prune --production
 }
 
 do_install() {
