@@ -44,8 +44,8 @@ PACKAGECONFIG ??= "python"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_python:BOOL=OFF, ${PYTHON_PN} boost, boost-python"
 
 do_configure_prepend() {
-	cd ${S}
-	git submodule update --init --recursive
+	cd ${S}/c
+	git submodule update --init deps/parson
 }
 
 ## CMake ##
