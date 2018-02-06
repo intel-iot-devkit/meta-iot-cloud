@@ -4,9 +4,14 @@ HOMEPAGE = "https://github.com/Azure/azure-iot-sdk-java"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b9e5c622b55856e65ed6705a349a7ac7"
 
-DEPENDS = "maven-native icedtea7-native"
+DEPENDS = "\
+	maven-native \
+	icedtea7-native \
+"
 
-PR = "r0"
+RDEPENDS_${PN} += "java2-runtime"
+
+PR = "r1"
 
 SRC_URI = "\
     git://github.com/Azure/azure-iot-sdk-java.git \
