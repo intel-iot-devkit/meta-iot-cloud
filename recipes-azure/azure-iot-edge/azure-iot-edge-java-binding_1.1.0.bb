@@ -6,10 +6,17 @@ RPROVIDES_${PN} += "azure-iot-gateway-sdk-java-binding"
 RREPLACES_${PN} += "azure-iot-gateway-sdk-java-binding"
 RCONFLICTS_${PN} += "azure-iot-gateway-sdk-java-binding"
 
-DEPENDS = "maven-native icedtea7-native"
-RDEPENDS_${PN} = "azure-iot-edge-java"
+DEPENDS = "\
+	maven-native \
+	icedtea7-native \
+"
 
-PR = "r0"
+RDEPENDS_${PN} = "\
+	azure-iot-edge-java \
+	java2-runtime \
+"
+
+PR = "r1"
 
 JAVA_SRC_DIR = "${S}/bindings/java/gateway-java-binding"
 JAVA_JAR_DIR = "${JAVA_SRC_DIR}/target"
