@@ -6,14 +6,19 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=08528ae069cf72dbf7ee85efa7405c37"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-DEPENDS = "maven-native icedtea7-native"
+DEPENDS = "\
+	maven-native \
+	icedtea7-native \
+"
+
+RDEPENDS_${PN} += "java2-runtime"
 
 SRC_URI = "git://github.com/aws/${PN}.git \
 	   file://0001-build-with-deps.patch \
 "
 SRCREV = "5d9830bb21d167eea995dcad38e77ad6835adc7e"
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${S}/${PN}/target"
