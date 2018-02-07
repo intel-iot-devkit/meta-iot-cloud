@@ -1,7 +1,6 @@
 DESCRIPTION = "Azure IoT Edge"
 
 require azure-iot-edge.inc
-require azure-iot-edge-legacy.inc
 
 inherit cmake pkgconfig
 
@@ -64,7 +63,6 @@ PACKAGES = "\
 	${PN}-samples-src \
 	${PN}-dotnetcore \
 	${PN}-java \
-	${PN}-nodejs \
 "
 
 # Additional packages
@@ -110,16 +108,12 @@ JAVA_LIB_DIR = "${B}/bindings/java/"
 JDK_ARCH = "${@get_jdk_arch(d)}"
 JDK_HOME = "${@get_jdk_home(d)}"
 
-## Node.JS ##
-NODE_LIB_DIR = "${B}/bindings/nodejs/"
-
 ## .NET Core ##
 DOTNET_LIB_DIR = "${B}/bindings/dotnetcore/"
 
-PACKAGECONFIG ??= "java nodejs dotnetcore bluetooth"
+PACKAGECONFIG ??= "java dotnetcore bluetooth"
 
 PACKAGECONFIG[java] = "-Denable_java_binding:BOOL=ON -DJDK_ARCH=${JDK_ARCH}, -Denable_java_binding:BOOL=OFF, openjdk-7"
-PACKAGECONFIG[nodejs] = "-Denable_nodejs_binding:BOOL=ON, -Denable_nodejs_binding:BOOL=OFF, nodejs-native (>= 6.%) nodejs-shared (>= 6.%)"
 PACKAGECONFIG[dotnetcore] = "-Denable_dotnet_core_binding:BOOL=ON, -Denable_dotnet_core_binding:BOOL=OFF, dotnet-native"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
@@ -147,12 +141,6 @@ do_configure_prepend() {
 		export JAVA_HOME="${JDK_HOME}"
 	fi
 
-	# Node.JS
-	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
-		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
-		export NODE_LIB="${STAGING_LIBDIR}"
-	fi
-
 	# .NET Core
 	if ${@bb.utils.contains('PACKAGECONFIG','dotnetcore','true','false',d)}; then
 		sed -i 's|\${CMAKE_CURRENT_BINARY_DIR}/\.\.|${S}|g' ${S}/CMakeLists.txt		
@@ -164,12 +152,6 @@ do_compile_prepend() {
 	# Java
 	if ${@bb.utils.contains('PACKAGECONFIG','java','true','false',d)}; then
 		export JAVA_HOME="${JDK_HOME}"
-	fi
-
-	# Node.JS
-	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
-		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
-		export NODE_LIB="${STAGING_LIBDIR}"
 	fi
 
 	# .NET Core
@@ -451,12 +433,6 @@ do_install() {
     		install -m 0755 ${JAVA_LIB_DIR}/libjava_module_host.so ${D}${libdir}/azureiotedge/bindings/java/
 	fi
 
-	# Node.JS Binding
-	if [ -e ${NODE_LIB_DIR} ]; then
-		install -d ${D}${libdir}/azureiotedge/bindings/nodejs
-    		install -m 0755 ${NODE_LIB_DIR}/libnodejs_binding.so ${D}${libdir}/azureiotedge/bindings/nodejs/
-	fi
-
 	# .NET Core Binding
 	if [ -e ${DOTNET_LIB_DIR} ]; then
 		install -d ${D}${libdir}/azureiotedge/bindings/dotnetcore
@@ -484,7 +460,6 @@ FILES_${PN}-dev += "\
 FILES_${PN}-dbg += "\
 	${libdir}/azureiotedge/bindings/dotnetcore/.debug \
 	${libdir}/azureiotedge/bindings/java/.debug \
-	${libdir}/azureiotedge/bindings/nodejs/.debug \
 	${libdir}/azureiotedge/modules/azure_functions/.debug \
 	${libdir}/azureiotedge/modules/ble/.debug \
 	${libdir}/azureiotedge/modules/hello_world/.debug \
@@ -582,10 +557,6 @@ FILES_${PN}-java = "\
 	${libdir}/azureiotedge/bindings/java/*.so \
 "
 
-FILES_${PN}-nodejs = "\
-	${libdir}/azureiotedge/bindings/nodejs/*.so \
-"
-
 RRECOMMENDS_azure-iot-edge-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_${PN} += "rpaths"
@@ -597,4 +568,3 @@ INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
 INSANE_SKIP_${PN}-dotnetcore += "rpaths"
 INSANE_SKIP_${PN}-java += "rpaths"
-INSANE_SKIP_${PN}-nodejs += "rpaths"
