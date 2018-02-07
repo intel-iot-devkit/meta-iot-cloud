@@ -11,7 +11,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 ## Available Packages
 * `packagegroup-cloud-ibm`
     * ibm-iotf-embeddedc
-    * node-red-contrib-ibm-watson-iot
     * python-ibmiotf
 * `packagegroup-cloud-aws`
     * aws-iot-device-sdk-embedded-c
@@ -22,7 +21,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * azure-iot-edge
     * azure-iot-sdk
     * python-azure-iot-sdk
-    * node-red-contrib-azureiothubnode
     * node-iothub-explorer
     * python-azure-cli
 * `packagegroup-cloud-google`
