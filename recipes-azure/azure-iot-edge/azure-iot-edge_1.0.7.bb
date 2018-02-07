@@ -63,7 +63,6 @@ PACKAGES = "\
 	${PN}-samples \
 	${PN}-samples-src \
 	${PN}-dotnetcore \
-	${PN}-nodejs \
 "
 
 # Additional packages
@@ -76,15 +75,11 @@ PACKAGES += "\
 	${PN}-samples-src-sqlite \
 "
 
-## Node.JS ##
-NODE_LIB_DIR = "${B}/bindings/nodejs/"
-
 ## .NET Core ##
 DOTNET_LIB_DIR = "${B}/bindings/dotnetcore/"
 
-PACKAGECONFIG ??= "nodejs dotnetcore bluetooth"
+PACKAGECONFIG ??= "dotnetcore bluetooth"
 
-PACKAGECONFIG[nodejs] = "-Denable_nodejs_binding:BOOL=ON, -Denable_nodejs_binding:BOOL=OFF, nodejs-native (>= 6.%) nodejs-shared (>= 6.%)"
 PACKAGECONFIG[dotnetcore] = "-Denable_dotnet_core_binding:BOOL=ON, -Denable_dotnet_core_binding:BOOL=OFF, dotnet-native"
 PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
@@ -107,12 +102,6 @@ do_modules() {
 addtask do_modules after do_unpack before do_patch
 
 do_configure_prepend() {
-	# Node.JS
-	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
-		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
-		export NODE_LIB="${STAGING_LIBDIR}"
-	fi
-
 	# .NET Core
 	if ${@bb.utils.contains('PACKAGECONFIG','dotnetcore','true','false',d)}; then
 		sed -i 's|\${CMAKE_CURRENT_BINARY_DIR}/\.\.|${S}|g' ${S}/CMakeLists.txt		
@@ -121,12 +110,6 @@ do_configure_prepend() {
 }
 
 do_compile_prepend() {
-	# Node.JS
-	if ${@bb.utils.contains('PACKAGECONFIG','nodejs','true','false',d)}; then
-		export NODE_INCLUDE="${STAGING_INCDIR_NATIVE}/node"
-		export NODE_LIB="${STAGING_LIBDIR}"
-	fi
-
 	# .NET Core
 	if ${@bb.utils.contains('PACKAGECONFIG','dotnetcore','true','false',d)}; then
 		${S}/tools/build_dotnet_core.sh --config Release
@@ -396,12 +379,6 @@ do_install() {
 	install -m 0644 ${S}/samples/sqlite_sample/src/sqlite_lin.json ${D}${exec_prefix}/src/azureiotedge/samples/sqlite/src/sqlite.json
 	install -m 0755 ${WORKDIR}/sqlite-sample.sh ${D}${exec_prefix}/src/azureiotedge/samples/sqlite/build.sh
 
-	# Node.JS Binding
-	if [ -e ${NODE_LIB_DIR} ]; then
-		install -d ${D}${libdir}/azureiotedge/bindings/nodejs
-    		install -m 0755 ${NODE_LIB_DIR}/libnodejs_binding.so ${D}${libdir}/azureiotedge/bindings/nodejs/
-	fi
-
 	# .NET Core Binding
 	if [ -e ${DOTNET_LIB_DIR} ]; then
 		install -d ${D}${libdir}/azureiotedge/bindings/dotnetcore
@@ -428,7 +405,6 @@ FILES_${PN}-dev += "\
 
 FILES_${PN}-dbg += "\
 	${libdir}/azureiotedge/bindings/dotnetcore/.debug \
-	${libdir}/azureiotedge/bindings/nodejs/.debug \
 	${libdir}/azureiotedge/modules/azure_functions/.debug \
 	${libdir}/azureiotedge/modules/ble/.debug \
 	${libdir}/azureiotedge/modules/hello_world/.debug \
@@ -522,10 +498,6 @@ FILES_${PN}-dotnetcore = "\
 	${libdir}/azureiotedge/bindings/dotnetcore/*.so \
 "
 
-FILES_${PN}-nodejs = "\
-	${libdir}/azureiotedge/bindings/nodejs/*.so \
-"
-
 RRECOMMENDS_azure-iot-edge-dev[nodeprrecs] = "1"
 
 INSANE_SKIP_${PN} += "rpaths"
@@ -536,4 +508,3 @@ INSANE_SKIP_${PN}-samples += "rpaths libdir"
 INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
 INSANE_SKIP_${PN}-dotnetcore += "rpaths"
-INSANE_SKIP_${PN}-nodejs += "rpaths"
