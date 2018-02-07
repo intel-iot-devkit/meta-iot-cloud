@@ -15,8 +15,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
     * node-red-contrib-ibm-watson-iot
     * python-ibmiotf
 * `packagegroup-cloud-aws`
-    * aws-iot-device-sdk-embedded-c
-    * aws-iot-device-sdk-cpp
     * aws-iot-device-sdk-java
     * python-awscli
     * python-aws-iot-device-sdk
@@ -31,26 +29,13 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 * `packagegroup-cloud-google`
     * google-cloud-sdk
     * python-google-cloud
-* `node-red`
-* `node-red-contrib-upm`
-
-## Dependencies
-This layer depends on packages provided by the following layers:
-* `meta-openembedded` [http://cgit.openembedded.org/meta-openembedded/]
-* `meta-java` [http://git.yoctoproject.org/cgit/cgit.cgi/meta-java/]
 
 Configuration
 =============
-1. Clone the `meta-iot-cloud` layer to your project directory.
+1. Clone the `meta-iot-cloud` layer to your project directory and checkout the `intel-devkit` branch.
 2. Add the `meta-iot-cloud` layer to `conf/bblayers.conf`
 ```bitbake
 	BBLAYERS += "path/to/meta-iot-cloud"
-```
-3. Add dependency layers to `conf/bblayers.conf`
-```bitbake
-	BBLAYERS += "path/to/meta-openembedded/meta-oe"
-	BBLAYERS += "path/to/meta-openembedded/meta-python"
-	BBLAYERS += "path/to/meta-java"
 ```
 
 Usage
@@ -94,31 +79,4 @@ Installing on Intel Developer Kit Yocto based images (Edison, Galileo)
 mv /etc/opkg/iotkit.conf /etc/opkg/iotkit.conf.disable
 echo "src iot-cloud http://iotdk.intel.com/repos/iot-cloud/iotdk/3.5" > /etc/opkg/iot-cloud.conf
 opkg update
-```
-
-Installing on Wind River IDP XT 3 (x86)
----------------------------------------
-
-``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub2.key
-smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/wrlinux7/rcpl13/
-smart update
-```
-
-Installing on Wind River Pulsar Linux 7 (x86)
----------------------------------------------
-
-``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub2.key
-smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/pulsar/7/
-smart update
-```
-
-Installing on Wind River Pulsar Linux 8 (x86)
----------------------------------------------
-
-``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub2.key
-smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/pulsar/8/
-smart update
 ```
