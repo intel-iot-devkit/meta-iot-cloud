@@ -1,7 +1,6 @@
 DESCRIPTION = "Azure IoT Edge"
 
 require azure-iot-edge.inc
-require azure-iot-edge-legacy.inc
 
 inherit cmake pkgconfig
 
