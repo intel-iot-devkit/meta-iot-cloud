@@ -30,7 +30,6 @@ SRC_URI += "\
 
 SRC_URI += "\
 	file://azure-functions-sample.sh \
-	file://ble-gateway-sample.sh \
 	file://dynamically-add-module-sample.sh \
 	file://hello-world-sample.sh \
 	file://modbus-sample.sh \
@@ -39,7 +38,6 @@ SRC_URI += "\
 	file://simulated-device-cloud-upload-sample.sh \
 	file://sqlite-sample.sh \
 	file://azure-functions-module.sh \
-	file://ble-module.sh \
 	file://hello-world-module.sh \
 	file://identitymap-module.sh \
 	file://iothub-module.sh \
@@ -77,12 +75,11 @@ PACKAGES += "\
 ## .NET Core ##
 DOTNET_LIB_DIR = "${B}/bindings/dotnetcore/"
 
-PACKAGECONFIG ??= "dotnetcore bluetooth"
+PACKAGECONFIG ??= "dotnetcore"
 
 PACKAGECONFIG[dotnetcore] = "-Denable_dotnet_core_binding:BOOL=ON, -Denable_dotnet_core_binding:BOOL=OFF, dotnet-native"
-PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOOL=OFF, , bluez5"
 
-EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
+EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF -Denable_ble_module:BOOL=OFF"
 
 do_modules() {
 	# Modbus Module
@@ -120,12 +117,11 @@ do_install_prepend() {
 	find ${S}/samples -type f -name "*.json" -exec sed -i 's|\.\./\.\./modules|${libdir}/azureiotedge/modules|g' {} +
 	find ${S}/samples -type f -name "*.json" -exec sed -i 's|\./modules|${libdir}/azureiotedge/modules|g' {} +
 	find ${S}/samples -type f -name "*.json" -exec sed -i 's|build/modules|${libdir}/azureiotedge/modules|g' {} +
-	sed -i 's|build/samples/ble_gateway/ble_printer|\.|g' ${S}/samples/ble_gateway/src/*.json
 }
 
 do_install() {
-    	# Core
-    	install -d ${D}${libdir}
+    # Core
+    install -d ${D}${libdir}
 	install -m 0755 ${B}/core/libgateway.so ${D}${libdir}
 
 	install -d ${D}${includedir}/azureiotedge
@@ -173,28 +169,6 @@ do_install() {
 	install -m 0644 ${S}/modules/azure_functions/src/*.c ${D}${exec_prefix}/src/azureiotedge/modules/azure_functions/src/
 	install -m 0644 ${S}/modules/azure_functions/inc/*.h ${D}${exec_prefix}/src/azureiotedge/modules/azure_functions/inc/
 	install -m 0755 ${WORKDIR}/azure-functions-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/azure_functions/build.sh
-
-	# BLE Module
-	if [ -e ${B}/modules/ble/ ]; then
-		install -d ${D}${libdir}/azureiotedge/modules/ble
-		install -m 0755 ${B}/modules/ble/libble.so ${D}${libdir}/azureiotedge/modules/ble/
-		install -m 0755 ${B}/modules/ble/libble_c2d.so ${D}${libdir}/azureiotedge/modules/ble/
-
-		install -d ${D}${includedir}/azureiotedge/modules/ble
-		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${includedir}/azureiotedge/modules/ble
-		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${includedir}/azureiotedge/modules/ble
-
-		install -d ${D}${exec_prefix}/src/azureiotedge/modules/ble/src
-		install -d ${D}${exec_prefix}/src/azureiotedge/modules/ble/inc
-		install -d ${D}${exec_prefix}/src/azureiotedge/modules/ble/deps/dbus-bluez/src
-		install -d ${D}${exec_prefix}/src/azureiotedge/modules/ble/deps/dbus-bluez/inc
-		install -m 0644 ${S}/modules/ble/src/*.c ${D}${exec_prefix}/src/azureiotedge/modules/ble/src/
-		install -m 0644 ${S}/modules/ble/inc/*.h ${D}${exec_prefix}/src/azureiotedge/modules/ble/inc/
-		install -m 0644 ${S}/modules/ble/src/*.c ${D}${exec_prefix}/src/azureiotedge/modules/ble/src/
-		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/src/*.c ${D}${exec_prefix}/src/azureiotedge/modules/ble/deps/dbus-bluez/src/
-		install -m 0644 ${S}/modules/ble/deps/linux/dbus-bluez/inc/*.h ${D}${exec_prefix}/src/azureiotedge/modules/ble/deps/dbus-bluez/inc/
-		install -m 0755 ${WORKDIR}/ble-module.sh ${D}${exec_prefix}/src/azureiotedge/modules/ble/build.sh
-	fi
 
 	# Hello World Module
 	install -d ${D}${libdir}/azureiotedge/modules/hello_world
@@ -284,23 +258,6 @@ do_install() {
 	install -m 0644 ${S}/samples/azure_functions_sample/src/*.c ${D}${exec_prefix}/src/azureiotedge/samples/azure_functions/src/
 	install -m 0644 ${S}/samples/azure_functions_sample/src/azure_functions_lin.json ${D}${exec_prefix}/src/azureiotedge/samples/azure_functions/src/azure_functions.json
 	install -m 0755 ${WORKDIR}/azure-functions-sample.sh ${D}${exec_prefix}/src/azureiotedge/samples/azure_functions/build.sh
-
-	# BLE Gateway Sample
-	if [ -e ${B}/samples/ble_gateway/ ]; then
-		install -d ${D}${datadir}/azureiotedge/samples/ble_gateway
-		install -m 0755 ${B}/samples/ble_gateway/ble_gateway ${D}${datadir}/azureiotedge/samples/ble_gateway/ble_gateway
-		install -m 0644 ${B}/samples/ble_gateway/ble_printer/libble_printer.so ${D}${datadir}/azureiotedge/samples/ble_gateway/
-		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${datadir}/azureiotedge/samples/ble_gateway/ble_gateway.json
-
-		install -d ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/src
-		install -d ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/ble_printer/src
-		install -d ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/ble_printer/inc
-		install -m 0644 ${S}/samples/ble_gateway/src/*.c ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/src/
-		install -m 0644 ${S}/samples/ble_gateway/src/gateway_sample.json ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/src/gateway.json
-		install -m 0644 ${S}/samples/ble_gateway/ble_printer/src/*.c ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/ble_printer/src/
-		install -m 0644 ${S}/samples/ble_gateway/ble_printer/inc/*.h ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/ble_printer/inc/
-		install -m 0755 ${WORKDIR}/ble-gateway-sample.sh ${D}${exec_prefix}/src/azureiotedge/samples/ble_gateway/build.sh
-	fi
 
 	# Dynamically Add Module Sample
 	install -d ${D}${datadir}/azureiotedge/samples/dynamically_add_module
@@ -405,7 +362,6 @@ FILES_${PN}-dev += "\
 FILES_${PN}-dbg += "\
 	${libdir}/azureiotedge/bindings/dotnetcore/.debug \
 	${libdir}/azureiotedge/modules/azure_functions/.debug \
-	${libdir}/azureiotedge/modules/ble/.debug \
 	${libdir}/azureiotedge/modules/hello_world/.debug \
 	${libdir}/azureiotedge/modules/identitymap/.debug \
 	${libdir}/azureiotedge/modules/iothub/.debug \
@@ -414,7 +370,6 @@ FILES_${PN}-dbg += "\
 	${libdir}/azureiotedge/modules/modbus_read/.debug \
 	${libdir}/azureiotedge/modules/sqlite/.debug \
 	${datadir}/azureiotedge/samples/azure_functions/.debug \
-	${datadir}/azureiotedge/samples/ble_gateway/.debug \
 	${datadir}/azureiotedge/samples/dynamically_add_module/.debug \
 	${datadir}/azureiotedge/samples/proxy/.debug \
 	${datadir}/azureiotedge/samples/hello_world/.debug \
@@ -426,8 +381,6 @@ FILES_${PN}-dbg += "\
 
 FILES_${PN}-modules = "\
 	${libdir}/azureiotedge/modules/azure_functions/libazure_functions.so \
-	${libdir}/azureiotedge/modules/ble/libble.so \
-	${libdir}/azureiotedge/modules/ble/libble_c2d.so \
 	${libdir}/azureiotedge/modules/hello_world/libhello_world.so \
 	${libdir}/azureiotedge/modules/identitymap/libidentity_map.so \
 	${libdir}/azureiotedge/modules/iothub/libiothub.so \
@@ -442,7 +395,6 @@ FILES_${PN}-modules-src = "\
 RDEPENDS_${PN}-samples += "azure-iot-edge-modules"
 FILES_${PN}-samples = "\
 	${datadir}/azureiotedge/samples/azure_functions/* \
-	${datadir}/azureiotedge/samples/ble_gateway/* \
 	${datadir}/azureiotedge/samples/dynamically_add_module/* \
 	${datadir}/azureiotedge/samples/hello_world/* \
 	${datadir}/azureiotedge/samples/native_module_host/* \
@@ -452,7 +404,6 @@ FILES_${PN}-samples = "\
 
 FILES_${PN}-samples-src = "\
 	${exec_prefix}/src/azureiotedge/samples/azure_functions \
-	${exec_prefix}/src/azureiotedge/samples/ble_gateway \
 	${exec_prefix}/src/azureiotedge/samples/dynamically_add_module \
 	${exec_prefix}/src/azureiotedge/samples/hello_world \
 	${exec_prefix}/src/azureiotedge/samples/native_module_host \
