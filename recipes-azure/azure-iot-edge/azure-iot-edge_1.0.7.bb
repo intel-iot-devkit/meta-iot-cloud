@@ -554,6 +554,9 @@ FILES_${PN}-dotnetcore = "\
 	${libdir}/azureiotedge/bindings/dotnetcore/*.so \
 "
 
+RDEPENDS_${PN}-java += "\
+    java2-runtime \
+"
 FILES_${PN}-java = "\
 	${libdir}/azureiotedge/bindings/java/*.so \
 "
@@ -569,3 +572,4 @@ INSANE_SKIP_${PN}-samples-modbus += "rpaths"
 INSANE_SKIP_${PN}-samples-sqlite += "rpaths"
 INSANE_SKIP_${PN}-dotnetcore += "rpaths"
 INSANE_SKIP_${PN}-java += "rpaths"
+INSANE_SKIP_${PN}-java += "file-rdeps"
