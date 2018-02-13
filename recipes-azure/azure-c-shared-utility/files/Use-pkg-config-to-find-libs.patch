@@ -1,0 +1,77 @@
+From 06224ac4f5f1e2064d5321026e712a7a88bd517b Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 13 Feb 2018 17:28:11 +0000
+Subject: [PATCH] Use pkg-config to find libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 38 ++++++++++++++------------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 966519b..b87eabb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -127,8 +127,13 @@ if(${use_openssl})
+         set(OPENSSL_ROOT_DIR $ENV{OpenSSLDir} CACHE PATH "")
+     endif()
+ 
+-    find_package(OpenSSL REQUIRED)
+-    include_directories(${OPENSSL_INCLUDE_DIR})
++    find_package(PkgConfig)
++    if(PKG_CONFIG_FOUND)
++        pkg_check_modules(OPENSSL libssl)
++        pkg_check_modules(CRYPTO libcrypto)
++    endif()
++    
++    include_directories(${OPENSSL_INCLUDE_DIR} ${CRYPTO_INCLUDE_DIR})
+ endif()
+ 
+ if(${no_logging})
+@@ -415,28 +420,13 @@ if(${use_http})
+             set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 winhttp)
+         endif()
+     else()
+-        if (CMAKE_CROSSCOMPILING)
+-            # As mentioned at https://cmake.org/Wiki/CMake_Cross_Compiling the
+-            # pkg-config tool can not be used by cmake while cross compiling.
+-            message(STATUS "Cross compiling not using pkg-config")
+-        else()
+-            # try pkg-config first
+-            find_package(PkgConfig)
+-            if(PKG_CONFIG_FOUND)
+-                pkg_check_modules(CURL libcurl)
+-            endif()
++        find_package(PkgConfig)
++        if(PKG_CONFIG_FOUND)
++            pkg_check_modules(CURL libcurl)
+         endif()
+-
+-            # if that didn't work, try CMake find_package
+-            if(NOT CURL_FOUND)
+-                find_package(CURL)
+-            endif()
+-
+-            set(CURL_FIND_REQUIRED 1)
+-            find_package_handle_standard_args(CURL DEFAULT_MSG CURL_LIBRARIES)
+-
+-            include_directories(${CURL_INCLUDE_DIRS})
+-            set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${CURL_LIBRARIES})
++        
++        include_directories(${CURL_INCLUDE_DIRS})
++        set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${CURL_LIBRARIES})
+     endif()
+ endif()
+ 
+@@ -451,7 +441,7 @@ if(${use_schannel})
+ endif()
+ 
+ if(${use_openssl})
+-    set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${OPENSSL_LIBRARIES})
++    set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${OPENSSL_LIBRARIES} ${CRYPTO_LIBRARIES})
+     if (WIN32)
+         set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 ws2_32 secur32)
+     endif()
+-- 
+1.9.1
+
