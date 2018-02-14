@@ -26,7 +26,7 @@ SRC_URI = "\
     file://Use-pkg-config-to-find-libs.patch \
 "
 
-SRCREV = "${AUTOREV}"
+SRCREV = "4fe03ef78499f8acb1b2f8526b6cea8c432140d8"
 
 PR = "r0"
 
@@ -40,7 +40,7 @@ PACKAGES = "\
 	${PN}-dbg \
 "
 
-EXTRA_OECMAKE = "-Dbuild_as_dynamic:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON -DCMAKE_CROSSCOMPILING:BOOL=ON"
+EXTRA_OECMAKE = "-Dbuild_as_dynamic:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
