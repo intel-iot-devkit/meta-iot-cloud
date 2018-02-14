@@ -1,0 +1,64 @@
+From d17d2fc8deac072e454b5b5b372a13dce0f5d93c Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Wed, 14 Feb 2018 10:53:29 +0000
+Subject: [PATCH] Use pkg-config to find libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 91203be..a302a32 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -158,8 +158,17 @@ if(${use_openssl})
+         set(OPENSSL_ROOT_DIR $ENV{OpenSSLDir} CACHE PATH "")
+     endif()
+ 
+-    find_package(OpenSSL REQUIRED)
+-    include_directories(${OPENSSL_INCLUDE_DIR})
++    find_package(PkgConfig)
++    if(PKG_CONFIG_FOUND)
++        pkg_check_modules(OPENSSL libssl)
++    endif()
++    
++    find_package(PkgConfig)
++    if(PKG_CONFIG_FOUND)
++        pkg_check_modules(CRYPTO libcrypto)
++    endif()
++    
++    include_directories(${OPENSSL_INCLUDE_DIR} ${CRYPTO_INCLUDE_DIR})
+ endif()
+ 
+ # Start of variables used during install
+@@ -542,17 +551,11 @@ if(${use_http})
+             set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 winhttp)
+         endif()
+     else()
+-        # try pkg-config first
+         find_package(PkgConfig)
+         if(PKG_CONFIG_FOUND)
+             pkg_check_modules(CURL libcurl)
+         endif()
+ 
+-        # if that didn't work, try CMake find_package
+-        if(NOT CURL_FOUND)
+-            find_package(CURL)
+-        endif()
+-
+         set(CURL_FIND_REQUIRED 1)
+         find_package_handle_standard_args(CURL DEFAULT_MSG CURL_LIBRARIES)
+ 
+@@ -572,7 +575,7 @@ if(${use_schannel})
+ endif()
+ 
+ if(${use_openssl})
+-    set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${OPENSSL_LIBRARIES})
++    set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${OPENSSL_LIBRARIES} ${CRYPTO_LIBRARIES})
+     if (WIN32)
+         set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 ws2_32 secur32)
+     endif()
+-- 
+1.9.1
+
