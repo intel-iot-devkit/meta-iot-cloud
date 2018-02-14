@@ -21,7 +21,10 @@ RDEPENDS_${PN}-dev += "\
 
 inherit cmake
 
-SRC_URI = "git://github.com/Azure/azure-c-shared-utility.git"
+SRC_URI = "\
+    git://github.com/Azure/azure-c-shared-utility.git \
+    file://Use-pkg-config-to-find-libs.patch \
+"
 SRCREV = "942909698415cc0bd6483e063a2cfa8da626edc6"
 
 PR = "r0"
@@ -40,10 +43,6 @@ EXTRA_OECMAKE = "-Dbuild_as_dynamic:BOOL=ON -Dskip_samples:BOOL=ON -Duse_install
 
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
-
-	# Fix CMake configs
-	sed -i 's#${libdir}/libaziotsharedutil#${STAGING_LIBDIR}/libaziotsharedutil#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_c_shared_utility*
-	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_c_shared_utility*
 }
 
 FILES_${PN} = "${libdir}/*.so"
