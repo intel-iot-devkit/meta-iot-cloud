@@ -76,7 +76,7 @@ Installing on Intel Developer Kit Yocto based images (Edison, Galileo)
 ----------------------------------------------------------------------
 
 ``` bash
-mv /etc/opkg/iotkit.conf /etc/opkg/iotkit.conf.disable
+echo "src iotkit http://iotdk.intel.com/repos/3.5/intelgalactic/opkg/i586" > /etc/opkg/iotkit.conf
 echo "src iot-cloud http://iotdk.intel.com/repos/iot-cloud/iotdk/3.5" > /etc/opkg/iot-cloud.conf
 opkg update
 ```
