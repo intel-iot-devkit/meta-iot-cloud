@@ -22,10 +22,11 @@ RDEPENDS_${PN}-dev += "\
 inherit cmake
 
 SRC_URI = "\
-    git://github.com/Azure/azure-c-shared-utility.git \
+    git://github.com/Azure/azure-c-shared-utility.git;branch=release_2018_02_09 \
     file://Use-pkg-config-to-find-libs.patch \
 "
-SRCREV = "942909698415cc0bd6483e063a2cfa8da626edc6"
+
+SRCREV = "4fe03ef78499f8acb1b2f8526b6cea8c432140d8"
 
 PR = "r0"
 
