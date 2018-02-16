@@ -1,0 +1,28 @@
+From 168c5eb896e825cda5e6bec12b58055071522cbf Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Fri, 16 Feb 2018 13:08:54 +0000
+Subject: [PATCH] Remove unnecessary includes when using installed dependencies
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 54dba8d..d15149e 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,7 +15,9 @@ set(GENERIC_LIB_VERSION ${UMQTT_VERSION})
+ string(SUBSTRING ${UMQTT_VERSION} 0 1 GENERIC_LIB_SOVERSION)
+ 
+ # Include the common build rules for the C SDK
+-include(deps/c-utility/configs/azure_iot_build_rules.cmake)
++if(NOT ${use_installed_dependencies})
++    include(deps/c-utility/configs/azure_iot_build_rules.cmake)
++endif()
+ 
+ include(ExternalProject)
+ 
+-- 
+1.9.1
+
