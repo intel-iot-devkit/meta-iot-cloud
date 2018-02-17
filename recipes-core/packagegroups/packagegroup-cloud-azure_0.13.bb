@@ -25,7 +25,8 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	${PYTHON_PN}-azure-iot-sdk \
+	${PYTHON_PN}-azure-iothub-device-client \
+	${PYTHON_PN}-azure-iothub-service-client \
 "
 
 PACKAGECONFIG[java] = "\
