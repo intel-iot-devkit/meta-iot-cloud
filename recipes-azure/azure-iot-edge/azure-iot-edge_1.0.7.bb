@@ -6,7 +6,7 @@ inherit cmake pkgconfig
 
 DEPENDS = "\
 	glib-2.0 \
-	azure-iot-sdk \
+	azure-iot-sdk-c \
 	nanomsg \
 	libuv \
 "
@@ -47,7 +47,7 @@ SRC_URI += "\
 	file://simulated-device-module.sh \
 "
 
-PR = "r0"
+PR = "r1"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -449,7 +449,7 @@ FILES_${PN} += "\
 "
 
 RDEPENDS_${PN}-dev += "\
-	azure-iot-sdk-dev \
+	azure-iot-sdk-c-dev \
 	nanomsg-dev \
 	glib-2.0-dev \
 "
