@@ -1,0 +1,26 @@
+From 7a90d73a82cfbb8b07708ef242f120a69d21b98a Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 20 Feb 2018 17:54:14 +0000
+Subject: [PATCH 4/4] Fix iothub library name
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ modules/iothub/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/iothub/CMakeLists.txt b/v1/modules/iothub/CMakeLists.txt
+index cecb3b4..692e0f1 100644
+--- a/modules/iothub/CMakeLists.txt
++++ b/modules/iothub/CMakeLists.txt
+@@ -23,7 +23,7 @@ add_library(iothub MODULE
+ )
+ target_link_libraries(iothub
+     gateway
+-    iothub_client_dll
++    iothub_client
+ )
+ 
+ #this builds the iothub static library
+-- 
+1.9.1
+
