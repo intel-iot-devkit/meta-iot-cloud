@@ -34,9 +34,6 @@ PACKAGECONFIG[java] = "\
 	, \
 	, \
 	azure-iot-edge-java \
-	azure-iot-edge-java-binding \
-	azure-iot-device-sdk-java \
-	azure-iot-device-sdk-java-samples \
 "
 
 PACKAGECONFIG[node-red] = "\
