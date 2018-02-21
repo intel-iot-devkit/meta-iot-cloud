@@ -24,4 +24,8 @@ do_configure_prepend() {
     git submodule update --init --recursive
 }
 
+FILES_${PN}-dbg += "\
+	${PYTHON_SITEPACKAGES_DIR}/.debug \
+"
+
 INSANE_SKIP_${PN} += "rpaths"
