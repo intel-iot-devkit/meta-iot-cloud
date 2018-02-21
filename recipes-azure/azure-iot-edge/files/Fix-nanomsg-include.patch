@@ -1,0 +1,26 @@
+From 516d251438a53f3718a2b4a1c3adcf95520527c3 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 20 Feb 2018 21:08:25 +0000
+Subject: [PATCH 2/2] Fix nanomsg include
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ proxy/gateway/java/nanomsg-binding/java_nanomsg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/proxy/gateway/java/nanomsg-binding/java_nanomsg.c b/proxy/gateway/java/nanomsg-binding/java_nanomsg.c
+index 071815d..7e62247 100644
+--- a/proxy/gateway/java/nanomsg-binding/java_nanomsg.c
++++ b/proxy/gateway/java/nanomsg-binding/java_nanomsg.c
+@@ -1,7 +1,7 @@
+ #include "java_nanomsg.h"
+ 
+ #include <stdio.h>
+-#include <nn.h>
++#include <nanomsg/nn.h>
+ #include <jni.h>
+ 
+ JNIEXPORT jint JNICALL Java_com_microsoft_azure_gateway_remote_NanomsgLibrary_nn_1errno(JNIEnv *env, jobject obj) {
+-- 
+1.9.1
+
