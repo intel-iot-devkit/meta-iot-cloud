@@ -391,10 +391,11 @@ FILES_${PN}-dev = "\
 "
 
 FILES_${PN}-dbg = "\
-	${libdir}/azureiotedge/bindings/*/.debug \
-	${libdir}/azureiotedge/modules/*/.debug \
-	${datadir}/azureiotedge/samples/*/.debug \
-	${exec_prefix}/src/debug \
+    ${libdir}/.debug \
+    ${libdir}/azureiotedge/bindings/*/.debug \
+    ${libdir}/azureiotedge/modules/*/.debug \
+    ${datadir}/azureiotedge/samples/*/.debug \
+    ${exec_prefix}/src/debug \
 "
 
 FILES_${PN}-modules = "\
