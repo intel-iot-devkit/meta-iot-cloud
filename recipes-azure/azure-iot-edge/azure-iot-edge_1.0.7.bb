@@ -7,7 +7,7 @@ inherit cmake pkgconfig
 
 DEPENDS = "\
 	glib-2.0 \
-	azure-iot-sdk \
+	azure-iot-sdk-c \
 	nanomsg \
 	libuv \
 "
@@ -450,7 +450,7 @@ FILES_${PN} += "\
 "
 
 RDEPENDS_${PN}-dev += "\
-	azure-iot-sdk-dev \
+	azure-iot-sdk-c-dev \
 	nanomsg-dev \
 	glib-2.0-dev \
 "
