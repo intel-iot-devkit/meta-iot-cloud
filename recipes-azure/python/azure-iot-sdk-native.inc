@@ -19,4 +19,8 @@ B = "${WORKDIR}/build"
 
 EXTRA_OECMAKE = "-Dbuild_python:STRING=${PYTHON_BASEVERSION} -Duse_prov_client:BOOL=ON"
 
+FILES_${PN}-dbg += "\
+	${PYTHON_SITEPACKAGES_DIR}/.debug \
+"
+
 INSANE_SKIP_${PN} += "rpaths"
