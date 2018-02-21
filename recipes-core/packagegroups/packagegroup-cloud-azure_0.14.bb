@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup python-dir
 
-PR = "r2"
+PR = "r0"
 
 PACKAGES = "${PN}"
 
@@ -13,8 +13,8 @@ PACKAGECONFIG[c] = "\
 	, \
 	, \
 	, \
-	azure-iot-sdk \
-	azure-iot-sdk-dev \
+	azure-iot-sdk-c \
+	azure-iot-sdk-c-dev \
 	azure-iot-edge \
 	azure-iot-edge-dev \
 	azure-iot-edge-modules \
