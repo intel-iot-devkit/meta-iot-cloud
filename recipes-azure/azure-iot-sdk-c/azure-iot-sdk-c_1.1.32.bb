@@ -12,4 +12,3 @@ SRCREV = "3deb0ca3a8e2d220a50175bef71d16d1650a3a79"
 PR = "r0"
 
 include ${PN}.inc
-include ${PN}-idp.inc
