@@ -391,6 +391,7 @@ FILES_${PN}-dev = "\
 "
 
 FILES_${PN}-dbg = "\
+    ${libdir}/.debug \
 	${libdir}/azureiotedge/bindings/*/.debug \
 	${libdir}/azureiotedge/modules/*/.debug \
 	${datadir}/azureiotedge/samples/*/.debug \
