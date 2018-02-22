@@ -1,4 +1,4 @@
-EXTRA_OECMAKE += "-DCMAKE_C_FLAGS:STRING=-std=gnu99"
+EXTRA_OECMAKE += "-DCMAKE_C_FLAGS:STRING=-std=c99"
 
 sysroot_stage_all_append () {
     # Fix CMake configs
