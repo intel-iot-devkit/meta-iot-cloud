@@ -12,3 +12,4 @@ SRCREV = "4fe03ef78499f8acb1b2f8526b6cea8c432140d8"
 PR = "r0"
 
 require ${PN}.inc
+require ${PN}-devkit.inc
