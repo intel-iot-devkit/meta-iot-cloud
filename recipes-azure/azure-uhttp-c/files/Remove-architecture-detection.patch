@@ -1,0 +1,38 @@
+From 3d38259fb9163491f4bf9da3006919d2463e970c Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 22 Feb 2018 17:56:45 +0000
+Subject: [PATCH 3/3] Remove architecture detection
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c56307a..6edbe04 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -64,20 +64,6 @@ endif()
+ set(run_e2e_tests ${original_run_e2e_tests})
+ set(run_unittests ${original_run_unittests})
+ 
+-if (MSVC)
+-    detect_architecture("_M_AMD64" x86_64)
+-    detect_architecture("_M_IX86" x86)
+-    detect_architecture("_M_ARM" ARM)
+-else()
+-    detect_architecture("__x86_64__" x86_64)
+-    detect_architecture("__i386__" x86)
+-    detect_architecture("__arm__" ARM)
+-endif()
+-if (NOT DEFINED ARCHITECTURE OR ARCHITECTURE STREQUAL "")
+-    set(ARCHITECTURE "GENERIC")
+-endif()
+-message(STATUS "target architecture: ${ARCHITECTURE}")
+-
+ set(uhttp_c_files
+     ./src/uhttp.c
+ )
+-- 
+1.9.1
+
