@@ -1,0 +1,42 @@
+From 6cfc5f25ae8e5badcb51dc2e6ad0c65d6341f35c Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 6 Mar 2018 16:24:41 +0000
+Subject: [PATCH 2/2] Remove unnecessary includes when using installed
+ dependencies
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d1f012b..5de74a6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,7 +11,9 @@ set(GENERIC_LIB_VERSION ${UTPM_VERSION})
+ string(SUBSTRING ${UTPM_VERSION} 0 1 GENERIC_LIB_SOVERSION)
+ 
+ # Include the common build rules for the C SDK
+-include(deps/c-utility/configs/azure_iot_build_rules.cmake)
++if(NOT ${use_installed_dependencies})
++    include(deps/c-utility/configs/azure_iot_build_rules.cmake)
++endif()
+ 
+ option(use_emulator "build using the tpm emulator" ON)
+ option(run_e2e_tests "set run_e2e_tests to ON to run e2e tests (default is OFF)" OFF)
+@@ -26,7 +28,11 @@ set(original_run_unittests ${run_unittests})
+ set(run_e2e_tests OFF)
+ set(run_unittests OFF)
+ 
+-add_subdirectory(./deps/c-utility)
++if(${use_installed_dependencies})
++    find_package(azure_c_shared_utility REQUIRED CONFIG)
++else()
++    add_subdirectory(./deps/c-utility)
++endif()
+ 
+ if (${original_run_e2e_tests} OR ${original_run_unittests})
+     add_subdirectory(./deps/c-utility/testtools)
+-- 
+1.9.1
+

@@ -1,0 +1,77 @@
+From 784f8bf1df36232ed1574add5464535a060fa478 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 6 Mar 2018 16:15:57 +0000
+Subject: [PATCH 1/2] Fix packaging issues
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt           | 16 ++++++++++++++++
+ configs/utpmConfig.cmake |  8 ++++++++
+ 2 files changed, 24 insertions(+)
+ create mode 100644 configs/utpmConfig.cmake
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5e06dd4..d1f012b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,9 @@ project(utpm)
+ 
+ set(UTPM_VERSION 1.0.1)
+ 
++set(GENERIC_LIB_VERSION ${UTPM_VERSION})
++string(SUBSTRING ${UTPM_VERSION} 0 1 GENERIC_LIB_SOVERSION)
++
+ # Include the common build rules for the C SDK
+ include(deps/c-utility/configs/azure_iot_build_rules.cmake)
+ 
+@@ -99,6 +102,13 @@ ENDIF(WIN32)
+ 
+ add_library(utpm ${utpm_c_files} ${utpm_h_files})
+ target_link_libraries(utpm aziotsharedutil)
++if (NOT WIN32)
++    set_target_properties(utpm
++        PROPERTIES
++        VERSION ${GENERIC_LIB_VERSION}
++        SOVERSION ${GENERIC_LIB_SOVERSION}
++    )
++endif()
+ 
+ if (${use_emulator})
+ else()
+@@ -141,6 +151,11 @@ if(${use_installed_dependencies})
+         VERSION ${UTPM_VERSION}
+         COMPATIBILITY SameMajorVersion
+     )
++    
++    configure_file("configs/${PROJECT_NAME}Config.cmake"
++        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Config.cmake"
++        COPYONLY
++    )
+ 
+     install(EXPORT utpmTargets
+         FILE
+@@ -151,6 +166,7 @@ if(${use_installed_dependencies})
+ 
+     install(
+         FILES
++            "configs/${PROJECT_NAME}Config.cmake"
+             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}ConfigVersion.cmake"
+         DESTINATION
+             ${package_location}
+diff --git a/configs/utpmConfig.cmake b/configs/utpmConfig.cmake
+new file mode 100644
+index 0000000..3f99614
+--- /dev/null
++++ b/configs/utpmConfig.cmake
+@@ -0,0 +1,8 @@
++#Copyright (c) Microsoft. All rights reserved.
++#Licensed under the MIT license. See LICENSE file in the project root for full license information.
++
++include("${CMAKE_CURRENT_LIST_DIR}/utpmTargets.cmake")
++
++get_target_property(UTPM_INCLUDES utpm INTERFACE_INCLUDE_DIRECTORIES)
++
++set(UTPM_INCLUDES ${UTPM_INCLUDES} CACHE INTERNAL "")
+-- 
+1.9.1
+
