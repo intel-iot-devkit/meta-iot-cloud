@@ -1,0 +1,30 @@
+From 6be83cd205264170c66fc98dbb6efe3a82eeb92f Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 6 Mar 2018 22:36:06 +0000
+Subject: [PATCH] Add uHTTP to dependencies
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ dependencies.cmake | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/dependencies.cmake b/dependencies.cmake
+index 063733a..c1325ff 100644
+--- a/dependencies.cmake
++++ b/dependencies.cmake
+@@ -16,6 +16,12 @@ if(${use_installed_dependencies})
+         if(NOT umqtt_FOUND)
+             find_package(umqtt REQUIRED CONFIG)
+         endif()
++    endif()
++    
++    if(${use_http})
++        if(NOT uhttp_FOUND)
++            find_package(uhttp REQUIRED CONFIG)
++        endif()
+     endif()	
+ 
+ else()
+-- 
+1.9.1
+

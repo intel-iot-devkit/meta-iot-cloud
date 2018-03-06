@@ -4,6 +4,7 @@ DEPENDS = "\
 	azure-c-shared-utility \
 	azure-uamqp-c \
 	azure-umqtt-c \
+	azure-uhttp-c \
 	azure-iot-sdk-c \
 	glib-2.0 \
     libuv \
