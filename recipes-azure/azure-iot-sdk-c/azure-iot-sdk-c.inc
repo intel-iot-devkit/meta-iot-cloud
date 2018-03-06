@@ -7,6 +7,11 @@ DEPENDS = "\
 	azure-c-shared-utility \
 	azure-uamqp-c \
 	azure-umqtt-c \
+	azure-uhttp-c \
+"
+
+SRC_URI += "\
+    file://Add-uHTTP-to-dependencies.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -31,6 +36,7 @@ RDEPENDS_${PN}-dev = "\
 	azure-iot-sdk-c \
 	azure-umqtt-c-dev \
 	azure-uamqp-c-dev \
+	azure-uhttp-c-dev \
 	azure-c-shared-utility-dev \
 "
 FILES_${PN}-dev += "\
