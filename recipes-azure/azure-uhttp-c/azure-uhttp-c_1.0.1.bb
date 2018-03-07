@@ -13,3 +13,4 @@ SRCREV = "9c6abba99af896eff60a87e21074686b4640ff97"
 PR = "r0"
 
 require ${PN}.inc
+require ${PN}-idp.inc
