@@ -15,6 +15,7 @@ SRC_URI = "\
 	file://0001-Fix-dependencies.patch \
 	file://0002-Fix-cjson-library.patch \
 	file://0003-Remove-host-library-paths.patch \
+	file://Add-aditional-options-to-sample-apps.patch \
 "
 SRCREV = "809af3b63294d0c5302cc15e3652c65843907cf2"
 
