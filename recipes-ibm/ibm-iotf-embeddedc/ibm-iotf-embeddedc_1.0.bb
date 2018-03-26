@@ -15,6 +15,7 @@ SRC_URI = "\
 	file://0001-Fix-dependencies.patch \
 	file://0002-Fix-cjson-library.patch \
 	file://0003-Remove-host-library-paths.patch \
+	file://Add-additional-options-to-sample-apps.patch \
 "
 SRCREV = "809af3b63294d0c5302cc15e3652c65843907cf2"
 
@@ -59,6 +60,7 @@ do_install() {
 	install -m 0755 ${WORKDIR}/build/samples/sampleGateway ${D}${datadir}/ibmiotfsdk/samples/c/
 	install -m 0644 ${S}/samples/device.cfg ${D}${datadir}/ibmiotfsdk/samples/c/
 	install -m 0644 ${S}/samples/gateway.cfg ${D}${datadir}/ibmiotfsdk/samples/c/
+	install -m 0644 ${S}/IoTFoundation.pem ${D}${datadir}/ibmiotfsdk/
 }
 
 FILES_${PN} += "\
@@ -79,6 +81,7 @@ FILES_${PN}-samples += "\
 	${datadir}/ibmiotfsdk/samples/c/sampleGateway \
 	${datadir}/ibmiotfsdk/samples/c/device.cfg \
 	${datadir}/ibmiotfsdk/samples/c/gateway.cfg \
+	${datadir}/ibmiotfsdk/IoTFoundation.pem \
 "
 
 INSANE_SKIP_${PN} += "rpaths"
