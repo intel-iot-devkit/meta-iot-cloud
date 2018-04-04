@@ -40,7 +40,7 @@ do_compile() {
 	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 	
 	# Clear cache
-	npm cache clear
+	npm cache clear --force
 
 	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
 	npm prune --production
