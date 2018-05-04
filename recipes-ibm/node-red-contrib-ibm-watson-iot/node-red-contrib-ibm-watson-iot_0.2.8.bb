@@ -1,6 +1,6 @@
 DESCRIPTION = "Connect to IBM Watson Internet of Things Plaform as a Device or Gateway"
 AUTHOR = "Nick O'Leary"
-HOMEPAGE = "https://github.com/ibm-messaging/iot-nodered"
+HOMEPAGE = "https://github.com/ibm-watson-iot/node-red-contrib-ibm-watson-iot"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=9812725859172d1c78fb60518d16fe64"
 
