@@ -12,10 +12,6 @@ SRCREV = "c8f112b1226f377907306115e29eccd20d9174f8"
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-	${PYTHON_PN}-six-native \
-"
-
-RDEPENDS_${PN} += "\
 	${PYTHON_PN}-six \
 "
 
