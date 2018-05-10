@@ -8,28 +8,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 * [Microsoft Azure](https://azure.microsoft.com/)
 * [Google Cloud Platform](https://cloud.google.com/)
 
-## Available Packages
-* `packagegroup-cloud-ibm`
-    * ibm-iotf-embeddedc
-    * ibm-iotf-java
-    * node-red-contrib-ibm-watson-iot
-    * python-ibmiotf
-* `packagegroup-cloud-aws`
-    * aws-iot-device-sdk-java
-    * python-awscli
-    * python-aws-iot-device-sdk
-* `packagegroup-cloud-azure`
-    * azure-iot-edge
-    * azure-iot-sdk
-    * azure-iot-device-sdk-java
-    * python-azure-iot-sdk
-    * node-red-contrib-azureiothubnode
-    * node-iothub-explorer
-    * python-azure-cli
-* `packagegroup-cloud-google`
-    * google-cloud-sdk
-    * python-google-cloud
-
 Configuration
 =============
 1. Clone the `meta-iot-cloud` layer to your project directory and checkout the `idp_3.x` branch.
