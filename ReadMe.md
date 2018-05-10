@@ -8,22 +8,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 * [Microsoft Azure](https://azure.microsoft.com/)
 * [Google Cloud Platform](https://cloud.google.com/)
 
-## Available Packages
-* `packagegroup-cloud-ibm`
-    * ibm-iotf-embeddedc
-    * python-ibmiotf
-* `packagegroup-cloud-aws`
-    * python-awscli
-    * python-aws-iot-device-sdk
-* `packagegroup-cloud-azure`
-    * azure-iot-sdk
-    * python-azure-iot-sdk
-    * node-iothub-explorer
-    * python-azure-cli
-* `packagegroup-cloud-google`
-    * google-cloud-sdk
-    * python-google-cloud
-
 ## Dependencies
 This layer depends on packages provided by the following layers:
 * `meta-openembedded` [http://cgit.openembedded.org/meta-openembedded/]
