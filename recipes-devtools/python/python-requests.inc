@@ -10,7 +10,7 @@ PR = "r0"
 SRC_NAME = "requests"
 
 SRC_URI = "git://github.com/kennethreitz/${SRC_NAME}.git"
-SRCREV = "7c67c4adf9020fe6e279f1633ca477ef2b89ae44"
+SRCREV = "a3d7cf3f27e74c28ef30f01e9f2e483570ab042e"
 
 S = "${WORKDIR}/git"
 
