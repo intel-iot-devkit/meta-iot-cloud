@@ -13,6 +13,6 @@ RDEPENDS_${PN} += "\
 "
 
 SRC_URI = "git://github.com/eclipse/paho.mqtt.python.git"
-SRCREV = "377dad6a9da70a71ff59fcf5a26f86519bc244a6"
+SRCREV = "e9914a759f9f5b8081d59fd65edfd18d229a399e"
 
 S = "${WORKDIR}/git"

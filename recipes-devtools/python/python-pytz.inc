@@ -3,7 +3,7 @@ AUTHOR = "Stuart Bishop"
 HOMEPAGE = " http://pythonhosted.org/pytz"
 SECTION = "devel/python"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=22b38951eb857cf285a4560a914b7cd6"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=39ea92752a35cf67d8a885d8e3af3c69"
 
 RDEPENDS_${PN} += "\
     python-core \
@@ -14,8 +14,8 @@ PR = "r0"
 
 SRC_NAME = "pytz"
 
-SRC_URI = "https://pypi.python.org/packages/42/00/5c89fc6c9b305df84def61863528e899e9dccb196f8438f6cbe960758fc5/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "cc9f16ba436efabdcef3c4d32ae4919c"
-SRC_URI[sha256sum] = "9a43e20aa537cfad8fe7a1715165c91cb4a6935d40947f2d070e4c80f2dcd22b"
+SRC_URI = "https://pypi.python.org/packages/60/88/d3152c234da4b2a1f7a989f89609ea488225eaea015bc16fbde2b3fdfefa/${SRC_NAME}-${PV}.zip"
+SRC_URI[md5sum] = "7006b56c0d68a162d9fe57d4249c3171"
+SRC_URI[sha256sum] = "fae4cffc040921b8a2d60c6cf0b5d662c1190fe54d718271db4eb17d44a185b7"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
