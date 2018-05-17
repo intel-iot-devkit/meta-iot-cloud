@@ -9,7 +9,7 @@ PR = "r1"
 SRC_NAME = "iso8601"
 
 SRC_URI = "https://pypi.python.org/packages/source/i/${SRC_NAME}/${SRC_NAME}-${PV}.tar.gz"
-SRC_URI[md5sum] = "b06d11cd14a64096f907086044f0fe38"
-SRC_URI[sha256sum] = "e8fb52f78880ae063336c94eb5b87b181e6a0cc33a6c008511bac9a6e980ef30"
+SRC_URI[md5sum] = "4de940f691c5ea759fb254384c8ddcf6"
+SRC_URI[sha256sum] = "49c4b20e1f38aa5cf109ddcd39647ac419f928512c869dc01d5c7098eddede82"
 
 S = "${WORKDIR}/${SRC_NAME}-${PV}"
