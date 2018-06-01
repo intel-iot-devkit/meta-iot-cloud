@@ -1,0 +1,69 @@
+From 448662b17d4418a7b96f8a3600dc17b8ff0dc67b Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Fri, 1 Jun 2018 12:00:07 +0100
+Subject: [PATCH 2/2] Fix cmake build issues
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ iothub_client/CMakeLists.txt            | 4 ----
+ iothub_client/src/iothub_client_dll.def | 2 ++
+ iothub_client/src/upload_to_blob.def    | 4 ----
+ 3 files changed, 2 insertions(+), 8 deletions(-)
+ delete mode 100644 iothub_client/src/upload_to_blob.def
+
+diff --git a/iothub_client/CMakeLists.txt b/iothub_client/CMakeLists.txt
+index 370e277..a4f0de3 100644
+--- a/iothub_client/CMakeLists.txt
++++ b/iothub_client/CMakeLists.txt
+@@ -293,7 +293,6 @@ if(${use_amqp})
+             ${iothub_client_amqp_ws_transport_c_files}
+             ${iothub_client_amqp_ws_transport_h_files})
+ 
+-        set(iothub_client_libs ${iothub_client_libs} uamqp)
+     endif(build_as_dynamic)
+ endif()
+ 
+@@ -345,9 +344,6 @@ ENDIF(WIN32)
+ 
+ if (${build_as_dynamic})
+     set(iothub_def_file ./src/iothub_client_dll.def)
+-    if(NOT ${dont_use_uploadtoblob})
+-        set(iothub_def_file ${iothub_def_file} ./src/upload_to_blob.def)
+-    endif()
+ 
+     add_library(iothub_client_dll SHARED
+         ${iothub_client_c_files}
+diff --git a/iothub_client/src/iothub_client_dll.def b/iothub_client/src/iothub_client_dll.def
+index 3981050..6b2859d 100644
+--- a/iothub_client/src/iothub_client_dll.def
++++ b/iothub_client/src/iothub_client_dll.def
+@@ -25,6 +25,7 @@ EXPORTS
+     IoTHubClient_SetDeviceTwinCallback
+     IoTHubClient_SendReportedState
+     IoTHubClient_SetDeviceMethodCallback
++    IoTHubClient_UploadToBlobAsync
+ 
+     IoTHubClient_LL_CreateFromConnectionString
+     IoTHubClient_LL_ConnectionStatusCallBack
+@@ -60,6 +61,7 @@ EXPORTS
+ 
+     IOTHUB_CLIENT_CONFIRMATION_RESULTStrings
+     IOTHUB_CLIENT_FILE_UPLOAD_RESULTStrings
++    IOTHUB_CLIENT_FILE_UPLOAD_GET_DATA_RESULTStrings
+     IOTHUB_CLIENT_RESULTStrings
+     IOTHUB_CLIENT_RETRY_POLICYStrings
+     IOTHUB_CLIENT_STATUSStrings
+diff --git a/iothub_client/src/upload_to_blob.def b/iothub_client/src/upload_to_blob.def
+deleted file mode 100644
+index 8c50176..0000000
+--- a/iothub_client/src/upload_to_blob.def
++++ /dev/null
+@@ -1,4 +0,0 @@
+-LIBRARY iothub_client_dll
+-EXPORTS
+-    IoTHubClient_UploadToBlobAsync
+-    IOTHUB_CLIENT_FILE_UPLOAD_GET_DATA_RESULTStrings
+\ No newline at end of file
+-- 
+2.7.4
+

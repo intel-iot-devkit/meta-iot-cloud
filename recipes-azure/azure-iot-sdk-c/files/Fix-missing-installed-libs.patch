@@ -1,0 +1,40 @@
+From 2c2a884d1b3e09162022fe798579f88efcd763b5 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Fri, 1 Jun 2018 12:34:14 +0100
+Subject: [PATCH 2/2] Fix missing installed libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ iothub_service_client/CMakeLists.txt | 2 +-
+ serializer/CMakeLists.txt            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/iothub_service_client/CMakeLists.txt b/iothub_service_client/CMakeLists.txt
+index adf8113..67e4284 100644
+--- a/iothub_service_client/CMakeLists.txt
++++ b/iothub_service_client/CMakeLists.txt
+@@ -101,7 +101,7 @@ if(${use_installed_dependencies})
+         set(CMAKE_INSTALL_INCLUDEDIR "include")
+     endif()
+ 
+-    install(TARGETS iothub_service_client EXPORT azure_iot_sdksTargets
++    install(TARGETS ${install_libs} EXPORT azure_iot_sdksTargets
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}/../bin
+diff --git a/serializer/CMakeLists.txt b/serializer/CMakeLists.txt
+index 69b84e3..d9e9d9e 100644
+--- a/serializer/CMakeLists.txt
++++ b/serializer/CMakeLists.txt
+@@ -120,7 +120,7 @@ if(${use_installed_dependencies})
+         set(CMAKE_INSTALL_LIBDIR "lib")
+     endif()
+ 
+-    install(TARGETS serializer EXPORT azure_iot_sdksTargets
++    install(TARGETS ${install_libs} EXPORT azure_iot_sdksTargets
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}/../bin
+-- 
+2.7.4
+
