@@ -2,7 +2,7 @@ DESCRIPTION = "Microsoft Azure Active Directory Authentication Library (ADAL) fo
 AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/AzureAD/azure-activedirectory-library-for-python"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=bbfbc44677c93751d972e8b36751a695"
+LIC_FILES_CHKSUM = "file://setup.py;beginline=2;endline=27;md5=43b81fae9d7baa1f0b1c9774a68ca33a"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-crypt \
@@ -20,8 +20,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-pyjwt \
 "
 
-SRC_URI += "https://github.com/AzureAD/azure-activedirectory-library-for-python/raw/${PV}/LICENSE;name=license"
+PR = "r0"
+
 SRC_URI[md5sum] = "b8ce8ac5e0afccf8747ff780211380b6"
 SRC_URI[sha256sum] = "71b0e9b479320f76af4bcd268f7359580ba2e217228e83ff7529f51a9845f393"
-SRC_URI[license.md5sum] = "bbfbc44677c93751d972e8b36751a695"
-SRC_URI[license.sha256sum] = "b9e1c9b3b348a58186dd4fc69c994cf26c0ded0d91ebe4bd201e6f7d05ead8ec"
