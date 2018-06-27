@@ -1,29 +1,27 @@
-DESCRIPTION = "AutoRest swagger generator Python client runtime."
+DESCRIPTION = "AutoRest swagger generator Python client runtime. Azure-specific module."
 AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/Azure/msrestazure-for-python"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9714a4db9af8ac45d4777b479c5401ca"
+LIC_FILES_CHKSUM = "file://setup.py;beginline=1;endline=25;md5=7b39ceb8a4a3e31e5e3eccd4295e6a0f"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrest \
-	${PYTHON_PN}-keyring \
+	${PYTHON_PN}-datetime \
+	${PYTHON_PN}-json \
+	${PYTHON_PN}-logging \
+	${PYTHON_PN}-math \
+	${PYTHON_PN}-netclient \
+	${PYTHON_PN}-pprint \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-adal \
+	${PYTHON_PN}-keyring \
+	${PYTHON_PN}-msrest \
+	${PYTHON_PN}-oauthlib \
+	${PYTHON_PN}-requests \
 "
 
 PR = "r0"
 
-SRC_NAME = "msrestazure-for-python"
-
-SRC_URI = "git://github.com/Azure/${SRC_NAME}.git"
-SRCREV = "bfb9f4c7ee89eb47d4d7f2502a220b8d7e00c7b0"
-
-S = "${WORKDIR}/git"
-
-do_compile_prepend() {
-	# Fix incorrect operators
-	if [ -e setup.py ]; then
-		sed -i -- 's/~=/>=/g' setup.py
-	fi
-}
-
-BBCLASSEXTEND = "native nativesdk"
+SRC_URI[md5sum] = "8d2bbd8cdbb1410c706f4ed7bb6e0743"
+SRC_URI[sha256sum] = "4d8b33686021bcdf9bffc3ad0b120d1ce10d33e2535649897217fb9532b57e53"
