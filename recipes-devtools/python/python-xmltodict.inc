@@ -6,7 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
 
 PR = "r0"
 
-SRC_URI = "git://github.com/martinblech/xmltodict.git"
-SRCREV = "47412512af4cbfb195be0d953a20bd6eacdcf7d0"
+RDEPENDS_${PN} += "\
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-xml \
+"
 
-S = "${WORKDIR}/git"
+SRC_URI[md5sum] = "9f955947db085485873ac68154e88069"
+SRC_URI[sha256sum] = "8f8d7d40aa28d83f4109a7e8aa86e67a4df202d9538be40c0cb1d70da527b0df"
