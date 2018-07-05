@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure EventGrid Management Client Library for Python"
 
-PV = "0.2.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "7fc7eee139c7a413a3a6c76f4d9c00f93c202a4a"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/eventgrid/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_eventgrid-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-eventgrid"
+SRC_URI[md5sum] = "f384a3b486008ff2bf3e3da968fc6363"
+SRC_URI[sha256sum] = "824503b668137affa5b3782c6348c0bb6ab012c72fe47a3be9942c5639f82f8a"

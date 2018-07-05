@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Traffic Manager Client Library for Python"
 
-PV = "0.40.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "d2b8d92fdaeff2c5650a298c322cd20ef117a1da"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/trafficmanager/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_trafficmanager-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-trafficmanager"
+SRC_URI[md5sum] = "27ed3ca664448e675b96e4022c3cbb40"
+SRC_URI[sha256sum] = "126167eaa82b443b5b71394050ec292f45074701232bdbdda71f636e9b46516b"

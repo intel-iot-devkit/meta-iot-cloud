@@ -1,17 +1,21 @@
-DESCRIPTION = "Microsoft Azure LogicApps Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Media Services Management Client Library for Python"
 
-PV = "0.1.1"
-PR = "r1"
+PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "cc734a9a66209887da7b83960b3fd077cee8e0e4"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/media/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_media-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-media"
+SRC_URI[md5sum] = "ffe21f73b637a9c9a86840de7878e3c9"
+SRC_URI[sha256sum] = "656181ee580ff9a6e15cdd5db16e9adfc98b6f39c5108181c36a7ec825fccb87"

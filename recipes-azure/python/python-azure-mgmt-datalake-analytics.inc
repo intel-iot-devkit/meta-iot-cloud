@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Data Lake Analytics Management Client Library for Python"
 
-PV = "0.1.6"
 PR = "r0"
+
+require azure-mgmt-datalake-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "6001b03e34088ef939a0964df7de586d0b21400b"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/datalake/analytics/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_datalake_analytics-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-datalake-analytics"
+SRC_URI[md5sum] = "9292c387c1745bc13c3a43ab2bac608b"
+SRC_URI[sha256sum] = "0d64c4689a67d6138eb9ffbaff2eda2bace7d30b846401673183dcb42714de8f"

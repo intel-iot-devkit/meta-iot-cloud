@@ -1,13 +1,19 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Profile Command Module"
 
-PV = "2.0.14"
 PR = "r0"
+
+require azure-cli-command-modules.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-json \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-adal \
 	${PYTHON_PN}-azure-cli-core \
+	${PYTHON_PN}-knack \
+	${PYTHON_PN}-requests \
 "
 
-SRCREV = "bcb2c426df730e4f1d7d5a07e015ee65ba5b5f79"
-
-SRC_DIR = "src/command_modules/azure-cli-profile"
+SRC_URI[md5sum] = "ab6c96a276bf9c3711a733ac415e42b8"
+SRC_URI[sha256sum] = "1c675757b7c08d3c443a0502cbb69a1d7350e1ffb055b8e746649977f9f555ac"

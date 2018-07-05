@@ -1,13 +1,20 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools Consumption Command Module"
 
-PV = "0.1.5"
 PR = "r0"
 
+require azure-cli-command-modules.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-mgmt-consumption \
-	${PYTHON_PN}-azure-cli-core \
+	${PYTHON_PN}-datetime \
+	${PYTHON_PN}-numbers \
 "
 
-SRCREV = "893fdf04b82ed715c47067143b4fdec5a629e41a"
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-azure-cli-core \
+	${PYTHON_PN}-azure-mgmt-consumption \
+	${PYTHON_PN}-knack \
+	${PYTHON_PN}-six \
+"
 
-SRC_DIR = "src/command_modules/azure-cli-consumption"
+SRC_URI[md5sum] = "5e07fd1ae4d165eeb6cbba26f0c254ef"
+SRC_URI[sha256sum] = "25ab9b185288d6c58a87b8589b6a4019cd314515b1a25643f1715dd05c55f312"

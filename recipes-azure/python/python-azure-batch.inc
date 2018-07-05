@@ -1,18 +1,24 @@
 DESCRIPTION = "Microsoft Azure Batch Client Library for Python"
 
-PV = "4.0.0"
 PR = "r0"
 
+require azure-sdk-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-datetime \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-requests \
 "
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/batch/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_batch-* \
-"
+PYPI_PACKAGE_EXT = "zip"
 
-SRC_DIR = "azure-batch"
+inherit pypi
 
-SRCREV = "c801fad45ce3b089aa9037bc9270f754ea2815fa"
+SRC_URI[md5sum] = "fafeec8a20214dfe1ef08a8812b715ef"
+SRC_URI[sha256sum] = "cd71c7ebb5beab174b6225bbf79ae18d6db0c8d63227a7e514da0a75f138364c"

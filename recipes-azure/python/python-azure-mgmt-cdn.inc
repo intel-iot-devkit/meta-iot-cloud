@@ -1,17 +1,21 @@
 DESCRIPTION = "Microsoft Azure CDN Resource Management Client Library for Python"
 
-PV = "0.30.2"
-PR = "r1"
+PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "3632007c401ab7ce1ed8faf6742298f050856a97"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/cdn/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_cdn-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-cdn"
+SRC_URI[md5sum] = "338d3dd635d0023f663ea81c8ca16b5c"
+SRC_URI[sha256sum] = "069774eb4b59b76ff9bd01708be0c8f9254ed40237b48368c3bb173f298755dd"

@@ -1,18 +1,21 @@
-DESCRIPTION = "Microsoft Azure Recovery Services Backup Client Library for Python"
+DESCRIPTION = "Microsoft Azure Recovery Services Backup Management Client Library for Python"
 
-PV = "0.1.1"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "667ba4048939fdc666bb0bee17f6fcc93dc01f5b"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/recoveryservicesbackup/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_recoveryservicesbackup-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-recoveryservicesbackup"
+SRC_URI[md5sum] = "43a18c623679fc5b5ebd1dbd053d4d65"
+SRC_URI[sha256sum] = "1e55b6cbb808df83576cef352ba0065f4878fe505299c0a4c5a97f4f1e5793df"

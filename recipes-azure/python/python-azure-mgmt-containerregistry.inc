@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Container Registry Client Library for Python"
 
-PV = "0.3.1"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "324f99d26dd6f4ee9793b9bf1d4d5f928e4b6c2f"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/containerregistry/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_containerregistry-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-containerregistry"
+SRC_URI[md5sum] = "2f3cb35fc01418564edab2e8d9a18fdc"
+SRC_URI[sha256sum] = "340f71652111747578bc1a2f44c035f7147dc5fe1f23271f02107a7451cb92f2"

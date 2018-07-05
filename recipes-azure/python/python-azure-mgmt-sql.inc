@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure SQL Management Client Library for Python"
 
-PV = "0.8.1"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "6059e27f417e27107a9e070b4b85ad47da611b50"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/sql/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_sql-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-sql"
+SRC_URI[md5sum] = "dae0c0337276f44e56b47934335a48ae"
+SRC_URI[sha256sum] = "5da488a56d5265757b45747cf5fd22413eb089e606658d6e6d84fe3e9b07e4fa"

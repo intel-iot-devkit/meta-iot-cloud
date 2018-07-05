@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Graph RBAC Resource Management Client Library for Python"
 
-PV = "0.31.0"
 PR = "r0"
 
+require azure-sdk-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "9070d94923aa27ec715374b610e6125774767c85"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-		${PYTHON_SITEPACKAGES_DIR}/azure/graphrbac/* \
-		${PYTHON_SITEPACKAGES_DIR}/azure_graphrbac-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-graphrbac"
+SRC_URI[md5sum] = "c356bece975d4611b2990596f2bf3731"
+SRC_URI[sha256sum] = "f94b97bdcf774878fe2f8b8c46a5d6550a4ed891350ed0730c1561a24d488ee2"

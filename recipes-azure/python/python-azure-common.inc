@@ -1,19 +1,21 @@
 DESCRIPTION = "Microsoft Azure Client Library for Python (Common)"
 
-PV = "1.1.5"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-nspkg \
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-io \
+	${PYTHON_PN}-json \
+"
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-adal \
 	${PYTHON_PN}-msrest \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "2333be3c39648beb9bd16b67d2400a5088b5c7ba"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/common/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_common-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-common"
+SRC_URI[md5sum] = "154fed7e6b8fd9111c7157e27c94d0dc"
+SRC_URI[sha256sum] = "3f2b0a0325b22df43ae840399a0b23c0256cb4f7deadb506a335bad516034b54"

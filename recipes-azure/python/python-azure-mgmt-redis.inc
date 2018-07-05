@@ -1,18 +1,21 @@
-DESCRIPTION = "Microsoft Azure Redis Cache Resource Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Redis Cache Management Client Library for Python"
 
-PV = "4.1.0"
 PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "dfc54251bcd5f1592fe86e1d5f630c10f0367178"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/redis/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_redis-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-redis"
+SRC_URI[md5sum] = "7d64e4ce93aa9499906da5abfce4f52c"
+SRC_URI[sha256sum] = "374a267b83ec4e71077b8afad537863fb93816c96407595cdd02973235356ded"

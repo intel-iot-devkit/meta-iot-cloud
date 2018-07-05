@@ -1,18 +1,21 @@
-DESCRIPTION = "Microsoft Azure Cognitive Services Client Library for Python"
+DESCRIPTION = "Microsoft Azure Cognitive Services Management Client Library for Python"
 
-PV = "1.0.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "62773f2bf252233e2aff8eb9e83321d6f04ae3a3"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/cognitiveservices/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_cognitiveservices-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-cognitiveservices"
+SRC_URI[md5sum] = "29f518d98566528fdd3006c55c5c2f42"
+SRC_URI[sha256sum] = "c3247f2786b996a5f328ebdaf65d31507571979e004de7a5ed0ff280f95d80b4"

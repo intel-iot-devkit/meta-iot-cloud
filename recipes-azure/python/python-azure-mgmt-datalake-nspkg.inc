@@ -1,18 +1,18 @@
 DESCRIPTION = "Microsoft Azure Data Lake Management Namespace Package"
+HOMEPAGE = "https://github.com/Azure/azure-sdk-for-python"
+AUTHOR = "Microsoft Azure"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/${PN}-${PV}-license;md5=7f7cc56311d298677f304d0ffce374d8"
 
-PV = "2.0.0"
 PR = "r0"
 
-RDEPENDS_${PN} = "\
-	${PYTHON_PN}-azure-mgmt-nspkg \
-"
+PYPI_PACKAGE_EXT = "zip"
 
-SRCREV = "bff2a6e39c1f8d0e12199e1970f5feeb783733eb"
+inherit pypi
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/datalake/*.py \
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/datalake/*.pyc \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_datalake_nspkg-* \
-"
+SRC_URI += "https://github.com/Azure/azure-sdk-for-python/raw/azure_3.0.0/LICENSE.txt;downloadfilename=${PN}-${PV}-license;name=license"
+SRC_URI[license.md5sum] = "7f7cc56311d298677f304d0ffce374d8"
+SRC_URI[license.sha256sum] = "7b7c80bf1253f5dabfe692633bd7908b6a44d1caba1ab2a776911b224e93f0fd"
 
-SRC_DIR = "azure-mgmt-datalake-nspkg"
+SRC_URI[md5sum] = "bec8531c6e6314c017dc1c05fdd7d1bc"
+SRC_URI[sha256sum] = "28b8774a1aba3e11c431f9c6cc984fde31a0ecbb89270924f392504f4260ca37"

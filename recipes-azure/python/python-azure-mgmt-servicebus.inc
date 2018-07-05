@@ -1,17 +1,21 @@
-DESCRIPTION = "Microsoft Azure ServiceBus Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Service Bus Management Client Library for Python"
 
-PV = "1.1.0"
-PR = "r1"
+PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "f915ead25757e1623e20a150e4dec36987fde056"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/servicebus/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_servicebus-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-servicebus"
+SRC_URI[md5sum] = "734fd59b2a12fdbd4b52e66f7a566cd8"
+SRC_URI[sha256sum] = "d351cde0f2052916b11e2c2c8a36c00d3d4ab494350d5f2c53331af81f11a6ac"

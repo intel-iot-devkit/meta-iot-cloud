@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Consumption Management Client Library for Python"
 
-PV = "0.1.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "5870a4f451eb22835471c415918c47e5e91acf70"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/consumption/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_consumption-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-consumption"
+SRC_URI[md5sum] = "ccf5984c426ae988d76a0a0951da1b80"
+SRC_URI[sha256sum] = "9a85a89f30f224d261749be20b4616a0eb8948586f7f0f20573b8ea32f265189"

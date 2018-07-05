@@ -19,6 +19,7 @@ RDEPENDS_${PN} += "\
 "
 
 RDEPENDS_${PN} += "\
+	${PYTHON_PN}-keyring \
 "
 
 SRC_URI[md5sum] = "0ac15797d94ca759702b1d52425850c4"

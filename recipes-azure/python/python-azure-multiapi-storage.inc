@@ -1,8 +1,21 @@
 DESCRIPTION = "Microsoft Azure Storage Client Library for Python with multi API version support."
 AUTHOR = "Microsoft Corporation"
-HOMEPAGE = "https://github.com/derekbekoe/azure-multiapi-storage-python"
+HOMEPAGE = "https://github.com/Azure/azure-multiapi-storage-python"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6d300361524dd434bb22d8633716c418"
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-crypt \
+	${PYTHON_PN}-datetime \
+	${PYTHON_PN}-io \
+	${PYTHON_PN}-json \
+	${PYTHON_PN}-logging \
+	${PYTHON_PN}-math \
+	${PYTHON_PN}-misc \
+	${PYTHON_PN}-netclient \
+	${PYTHON_PN}-threading \
+	${PYTHON_PN}-xml \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-nspkg \
@@ -12,10 +25,8 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-requests \
 "
 
-SRC_URI = "git://github.com/Azure/azure-multiapi-storage-python.git"
-SRCREV = "d4329a838f7d2fa6f0dab584274fd1bd3e77bcc4"
-
-S = "${WORKDIR}/git"
+SRC_URI[md5sum] = "1462b7f773e523363dc58504d700fc20"
+SRC_URI[sha256sum] = "97c7b322471e96d869dd8006ecb0678b9bd3da2f6a234ee1fbc07b67ea3782c0"
 
 distutils_do_install_append() {
 	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py

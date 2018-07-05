@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Container Instance Client Library for Python"
 
-PV = "0.1.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "4dea39222004f72225938fa6356bfbdd2696aa1b"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/containerinstance/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_containerinstance-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-containerinstance"
+SRC_URI[md5sum] = "3af5d21e37a864523e4ad006c3bdb9ba"
+SRC_URI[sha256sum] = "68c8150b5431752484b4933a6a15856b503068314b9d87ff99b03df3549bc92f"

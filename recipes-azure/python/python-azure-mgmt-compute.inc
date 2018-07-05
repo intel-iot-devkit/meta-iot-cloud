@@ -1,18 +1,21 @@
-DESCRIPTION = "Microsoft Azure Compute Resource Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Compute Management Client Library for Python"
 
-PV = "3.0.1"
 PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "06c79c78859f27206f0f9a3ed5ffdf904167097a"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/compute/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_compute-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-compute"
+SRC_URI[md5sum] = "589ee66d8a3bc950487b6708d8b10f47"
+SRC_URI[sha256sum] = "7a28dbef42c4cfe70d9b3a9e9371668f0f448d343136ce98095b503a3085d854"

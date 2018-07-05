@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Resource Management Client Library for Python"
 
-PV = "1.2.0rc3"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "5a21dbd55ddbefe028a5f0a72d900bf253744daa"
+require azure-mgmt-common.inc
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/resource/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_resource-* \
-"
+PYPI_PACKAGE_EXT = "zip"
 
-SRC_DIR = "azure-mgmt-resource"
+inherit pypi
+
+SRC_URI[md5sum] = "184d271704e9883b69ac8859bbde7a6d"
+SRC_URI[sha256sum] = "fe65dc43c8643a8c3e731783e98334258bf5dc57cf4ae063401e2b05b9d71d71"

@@ -1,18 +1,21 @@
-DESCRIPTION = "Microsoft Azure Authorization Resource Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Authorization Management Client Library for Python"
 
-PV = "0.30.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "83ae4ba1bfa972da5258e92672c6a580b021f0ad"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/authorization/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_authorization-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-authorization"
+SRC_URI[md5sum] = "8ee68c833ecf17150f953b05dfeee0c2"
+SRC_URI[sha256sum] = "535de12ff4f628b62b939ae17cc6186226d7783bf02f242cdd3512ee03a6a40e"

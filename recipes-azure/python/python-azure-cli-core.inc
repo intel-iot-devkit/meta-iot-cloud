@@ -1,7 +1,18 @@
-DESCRIPTION = "Next generation multi-platform command line experience for Azure."
+DESCRIPTION = "Microsoft Azure Command-Line Tools Core Module"
 
-PV = "2.0.18"
 PR = "r0"
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-crypt \
+	${PYTHON_PN}-difflib \
+	${PYTHON_PN}-datetime \
+	${PYTHON_PN}-json \
+	${PYTHON_PN}-logging \
+	${PYTHON_PN}-math \
+	${PYTHON_PN}-misc \
+	${PYTHON_PN}-netclient \
+	${PYTHON_PN}-pprint \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-adal \
@@ -9,20 +20,13 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-argcomplete \
 	${PYTHON_PN}-colorama \
 	${PYTHON_PN}-humanfriendly \
-	${PYTHON_PN}-jmespath \
+	${PYTHON_PN}-knack \
 	${PYTHON_PN}-msrest \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-paramiko \
-	${PYTHON_PN}-pygments \
-	${PYTHON_PN}-pyjwt \
-	${PYTHON_PN}-pyopenssl \
-	${PYTHON_PN}-pyyaml \
 	${PYTHON_PN}-requests \
 	${PYTHON_PN}-six \
-	${PYTHON_PN}-tabulate \
-	${PYTHON_PN}-azure-cli-nspkg \
 "
 
-SRCREV = "eaae7c2d09bbb8ba0af55da58171d29d7b4e081d"
+require azure-cli-common.inc
 
-SRC_DIR = "src/azure-cli-core"
+SRC_URI[md5sum] = "d8ce479ada541cfab61481ea33b5ad18"
+SRC_URI[sha256sum] = "882cfb8e62276523ce8c63906f7a06cc584c32ff3765d31ee9c1ad16796e19ff"

@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure BatchAI Management Client Library for Python"
 
-PV = "0.2.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "dcc71a6eff211743b99b27988536ce3f94495401"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/batchai/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_batchai-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-batchai"
+SRC_URI[md5sum] = "6235495fa4c83bac95d7c84699b02a3f"
+SRC_URI[sha256sum] = "f1870b0f97d5001cdb66208e5a236c9717a0ed18b34dbfdb238a828f3ca2a683"

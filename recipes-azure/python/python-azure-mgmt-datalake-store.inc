@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure Data Lake Store Management Client Library for Python"
 
-PV = "0.1.6"
 PR = "r0"
+
+require azure-mgmt-datalake-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "4724fa7ff0cc9610a05666a036a6b1f29318d1c7"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/datalake/store/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_datalake_store-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-datalake-store"
+SRC_URI[md5sum] = "c90aafcd3ea5c750c78547b414a78f7b"
+SRC_URI[sha256sum] = "9376d35495661d19f8acc5604f67b0bc59493b1835bbc480f9a1952f90017a4c"

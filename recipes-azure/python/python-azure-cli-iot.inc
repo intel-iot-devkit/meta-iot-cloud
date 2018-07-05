@@ -1,14 +1,24 @@
 DESCRIPTION = "Microsoft Azure Command-Line Tools IoT Command Module"
 
-PV = "0.1.12"
 PR = "r0"
 
+require azure-cli-command-modules.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-mgmt-iothub \
-	${PYTHON_PN}-pyopenssl \
-	${PYTHON_PN}-azure-cli-core \
+	${PYTHON_PN}-crypt \
+	${PYTHON_PN}-netclient \
 "
 
-SRCREV = "c94e524373a99f718e2a02361f46a9d81ae9f943"
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-argcomplete \
+	${PYTHON_PN}-azure-cli-core \
+	${PYTHON_PN}-azure-mgmt-iothub \
+	${PYTHON_PN}-azure-mgmt-iothubprovisioningservices \
+	${PYTHON_PN}-azure-mgmt-resource \
+	${PYTHON_PN}-knack \
+	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-pyopenssl \
+"
 
-SRC_DIR = "src/command_modules/azure-cli-iot"
+SRC_URI[md5sum] = "aa4fde31463e50843486fa41979e8afa"
+SRC_URI[sha256sum] = "254353a1188814cea834f6012694d16103a3524887ab33b648e339936aac3df7"

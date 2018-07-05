@@ -1,23 +1,21 @@
-DESCRIPTION = "Microsoft Azure Storage Resource Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Storage Management Client Library for Python"
 
-PV = "1.2.0"
 PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "90b3771b1f6dc9673ffe13be1e380b4bd2d4a639"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/storage/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_storage-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-storage"
-
-# Strip tests
-distutils_do_install_append() {
-	rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/tests
-}
+SRC_URI[md5sum] = "071aa80f61b1297c66b1b5c0efa25b3d"
+SRC_URI[sha256sum] = "b1fc3a293051dee35dffe12d618f925581d6536c94ca5c05b69461ce941125a1"

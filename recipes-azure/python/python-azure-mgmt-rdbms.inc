@@ -1,18 +1,21 @@
 DESCRIPTION = "Microsoft Azure RDBMS Management Client Library for Python"
 
-PV = "0.1.0"
 PR = "r0"
+
+require azure-mgmt-common.inc
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-netclient \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
 	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "c1e229f2d02a8adf287c03396f9cca8ecbc2ff7d"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/rdbms/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_rdbms-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-rdbms"
+SRC_URI[md5sum] = "4747d5c02737163f3da18b6569d1ef56"
+SRC_URI[sha256sum] = "6e5abef2fcac1149dda1119443ea26c847e55e8b4c771b7b033f92d1b3140263"

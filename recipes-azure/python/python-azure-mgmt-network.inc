@@ -1,18 +1,21 @@
-DESCRIPTION = "Microsoft Azure Network Resource Management Client Library for Python"
+DESCRIPTION = "Microsoft Azure Network Management Client Library for Python"
 
-PV = "1.5.0"
 PR = "r0"
 
+require azure-mgmt-common.inc
+
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrestazure \
+	${PYTHON_PN}-netclient \
+"
+
+RDEPENDS_${PN} += "\
 	${PYTHON_PN}-azure-common \
+	${PYTHON_PN}-msrestazure \
 "
 
-SRCREV = "3faba8057288c807e91e59cae92c5f2c6220814f"
+PYPI_PACKAGE_EXT = "zip"
 
-FILES_${PN} = "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/mgmt/network/* \
-	${PYTHON_SITEPACKAGES_DIR}/azure_mgmt_network-* \
-"
+inherit pypi
 
-SRC_DIR = "azure-mgmt-network"
+SRC_URI[md5sum] = "e19b92d147fbf527dea73539e39e1b7d"
+SRC_URI[sha256sum] = "ddfff3dd31c7329b26f282615b719e7030c5206e56951daae4f180957c1e5201"
