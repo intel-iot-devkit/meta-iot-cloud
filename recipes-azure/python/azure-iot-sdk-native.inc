@@ -2,6 +2,10 @@ include azure-iot-sdk.inc
 
 inherit cmake python-dir
 
+SRC_URI += "\
+	file://Fix-for-GCC-8.x.patch \
+"
+
 DEPENDS = "\
     ${PYTHON_PN} \
     boost \
