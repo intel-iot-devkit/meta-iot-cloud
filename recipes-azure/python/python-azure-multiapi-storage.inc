@@ -2,7 +2,7 @@ DESCRIPTION = "Microsoft Azure Storage Client Library for Python with multi API 
 AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/Azure/azure-multiapi-storage-python"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=6d300361524dd434bb22d8633716c418"
+LIC_FILES_CHKSUM = "file://setup.py;beginline=3;endline=16;md5=10a96b36fc766c80cc19f09ec8d7a77a"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-crypt \
