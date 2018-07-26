@@ -1,7 +1,7 @@
 DESCRIPTION = "SSH2 protocol library"
 HOMEPAGE = "https://github.com/paramiko/paramiko/"
 AUTHOR = "Jeff Forcier"
-LICENSE = "LGPL"
+LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
 
 SRC_URI = "git://github.com/paramiko/paramiko.git"
