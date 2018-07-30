@@ -14,8 +14,3 @@ SRC_URI = "git://github.com/jaraco/portend.git"
 SRCREV = "3c79ca8889bf4886ae6499fb04abf85aaa486cf6"
 
 S = "${WORKDIR}/git"
-
-do_compile_prepend() {
-	# Fix-up setup script for older versions of setuptools
-	sed -i '42,44d' ${S}/setup.py
-}
