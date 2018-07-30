@@ -5,7 +5,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7efa302969517c58e8c15e72b714abf0"
 
 DEPENDS = "nodejs-native"
-RDEPENDS_${PN} += "node-red"
+RDEPENDS_${PN} += "node-red bash"
 
 PR = "r0"
 
