@@ -11,4 +11,6 @@ PR = "r0"
 
 S = "${WORKDIR}/git"
 
+CLEANBROKEN = "1"
+
 BBCLASSEXTEND = "native nativesdk"
