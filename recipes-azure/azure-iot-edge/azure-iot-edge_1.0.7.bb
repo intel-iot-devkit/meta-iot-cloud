@@ -120,17 +120,21 @@ PACKAGECONFIG[bluetooth] = "-Denable_ble_module:BOOL=ON, -Denable_ble_module:BOO
 EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=ON -Dinstall_modules:BOOL=ON -Dinstall_executables:BOOL=ON -Drun_as_a_service:BOOL=OFF"
 
 do_modules() {
-	# Modbus Module
-	cp -rf ${WORKDIR}/git-modbus/modules/modbus_read ${S}/modules
-	cp -rf ${WORKDIR}/git-modbus/samples/modbus_sample ${S}/samples
-	echo 'add_subdirectory(modbus_read)' >> ${S}/modules/CMakeLists.txt
-	echo 'add_subdirectory(modbus_sample)' >> ${S}/samples/CMakeLists.txt
-
-	# SQLite Module
-	cp -rf ${WORKDIR}/git-sqlite/modules/sqlite ${S}/modules
-	cp -rf ${WORKDIR}/git-sqlite/samples/sqlite_sample ${S}/samples
-	echo 'add_subdirectory(sqlite)' >> ${S}/modules/CMakeLists.txt
-	echo 'add_subdirectory(sqlite_sample)' >> ${S}/samples/CMakeLists.txt
+    # Initialise submodules
+    cd ${S}
+    git submodule update --init --recursive
+    
+    # Modbus Module
+    cp -rf ${WORKDIR}/git-modbus/modules/modbus_read ${S}/modules
+    cp -rf ${WORKDIR}/git-modbus/samples/modbus_sample ${S}/samples
+    echo 'add_subdirectory(modbus_read)' >> ${S}/modules/CMakeLists.txt
+    echo 'add_subdirectory(modbus_sample)' >> ${S}/samples/CMakeLists.txt
+   	
+    # SQLite Module
+    cp -rf ${WORKDIR}/git-sqlite/modules/sqlite ${S}/modules
+    cp -rf ${WORKDIR}/git-sqlite/samples/sqlite_sample ${S}/samples
+    echo 'add_subdirectory(sqlite)' >> ${S}/modules/CMakeLists.txt
+    echo 'add_subdirectory(sqlite_sample)' >> ${S}/samples/CMakeLists.txt
 }
 
 addtask do_modules after do_unpack before do_patch
