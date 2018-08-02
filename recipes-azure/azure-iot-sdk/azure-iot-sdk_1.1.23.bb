@@ -18,7 +18,7 @@ DEPENDS = "\
 "
 
 SRC_URI = "\
-	git://github.com/Azure/azure-iot-sdk-python.git \
+	gitsm://github.com/Azure/azure-iot-sdk-python.git \
 	file://0001-Refactor-cmake-if-statements.patch \
 	file://0002-Only-run-tests-if-requested.patch \
 "
@@ -46,13 +46,6 @@ PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_py
 ## CMake ##
 OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
-
-do_submodules() {
-	cd ${S}
-	git submodule update --init --recursive
-}
-
-addtask do_submodules after do_unpack before do_patch
 
 do_install_append() {
 	# Python
