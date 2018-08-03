@@ -18,11 +18,20 @@ DEPENDS = "\
 "
 
 SRC_URI = "\
-	gitsm://github.com/Azure/azure-iot-sdk-python.git \
+    git://github.com/Azure/azure-iot-sdk-python.git \
+    git://github.com/Azure/azure-iot-sdk-c.git;destsuffix=c;name=c \
+    git://github.com/kgabis/parson.git;destsuffix=parson;name=parson \
+"
+
+SRCREV = "db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8"
+SRCREV_c = "7b4f0dfaa100f1774e98d60336a04fec73debddb"
+SRCREV_parson = "578b25e5909df0ca9fb78d5173a6b247faea0c5a"
+
+# Patches
+SRC_URI += "\
 	file://0001-Refactor-cmake-if-statements.patch \
 	file://0002-Only-run-tests-if-requested.patch \
 "
-SRCREV = "db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8"
 
 PR = "r0"
 
@@ -46,6 +55,13 @@ PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_py
 ## CMake ##
 OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
+
+do_submodules() {
+	cp -rf ${WORKDIR}/c ${S}
+	cp -rf ${WORKDIR}/parson ${S}/c/deps
+}
+
+addtask do_submodules after do_unpack before do_patch
 
 do_install_append() {
 	# Python
