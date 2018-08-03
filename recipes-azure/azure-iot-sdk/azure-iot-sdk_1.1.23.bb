@@ -18,9 +18,20 @@ DEPENDS = "\
 "
 
 SRC_URI = "\
-	gitsm://github.com/Azure/azure-iot-sdk-python.git \
+    git://github.com/Azure/azure-iot-sdk-python.git \
+    git://github.com/Azure/azure-iot-sdk-c.git;destsuffix=c;name=c \
+    git://github.com/kgabis/parson.git;destsuffix=parson;name=parson \
 "
+
 SRCREV = "db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8"
+SRCREV_c = "7b4f0dfaa100f1774e98d60336a04fec73debddb"
+SRCREV_parson = "578b25e5909df0ca9fb78d5173a6b247faea0c5a"
+
+# Patches
+SRC_URI += "\
+	file://0001-Refactor-cmake-if-statements.patch \
+	file://0002-Only-run-tests-if-requested.patch \
+"
 
 PR = "r0"
 
@@ -40,6 +51,24 @@ PACKAGES = "\
 ## CMake ##
 OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
+
+do_submodules() {
+	cp -rf ${WORKDIR}/c ${S}
+	cp -rf ${WORKDIR}/parson ${S}/c/deps
+}
+
+addtask do_submodules after do_unpack before do_patch
+
+do_install_append() {
+	# Python
+	if ${@bb.utils.contains('PACKAGECONFIG','python','true','false',d)}; then
+		install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+		oe_libinstall -C ${OUTDIR}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
+		oe_libinstall -C ${OUTDIR}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
+		rm ${D}${libdir}/iothub_client.so
+		rm ${D}${libdir}/iothub_service_client.so
+	fi
+}
 
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake

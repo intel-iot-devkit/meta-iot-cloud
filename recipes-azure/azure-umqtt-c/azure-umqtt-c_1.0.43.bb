@@ -8,7 +8,7 @@ DEPENDS = "azure-c-shared-utility"
 inherit cmake
 
 SRC_URI = "\
-	gitsm://github.com/Azure/azure-umqtt-c.git \
+	git://github.com/Azure/azure-umqtt-c.git \
 "
 SRCREV = "b2b733ad7c7f609d4868c381f1d647abf431cbb0"
 
