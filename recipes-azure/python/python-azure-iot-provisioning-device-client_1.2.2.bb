@@ -1,6 +1,6 @@
 DESCRIPTION = "Azure IoT Provisioning Device Client Library"
 
-include azure-iot-sdk-native.inc
+include azure-iot-sdk.inc
 
 PR = "r0"
 

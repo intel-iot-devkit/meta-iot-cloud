@@ -1,6 +1,6 @@
 DESCRIPTION = "Azure IoT Hub Service Client Library"
 
-include azure-iot-sdk-native.inc
+include azure-iot-sdk.inc
 
 PR = "r0"
 
