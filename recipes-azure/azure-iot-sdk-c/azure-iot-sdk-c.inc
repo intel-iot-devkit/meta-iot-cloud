@@ -26,6 +26,12 @@ PACKAGES = "\
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
+do_submodules() {
+	cp -rf ${WORKDIR}/parson ${S}/deps
+}
+
+addtask do_submodules after do_unpack before do_patch
+
 sysroot_stage_all_append () {
 	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 }
