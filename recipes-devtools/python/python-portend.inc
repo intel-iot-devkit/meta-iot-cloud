@@ -1,8 +1,16 @@
-SUMMARY = "PLY is yet another implementation of lex and yacc for Python."
-HOMEPAGE = "http://www.dabeaz.com/ply/"
+SUMMARY = "TCP port monitoring utilities"
+HOMEPAGE = "https://github.com/jaraco/portend"
 AUTHOR = "Jason R. Coombs"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://README.rst;beginline=17;endline=23;md5=7539f5d94d79ba9a8833f2051c507247"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=a33f38bbf47d48c70fe0d40e5f77498e"
+
+DEPENDS += "\
+    ${PYTHON_PN}-setuptools-scm-native \
+"
+
+RDEPENDS_${PN} += "\
+	${PYTHON_PN}-io \
+"
 
 RDEPENDS_${PN} += "\
 	${PYTHON_PN}-tempora \
@@ -10,7 +18,5 @@ RDEPENDS_${PN} += "\
 
 PR = "r0"
 
-SRC_URI = "git://github.com/jaraco/portend.git"
-SRCREV = "3c79ca8889bf4886ae6499fb04abf85aaa486cf6"
-
-S = "${WORKDIR}/git"
+SRC_URI[md5sum] = "c1f36f2126da940ca5192dd1488b4f28"
+SRC_URI[sha256sum] = "b7ce7d35ea262415297cbfea86226513e77b9ee5f631d3baa11992d663963719"
