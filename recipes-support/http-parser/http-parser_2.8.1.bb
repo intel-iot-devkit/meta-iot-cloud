@@ -1,12 +1,12 @@
 SUMMARY = "Parser for HTTP messages written in C"
 HOMEPAGE = "https://github.com/nodejs/http-parser"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://LICENSE-MIT;md5=20d989143ee48a92dacde4f06bbcb59a"
+LIC_FILES_CHKSUM = "file://LICENSE-MIT;md5=9bfa835d048c194ab30487af8d7b3778"
 
 SRC_URI = "git://github.com/nodejs/http-parser.git"
-SRCREV = "9b0d5b33ebdaacff1dadd06bad4e198b11ff880e"
+SRCREV = "54f55a2f02a823e5f5c87abe853bb76d1170718d"
 
-PR = "r1"
+PR = "r0"
 
 S = "${WORKDIR}/git"
 
