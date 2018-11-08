@@ -8,11 +8,25 @@ SRC_URI += "\
     file://Compile-parson-into-main-libs.patch \
     file://Fix-cmake-build-issues.patch \
     file://Fix-missing-installed-libs.patch \
-	file://Fix-for-GCC-8.x.patch \
 "
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
+
+do_unpack_extra(){
+    rm -rf ${S}/c-utility
+    rm -rf ${S}/umqtt
+    rm -rf ${S}/uamqp
+    rm -rf ${S}/deps/parson
+    rm -rf ${S}/deps/uhttp
+    
+    ln -s ${WORKDIR}/c-utility ${S}
+    ln -s ${WORKDIR}/umqtt ${S}
+    ln -s ${WORKDIR}/uamqp ${S}
+    ln -s ${WORKDIR}/parson ${S}/deps
+    ln -s ${WORKDIR}/uhttp ${S}/deps
+}
+addtask unpack_extra after do_unpack before do_patch
 
 PACKAGECONFIG ??= "amqp mqtt service_client"
 PACKAGECONFIG[amqp] = "-Duse_amqp:BOOL=ON, -Duse_amqp:BOOL=OFF, azure-uamqp-c"
