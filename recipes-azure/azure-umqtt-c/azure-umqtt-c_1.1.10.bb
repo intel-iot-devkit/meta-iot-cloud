@@ -7,7 +7,7 @@ SRC_URI = "\
 	gitsm://github.com/Azure/azure-umqtt-c.git \
 "
 
-SRCREV = "870a2d5a496c38331e6bfaa4e0144c03fa65a6d7"
+SRCREV = "68ee315a77382f09a8732093603c3c2f1ada08c8"
 
 PR = "r0"
 
