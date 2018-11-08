@@ -1,15 +1,15 @@
-From 850fe8ad7b97fbbecf7858691c35a0305d9c9e20 Mon Sep 17 00:00:00 2001
+From 64517ea1e03e1dd64595f144b2fb90a5d8d6a021 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Fri, 1 Jun 2018 14:06:31 +0100
+Date: Thu, 8 Nov 2018 12:20:04 +0000
 Subject: [PATCH] Fix packaging issues
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
- CMakeLists.txt | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ CMakeLists.txt | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 23c21b8..4d88d90 100644
+index 6e0dc36..f039481 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -11,6 +11,9 @@ project(azure_c_shared_utility)
@@ -22,12 +22,11 @@ index 23c21b8..4d88d90 100644
  # Include the common build rules for the C SDK
  include(configs/azure_iot_build_rules.cmake)
  
-@@ -354,7 +362,15 @@ endif()
- if(${build_as_dynamic})
-     #make sure we can link as dll/so
-     add_library(aziotsharedutil_dll SHARED ./src/aziotsharedutil.def ${source_c_files} ${source_h_files})
--    set_target_properties(aziotsharedutil_dll PROPERTIES OUTPUT_NAME "aziotsharedutil")
-+    
+@@ -406,7 +409,14 @@ if(${build_as_dynamic})
+         ${source_h_files}
+         ${def_files}
+     )
+-    set_target_properties(aziotsharedutil_dll PROPERTIES OUTPUT_NAME "aziotsharedutil_dll")
 +    if (NOT WIN32)
 +        set_target_properties(aziotsharedutil_dll
 +            PROPERTIES

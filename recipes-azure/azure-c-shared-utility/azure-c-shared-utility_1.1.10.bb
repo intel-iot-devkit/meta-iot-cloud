@@ -7,7 +7,7 @@ SRC_URI = "\
     git://github.com/Azure/azure-c-shared-utility.git \
 "
 
-SRCREV = "be66ddf08006381f68b0be44df51e4314cc973b0"
+SRCREV = "4deb950a4154e9baa39c87d75dd323dd58e239b7"
 
 PR = "r0"
 
