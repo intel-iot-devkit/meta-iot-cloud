@@ -1,6 +1,6 @@
-From 2463c218c794655c1068fbd467949c5ee19de546 Mon Sep 17 00:00:00 2001
+From 2124dbef79f97e785a3cc75acf636e20e0845661 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Wed, 30 May 2018 16:56:52 +0100
+Date: Thu, 8 Nov 2018 12:34:23 +0000
 Subject: [PATCH] Fix packaging issues
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
@@ -9,7 +9,7 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 05cba68..dd73357 100644
+index 96a2692..46ba016 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -6,6 +6,9 @@ project(uamqp)
@@ -19,10 +19,10 @@ index 05cba68..dd73357 100644
 +set(GENERIC_LIB_VERSION ${UAMQP_VERSION})
 +string(SUBSTRING ${UAMQP_VERSION} 0 1 GENERIC_LIB_SOVERSION)
 +
- # Include the common build rules for the C SDK
- include(deps/azure-c-shared-utility/configs/azure_iot_build_rules.cmake)
- 
-@@ -212,6 +215,14 @@ setTargetBuildProperties(uamqp)
+ option(run_e2e_tests "set run_e2e_tests to ON to run e2e tests (default is OFF) [if possible, they are always built]" OFF)
+ option(run_unittests "set run_unittests to ON to run unittests (default is OFF)" OFF)
+ option(skip_samples "set skip_samples to ON to skip building samples (default is OFF)[if possible, they are always built]" OFF)
+@@ -225,6 +228,14 @@ setTargetBuildProperties(uamqp)
  
  target_link_libraries(uamqp aziotsharedutil)
  

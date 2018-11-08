@@ -4,6 +4,7 @@ DEPENDS = "azure-c-shared-utility"
 
 SRC_URI += "\
     file://Fix-packaging-issues.patch \
+    file://Hardcode-c-shared-utility-path.patch \
 "
 
 S = "${WORKDIR}/git"
