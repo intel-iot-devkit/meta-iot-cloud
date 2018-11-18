@@ -11,7 +11,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 ## Dependencies
 This layer depends on packages provided by the following layers:
 * `meta-openembedded` [http://cgit.openembedded.org/meta-openembedded/]
-* `meta-java` [http://git.yoctoproject.org/cgit/cgit.cgi/meta-java/]
 
 Configuration
 =============
@@ -24,7 +23,6 @@ Configuration
 ```bitbake
 	BBLAYERS += "path/to/meta-openembedded/meta-oe"
 	BBLAYERS += "path/to/meta-openembedded/meta-python"
-	BBLAYERS += "path/to/meta-java"
 ```
 
 Usage
@@ -56,25 +54,4 @@ Alternatively to add support for a given platform into your image add the follow
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-aws"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-azure"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-google"
-```
-
-Installation
-============
-
-Installing on Intel Developer Kit Yocto based images (Edison, Galileo)
-----------------------------------------------------------------------
-
-``` bash
-echo "src iotkit http://iotdk.intel.com/repos/3.5/intelgalactic/opkg/i586" > /etc/opkg/iotkit.conf
-echo "src iot-cloud http://iotdk.intel.com/repos/iot-cloud/iotdk/3.5" > /etc/opkg/iot-cloud.conf
-opkg update
-```
-
-Installing on Wind River IDP XT 3 (x86)
----------------------------------------
-
-``` bash
-rpm --import http://iotdk.intel.com/misc/iot_pub2.key
-smart channel --add IoT_Cloud type=rpm-md name="IoT_Cloud" baseurl=http://iotdk.intel.com/repos/iot-cloud/wrlinux7/rcpl13/
-smart update
 ```
