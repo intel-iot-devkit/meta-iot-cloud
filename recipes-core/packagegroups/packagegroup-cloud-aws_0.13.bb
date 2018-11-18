@@ -3,11 +3,11 @@ LICENSE = "MIT"
 
 inherit packagegroup python-dir
 
-PR = "r2"
+PR = "r3"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "python java cpp cli"
+PACKAGECONFIG ??= "python cpp cli"
 
 PACKAGECONFIG[python] = "\
 	, \
@@ -15,14 +15,6 @@ PACKAGECONFIG[python] = "\
 	, \
 	${PYTHON_PN}-aws-iot-device-sdk \
 	${PYTHON_PN}-aws-iot-device-sdk-samples \
-"
-
-PACKAGECONFIG[java] = "\
-	, \
-	, \
-	, \
-	aws-iot-device-sdk-java \
-	aws-iot-device-sdk-java-samples \
 "
 
 PACKAGECONFIG[cpp] = "\
