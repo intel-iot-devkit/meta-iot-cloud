@@ -4,8 +4,8 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
 
-SRC_URI[md5sum] = "ab4900f2e90d493609e0e72e7b745db4"
-SRC_URI[sha256sum] = "3cbcbc12e4a657fbb0ad5779b330c8869f3c53eeb737de5d476b0bb32c734981"
+SRC_URI[md5sum] = "1e3344b1bf2d94ab8f005d2a400de021"
+SRC_URI[sha256sum] = "f802865c2fdffccc47a9843f4439ce0e36bc4e1bafc18fc9e79623212f7fa468"
 
 inherit pypi
 
@@ -19,4 +19,5 @@ RDEPENDS_${PN} = "\
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-numbers \
     ${PYTHON_PN}-html \
+    ${PYTHON_PN}-urllib3 \
 "
