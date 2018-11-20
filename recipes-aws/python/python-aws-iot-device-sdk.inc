@@ -16,9 +16,9 @@ S = "${WORKDIR}/git"
 
 do_install_append() {
 	# Samples
-	install -d ${D}${datadir}/awsiotsdk/samples/python
-	cp -r ${S}/samples/* ${D}${datadir}/awsiotsdk/samples/python/
+	install -d ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}
+	cp -r ${S}/samples/* ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}/
 }
 
 ## Samples ##
-FILES_${PN}-samples += "${datadir}/awsiotsdk/samples/python"
+FILES_${PN}-samples += "${datadir}/awsiotsdk/samples/${PYTHON_PN}"
