@@ -27,12 +27,6 @@ SRCREV = "db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8"
 SRCREV_c = "7b4f0dfaa100f1774e98d60336a04fec73debddb"
 SRCREV_parson = "578b25e5909df0ca9fb78d5173a6b247faea0c5a"
 
-# Patches
-SRC_URI += "\
-	file://0001-Refactor-cmake-if-statements.patch \
-	file://0002-Only-run-tests-if-requested.patch \
-"
-
 PR = "r0"
 
 S = "${WORKDIR}/git"
