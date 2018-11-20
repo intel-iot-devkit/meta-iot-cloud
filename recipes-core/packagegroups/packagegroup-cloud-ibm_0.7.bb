@@ -1,9 +1,9 @@
 DESCRIPTION = "Packages for IBM Cloud & Watson platforms."
 LICENSE = "MIT"
 
-inherit packagegroup python-dir
+inherit packagegroup
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
@@ -29,7 +29,7 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	${PYTHON_PN}-ibmiotf \
+	python-ibmiotf \
 "
 
 PACKAGECONFIG[node-red] = "\
