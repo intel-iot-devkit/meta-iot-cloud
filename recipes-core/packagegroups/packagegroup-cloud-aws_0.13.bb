@@ -1,25 +1,19 @@
 DESCRIPTION = "Packages for Amazon Web Services."
 LICENSE = "MIT"
 
-inherit packagegroup python-dir
+inherit packagegroup
 
-PR = "r2"
+PR = "r3"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "python cli"
+PACKAGECONFIG ??= "python"
 
 PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	${PYTHON_PN}-aws-iot-device-sdk \
-	${PYTHON_PN}-aws-iot-device-sdk-samples \
-"
-
-PACKAGECONFIG[cli] = "\
-	, \
-	, \
-	, \
-	${PYTHON_PN}-awscli \
+	python-aws-iot-device-sdk \
+	python-aws-iot-device-sdk-samples \
+	python-awscli \
 "
