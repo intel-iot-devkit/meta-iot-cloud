@@ -7,7 +7,6 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-google-cloud-core \
 	${PYTHON_PN}-google-gax \
 	${PYTHON_PN}-googleapis-common-protos \
-	${PYTHON_PN}-enum34 \
 "
 
 SRCREV = "f0bf9df3dc53cb73a8564a11bde146414355ff53"
