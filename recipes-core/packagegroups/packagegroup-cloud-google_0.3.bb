@@ -1,9 +1,9 @@
 DESCRIPTION = "Packages for the Google Cloud Platform."
 LICENSE = "MIT"
 
-inherit packagegroup python-dir
+inherit packagegroup
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
@@ -13,7 +13,7 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	${PYTHON_PN}-google-cloud \
+	python-google-cloud \
 "
 
 PACKAGECONFIG[cli] = "\
