@@ -1,13 +1,13 @@
 DESCRIPTION = "Packages for Microsoft Azure IoT."
 LICENSE = "MIT"
 
-inherit packagegroup python-dir
+inherit packagegroup
 
-PR = "r2"
+PR = "r3"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "c python cli"
+PACKAGECONFIG ??= "c python"
 
 PACKAGECONFIG[c] = "\
 	, \
@@ -21,12 +21,6 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	${PYTHON_PN}-azure-iot-sdk \
-"
-
-PACKAGECONFIG[cli] = "\
-	, \
-	, \
-	, \
-	${PYTHON_PN}-azure-cli \
+	python-azure-iot-sdk \
+	python-azure-cli \
 "
