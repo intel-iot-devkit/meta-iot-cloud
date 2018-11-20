@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/alexa-pi/AlexaPi"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5c5f860bd5a8be2c5ff164136c27fbad"
 
-inherit python-dir systemd
+inherit systemd
 
 SRC_URI = "\
 	git://github.com/alexa-pi/AlexaPi.git \
@@ -18,15 +18,15 @@ SRC_URI = "\
 SRCREV = "9e0d20cd269ad5eb4f0d5f2c9ef89f0107c9c333"
 
 RDEPENDS_${PN} = "\
-	${PYTHON_PN} \
-	${PYTHON_PN}-requests \
-	${PYTHON_PN}-cherrypy \
-	${PYTHON_PN}-pyalsaaudio \
-	${PYTHON_PN}-webrtcvad \
-	${PYTHON_PN}-pyyaml \
-	${PYTHON_PN}-pocketsphinx \
-	${PYTHON_PN}-coloredlogs \
-	${PYTHON_PN}-future \
+	python \
+	python-requests \
+	python-cherrypy \
+	python-pyalsaaudio \
+	python-webrtcvad \
+	python-pyyaml \
+	python-pocketsphinx \
+	python-coloredlogs \
+	python-future \
 "
 
 RDEPENDS_${PN} += "\
@@ -39,7 +39,7 @@ RPROVIDES_${PN} += "alexa-pi"
 RREPLACES_${PN} += "alexa-pi"
 RCONFLICTS_${PN} += "alexa-pi"
 
-PR = "r6"
+PR = "r7"
 
 PACKAGES = "${PN}"
 
