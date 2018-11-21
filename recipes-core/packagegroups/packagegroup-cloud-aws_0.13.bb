@@ -7,7 +7,7 @@ PR = "r3"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "python python3 java cpp"
+PACKAGECONFIG ??= "python java cpp"
 
 PACKAGECONFIG[python] = "\
 	, \
