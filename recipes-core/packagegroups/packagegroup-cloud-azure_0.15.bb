@@ -3,11 +3,7 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
-<<<<<<< HEAD:recipes-core/packagegroups/packagegroup-cloud-azure_0.15.bb
-PR = "r0"
-=======
-PR = "r3"
->>>>>>> 6fcb879... Azure: Fix support for Python 3.x:recipes-core/packagegroups/packagegroup-cloud-azure_0.12.bb
+PR = "r1"
 
 PACKAGES = "${PN}"
 
@@ -29,11 +25,8 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-<<<<<<< HEAD:recipes-core/packagegroups/packagegroup-cloud-azure_0.15.bb
-	${PYTHON_PN}-azure-iothub-device-client \
-	${PYTHON_PN}-azure-iothub-service-client \
-=======
-	python-azure-iot-sdk \
+	python-azure-iothub-device-client \
+	python-azure-iothub-service-client \
 	python-azure-cli \
 "
 
@@ -42,7 +35,6 @@ PACKAGECONFIG[python3] = "\
 	, \
 	, \
 	python3-azure-cli \
->>>>>>> 6fcb879... Azure: Fix support for Python 3.x:recipes-core/packagegroups/packagegroup-cloud-azure_0.12.bb
 "
 
 PACKAGECONFIG[java] = "\
