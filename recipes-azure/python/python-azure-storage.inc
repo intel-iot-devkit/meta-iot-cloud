@@ -17,9 +17,3 @@ SRC_URI = "git://github.com/Azure/azure-storage-python.git"
 SRCREV = "11d0f03790423ae1e9fc8f6dc7b44383bc03febc"
 
 S = "${WORKDIR}/git"
-
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.pyc
-}

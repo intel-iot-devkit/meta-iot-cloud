@@ -23,8 +23,3 @@ do_compile_prepend() {
 		sed -i -- 's/~=/>=/g' setup.py
 	fi
 }
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.pyc
-}
