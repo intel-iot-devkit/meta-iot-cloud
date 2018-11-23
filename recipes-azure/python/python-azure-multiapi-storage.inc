@@ -16,8 +16,3 @@ SRC_URI = "git://github.com/Azure/azure-multiapi-storage-python.git"
 SRCREV = "d4329a838f7d2fa6f0dab584274fd1bd3e77bcc4"
 
 S = "${WORKDIR}/git"
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.pyc
-}
