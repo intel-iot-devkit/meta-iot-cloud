@@ -12,8 +12,8 @@ RDEPENDS_${PN} += "\
 PR = "r0"
 
 SRC_URI = "\
-	https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
-	file://node-red.service \
+    https://github.com/${PN}/${PN}/releases/download/${PV}/${PN}-${PV}.zip \
+    file://node-red.service \
 "
 
 SRC_URI[md5sum] = "a7c20a9708ea532a51376392a96d687b"
@@ -39,34 +39,34 @@ do_compile() {
     export HOME=${WORKDIR}
     
     # Set and clear cache
-	npm set cache ${NPM_CACHE_DIR}
-	npm cache clear --force
+    npm set cache ${NPM_CACHE_DIR}
+    npm cache clear --force
 
-	# Install
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+    # Install
+    npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
 }
 
 do_install() {
     export HOME=${WORKDIR}
     
     # Install
-	install -d ${D}${NODE_MODULES_DIR}${PN}
-	cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
+    install -d ${D}${NODE_MODULES_DIR}${PN}
+    cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
 	
-	# Remove hardware specific files
+    # Remove hardware specific files
     rm -rf ${D}${NODE_MODULES_DIR}${PN}/bin
     rm -rf ${D}${NODE_MODULES_DIR}${PN}/nodes/core/hardware
 
-	# Set permissions
-	chmod 0755 ${D}${NODE_MODULES_DIR}${PN}/red.js
+    # Set permissions
+    chmod 0755 ${D}${NODE_MODULES_DIR}${PN}/red.js
 
-	# Symlinks
-	install -d ${D}${bindir}
-	ln -s ${NODE_MODULES_DIR}${PN}/red.js ${D}${bindir}/${PN}
+    # Symlinks
+    install -d ${D}${bindir}
+    ln -s ${NODE_MODULES_DIR}${PN}/red.js ${D}${bindir}/${PN}
 	
-	# Service
-	install -d ${D}${systemd_unitdir}/system/
-	install -m 0644 ${WORKDIR}/${PN}.service ${D}${systemd_unitdir}/system/
+    # Service
+    install -d ${D}${systemd_unitdir}/system/
+    install -m 0644 ${WORKDIR}/${PN}.service ${D}${systemd_unitdir}/system/
 }
 
 inherit systemd
@@ -78,8 +78,8 @@ PACKAGES = "${PN}"
 
 FILES_${PN} += "\
     ${NODE_MODULES_DIR} \
-	${bindir} \
-	${systemd_unitdir} \
+    ${bindir} \
+    ${systemd_unitdir} \
 "
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
