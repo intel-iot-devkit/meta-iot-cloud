@@ -52,7 +52,7 @@ do_install() {
     # Install
     install -d ${D}${NODE_MODULES_DIR}${PN}
     cp -r ${S}/* ${D}${NODE_MODULES_DIR}${PN}
-	
+
     # Remove hardware specific files
     rm -rf ${D}${NODE_MODULES_DIR}${PN}/bin
     rm -rf ${D}${NODE_MODULES_DIR}${PN}/nodes/core/hardware
@@ -63,7 +63,7 @@ do_install() {
     # Symlinks
     install -d ${D}${bindir}
     ln -s ${NODE_MODULES_DIR}${PN}/red.js ${D}${bindir}/${PN}
-	
+
     # Service
     install -d ${D}${systemd_unitdir}/system/
     install -m 0644 ${WORKDIR}/${PN}.service ${D}${systemd_unitdir}/system/
