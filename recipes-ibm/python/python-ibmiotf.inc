@@ -11,7 +11,7 @@ RDEPENDS_${PN} = "\
 	${PYTHON_PN}-datetime \
 	${PYTHON_PN}-threading \
 	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-distribute \
+	${PYTHON_PN}-setuptools \
 "
 
 RDEPENDS_${PN} += "\
