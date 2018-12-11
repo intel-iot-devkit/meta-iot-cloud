@@ -29,8 +29,3 @@ SRC_URI[license.sha256sum] = "a1487fcf2dd5961c1a4cf240035b8ede59f2fef37edcb58c70
 
 SRC_URI[md5sum] = "53f6922549760564286563bfb5f82a3a"
 SRC_URI[sha256sum] = "fa5d46c2538f2679872193f9de06b11c3db306dfdfa9217fc48507498fac7356"
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.pyc
-}

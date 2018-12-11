@@ -1,13 +1,13 @@
 DESCRIPTION = "Packages for Microsoft Azure IoT."
 LICENSE = "MIT"
 
-inherit packagegroup python-dir
+inherit packagegroup
 
-PR = "r0"
+PR = "r1"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "c python node-red cli"
+PACKAGECONFIG ??= "c python node-red"
 
 PACKAGECONFIG[c] = "\
 	, \
@@ -21,8 +21,18 @@ PACKAGECONFIG[python] = "\
 	, \
 	, \
 	, \
-	${PYTHON_PN}-azure-iothub-device-client \
-	${PYTHON_PN}-azure-iothub-service-client \
+	python-azure-cli \
+	python-azure-iothub-device-client \
+	python-azure-iothub-provisioningserviceclient \
+	python-azure-iothub-service-client \	
+"
+
+PACKAGECONFIG[python3] = "\
+	, \
+	, \
+	, \
+	python3-azure-cli \
+	python3-azure-iothub-provisioningserviceclient \
 "
 
 PACKAGECONFIG[node-red] = "\
@@ -30,11 +40,4 @@ PACKAGECONFIG[node-red] = "\
 	, \
 	, \
 	node-red-contrib-azureiothubnode \
-"
-
-PACKAGECONFIG[cli] = "\
-	, \
-	, \
-	, \
-	${PYTHON_PN}-azure-cli \
 "

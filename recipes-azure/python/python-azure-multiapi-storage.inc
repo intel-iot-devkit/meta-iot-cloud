@@ -27,8 +27,3 @@ RDEPENDS_${PN} += "\
 
 SRC_URI[md5sum] = "1462b7f773e523363dc58504d700fc20"
 SRC_URI[sha256sum] = "97c7b322471e96d869dd8006ecb0678b9bd3da2f6a234ee1fbc07b67ea3782c0"
-
-distutils_do_install_append() {
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.py
-	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/azure/__init__.pyc
-}
