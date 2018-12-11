@@ -16,10 +16,7 @@ RDEPENDS_${PN} += "\
 	${PYTHON_PN}-s3transfer \
 	${PYTHON_PN}-pyyaml \
 	${PYTHON_PN}-difflib \
-	${PYTHON_PN}-subprocess \
-	${PYTHON_PN}-ctypes \
 	${PYTHON_PN}-misc \
-	${PYTHON_PN}-argparse \
 	${PYTHON_PN}-unixadmin \
 "
 
