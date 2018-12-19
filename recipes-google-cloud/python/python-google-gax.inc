@@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f83cd5dde2d24d5e0f5ae6b1364ace79"
 
 RDEPENDS_${PN} += " \
 	${PYTHON_PN}-dill \
-	${PYTHON_PN}-future \
 	${PYTHON_PN}-googleapis-common-protos \
 	${PYTHON_PN}-grpcio \
 	${PYTHON_PN}-google-auth \

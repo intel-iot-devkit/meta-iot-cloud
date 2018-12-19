@@ -4,10 +4,6 @@ AUTHOR = "Peter Odding"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d4b9bfd363e871d2be165d0372c0169f"
 
-RDEPENDS_${PN} += "\
-	${PYTHON_PN}-monotonic \
-"
-
 PR = "r0"
 
 SRC_URI = "git://github.com/xolox/python-humanfriendly.git"
