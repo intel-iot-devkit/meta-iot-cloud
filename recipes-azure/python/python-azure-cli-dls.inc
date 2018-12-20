@@ -5,11 +5,11 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-datalake-store \
-	${PYTHON_PN}-azure-mgmt-datalake-store \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-datalake-store \
+    ${PYTHON_PN}-azure-mgmt-datalake-store \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrestazure \
 "
 
 SRC_URI[md5sum] = "7247f6f2e9ffbf467b0ceadacd706e4c"

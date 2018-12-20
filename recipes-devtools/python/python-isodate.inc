@@ -5,12 +5,12 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://setup.py;beginline=2;endline=27;md5=a0de0126e2ca03c5e0bcbadc70fd84e3"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-numbers \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-numbers \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 PR = "r0"

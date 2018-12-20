@@ -5,17 +5,17 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-json \
+    ${PYTHON_PN}-json \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-cosmosdb \
-	${PYTHON_PN}-azure-mgmt-resource \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-pydocumentdb \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-argcomplete \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-cosmosdb \
+    ${PYTHON_PN}-azure-mgmt-resource \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-pydocumentdb \
+    ${PYTHON_PN}-requests \
 "
 
 SRC_URI[md5sum] = "c50ec6ff3854e0c4e984e809493817a5"

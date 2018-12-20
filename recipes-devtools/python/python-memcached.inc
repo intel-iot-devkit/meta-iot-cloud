@@ -9,11 +9,11 @@ PYPI_PACKAGE = "python-memcached"
 
 RDEPENDS_${PN} += " \
     ${PYTHON_PN}-doctest \
-	${PYTHON_PN}-io \
+    ${PYTHON_PN}-io \
 "
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 PR = "r0"

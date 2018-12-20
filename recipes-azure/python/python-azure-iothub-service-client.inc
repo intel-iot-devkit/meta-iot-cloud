@@ -14,5 +14,5 @@ do_install() {
 }
 
 FILES_${PN} += "\
-	${PYTHON_SITEPACKAGES_DIR}/*.so \
+    ${PYTHON_SITEPACKAGES_DIR}/*.so \
 "

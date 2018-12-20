@@ -8,15 +8,15 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4999ff812affd4e43e9848e8bfc732cb"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-crypt \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-threading \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-threading \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 PYPI_PACKAGE = "websocket_client"

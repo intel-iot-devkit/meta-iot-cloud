@@ -11,13 +11,13 @@ RDEPENDS_${PN} += "\
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-azure-batch \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-batch \
-	${PYTHON_PN}-azure-mgmt-keyvault \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-azure-batch \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-batch \
+    ${PYTHON_PN}-azure-mgmt-keyvault \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-six \
 "
 
 SRC_URI[md5sum] = "147e3202a02188ccc3928fb36f641a93"

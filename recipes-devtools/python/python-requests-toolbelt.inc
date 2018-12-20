@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/sigmavirus24/requests-toolbelt.git"
 SRCREV = "94870f3f8e4e3507218a07f9d730c38abc42c219"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-requests \
 "
 
 PR = "r0"

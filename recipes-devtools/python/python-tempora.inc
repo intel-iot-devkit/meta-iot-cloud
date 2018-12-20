@@ -9,14 +9,14 @@ DEPENDS += "\
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-numbers \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-numbers \
 "
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-jaraco-functools \
-	${PYTHON_PN}-pytz \
+    ${PYTHON_PN}-pytz \
     ${PYTHON_PN}-six \
 "
 

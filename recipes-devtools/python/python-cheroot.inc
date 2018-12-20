@@ -12,14 +12,14 @@ DEPENDS += "\
 RDEPENDS_${PN} += " \
     ${PYTHON_PN}-email \
     ${PYTHON_PN}-fcntl \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-unixadmin \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-unixadmin \
 "
 
 RDEPENDS_${PN} += " \
     ${PYTHON_PN}-pyopenssl \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 PR = "r0"

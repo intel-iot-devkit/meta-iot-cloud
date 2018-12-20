@@ -5,17 +5,17 @@ PR = "r0"
 require azure-sdk-common.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-codecs \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-threading \
+    ${PYTHON_PN}-codecs \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-threading \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-cryptography \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-cryptography \
+    ${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-requests \
 "
 
 PYPI_PACKAGE_EXT = "zip"

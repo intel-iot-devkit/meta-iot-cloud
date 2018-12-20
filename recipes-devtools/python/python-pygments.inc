@@ -7,16 +7,16 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=055b5a1a8d44f400965c04fa10a51596"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-compression \
-	${PYTHON_PN}-distutils \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-pprint \
-	${PYTHON_PN}-shell \
+    ${PYTHON_PN}-compression \
+    ${PYTHON_PN}-distutils \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-pprint \
+    ${PYTHON_PN}-shell \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-chardet \
+    ${PYTHON_PN}-chardet \
 "
 
 PYPI_PACKAGE = "Pygments"

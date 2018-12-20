@@ -13,12 +13,12 @@ RDEPENDS_${PN} += "\
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-recoveryservices \
-	${PYTHON_PN}-azure-mgmt-recoveryservicesbackup \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-recoveryservices \
+    ${PYTHON_PN}-azure-mgmt-recoveryservicesbackup \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-six \
 "
 
 SRC_URI[md5sum] = "9f8439a1dd831244c669ad3eb6da1f20"

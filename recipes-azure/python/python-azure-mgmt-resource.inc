@@ -3,12 +3,12 @@ DESCRIPTION = "Microsoft Azure Resource Management Client Library for Python"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-netclient \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-msrestazure \
 "
 
 require azure-mgmt-common.inc

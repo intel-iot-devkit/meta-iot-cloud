@@ -9,11 +9,11 @@ DEPENDS += "\
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-io \
+    ${PYTHON_PN}-io \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-tempora \
+    ${PYTHON_PN}-tempora \
 "
 
 PR = "r0"

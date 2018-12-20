@@ -5,19 +5,19 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-compression \
-	${PYTHON_PN}-crypt \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-shell \
+    ${PYTHON_PN}-compression \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-shell \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-requests \
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-wheel \
+    ${PYTHON_PN}-argcomplete \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-requests \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-wheel \
 "
 
 SRC_URI[md5sum] = "dab1d26af3ff36791f5c3faa82ce9e8f"

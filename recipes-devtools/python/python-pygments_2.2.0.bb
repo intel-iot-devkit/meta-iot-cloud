@@ -2,10 +2,10 @@ inherit setuptools update-alternatives
 require python-pygments.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-codecs \
-	${PYTHON_PN}-lang \
-	${PYTHON_PN}-subprocess \
-	${PYTHON_PN}-textutils \
+    ${PYTHON_PN}-codecs \
+    ${PYTHON_PN}-lang \
+    ${PYTHON_PN}-subprocess \
+    ${PYTHON_PN}-textutils \
 "
 
 ALTERNATIVE_${PN} = "pygmentize"

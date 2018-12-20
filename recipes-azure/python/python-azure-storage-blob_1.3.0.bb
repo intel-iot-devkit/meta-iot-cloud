@@ -2,9 +2,9 @@ inherit pypi setuptools
 require python-azure-storage-blob.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-threading \
+    ${PYTHON_PN}-threading \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-futures \
+    ${PYTHON_PN}-futures \
 "

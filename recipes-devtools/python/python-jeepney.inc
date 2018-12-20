@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aad69c93f605003e3342b174d9b0708c"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-asyncio \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-typing \
-	${PYTHON_PN}-xml \
+    ${PYTHON_PN}-asyncio \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-typing \
+    ${PYTHON_PN}-xml \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-tornado \
+    ${PYTHON_PN}-tornado \
 "
 
 SRC_URI[md5sum] = "d888c2f46d2b117eb683c04bc998572c"

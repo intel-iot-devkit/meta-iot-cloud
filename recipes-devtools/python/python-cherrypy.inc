@@ -17,15 +17,15 @@ RDEPENDS_${PN} += " \
     ${PYTHON_PN}-email \
     ${PYTHON_PN}-fcntl \
     ${PYTHON_PN}-html \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-netserver \
-	${PYTHON_PN}-profile \
-	${PYTHON_PN}-pydoc \
-	${PYTHON_PN}-xml \
-	${PYTHON_PN}-unixadmin \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-netserver \
+    ${PYTHON_PN}-profile \
+    ${PYTHON_PN}-pydoc \
+    ${PYTHON_PN}-xml \
+    ${PYTHON_PN}-unixadmin \
 "
 
 RDEPENDS_${PN} += " \

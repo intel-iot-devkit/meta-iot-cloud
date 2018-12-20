@@ -5,14 +5,14 @@ LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=22d117a849df10d047ed9b792838e863"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-netclient \
 "
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-oauthlib \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-oauthlib \
+    ${PYTHON_PN}-requests \
 "
 
 PR = "r0"

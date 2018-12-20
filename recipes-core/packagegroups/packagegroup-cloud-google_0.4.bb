@@ -10,15 +10,15 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "node-red cli"
 
 PACKAGECONFIG[node-red] = "\
-	, \
-	, \
-	, \
-	node-red-contrib-google-cloud \
+    , \
+    , \
+    , \
+    node-red-contrib-google-cloud \
 "
 
 PACKAGECONFIG[cli] = "\
-	, \
-	, \
-	, \
-	google-cloud-sdk \
+    , \
+    , \
+    , \
+    google-cloud-sdk \
 "

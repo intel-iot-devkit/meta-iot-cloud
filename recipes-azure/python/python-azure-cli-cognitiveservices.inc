@@ -6,8 +6,8 @@ require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-cognitiveservices \
-	${PYTHON_PN}-knack \
+    ${PYTHON_PN}-azure-mgmt-cognitiveservices \
+    ${PYTHON_PN}-knack \
 "
 
 SRC_URI[md5sum] = "3b7735181b20f7a7b2eb7e55a0d32f40"

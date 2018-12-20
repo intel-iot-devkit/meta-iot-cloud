@@ -17,9 +17,9 @@ EXTRA_OECONF += "--without-ladspa --without-twolame"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
                    ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-		   magic \
-		   vorbis \
-		   sndfile \
+           magic \
+           vorbis \
+           sndfile \
 "
 PACKAGECONFIG[magic] = "--with-magic,--without-magic,file,"
 PACKAGECONFIG[png] = "--with-png,--without-png,libpng,"

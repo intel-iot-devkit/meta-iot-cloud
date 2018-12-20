@@ -2,7 +2,7 @@ inherit pypi setuptools3 update-alternatives
 require python-humanfriendly.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-stringold \
+    ${PYTHON_PN}-stringold \
 "
 
 ALTERNATIVE_${PN} = "humanfriendly"

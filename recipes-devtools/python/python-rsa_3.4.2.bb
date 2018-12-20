@@ -2,9 +2,9 @@ inherit pypi setuptools update-alternatives
 require python-rsa.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-lang \
-	${PYTHON_PN}-textutils \
-	${PYTHON_PN}-zlib \
+    ${PYTHON_PN}-lang \
+    ${PYTHON_PN}-textutils \
+    ${PYTHON_PN}-zlib \
 "
 
 ALTERNATIVE_${PN} = "\

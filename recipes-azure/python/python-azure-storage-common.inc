@@ -18,10 +18,10 @@ RDEPENDS_${PN} += "\
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-cryptography \
-	${PYTHON_PN}-dateutil \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-cryptography \
+    ${PYTHON_PN}-dateutil \
+    ${PYTHON_PN}-requests \
 "
 
 SRC_URI[md5sum] = "79c78ff37796d4481e83765d64c66c21"

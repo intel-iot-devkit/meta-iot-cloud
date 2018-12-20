@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/${PN}-${PV}-license;md5=27e94c0280987ab296
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-netclient \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrest \
+    ${PYTHON_PN}-msrest \
 "
 
 SRC_URI += "https://github.com/Microsoft/vsts-cd-manager/raw/2649d236be94d119b13e0ac607964c94a9e51fde/LICENSE;downloadfilename=${PN}-${PV}-license;name=license"

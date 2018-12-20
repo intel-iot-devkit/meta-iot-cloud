@@ -5,19 +5,19 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://setup.py;beginline=1;endline=25;md5=7b39ceb8a4a3e31e5e3eccd4295e6a0f"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-numbers \
-	${PYTHON_PN}-xml \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-numbers \
+    ${PYTHON_PN}-xml \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-isodate \
-	${PYTHON_PN}-oauthlib \
-	${PYTHON_PN}-requests \
-	${PYTHON_PN}-requests-oauthlib \
+    ${PYTHON_PN}-isodate \
+    ${PYTHON_PN}-oauthlib \
+    ${PYTHON_PN}-requests \
+    ${PYTHON_PN}-requests-oauthlib \
 "
 
 PR = "r0"

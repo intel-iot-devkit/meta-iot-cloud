@@ -5,14 +5,14 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-json \
+    ${PYTHON_PN}-json \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-adal \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-adal \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-requests \
 "
 
 SRC_URI[md5sum] = "ab6c96a276bf9c3711a733ac415e42b8"
