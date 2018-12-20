@@ -55,7 +55,7 @@ do_install() {
 
     # Samples
     install -d ${D}${datadir}/ibmiotfsdk/samples/c
-        install -m 0755 ${WORKDIR}/build/samples/helloWorld ${D}${datadir}/ibmiotfsdk/samples/c/
+    install -m 0755 ${WORKDIR}/build/samples/helloWorld ${D}${datadir}/ibmiotfsdk/samples/c/
     install -m 0755 ${WORKDIR}/build/samples/sampleDevice ${D}${datadir}/ibmiotfsdk/samples/c/
     install -m 0755 ${WORKDIR}/build/samples/sampleGateway ${D}${datadir}/ibmiotfsdk/samples/c/
     install -m 0644 ${S}/samples/device.cfg ${D}${datadir}/ibmiotfsdk/samples/c/

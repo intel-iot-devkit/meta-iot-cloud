@@ -22,7 +22,7 @@ do_install_prepend() {
     rm -rf ${S}/lib/third_party/grpc
 }
 
-do_install() {  
+do_install() {
     install -d ${D}${bindir}
     install -d ${D}${libdir}/${PN}
     install -d ${D}${sysconfdir}/bash_completion.d
