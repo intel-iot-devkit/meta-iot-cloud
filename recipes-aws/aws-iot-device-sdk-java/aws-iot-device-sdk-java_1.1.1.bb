@@ -13,8 +13,9 @@ DEPENDS = "\
 
 RDEPENDS_${PN} += "java2-runtime"
 
-SRC_URI = "git://github.com/aws/${PN}.git \
-       file://0001-build-with-deps.patch \
+SRC_URI = "\
+    git://github.com/aws/${PN}.git \
+    file://0001-build-with-deps.patch \
 "
 SRCREV = "5d9830bb21d167eea995dcad38e77ad6835adc7e"
 
@@ -42,7 +43,7 @@ do_install() {
 
     # Samples
     install -d ${D}${datadir}/awsiotsdk/samples/java
-        install -m 0755 ${SAMPLES_BUILD_DIR}/${PN}-samples-${PV}-with-deps.jar ${D}${datadir}/awsiotsdk/samples/java/${PN}-samples-${PV}.jar
+    install -m 0755 ${SAMPLES_BUILD_DIR}/${PN}-samples-${PV}-with-deps.jar ${D}${datadir}/awsiotsdk/samples/java/${PN}-samples-${PV}.jar
 }
 
 PACKAGES = "${PN} ${PN}-samples"
