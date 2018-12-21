@@ -10,21 +10,21 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "c python"
 
 PACKAGECONFIG[c] = "\
-	, \
-	, \
-	, \
-	azure-iot-sdk \
-	azure-iot-sdk-dev \
-	azure-iot-edge \
-	azure-iot-edge-dev \
-	azure-iot-edge-modules \
-	azure-iot-edge-samples \
+    , \
+    , \
+    , \
+    azure-iot-sdk \
+    azure-iot-sdk-dev \
+    azure-iot-edge \
+    azure-iot-edge-dev \
+    azure-iot-edge-modules \
+    azure-iot-edge-samples \
 "
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-azure-iot-sdk \
-	python-azure-cli \
+    , \
+    , \
+    , \
+    python-azure-iot-sdk \
+    python-azure-cli \
 "

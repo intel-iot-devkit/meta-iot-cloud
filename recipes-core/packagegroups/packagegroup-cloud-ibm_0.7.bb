@@ -10,17 +10,17 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "c python"
 
 PACKAGECONFIG[c] = "\
-	, \
-	, \
-	, \
-	ibm-iotf-embeddedc \
-	ibm-iotf-embeddedc-dev \
-	ibm-iotf-embeddedc-samples \
+    , \
+    , \
+    , \
+    ibm-iotf-embeddedc \
+    ibm-iotf-embeddedc-dev \
+    ibm-iotf-embeddedc-samples \
 "
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-ibmiotf \
+    , \
+    , \
+    , \
+    python-ibmiotf \
 "

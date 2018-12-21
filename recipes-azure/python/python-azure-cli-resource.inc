@@ -4,9 +4,9 @@ PV = "2.0.16"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-mgmt-resource \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-authorization \
+    ${PYTHON_PN}-azure-mgmt-resource \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-authorization \
 "
 
 SRCREV = "88fada62f74b135f556f11a4328af847f336d536"

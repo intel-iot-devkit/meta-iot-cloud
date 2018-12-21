@@ -5,7 +5,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=425e62320d430219736139b134db2fc4"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-pyasn1 \
+    ${PYTHON_PN}-pyasn1 \
 "
 
 PR = "r0"

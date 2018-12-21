@@ -7,20 +7,20 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	groff \
-	less \
-	${PYTHON_PN}-botocore \
-	${PYTHON_PN}-colorama \
-	${PYTHON_PN}-docutils \
-	${PYTHON_PN}-rsa \
-	${PYTHON_PN}-s3transfer \
-	${PYTHON_PN}-pyyaml \
-	${PYTHON_PN}-difflib \
-	${PYTHON_PN}-subprocess \
-	${PYTHON_PN}-ctypes \
-	${PYTHON_PN}-misc \
-	${PYTHON_PN}-argparse \
-	${PYTHON_PN}-unixadmin \
+    groff \
+    less \
+    ${PYTHON_PN}-botocore \
+    ${PYTHON_PN}-colorama \
+    ${PYTHON_PN}-docutils \
+    ${PYTHON_PN}-rsa \
+    ${PYTHON_PN}-s3transfer \
+    ${PYTHON_PN}-pyyaml \
+    ${PYTHON_PN}-difflib \
+    ${PYTHON_PN}-subprocess \
+    ${PYTHON_PN}-ctypes \
+    ${PYTHON_PN}-misc \
+    ${PYTHON_PN}-argparse \
+    ${PYTHON_PN}-unixadmin \
 "
 
 SRC_NAME = "aws-cli"

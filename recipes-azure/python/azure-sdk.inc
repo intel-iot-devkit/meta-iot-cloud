@@ -8,14 +8,14 @@ SRC_URI = "git://github.com/Azure/azure-sdk-for-python.git"
 S = "${WORKDIR}/git"
 
 distutils_do_compile_prepend() {
-	cd ${S}/${SRC_DIR}
+    cd ${S}/${SRC_DIR}
 
-	# Fix incorrect operators
-	if [ -e setup.py ]; then
-		sed -i -- 's/~=/>=/g' setup.py
-	fi
+    # Fix incorrect operators
+    if [ -e setup.py ]; then
+        sed -i -- 's/~=/>=/g' setup.py
+    fi
 }
 
 distutils_do_install_prepend() {
-	cd ${S}/${SRC_DIR}
+    cd ${S}/${SRC_DIR}
 }

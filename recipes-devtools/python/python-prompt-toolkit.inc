@@ -5,8 +5,8 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b2cde7da89f0c1f3e49bf968d00d554f"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-wcwidth \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-wcwidth \
 "
 
 PR = "r0"

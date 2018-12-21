@@ -10,13 +10,13 @@ SRCREV ?= "214aba604fbcaa9e4936fa1798efde050389992a"
 S = "${WORKDIR}/git"
 
 distutils_do_compile_prepend() {
-	cd ${S}/${SRC_DIR}
+    cd ${S}/${SRC_DIR}
 }
 
 distutils_do_install_prepend() {
-	cd ${S}/${SRC_DIR}
+    cd ${S}/${SRC_DIR}
 }
 
 distutils_do_install_append() {
-	rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/unit_tests
+    rm -rf ${D}${PYTHON_SITEPACKAGES_DIR}/unit_tests
 }

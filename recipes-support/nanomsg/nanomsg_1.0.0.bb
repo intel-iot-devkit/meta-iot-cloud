@@ -9,8 +9,8 @@ inherit cmake pkgconfig
 PR = "r3"
 
 SRC_URI = "\
-	git://github.com/nanomsg/nanomsg.git \
-	file://0001-Fix-libdir-in-pkgconfig-file.patch \
+    git://github.com/nanomsg/nanomsg.git \
+    file://0001-Fix-libdir-in-pkgconfig-file.patch \
 "
 SRCREV = "ee99202f84f8d0e8ebd1c1722aa8a682f54919d0"
 

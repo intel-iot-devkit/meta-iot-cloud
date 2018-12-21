@@ -12,9 +12,9 @@ RPROVIDES_${PN} += "azure-iot-sdk-c"
 RPROVIDES_${PN}-dev += "azure-iot-sdk-c-dev"
 
 DEPENDS = "\
-	azure-c-shared-utility \
-	azure-uamqp-c \
-	azure-umqtt-c \
+    azure-c-shared-utility \
+    azure-uamqp-c \
+    azure-umqtt-c \
 "
 
 SRC_URI = "\
@@ -29,8 +29,8 @@ SRCREV_parson = "578b25e5909df0ca9fb78d5173a6b247faea0c5a"
 
 # Patches
 SRC_URI += "\
-	file://0001-Refactor-cmake-if-statements.patch \
-	file://0002-Only-run-tests-if-requested.patch \
+    file://0001-Refactor-cmake-if-statements.patch \
+    file://0002-Only-run-tests-if-requested.patch \
 "
 
 PR = "r0"
@@ -42,19 +42,19 @@ OUTDIR ?= "${B}"
 
 # List of packages to build
 PACKAGES = "\
-	${PN} \
-	${PN}-dev \
-	${PN}-staticdev \
-	${PN}-dbg \
-	python-${PN} \
+    ${PN} \
+    ${PN}-dev \
+    ${PN}-staticdev \
+    ${PN}-dbg \
+    python-${PN} \
 "
 
 PACKAGECONFIG ??= "python"
 PACKAGECONFIG[python] = "-Dbuild_python:STRING=${PYTHON_BASEVERSION}, -Dbuild_python:BOOL=OFF, ${PYTHON_PN} boost, boost-python"
 
 do_configure_prepend() {
-	cd ${S}
-	git submodule update --init --recursive
+    cd ${S}
+    git submodule update --init --recursive
 }
 
 ## CMake ##
@@ -62,53 +62,53 @@ OECMAKE_SOURCEPATH = "${S}/c"
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 do_submodules() {
-	cp -rf ${WORKDIR}/c ${S}
-	cp -rf ${WORKDIR}/parson ${S}/c/deps
+    cp -rf ${WORKDIR}/c ${S}
+    cp -rf ${WORKDIR}/parson ${S}/c/deps
 }
 
 addtask do_submodules after do_unpack before do_patch
 
 do_install_append() {
-	# Python
-	if ${@bb.utils.contains('PACKAGECONFIG','python','true','false',d)}; then
-		install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-		oe_libinstall -C ${OUTDIR}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
-		oe_libinstall -C ${OUTDIR}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
-		rm ${D}${libdir}/iothub_client.so
-		rm ${D}${libdir}/iothub_service_client.so
-	fi
+    # Python
+    if ${@bb.utils.contains('PACKAGECONFIG','python','true','false',d)}; then
+        install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+        oe_libinstall -C ${OUTDIR}/python/src -so iothub_client ${D}${PYTHON_SITEPACKAGES_DIR}
+        oe_libinstall -C ${OUTDIR}/python_service_client/src -so iothub_service_client ${D}${PYTHON_SITEPACKAGES_DIR}
+        rm ${D}${libdir}/iothub_client.so
+        rm ${D}${libdir}/iothub_service_client.so
+    fi
 }
 
 sysroot_stage_all_append () {
-	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
+    sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 
-	# Fix CMake configs
-	sed -i 's#${libdir}#${STAGING_LIBDIR}#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_iot_sdksTargets*
-	sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_iot_sdksTargets*
+    # Fix CMake configs
+    sed -i 's#${libdir}#${STAGING_LIBDIR}#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_iot_sdksTargets*
+    sed -i 's#${includedir}/azureiot#${STAGING_INCDIR}/azureiot#g' ${SYSROOT_DESTDIR}${exec_prefix}/cmake/azure_iot_sdksTargets*
 }
 
 FILES_${PN} = "${libdir}/*.so"
 
 RDEPENDS_${PN}-dev = "\
-	azure-iot-sdk \
-	azure-umqtt-c-dev \
-	azure-uamqp-c-dev \
-	azure-c-shared-utility-dev \
+    azure-iot-sdk \
+    azure-umqtt-c-dev \
+    azure-uamqp-c-dev \
+    azure-c-shared-utility-dev \
 "
 FILES_${PN}-dev += "\
-	${includedir} \
-	${exec_prefix}/cmake \
+    ${includedir} \
+    ${exec_prefix}/cmake \
 "
 
 FILES_${PN}-staticdev += "${libdir}/*.a"
 
 FILES_${PN}-dbg += "\
-	${libdir}/.debug \
-	${PYTHON_SITEPACKAGES_DIR}/.debug \
+    ${libdir}/.debug \
+    ${PYTHON_SITEPACKAGES_DIR}/.debug \
 "
 
 FILES_python-${PN} += "\
-	${PYTHON_SITEPACKAGES_DIR}/*.so \
+    ${PYTHON_SITEPACKAGES_DIR}/*.so \
 "
 
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"

@@ -10,15 +10,15 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "python cli"
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-google-cloud \
+    , \
+    , \
+    , \
+    python-google-cloud \
 "
 
 PACKAGECONFIG[cli] = "\
-	, \
-	, \
-	, \
-	google-cloud-sdk \
+    , \
+    , \
+    , \
+    google-cloud-sdk \
 "
