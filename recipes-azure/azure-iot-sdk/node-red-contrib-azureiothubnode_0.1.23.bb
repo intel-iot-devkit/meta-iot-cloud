@@ -10,7 +10,7 @@ RDEPENDS_${PN} = "node-red"
 PR = "r0"
 
 PACKAGES = "\
-	${PN} \
+    ${PN} \
 "
 
 SRC_URI = "git://github.com/Azure/azure-iot-sdk-node.git"
@@ -44,20 +44,20 @@ NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verb
 SRC_DIR = "${S}/device/node-red/"
 
 do_compile() {
-	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
+    export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 
-	cd ${SRC_DIR}
-	npm cache clear
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
-	npm prune --production
+    cd ${SRC_DIR}
+    npm cache clear
+    npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+    npm prune --production
 
-	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
-	find . -type f -name "switch-bench.js" -exec rm -f {} \;
+    # FIXME: This is only required until the xml2js dependency is update in the azure-storage package
+    find . -type f -name "switch-bench.js" -exec rm -f {} \;
 }
 
 do_install() {
-	install -d ${D}${NODE_MODULES_DIR}/${PN}
-	cp -r ${SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${PN}
+    install -d ${D}${NODE_MODULES_DIR}/${PN}
+    cp -r ${SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${PN}
 }
 
 FILES_${PN} += "${NODE_MODULES_DIR}${PN}"

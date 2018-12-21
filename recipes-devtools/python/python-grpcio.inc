@@ -10,16 +10,16 @@ SRCREV = "b108847dd613d324ebe69438171a8808ca030acc"
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-	${PYTHON_PN}-cython-native \
+    ${PYTHON_PN}-cython-native \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-protobuf \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-protobuf \
 "
 
 PR = "r0"
 
 do_compile_prepend() {
-	export GRPC_PYTHON_BUILD_WITH_CYTHON=1
+    export GRPC_PYTHON_BUILD_WITH_CYTHON=1
 }

@@ -5,7 +5,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://README.rst;beginline=17;endline=23;md5=7539f5d94d79ba9a8833f2051c507247"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-tempora \
+    ${PYTHON_PN}-tempora \
 "
 
 PR = "r0"
@@ -16,6 +16,6 @@ SRCREV = "3c79ca8889bf4886ae6499fb04abf85aaa486cf6"
 S = "${WORKDIR}/git"
 
 do_compile_prepend() {
-	# Fix-up setup script for older versions of setuptools
-	sed -i '42,44d' ${S}/setup.py
+    # Fix-up setup script for older versions of setuptools
+    sed -i '42,44d' ${S}/setup.py
 }

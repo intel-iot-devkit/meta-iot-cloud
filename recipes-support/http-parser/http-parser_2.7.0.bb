@@ -17,14 +17,14 @@ EXTRA_OEMAKE = "\
 do_configure[noexec] = "1"
 
 do_compile() {
-	oe_runmake library package
+    oe_runmake library package
 }
 
 do_install() {
-	oe_libinstall -C ${S} -so libhttp_parser ${D}${libdir}
+    oe_libinstall -C ${S} -so libhttp_parser ${D}${libdir}
 
-	install -d ${D}${includedir}
-	install -m 0644 ${S}/*.h ${D}${includedir}
+    install -d ${D}${includedir}
+    install -m 0644 ${S}/*.h ${D}${includedir}
 }
 
 BBCLASSEXTEND = "native nativesdk"

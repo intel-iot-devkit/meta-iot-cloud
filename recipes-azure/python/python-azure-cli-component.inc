@@ -6,7 +6,7 @@ PV = "2.0.7"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-cli-core \
 "
 
 SRCREV = "bc1055d1ada07c20f3068eda20f53fa0868bbda6"

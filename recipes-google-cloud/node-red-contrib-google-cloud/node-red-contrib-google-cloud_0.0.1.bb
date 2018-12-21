@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 DEPENDS = "nodejs-native"
 
 RDEPENDS_${PN} = "\
-	bash \
-	node-red \
+    bash \
+    node-red \
 "
 
 SRC_URI = "git://github.com/GoogleCloudPlatform/${PN}.git;branch=master"
@@ -41,18 +41,18 @@ NPM_ARCH = "${@get_nodejs_arch(d)}"
 NPM_INSTALL_FLAGS = "--production --without-ssl --insecure --no-optional --verbose --unsafe-perm"
 
 do_compile() {
-	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
-	
-	# Clear cache
-	npm cache clear
+    export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
+    
+    # Clear cache
+    npm cache clear
 
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
-	npm prune --production
+    npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+    npm prune --production
 }
 
 do_install() {
-	install -d ${D}${NODE_MODULES_DIR}/${PN}
-	cp -R ${S}/* ${D}${NODE_MODULES_DIR}/${PN}
+    install -d ${D}${NODE_MODULES_DIR}/${PN}
+    cp -R ${S}/* ${D}${NODE_MODULES_DIR}/${PN}
 }
 
 PACKAGES = "${PN}"

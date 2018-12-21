@@ -10,29 +10,29 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "python node-red cli"
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-google-cloud \
+    , \
+    , \
+    , \
+    python-google-cloud \
 "
 
 PACKAGECONFIG[python3] = "\
-	, \
-	, \
-	, \
-	python3-google-cloud \
+    , \
+    , \
+    , \
+    python3-google-cloud \
 "
 
 PACKAGECONFIG[node-red] = "\
-	, \
-	, \
-	, \
-	node-red-contrib-google-cloud \
+    , \
+    , \
+    , \
+    node-red-contrib-google-cloud \
 "
 
 PACKAGECONFIG[cli] = "\
-	, \
-	, \
-	, \
-	google-cloud-sdk \
+    , \
+    , \
+    , \
+    google-cloud-sdk \
 "

@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=042856c23a3e903b33bf361ea1cbe29a"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-scandir \
+    ${PYTHON_PN}-scandir \
 "
 
 SRC_URI = "git://github.com/mcmtroffaes/pathlib2.git;branch=develop"
