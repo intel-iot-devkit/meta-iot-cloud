@@ -5,7 +5,7 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=038e1390e94fe637991fa5569daa62bc"
 
 RDEPENDS_${PN} += "\
-    ${PYTHON_PN}-httplib2 \ 
+    ${PYTHON_PN}-httplib2 \
     ${PYTHON_PN}-pyasn1 \
     ${PYTHON_PN}-pyasn1-modules \
     ${PYTHON_PN}-rsa \
