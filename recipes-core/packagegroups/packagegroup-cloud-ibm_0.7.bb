@@ -10,38 +10,38 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "c java python node-red"
 
 PACKAGECONFIG[c] = "\
-	, \
-	, \
-	, \
-	ibm-iotf-embeddedc \
-	ibm-iotf-embeddedc-dev \
-	ibm-iotf-embeddedc-samples \
+    , \
+    , \
+    , \
+    ibm-iotf-embeddedc \
+    ibm-iotf-embeddedc-dev \
+    ibm-iotf-embeddedc-samples \
 "
 
 PACKAGECONFIG[java] = "\
-	, \
-	, \
-	, \
-	ibm-iotf-java \
+    , \
+    , \
+    , \
+    ibm-iotf-java \
 "
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-ibmiotf \
+    , \
+    , \
+    , \
+    python-ibmiotf \
 "
 
 PACKAGECONFIG[python3] = "\
-	, \
-	, \
-	, \
-	python3-ibmiotf \
+    , \
+    , \
+    , \
+    python3-ibmiotf \
 "
 
 PACKAGECONFIG[node-red] = "\
-	, \
-	, \
-	, \
-	node-red-contrib-ibm-watson-iot \
+    , \
+    , \
+    , \
+    node-red-contrib-ibm-watson-iot \
 "

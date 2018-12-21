@@ -5,8 +5,8 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=35b5a4b284dcca8dda38949854025b46"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-requests \
 "
 
 SRC_URI = "git://github.com/Azure/azure-documentdb-python.git"

@@ -5,7 +5,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=82081d9171472874bfecb75fc7973d88"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
     ${PYTHON_PN}-more-itertools \
 "
 

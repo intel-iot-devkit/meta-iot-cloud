@@ -12,8 +12,8 @@ PR = "r0"
 EXTRA_OECONF += " --with-protoc=echo"
 
 FILES_${PN}-compiler = "\
-	${bindir} \
-	${libdir}/libprotoc${SOLIBS} \
+    ${bindir} \
+    ${libdir}/libprotoc${SOLIBS} \
 "
 
 BBCLASSEXTEND = "native nativesdk"

@@ -37,18 +37,18 @@ NPM_ARCH = "${@get_nodejs_arch(d)}"
 NPM_INSTALL_FLAGS = "--production --without-ssl --insecure --no-optional --verbose"
 
 do_compile() {
-	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
-	
-	# Clear cache
-	npm cache clear
+    export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
+    
+    # Clear cache
+    npm cache clear
 
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
-	npm prune --production
+    npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+    npm prune --production
 }
 
 do_install() {
-	install -d ${D}${NODE_MODULES_DIR}
-	cp -r ${S} ${D}${NODE_MODULES_DIR}/${PN}
+    install -d ${D}${NODE_MODULES_DIR}
+    cp -r ${S} ${D}${NODE_MODULES_DIR}/${PN}
 }
 
 PACKAGES = "${PN}"

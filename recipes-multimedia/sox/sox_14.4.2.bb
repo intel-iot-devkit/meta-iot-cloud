@@ -2,8 +2,9 @@ DESCRIPTION="SoX is the Swiss Army knife of sound processing programs."
 HOMEPAGE = "http://sox.sourceforge.net"
 SECTION = "audio"
 LICENSE = "GPLv2 & LGPLv2.1"
-LIC_FILES_CHKSUM = "file://LICENSE.GPL;md5=751419260aa954499f7abaabaa882bbe \
-                    file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
+LIC_FILES_CHKSUM = "\
+    file://LICENSE.GPL;md5=751419260aa954499f7abaabaa882bbe \
+    file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
 "
 
 SRC_URI = "git://git.code.sf.net/p/sox/code"
@@ -15,11 +16,12 @@ PR = "r0"
 
 EXTRA_OECONF += "--without-ladspa --without-twolame"
 
-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-		   magic \
-		   vorbis \
-		   sndfile \
+PACKAGECONFIG ??= "\
+    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
+    magic \
+    vorbis \
+    sndfile \
 "
 PACKAGECONFIG[magic] = "--with-magic,--without-magic,file,"
 PACKAGECONFIG[png] = "--with-png,--without-png,libpng,"

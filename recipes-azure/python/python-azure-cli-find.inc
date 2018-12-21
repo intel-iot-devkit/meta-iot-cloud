@@ -4,8 +4,8 @@ PV = "0.2.7"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-whoosh \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-whoosh \
 "
 
 SRCREV = "643e96476672f3bcc8aa793d5fa6e9ecc198081c"

@@ -15,9 +15,9 @@ SRC_URI = "git://github.com/aws/${SRC_NAME}.git;tag=v${PV}"
 S = "${WORKDIR}/git"
 
 do_install_append() {
-	# Samples
-	install -d ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}
-	cp -r ${S}/samples/* ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}/
+    # Samples
+    install -d ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}
+    cp -r ${S}/samples/* ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}/
 }
 
 ## Samples ##
