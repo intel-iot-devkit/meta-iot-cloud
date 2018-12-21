@@ -5,8 +5,8 @@ LICENSE = "ISC"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=22d117a849df10d047ed9b792838e863"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-requests \
-	${PYTHON_PN}-oauthlib \
+    ${PYTHON_PN}-requests \
+    ${PYTHON_PN}-oauthlib \
 "
 
 SRC_URI = "git://github.com/requests/requests-oauthlib.git"

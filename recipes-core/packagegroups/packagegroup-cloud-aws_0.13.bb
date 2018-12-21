@@ -10,10 +10,10 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "python"
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-aws-iot-device-sdk \
-	python-aws-iot-device-sdk-samples \
-	python-awscli \
+    , \
+    , \
+    , \
+    python-aws-iot-device-sdk \
+    python-aws-iot-device-sdk-samples \
+    python-awscli \
 "

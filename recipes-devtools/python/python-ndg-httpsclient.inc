@@ -8,12 +8,12 @@ SRC_URI = "git://github.com/cedadev/ndg_httpsclient.git"
 SRCREV = "e73dc056792ce9052db2fed1c103f4b937c1ed24"
 
 DEPENDS += " \
-	${PYTHON_PN}-pyopenssl \
+    ${PYTHON_PN}-pyopenssl \
 "
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-pyopenssl \
-	${PYTHON_PN}-pyasn1 \
+    ${PYTHON_PN}-pyopenssl \
+    ${PYTHON_PN}-pyasn1 \
 "
 
 PR = "r1"

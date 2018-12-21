@@ -4,8 +4,8 @@ PV = "0.0.9"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-mgmt-cdn \
-	${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-cdn \
+    ${PYTHON_PN}-azure-cli-core \
 "
 
 SRCREV = "92343692a9f718bc800c52dbfd322a95a5b42080"

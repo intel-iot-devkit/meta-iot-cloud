@@ -4,8 +4,8 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=5677e2fdbf7cdda61d6dd2b57df547bf"
 
 DEPENDS += "\
-	libffi \
-	${PYTHON_PN}-pycparser \
+    libffi \
+    ${PYTHON_PN}-pycparser \
 "
 
 SRC_NAME = "cffi"

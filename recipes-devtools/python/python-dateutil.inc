@@ -12,11 +12,11 @@ SRCREV = "c8f112b1226f377907306115e29eccd20d9174f8"
 S = "${WORKDIR}/git"
 
 DEPENDS += "\
-	${PYTHON_PN}-six-native \
+    ${PYTHON_PN}-six-native \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 BBCLASSEXTEND = "native nativesdk"
