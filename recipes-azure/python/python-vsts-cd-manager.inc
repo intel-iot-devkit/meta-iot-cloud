@@ -5,7 +5,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=27e94c0280987ab296b0b8dd02ab9fe5"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-msrest \
+    ${PYTHON_PN}-msrest \
 "
 
 PR = "r0"

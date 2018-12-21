@@ -4,9 +4,9 @@ PV = "2.0.17"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-multiapi-storage \
-	${PYTHON_PN}-azure-mgmt-storage \
-	${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-multiapi-storage \
+    ${PYTHON_PN}-azure-mgmt-storage \
+    ${PYTHON_PN}-azure-cli-core \
 "
 
 SRCREV = "9d7f5b8250f46cc5c3d719e3d3a222ba12235aac"

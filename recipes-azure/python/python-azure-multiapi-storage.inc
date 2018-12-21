@@ -5,11 +5,11 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6d300361524dd434bb22d8633716c418"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-nspkg \
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-cryptography \
-	${PYTHON_PN}-dateutil \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-azure-nspkg \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-cryptography \
+    ${PYTHON_PN}-dateutil \
+    ${PYTHON_PN}-requests \
 "
 
 SRC_URI = "git://github.com/Azure/azure-multiapi-storage-python.git"

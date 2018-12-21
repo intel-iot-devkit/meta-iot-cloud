@@ -5,7 +5,7 @@ LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=fc264c65fb17b7db5237cf7ce1780769"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-paramiko \
+    ${PYTHON_PN}-paramiko \
 "
 
 PR = "r0"

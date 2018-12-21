@@ -4,9 +4,9 @@ PV = "0.0.12"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-mgmt-datalake-store \
-	${PYTHON_PN}-azure-mgmt-datalake-analytics \
-	${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-datalake-store \
+    ${PYTHON_PN}-azure-mgmt-datalake-analytics \
+    ${PYTHON_PN}-azure-cli-core \
 "
 
 SRCREV = "d2b92dfcf83f77e8584bb65f7d46446e30169c74"

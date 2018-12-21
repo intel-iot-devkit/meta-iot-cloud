@@ -4,8 +4,8 @@ HOMEPAGE = "https://github.com/jaraco/tempora"
 LICENSE = "CLOSED"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-pytz \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-pytz \
 "
 
 PR = "r0"

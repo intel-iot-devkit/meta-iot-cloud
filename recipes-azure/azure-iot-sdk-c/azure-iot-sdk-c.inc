@@ -4,10 +4,10 @@ RPROVIDES_${PN} += "azure-iot-sdk"
 RPROVIDES_${PN}-dev += "azure-iot-sdk-dev"
 
 DEPENDS = "\
-	azure-c-shared-utility \
-	azure-uamqp-c \
-	azure-umqtt-c \
-	azure-uhttp-c \
+    azure-c-shared-utility \
+    azure-uamqp-c \
+    azure-umqtt-c \
+    azure-uhttp-c \
 "
 
 SRC_URI += "\
@@ -19,39 +19,39 @@ B = "${WORKDIR}/build"
 
 # List of packages to build
 PACKAGES = "\
-	${PN} \
-	${PN}-dev \
-	${PN}-dbg \
+    ${PN} \
+    ${PN}-dev \
+    ${PN}-dbg \
 "
 
 EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS:BOOL=ON -Dskip_samples:BOOL=ON -Dskip_unittests:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 do_submodules() {
-	cp -rf ${WORKDIR}/parson ${S}/deps
+    cp -rf ${WORKDIR}/parson ${S}/deps
 }
 
 addtask do_submodules after do_unpack before do_patch
 
 sysroot_stage_all_append () {
-	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
+    sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 }
 
 FILES_${PN} = "${libdir}/*.so"
 
 RDEPENDS_${PN}-dev = "\
-	azure-iot-sdk-c \
-	azure-umqtt-c-dev \
-	azure-uamqp-c-dev \
-	azure-uhttp-c-dev \
-	azure-c-shared-utility-dev \
+    azure-iot-sdk-c \
+    azure-umqtt-c-dev \
+    azure-uamqp-c-dev \
+    azure-uhttp-c-dev \
+    azure-c-shared-utility-dev \
 "
 FILES_${PN}-dev += "\
-	${includedir} \
-	${exec_prefix}/cmake \
+    ${includedir} \
+    ${exec_prefix}/cmake \
 "
 
 FILES_${PN}-dbg += "\
-	${libdir}/.debug \
+    ${libdir}/.debug \
 "
 
 RRECOMMENDS_azure-iot-sdk-dev[nodeprrecs] = "1"
