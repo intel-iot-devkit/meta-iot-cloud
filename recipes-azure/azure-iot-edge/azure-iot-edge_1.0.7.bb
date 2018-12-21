@@ -169,8 +169,8 @@ do_install_prepend() {
 }
 
 do_install() {
-        # Core
-        install -d ${D}${libdir}
+    # Core
+    install -d ${D}${libdir}
     install -m 0755 ${B}/core/libgateway.so ${D}${libdir}
 
     install -d ${D}${includedir}/azureiotedge
