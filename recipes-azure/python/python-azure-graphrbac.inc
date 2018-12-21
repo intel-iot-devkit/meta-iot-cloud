@@ -11,8 +11,8 @@ RDEPENDS_${PN} += "\
 SRCREV = "9070d94923aa27ec715374b610e6125774767c85"
 
 FILES_${PN} = "\
-        ${PYTHON_SITEPACKAGES_DIR}/azure/graphrbac/* \
-        ${PYTHON_SITEPACKAGES_DIR}/azure_graphrbac-* \
+    ${PYTHON_SITEPACKAGES_DIR}/azure/graphrbac/* \
+    ${PYTHON_SITEPACKAGES_DIR}/azure_graphrbac-* \
 "
 
 SRC_DIR = "azure-graphrbac"

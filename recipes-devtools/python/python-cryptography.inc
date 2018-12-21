@@ -13,9 +13,9 @@ SRCREV = "cad77746539f504d53eb1bf9b278ec081ab8040a"
 
 DEPENDS += " \
     ${PYTHON_PN}-cffi \
-        ${PYTHON_PN}-cffi-native \
-        openssl \
-        libffi \
+    ${PYTHON_PN}-cffi-native \
+    openssl \
+    libffi \
 "
 
 RDEPENDS_${PN} += " \

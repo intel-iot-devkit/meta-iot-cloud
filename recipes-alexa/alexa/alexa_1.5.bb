@@ -56,7 +56,7 @@ do_install() {
     install -d ${D}/opt/AlexaPi/alexapi/triggers
     install -d ${D}/opt/AlexaPi/resources
 
-        install -m 0644 ${S}/src/*.py ${D}/opt/AlexaPi/
+    install -m 0644 ${S}/src/*.py ${D}/opt/AlexaPi/
     install -m 0644 ${S}/src/*.yaml ${D}/opt/AlexaPi/
     install -m 0644 ${S}/src/alexapi/*.py ${D}/opt/AlexaPi/alexapi/
     install -m 0644 ${S}/src/alexapi/device_platforms/*.py ${D}/opt/AlexaPi/alexapi/device_platforms/
