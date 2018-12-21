@@ -5,7 +5,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=099ee2b925d98c72f52684df6fa3ac9f"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-paramiko \
+    ${PYTHON_PN}-paramiko \
 "
 
 SRC_URI = "git://github.com/pahaz/sshtunnel.git"

@@ -2,9 +2,9 @@ inherit setuptools update-alternatives
 require python-awscli.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-argparse \
-	${PYTHON_PN}-ctypes \
-	${PYTHON_PN}-subprocess \
+    ${PYTHON_PN}-argparse \
+    ${PYTHON_PN}-ctypes \
+    ${PYTHON_PN}-subprocess \
 "
 
 ALTERNATIVE_${PN} = "aws"

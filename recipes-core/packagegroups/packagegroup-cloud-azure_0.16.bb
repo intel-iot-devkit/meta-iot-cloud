@@ -10,34 +10,34 @@ PACKAGES = "${PN}"
 PACKAGECONFIG ??= "c python node-red"
 
 PACKAGECONFIG[c] = "\
-	, \
-	, \
-	, \
-	azure-iot-sdk-c \
-	azure-iot-sdk-c-dev \
+    , \
+    , \
+    , \
+    azure-iot-sdk-c \
+    azure-iot-sdk-c-dev \
 "
 
 PACKAGECONFIG[python] = "\
-	, \
-	, \
-	, \
-	python-azure-cli \
-	python-azure-iothub-provisioningserviceclient \
-	python-azure-iothub-device-client \
-	python-azure-iothub-service-client \
+    , \
+    , \
+    , \
+    python-azure-cli \
+    python-azure-iothub-provisioningserviceclient \
+    python-azure-iothub-device-client \
+    python-azure-iothub-service-client \
 "
 
 PACKAGECONFIG[python3] = "\
-	, \
-	, \
-	, \
-	python3-azure-cli \
-	python3-azure-iothub-provisioningserviceclient \
+    , \
+    , \
+    , \
+    python3-azure-cli \
+    python3-azure-iothub-provisioningserviceclient \
 "
 
 PACKAGECONFIG[node-red] = "\
-	, \
-	, \
-	, \
-	node-red-contrib-azureiothubnode \
+    , \
+    , \
+    , \
+    node-red-contrib-azureiothubnode \
 "

@@ -2,7 +2,7 @@ inherit setuptools update-alternatives
 require python-humanfriendly.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-monotonic \
+    ${PYTHON_PN}-monotonic \
 "
 
 ALTERNATIVE_${PN} = "humanfriendly"

@@ -3,5 +3,5 @@ require python-azure-nspkg.inc
 require azure-sdk.inc
 
 FILES_${PN} += "\
-	${PYTHON_SITEPACKAGES_DIR}/azure/__pycache__ \
+    ${PYTHON_SITEPACKAGES_DIR}/azure/__pycache__ \
 "

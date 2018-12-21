@@ -5,13 +5,13 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=f83cd5dde2d24d5e0f5ae6b1364ace79"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-dill \
-	${PYTHON_PN}-googleapis-common-protos \
-	${PYTHON_PN}-grpcio \
-	${PYTHON_PN}-google-auth \
-	${PYTHON_PN}-ply \
-	${PYTHON_PN}-protobuf \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-dill \
+    ${PYTHON_PN}-googleapis-common-protos \
+    ${PYTHON_PN}-grpcio \
+    ${PYTHON_PN}-google-auth \
+    ${PYTHON_PN}-ply \
+    ${PYTHON_PN}-protobuf \
+    ${PYTHON_PN}-requests \
 "
 
 PR = "r0"

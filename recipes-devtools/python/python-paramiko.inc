@@ -8,8 +8,8 @@ SRC_URI = "git://github.com/paramiko/paramiko.git"
 SRCREV = "889480a5d032772e14af896c8df838aaf5f86703"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-cryptography \
-	${PYTHON_PN}-pyasn1 \
+    ${PYTHON_PN}-cryptography \
+    ${PYTHON_PN}-pyasn1 \
 "
 
 PR = "r0"

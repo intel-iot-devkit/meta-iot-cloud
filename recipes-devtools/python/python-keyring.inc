@@ -12,13 +12,13 @@ SRC_URI[sha256sum] = "91c31fd805b3ce6343406c7c51437f7505f3e9abb6e14ccac8242ea1fc
 DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-pickle \
-	${PYTHON_PN}-unixadmin \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-pickle \
+    ${PYTHON_PN}-unixadmin \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-dbus \
-	${PYTHON_PN}-secretstorage \
+    ${PYTHON_PN}-dbus \
+    ${PYTHON_PN}-secretstorage \
 "
