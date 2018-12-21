@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1e01b26bacfc2232046c90a330332b3"
 PR = "r0"
 
 RDEPENDS_${PN} = "\
-	${PYTHON_PN}-botocore \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-lang \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-threading \
-	${PYTHON_PN}-stringold \
-	${PYTHON_PN}-pkgutil \
+    ${PYTHON_PN}-botocore \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-lang \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-threading \
+    ${PYTHON_PN}-stringold \
+    ${PYTHON_PN}-pkgutil \
 "
 
 SRC_NAME = "s3transfer"

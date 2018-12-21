@@ -20,24 +20,24 @@ B = "${WORKDIR}/build"
 EXTRA_OECMAKE += "-DRAPIDJSON_BUILD_DOC=OFF -DRAPIDJSON_BUILD_EXAMPLES=OFF -DRAPIDJSON_BUILD_TESTS=OFF -DRAPIDJSON_BUILD_THIRDPARTY_GTEST=OFF"
 
 do_install() {
-	install -d ${D}${includedir}/${PN}
-	install -d ${D}${includedir}/${PN}/error
-	install -d ${D}${includedir}/${PN}/internal
-	install -d ${D}${includedir}/${PN}/msinttypes
-	install -m 0644 ${S}/include/${PN}/*.h ${D}${includedir}/${PN}/
-	install -m 0644 ${S}/include/${PN}/error/*.h ${D}${includedir}/${PN}/error/
-	install -m 0644 ${S}/include/${PN}/internal/*.h ${D}${includedir}/${PN}/internal/
-	install -m 0644 ${S}/include/${PN}/msinttypes/*.h ${D}${includedir}/${PN}/msinttypes/
+    install -d ${D}${includedir}/${PN}
+    install -d ${D}${includedir}/${PN}/error
+    install -d ${D}${includedir}/${PN}/internal
+    install -d ${D}${includedir}/${PN}/msinttypes
+    install -m 0644 ${S}/include/${PN}/*.h ${D}${includedir}/${PN}/
+    install -m 0644 ${S}/include/${PN}/error/*.h ${D}${includedir}/${PN}/error/
+    install -m 0644 ${S}/include/${PN}/internal/*.h ${D}${includedir}/${PN}/internal/
+    install -m 0644 ${S}/include/${PN}/msinttypes/*.h ${D}${includedir}/${PN}/msinttypes/
 
-	install -d ${D}${libdir}/pkgconfig
-	install -m 0644 ${B}/*.pc ${D}${libdir}/pkgconfig/
+    install -d ${D}${libdir}/pkgconfig
+    install -m 0644 ${B}/*.pc ${D}${libdir}/pkgconfig/
 
-	install -d ${D}${libdir}/cmake/RapidJSON
-	install -m 0644 ${B}/RapidJSONConfig.cmake ${D}${libdir}/cmake/RapidJSON
-	install -m 0644 ${B}/RapidJSONConfigVersion.cmake ${D}${libdir}/cmake/RapidJSON
+    install -d ${D}${libdir}/cmake/RapidJSON
+    install -m 0644 ${B}/RapidJSONConfig.cmake ${D}${libdir}/cmake/RapidJSON
+    install -m 0644 ${B}/RapidJSONConfigVersion.cmake ${D}${libdir}/cmake/RapidJSON
 }
 
 FILES_${PN}-dev += "\
-	${includedir} \
-	${libdir} \
+    ${includedir} \
+    ${libdir} \
 "

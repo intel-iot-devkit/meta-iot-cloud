@@ -5,7 +5,7 @@ inherit setuptools
 require python-secretstorage.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-dbus \
+    ${PYTHON_PN}-dbus \
 "
 
 SRC_URI[md5sum] = "3b9465831b069e2622973afb7deb7bc2"

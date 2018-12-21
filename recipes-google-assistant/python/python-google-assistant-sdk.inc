@@ -5,13 +5,13 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1b388b135719dbe1143117b38cadeb4e"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-urllib3 \
-	${PYTHON_PN}-tenacity \
-	${PYTHON_PN}-sounddevice \
-	${PYTHON_PN}-google-auth-oauthlib \
-	${PYTHON_PN}-google-assistant-grpc \
-	${PYTHON_PN}-google-assistant-library \
-	${PYTHON_PN}-click \
+    ${PYTHON_PN}-urllib3 \
+    ${PYTHON_PN}-tenacity \
+    ${PYTHON_PN}-sounddevice \
+    ${PYTHON_PN}-google-auth-oauthlib \
+    ${PYTHON_PN}-google-assistant-grpc \
+    ${PYTHON_PN}-google-assistant-library \
+    ${PYTHON_PN}-click \
 "
 
 PR = "r0"

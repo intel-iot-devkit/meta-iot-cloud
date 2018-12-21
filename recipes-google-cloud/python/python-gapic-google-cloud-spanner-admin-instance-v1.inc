@@ -5,11 +5,11 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=2deedbf0e737771f60166811e74a6a92"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-google-gax \
-	${PYTHON_PN}-oauth2client \
-	${PYTHON_PN}-proto-google-cloud-spanner-admin-instance-v1 \
-	${PYTHON_PN}-googleapis-common-protos \
-	${PYTHON_PN}-grpc-google-iam-v1 \
+    ${PYTHON_PN}-google-gax \
+    ${PYTHON_PN}-oauth2client \
+    ${PYTHON_PN}-proto-google-cloud-spanner-admin-instance-v1 \
+    ${PYTHON_PN}-googleapis-common-protos \
+    ${PYTHON_PN}-grpc-google-iam-v1 \
 "
 
 PR = "r0"

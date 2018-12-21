@@ -5,8 +5,8 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;beginline=17;endline=23;md5=bf6c1f97c313f8c55546e9b28bbf0079"
 
 DEPENDS += "\
-	swig-native \
-	pulseaudio \
+    swig-native \
+    pulseaudio \
 "
 
 PR = "r0"

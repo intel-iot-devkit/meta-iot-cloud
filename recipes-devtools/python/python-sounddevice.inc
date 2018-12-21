@@ -5,8 +5,8 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a67c6303ee7c7985e972f580019004db"
 
 RDEPENDS_${PN} += "\
-	portaudio-v19 \
-	${PYTHON_PN}-cffi \
+    portaudio-v19 \
+    ${PYTHON_PN}-cffi \
 "
 
 PR = "r0"

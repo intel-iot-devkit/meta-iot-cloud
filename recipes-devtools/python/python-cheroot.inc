@@ -5,7 +5,7 @@ LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7c3ce8ced2013f1e06ade270c344f4f8"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 SRC_URI = "git://github.com/cherrypy/cheroot.git"
@@ -16,8 +16,8 @@ PR = "r0"
 S = "${WORKDIR}/git"
 
 do_compile_prepend() {
-	# Fix-up setup script for older versions of setuptools
-	sed -i '39,41d' ${S}/setup.py
+    # Fix-up setup script for older versions of setuptools
+    sed -i '39,41d' ${S}/setup.py
 }
 
 BBCLASSEXTEND = "native nativesdk"

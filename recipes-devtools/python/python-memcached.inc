@@ -6,7 +6,7 @@ LICENSE = "Python-2.0"
 LIC_FILES_CHKSUM = "file://PSF.LICENSE;md5=7dd786e8594f1e787da94a946557b40e"
 
 RDEPENDS_${PN} += " \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-six \
 "
 
 PR = "r0"

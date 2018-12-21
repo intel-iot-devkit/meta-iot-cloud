@@ -4,19 +4,19 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 DEPENDS = "\
-	curl \
-	util-linux \
-	openssl \
+    curl \
+    util-linux \
+    openssl \
 "
 
 RDEPENDS_${PN} = "\
-	util-linux-libuuid \
+    util-linux-libuuid \
 "
 
 RDEPENDS_${PN}-dev += "\
-	curl-dev \
-	util-linux-dev \
-	openssl-dev \
+    curl-dev \
+    util-linux-dev \
+    openssl-dev \
 "
 
 inherit cmake
@@ -33,16 +33,16 @@ S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 PACKAGES = "\
-	${PN} \
-	${PN}-dev \
-	${PN}-staticdev \
-	${PN}-dbg \
+    ${PN} \
+    ${PN}-dev \
+    ${PN}-staticdev \
+    ${PN}-dbg \
 "
 
 EXTRA_OECMAKE = "-Dbuild_as_dynamic:BOOL=ON -Dskip_samples:BOOL=ON -Duse_installed_dependencies:BOOL=ON"
 
 sysroot_stage_all_append () {
-	sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
+    sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 }
 
 FILES_${PN} = "${libdir}/*.so"
@@ -50,8 +50,8 @@ FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-staticdev = "${libdir}/*.a"
 
 FILES_${PN}-dev += "\
-	${includedir} \
-	${exec_prefix}/cmake \
+    ${includedir} \
+    ${exec_prefix}/cmake \
 "
 
 FILES_${PN}-dbg += "${libdir}/.debug"
