@@ -15,7 +15,7 @@ SRCREV = "84c98bc229d67be7d76fe582524b4ae82d4109bb"
 
 do_compile_prepend() {
     # Fix install directory issue
-    sed -ie "s/find_pth_directory(),/'',/g" setup.py    
+    sed -ie "s/find_pth_directory(),/'',/g" setup.py
 }
 
 do_install_append() {
