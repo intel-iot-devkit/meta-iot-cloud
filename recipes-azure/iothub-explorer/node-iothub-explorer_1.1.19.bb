@@ -10,7 +10,7 @@ RDEPENDS_${PN} = "bash nodejs"
 PR = "r0"
 
 PACKAGES = "\
-	${PN} \
+    ${PN} \
 "
 
 SRC_URI = "git://github.com/Azure/iothub-explorer.git"
@@ -43,31 +43,31 @@ NPM_INSTALL_FLAGS ?= "--production --without-ssl --insecure --no-optional --verb
 SRC_NAME = "iothub-explorer"
 
 do_compile() {
-	export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
+    export NPM_CONFIG_CACHE="${NPM_CACHE_DIR}"
 
-	npm cache clear --force
-	npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
-	npm prune --production
+    npm cache clear --force
+    npm --registry=${NPM_REGISTRY} --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} ${NPM_INSTALL_FLAGS} install
+    npm prune --production
 
-	# FIXME: This is only required until the xml2js dependency is update in the azure-storage package
-	find ${S} -type f -name "switch-bench.js" -exec rm -f {} \;
+    # FIXME: This is only required until the xml2js dependency is update in the azure-storage package
+    find ${S} -type f -name "switch-bench.js" -exec rm -f {} \;
 }
 
 do_install() {
-	install -d ${D}${NODE_MODULES_DIR}/${SRC_NAME}
-	cp -r ${S}/* ${D}${NODE_MODULES_DIR}/${SRC_NAME}
+    install -d ${D}${NODE_MODULES_DIR}/${SRC_NAME}
+    cp -r ${S}/* ${D}${NODE_MODULES_DIR}/${SRC_NAME}
 
-	# Set permissions
-	chmod 0755 ${D}${NODE_MODULES_DIR}${SRC_NAME}/${SRC_NAME}.js
+    # Set permissions
+    chmod 0755 ${D}${NODE_MODULES_DIR}${SRC_NAME}/${SRC_NAME}.js
 
-	# Symlinks
-	install -d ${D}${bindir}
-	ln -s ${NODE_MODULES_DIR}${SRC_NAME}/${SRC_NAME}.js ${D}${bindir}/${SRC_NAME}
+    # Symlinks
+    install -d ${D}${bindir}
+    ln -s ${NODE_MODULES_DIR}${SRC_NAME}/${SRC_NAME}.js ${D}${bindir}/${SRC_NAME}
 }
 
 FILES_${PN} += "\
-	${NODE_MODULES_DIR}${SRC_NAME} \
-	${bindir} \
+    ${NODE_MODULES_DIR}${SRC_NAME} \
+    ${bindir} \
 "
 
 INHIBIT_PACKAGE_DEBUG_SPLIT_${PN} = "1"

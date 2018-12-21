@@ -7,13 +7,13 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/${PN}-${PV}-license;md5=56e5e931172b6164b6
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-compression \
-	${PYTHON_PN}-crypt \
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-email \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-compression \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-email \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-netclient \
 "
 
 SRC_URI += "${HOMEPAGE}/raw/v${PV}/LICENSE;downloadfilename=${PN}-${PV}-license;name=license"

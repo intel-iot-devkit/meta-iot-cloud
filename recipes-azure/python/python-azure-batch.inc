@@ -7,13 +7,13 @@ require azure-sdk-common.inc
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-datetime \
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-netclient \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-requests \
 "
 
 PYPI_PACKAGE_EXT = "zip"

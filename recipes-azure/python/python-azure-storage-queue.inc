@@ -10,14 +10,14 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-netclient \
-	${PYTHON_PN}-xml \
+    ${PYTHON_PN}-xml \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-azure-storage-common \
-	${PYTHON_PN}-cryptography \
-	${PYTHON_PN}-dateutil \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-azure-storage-common \
+    ${PYTHON_PN}-cryptography \
+    ${PYTHON_PN}-dateutil \
 "
 
 SRC_URI[md5sum] = "c51919c82bee038288237db6868a773e"

@@ -17,16 +17,16 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-adal \
     ${PYTHON_PN}-argcomplete \
     ${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-batchai \
-	${PYTHON_PN}-azure-mgmt-resource \
-	${PYTHON_PN}-azure-mgmt-storage \
-	${PYTHON_PN}-azure-storage-blob \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-paramiko \
-	${PYTHON_PN}-requests \
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-sshtunnel \
+    ${PYTHON_PN}-azure-mgmt-batchai \
+    ${PYTHON_PN}-azure-mgmt-resource \
+    ${PYTHON_PN}-azure-mgmt-storage \
+    ${PYTHON_PN}-azure-storage-blob \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-paramiko \
+    ${PYTHON_PN}-requests \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-sshtunnel \
 "
 
 SRC_URI[md5sum] = "4ad6b4210f1c793d05c5743a4176eb3e"

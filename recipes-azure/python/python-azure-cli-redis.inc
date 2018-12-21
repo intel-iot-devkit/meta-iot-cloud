@@ -5,10 +5,10 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-redis \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-redis \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrestazure \
 "
 
 SRC_URI[md5sum] = "6789a370a55d2a9a0336f14d7a551504"

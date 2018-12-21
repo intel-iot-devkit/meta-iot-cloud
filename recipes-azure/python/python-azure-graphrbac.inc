@@ -5,12 +5,12 @@ PR = "r0"
 require azure-sdk-common.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-netclient \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-msrestazure \
 "
 
 PYPI_PACKAGE_EXT = "zip"

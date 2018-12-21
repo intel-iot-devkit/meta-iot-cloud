@@ -2,7 +2,7 @@ inherit pypi setuptools update-alternatives
 require python-sshtunnel.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-argparse \
+    ${PYTHON_PN}-argparse \
 "
 
 ALTERNATIVE_${PN} = "sshtunnel"

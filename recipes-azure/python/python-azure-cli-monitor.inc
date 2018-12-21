@@ -5,18 +5,18 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-json \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-json \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-monitor \
-	${PYTHON_PN}-azure-mgmt-resource \
-	${PYTHON_PN}-dateutil \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrestazure \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-mgmt-monitor \
+    ${PYTHON_PN}-azure-mgmt-resource \
+    ${PYTHON_PN}-dateutil \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-six \
 "
 
 SRC_URI[md5sum] = "456494a3a3384ee1dba3d78b781ce858"

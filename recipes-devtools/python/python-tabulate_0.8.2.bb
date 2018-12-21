@@ -2,9 +2,9 @@ inherit pypi setuptools update-alternatives
 require python-tabulate.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-lang \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-textutils \
+    ${PYTHON_PN}-lang \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-textutils \
 "
 
 ALTERNATIVE_${PN} = "tabulate"

@@ -3,14 +3,14 @@ DESCRIPTION = "Microsoft Azure Client Library for Python (Common)"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-json \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-json \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-adal \
-	${PYTHON_PN}-msrest \
-	${PYTHON_PN}-msrestazure \
+    ${PYTHON_PN}-adal \
+    ${PYTHON_PN}-msrest \
+    ${PYTHON_PN}-msrestazure \
 "
 
 PYPI_PACKAGE_EXT = "zip"

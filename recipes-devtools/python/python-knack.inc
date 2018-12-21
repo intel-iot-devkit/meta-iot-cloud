@@ -13,19 +13,19 @@ SRC_URI[license.md5sum] = "261d8686a7cf1ce9570cdc99746659f8"
 SRC_URI[license.sha256sum] = "a096a435e19bb6b631da46992c011a39be563e97ce7366879ad516c772904632"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-distutils \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-unixadmin \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-distutils \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-unixadmin \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-colorama \
-	${PYTHON_PN}-jmespath \
-	${PYTHON_PN}-pygments \
-	${PYTHON_PN}-pyyaml \
-	${PYTHON_PN}-six \
-	${PYTHON_PN}-tabulate \
+    ${PYTHON_PN}-argcomplete \
+    ${PYTHON_PN}-colorama \
+    ${PYTHON_PN}-jmespath \
+    ${PYTHON_PN}-pygments \
+    ${PYTHON_PN}-pyyaml \
+    ${PYTHON_PN}-six \
+    ${PYTHON_PN}-tabulate \
 "

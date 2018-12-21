@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2683790f5fabb41a3f75b70558799eb4"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-pprint \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-pprint \
 "
 
 SRC_URI[md5sum] = "37a906c06de62bed25ec5cf99cee04a6"

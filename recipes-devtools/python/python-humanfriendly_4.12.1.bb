@@ -2,13 +2,13 @@ inherit pypi setuptools update-alternatives
 require python-humanfriendly.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-lang \
-	${PYTHON_PN}-subprocess \
-	${PYTHON_PN}-textutils \
+    ${PYTHON_PN}-lang \
+    ${PYTHON_PN}-subprocess \
+    ${PYTHON_PN}-textutils \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-monotonic \
+    ${PYTHON_PN}-monotonic \
 "
 
 ALTERNATIVE_${PN} = "humanfriendly"

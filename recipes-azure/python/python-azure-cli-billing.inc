@@ -6,9 +6,9 @@ require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-mgmt-billing \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-azure-mgmt-billing \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-six \
 "
 
 SRC_URI[md5sum] = "594527967bde86cc38fbc0dc905e7cd6"

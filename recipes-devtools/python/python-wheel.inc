@@ -8,18 +8,18 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9d66b41bc2a080e7174acc5dffecd752"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-compression \
-	${PYTHON_PN}-crypt \
-	${PYTHON_PN}-distutils \
-	${PYTHON_PN}-email \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-shell \
+    ${PYTHON_PN}-compression \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-distutils \
+    ${PYTHON_PN}-email \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-shell \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-keyring \
+    ${PYTHON_PN}-keyring \
 "
 
 SRC_URI[md5sum] = "0ac15797d94ca759702b1d52425850c4"

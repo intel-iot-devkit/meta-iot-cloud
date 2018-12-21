@@ -7,20 +7,20 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/${PN}-${PV}-license;md5=8044bfe96e0a6b1824
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-crypt \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-multiprocessing \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-pickle \
-	${PYTHON_PN}-shell \
-	${PYTHON_PN}-threading \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-multiprocessing \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-pickle \
+    ${PYTHON_PN}-shell \
+    ${PYTHON_PN}-threading \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-adal \
-	${PYTHON_PN}-azure-nspkg \
-	${PYTHON_PN}-requests \
+    ${PYTHON_PN}-adal \
+    ${PYTHON_PN}-azure-nspkg \
+    ${PYTHON_PN}-requests \
 "
 
 SRC_URI += "https://github.com/Azure/azure-data-lake-store-python/raw/v${PV}/License.txt;downloadfilename=${PN}-${PV}-license;name=license"

@@ -8,14 +8,14 @@ require azure-storage-common.inc
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-io \
-	${PYTHON_PN}-threading \
-	${PYTHON_PN}-xml \
+    ${PYTHON_PN}-threading \
+    ${PYTHON_PN}-xml \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-azure-storage-common \
-	${PYTHON_PN}-dateutil \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-azure-storage-common \
+    ${PYTHON_PN}-dateutil \
 "
 
 SRC_URI[md5sum] = "3af9f0b61d3987bd49936cb0cb994933"

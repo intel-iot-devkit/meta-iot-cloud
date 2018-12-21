@@ -3,27 +3,27 @@ DESCRIPTION = "Microsoft Azure Command-Line Tools Core Module"
 PR = "r0"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-crypt \
-	${PYTHON_PN}-difflib \
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-misc \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-pprint \
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-difflib \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-misc \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-pprint \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-adal \
-	${PYTHON_PN}-applicationinsights \
-	${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-colorama \
-	${PYTHON_PN}-humanfriendly \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-msrest \
-	${PYTHON_PN}-requests \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-adal \
+    ${PYTHON_PN}-applicationinsights \
+    ${PYTHON_PN}-argcomplete \
+    ${PYTHON_PN}-colorama \
+    ${PYTHON_PN}-humanfriendly \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-msrest \
+    ${PYTHON_PN}-requests \
+    ${PYTHON_PN}-six \
 "
 
 require azure-cli-common.inc

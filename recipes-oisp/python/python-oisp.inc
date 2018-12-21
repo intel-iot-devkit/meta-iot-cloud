@@ -9,13 +9,13 @@ SRCREV = "c3c4aa4f86fd16d9705add953b19b350be0dbe9e"
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-requests \
-	${PYTHON_PN}-dateutil \
+    ${PYTHON_PN}-dateutil \
 "
 
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-datetime \
-	${PYTHON_PN}-json \
-	${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-netclient \
 "
 
 PR = "r0"

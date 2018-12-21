@@ -5,7 +5,7 @@ inherit setuptools3
 require python-secretstorage.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-jeepney \
+    ${PYTHON_PN}-jeepney \
 "
 
 SRC_URI[md5sum] = "a30efe5f34e3f6c522ff2b3826f567ba"

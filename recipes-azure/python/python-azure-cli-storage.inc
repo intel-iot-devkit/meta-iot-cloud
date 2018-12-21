@@ -5,19 +5,19 @@ PR = "r0"
 require azure-cli-command-modules.inc
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-netclient \
-	${PYTHON_PN}-shell \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-shell \
 "
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-argcomplete \
-	${PYTHON_PN}-azure-cli-core \
-	${PYTHON_PN}-azure-common \
-	${PYTHON_PN}-azure-mgmt-storage \
-	${PYTHON_PN}-azure-multiapi-storage \
-	${PYTHON_PN}-knack \
-	${PYTHON_PN}-six \
+    ${PYTHON_PN}-argcomplete \
+    ${PYTHON_PN}-azure-cli-core \
+    ${PYTHON_PN}-azure-common \
+    ${PYTHON_PN}-azure-mgmt-storage \
+    ${PYTHON_PN}-azure-multiapi-storage \
+    ${PYTHON_PN}-knack \
+    ${PYTHON_PN}-six \
 "
 
 SRC_URI[md5sum] = "d405c114ef3c24869eea6831fae8f0a8"

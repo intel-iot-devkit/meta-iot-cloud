@@ -5,13 +5,13 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=690da298a43805797a4fa7bbe180b3c6"
 
 RDEPENDS_${PN} += "\
-	${PYTHON_PN}-datetime \
-	${PYTHON_PN}-fcntl \
-	${PYTHON_PN}-io \
-	${PYTHON_PN}-logging \
-	${PYTHON_PN}-math \
-	${PYTHON_PN}-numbers \
-	${PYTHON_PN}-shell \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-fcntl \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-numbers \
+    ${PYTHON_PN}-shell \
 "
 
 PR = "r0"
