@@ -44,16 +44,16 @@ do_install() {
     install -d ${D}${JAVA_DATADIR}
     install -m 0644 ${JAVA_DEST_DIR}/iot-device-client-${PV}-with-deps.jar ${D}${JAVA_DATADIR}/${JAVA_PN}-${PV}.jar
     ln -s ${JAVA_PN}-${PV}.jar ${D}${JAVA_DATADIR}/${JAVA_PN}.jar
-    
-        # Samples
-        install -d ${D}${datadir}/azureiotsdk/samples/java/device
+
+    # Samples
+    install -d ${D}${datadir}/azureiotsdk/samples/java/device
     install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/device-method-sample/target/device-method-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/device-method-sample.jar
     install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/device-twin-sample/target/device-twin-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/device-twin-sample.jar
     install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/file-upload-sample/target/file-upload-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/file-upload-sample.jar
-        install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/handle-messages/target/handle-messages-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/handle-messages.jar
-        install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-event/target/send-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-event.jar
-        install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-receive-sample/target/send-receive-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-receive-sample.jar
-        install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-serialized-event/target/send-serialized-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-serialized-event.jar
+    install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/handle-messages/target/handle-messages-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/handle-messages.jar
+    install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-event/target/send-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-event.jar
+    install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-receive-sample/target/send-receive-sample-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-receive-sample.jar
+    install -m 0755 ${JAVA_SRC_DIR}/iot-device-samples/send-serialized-event/target/send-serialized-event-*-with-deps.jar ${D}${datadir}/azureiotsdk/samples/java/device/send-serialized-event.jar
 }
 
 FILES_${PN} += "${JAVA_DATADIR}"
