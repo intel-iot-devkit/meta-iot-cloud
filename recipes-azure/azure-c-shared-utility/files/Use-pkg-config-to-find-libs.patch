@@ -1,0 +1,73 @@
+From 5fcf5a584df56e7541f481d552fdc3e9c0ea492f Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Mon, 14 Jan 2019 15:21:25 +0000
+Subject: [PATCH 2/2] Use pkg-config to find libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f039481..0190820 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -93,9 +93,14 @@ if(${use_openssl})
+     # If OpenSSL::SSL OR OpenSSL::Crypto are not set then you need to run
+     # the find package for openssl
+     if (NOT TARGET OpenSSL::SSL OR NOT TARGET OpenSSL::Crypto OR NOT ${OPENSSL_INCLUDE_DIR})
+-        find_package(OpenSSL REQUIRED)
++        find_package(PkgConfig)
++        if(PKG_CONFIG_FOUND)
++            pkg_check_modules(OPENSSL libssl)
++            pkg_check_modules(CRYPTO libcrypto)
++        endif()
+     endif()
+-    include_directories(${OPENSSL_INCLUDE_DIR})
++    
++    include_directories(${OPENSSL_INCLUDE_DIR} ${CRYPTO_INCLUDE_DIR})
+ endif()
+ 
+ if(${use_applessl})
+@@ -430,26 +435,11 @@ if(${use_http})
+         endif()
+     else()
+         if (NOT use_builtin_httpapi)
+-            if (CMAKE_CROSSCOMPILING)
+-                # As mentioned at https://cmake.org/Wiki/CMake_Cross_Compiling the
+-                # pkg-config tool can not be used by cmake while cross compiling.
+-                message(STATUS "Cross compiling not using pkg-config")
+-            else()
+-                # try pkg-config first
+-                find_package(PkgConfig)
+-                if(PKG_CONFIG_FOUND)
+-                    pkg_check_modules(CURL libcurl)
+-                endif()
+-            endif()
+-
+-            # if that didn't work, try CMake find_package
+-            if(NOT CURL_FOUND)
+-                find_package(CURL)
++            find_package(PkgConfig)
++            if(PKG_CONFIG_FOUND)
++                pkg_check_modules(CURL libcurl)
+             endif()
+ 
+-            set(CURL_FIND_REQUIRED 1)
+-            find_package_handle_standard_args(CURL DEFAULT_MSG CURL_LIBRARIES)
+-
+             include_directories(${CURL_INCLUDE_DIRS})
+             set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${CURL_LIBRARIES})
+         endif(NOT use_builtin_httpapi)
+@@ -467,7 +457,7 @@ if(${use_schannel})
+ endif()
+ 
+ if(${use_openssl})
+-    set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${OPENSSL_LIBRARIES})
++    set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${OPENSSL_LIBRARIES} ${CRYPTO_LIBRARIES})
+     if (WIN32)
+         set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 ws2_32 secur32)
+     endif()
+-- 
+2.7.4
+

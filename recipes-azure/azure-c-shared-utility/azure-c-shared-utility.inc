@@ -12,6 +12,7 @@ RDEPENDS_${PN} = "\
 
 SRC_URI += "\
     file://Fix-packaging-issues.patch \
+    file://Use-pkg-config-to-find-libs.patch \
 "
 
 S = "${WORKDIR}/git"
