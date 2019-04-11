@@ -25,6 +25,8 @@ AR += "rcs"
 
 OUTDIR = "${S}/libs/opt/"
 
+TARGET_CFLAGS += "-Wno-error"
+
 do_compile () {
     export LD="${CC}"
     oe_runmake prefix=${exec_prefix} shared_c static_c
