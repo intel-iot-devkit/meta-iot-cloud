@@ -1,4 +1,4 @@
-require protobuf.inc
+require protobuf3.inc
 inherit autotools-brokensep
 
 PACKAGE_BEFORE_PN = "${PN}-compiler"
