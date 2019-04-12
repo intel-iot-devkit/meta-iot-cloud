@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=dc0d1d7d86350a5c51c835e3cea3f896"
 inherit autotools-brokensep pkgconfig
 
 DEPENDS = "\
-    protobuf \
+    protobuf3 \
     zlib \
     openssl \
     c-ares \

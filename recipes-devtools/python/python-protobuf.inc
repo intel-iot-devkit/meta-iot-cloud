@@ -1,9 +1,9 @@
-require recipes-support/protobuf/protobuf.inc
+require recipes-support/protobuf/protobuf3.inc
 
-DEPENDS += "protobuf-native"
+DEPENDS += "protobuf3-native"
 
 RDEPENDS_${PN} += "\
-    protobuf \
+    protobuf3 \
     ${PYTHON_PN}-six \
 "
 
