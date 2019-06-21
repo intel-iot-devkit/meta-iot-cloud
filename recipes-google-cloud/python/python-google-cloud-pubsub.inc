@@ -8,6 +8,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-grpcio \
     ${PYTHON_PN}-gapic-google-cloud-pubsub-v1 \
     ${PYTHON_PN}-grpc-google-iam-v1 \
+    ${PYTHON_PN}-google-api-core \
 "
 
 SRCREV = "79a43138a1dd733feff005e4207c29f8b269d8c2"
