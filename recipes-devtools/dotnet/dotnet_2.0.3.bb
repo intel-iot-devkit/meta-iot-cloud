@@ -16,7 +16,7 @@ DEPENDS += "\
 
 RDEPENDS_${PN}_class-target += "\
     lttng-ust \
-    krb5 \
+    libgssapi-krb5 \
     libicuuc \
     libicui18n \
 "
