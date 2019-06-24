@@ -10,4 +10,4 @@ SRCREV = "6b84372f6a07e55147f8d591e81f7776f3665d0b"
 
 PR = "r0"
 
-include ${PN}.inc
+include ${BPN}.inc

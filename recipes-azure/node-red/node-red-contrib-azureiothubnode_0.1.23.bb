@@ -56,10 +56,10 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}${NODE_MODULES_DIR}/${PN}
-    cp -r ${SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${PN}
+    install -d ${D}${NODE_MODULES_DIR}/${BPN}
+    cp -r ${SRC_DIR}/* ${D}${NODE_MODULES_DIR}/${BPN}
 }
 
-FILES_${PN} += "${NODE_MODULES_DIR}${PN}"
+FILES_${PN} += "${NODE_MODULES_DIR}${BPN}"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT_${PN} = "1"

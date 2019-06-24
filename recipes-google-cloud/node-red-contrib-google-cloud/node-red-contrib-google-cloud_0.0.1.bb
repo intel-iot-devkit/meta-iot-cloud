@@ -11,7 +11,7 @@ RDEPENDS_${PN} = "\
     node-red \
 "
 
-SRC_URI = "git://github.com/GoogleCloudPlatform/${PN}.git;branch=master"
+SRC_URI = "git://github.com/GoogleCloudPlatform/${BPN}.git;branch=master"
 SRCREV = "2e646aaf897da0d54a7ee5df55c4de3ac2eac86c"
 
 PR = "r3"
@@ -51,13 +51,13 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}${NODE_MODULES_DIR}/${PN}
-    cp -R ${S}/* ${D}${NODE_MODULES_DIR}/${PN}
+    install -d ${D}${NODE_MODULES_DIR}/${BPN}
+    cp -R ${S}/* ${D}${NODE_MODULES_DIR}/${BPN}
 }
 
 PACKAGES = "${PN}"
 
-FILES_${PN} += "${NODE_MODULES_DIR}/${PN}"
+FILES_${PN} += "${NODE_MODULES_DIR}/${BPN}"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 

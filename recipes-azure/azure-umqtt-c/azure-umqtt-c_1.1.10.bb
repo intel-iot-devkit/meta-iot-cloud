@@ -11,4 +11,4 @@ SRCREV = "68ee315a77382f09a8732093603c3c2f1ada08c8"
 
 PR = "r0"
 
-require ${PN}.inc
+require ${BPN}.inc

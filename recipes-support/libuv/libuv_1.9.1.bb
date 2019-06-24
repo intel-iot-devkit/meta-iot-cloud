@@ -13,7 +13,7 @@ PR = "r0"
 S = "${WORKDIR}/git"
 
 do_configure() {
-    ${S}/autogen.sh || bbnote "${PN} failed to autogen.sh"
+    ${S}/autogen.sh || bbnote "${BPN} failed to autogen.sh"
     oe_runconf
 }
 

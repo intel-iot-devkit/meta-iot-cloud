@@ -19,7 +19,7 @@ RDEPENDS_${PN}-dev += "\
 inherit cmake pkgconfig
 
 SRC_URI = "\
-    git://github.com/aws/${PN}.git;branch=master \
+    git://github.com/aws/${BPN}.git;branch=master \
     file://Add-C-as-a-build-language.patch \
     file://Add-build-options-for-tests-and-samples.patch \
     file://Fix-CLI-includes.patch \

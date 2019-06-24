@@ -2,7 +2,7 @@ DESCRIPTION = "A comprehensive HTTP client library."
 AUTHOR = "Joe Gregorio"
 HOMEPAGE = "https://github.com/httplib2/httplib2"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/${PN}-${PV}-license;md5=56e5e931172b6164b62dc7c4aba6c8cf"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/${BPN}-${PV}-license;md5=56e5e931172b6164b62dc7c4aba6c8cf"
 
 PR = "r0"
 
@@ -16,7 +16,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-netclient \
 "
 
-SRC_URI += "${HOMEPAGE}/raw/v${PV}/LICENSE;downloadfilename=${PN}-${PV}-license;name=license"
+SRC_URI += "${HOMEPAGE}/raw/v${PV}/LICENSE;downloadfilename=${BPN}-${PV}-license;name=license"
 SRC_URI[license.md5sum] = "56e5e931172b6164b62dc7c4aba6c8cf"
 SRC_URI[license.sha256sum] = "589eec38f72df2be203711d3b8cbece9b908c5e7ff00bc3cab7f63bae9e366b4"
 

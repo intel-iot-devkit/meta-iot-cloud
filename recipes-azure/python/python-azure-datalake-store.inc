@@ -2,7 +2,7 @@ DESCRIPTION = "Azure Data Lake Store Filesystem Client Library for Python"
 AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/Azure/azure-data-lake-store-python"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/${PN}-${PV}-license;md5=8044bfe96e0a6b1824adf55d45c9873b"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/${BPN}-${PV}-license;md5=8044bfe96e0a6b1824adf55d45c9873b"
 
 PR = "r0"
 
@@ -23,7 +23,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-requests \
 "
 
-SRC_URI += "https://github.com/Azure/azure-data-lake-store-python/raw/v${PV}/License.txt;downloadfilename=${PN}-${PV}-license;name=license"
+SRC_URI += "https://github.com/Azure/azure-data-lake-store-python/raw/v${PV}/License.txt;downloadfilename=${BPN}-${PV}-license;name=license"
 SRC_URI[license.md5sum] = "8044bfe96e0a6b1824adf55d45c9873b"
 SRC_URI[license.sha256sum] = "a1487fcf2dd5961c1a4cf240035b8ede59f2fef37edcb58c70eaed573e57a1d0"
 

@@ -20,14 +20,14 @@ B = "${WORKDIR}/build"
 EXTRA_OECMAKE += "-DRAPIDJSON_BUILD_DOC=OFF -DRAPIDJSON_BUILD_EXAMPLES=OFF -DRAPIDJSON_BUILD_TESTS=OFF -DRAPIDJSON_BUILD_THIRDPARTY_GTEST=OFF"
 
 do_install() {
-    install -d ${D}${includedir}/${PN}
-    install -d ${D}${includedir}/${PN}/error
-    install -d ${D}${includedir}/${PN}/internal
-    install -d ${D}${includedir}/${PN}/msinttypes
-    install -m 0644 ${S}/include/${PN}/*.h ${D}${includedir}/${PN}/
-    install -m 0644 ${S}/include/${PN}/error/*.h ${D}${includedir}/${PN}/error/
-    install -m 0644 ${S}/include/${PN}/internal/*.h ${D}${includedir}/${PN}/internal/
-    install -m 0644 ${S}/include/${PN}/msinttypes/*.h ${D}${includedir}/${PN}/msinttypes/
+    install -d ${D}${includedir}/${BPN}
+    install -d ${D}${includedir}/${BPN}/error
+    install -d ${D}${includedir}/${BPN}/internal
+    install -d ${D}${includedir}/${BPN}/msinttypes
+    install -m 0644 ${S}/include/${BPN}/*.h ${D}${includedir}/${BPN}/
+    install -m 0644 ${S}/include/${BPN}/error/*.h ${D}${includedir}/${BPN}/error/
+    install -m 0644 ${S}/include/${BPN}/internal/*.h ${D}${includedir}/${BPN}/internal/
+    install -m 0644 ${S}/include/${BPN}/msinttypes/*.h ${D}${includedir}/${BPN}/msinttypes/
 
     install -d ${D}${libdir}/pkgconfig
     install -m 0644 ${B}/*.pc ${D}${libdir}/pkgconfig/

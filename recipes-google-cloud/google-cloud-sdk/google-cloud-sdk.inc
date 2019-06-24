@@ -24,32 +24,32 @@ do_install_prepend() {
 
 do_install() {
     install -d ${D}${bindir}
-    install -d ${D}${libdir}/${PN}
+    install -d ${D}${libdir}/${BPN}
     install -d ${D}${sysconfdir}/bash_completion.d
 
-    install -m 0644 ${S}/completion.bash.inc ${D}${libdir}/${PN}
-    install -m 0644 ${S}/properties ${D}${libdir}/${PN}
-    install -m 0644 ${S}/README ${D}${libdir}/${PN}
-    install -m 0644 ${S}/RELEASE_NOTES ${D}${libdir}/${PN}
-    install -m 0644 ${S}/VERSION ${D}${libdir}/${PN}
+    install -m 0644 ${S}/completion.bash.inc ${D}${libdir}/${BPN}
+    install -m 0644 ${S}/properties ${D}${libdir}/${BPN}
+    install -m 0644 ${S}/README ${D}${libdir}/${BPN}
+    install -m 0644 ${S}/RELEASE_NOTES ${D}${libdir}/${BPN}
+    install -m 0644 ${S}/VERSION ${D}${libdir}/${BPN}
 
-    cp -r ${S}/.install ${D}${libdir}/${PN}
-    cp -r ${S}/bin ${D}${libdir}/${PN}
-    cp -r ${S}/data ${D}${libdir}/${PN}
-    cp -r ${S}/lib ${D}${libdir}/${PN}
-    cp -r ${S}/platform ${D}${libdir}/${PN}
+    cp -r ${S}/.install ${D}${libdir}/${BPN}
+    cp -r ${S}/bin ${D}${libdir}/${BPN}
+    cp -r ${S}/data ${D}${libdir}/${BPN}
+    cp -r ${S}/lib ${D}${libdir}/${BPN}
+    cp -r ${S}/platform ${D}${libdir}/${BPN}
 
     # Symlinks
-    ln -s ${libdir}/${PN}/completion.bash.inc ${D}${sysconfdir}/bash_completion.d/gcloud
-    ln -s ${libdir}/${PN}/bin/bq ${D}${bindir}/bq
-    ln -s ${libdir}/${PN}/bin/docker-credential-gcloud ${D}${bindir}/docker-credential-gcloud
-    ln -s ${libdir}/${PN}/bin/gcloud ${D}${bindir}/gcloud
-    ln -s ${libdir}/${PN}/bin/git-credential-gcloud.sh ${D}${bindir}/git-credential-gcloud.sh
-    ln -s ${libdir}/${PN}/bin/gsutil ${D}${bindir}/gsutil
+    ln -s ${libdir}/${BPN}/completion.bash.inc ${D}${sysconfdir}/bash_completion.d/gcloud
+    ln -s ${libdir}/${BPN}/bin/bq ${D}${bindir}/bq
+    ln -s ${libdir}/${BPN}/bin/docker-credential-gcloud ${D}${bindir}/docker-credential-gcloud
+    ln -s ${libdir}/${BPN}/bin/gcloud ${D}${bindir}/gcloud
+    ln -s ${libdir}/${BPN}/bin/git-credential-gcloud.sh ${D}${bindir}/git-credential-gcloud.sh
+    ln -s ${libdir}/${BPN}/bin/gsutil ${D}${bindir}/gsutil
 }
 
 FILES_${PN} = "\
     ${bindir} \
-    ${libdir}/${PN} \
+    ${libdir}/${BPN} \
     ${sysconfdir}/bash_completion.d \
 "

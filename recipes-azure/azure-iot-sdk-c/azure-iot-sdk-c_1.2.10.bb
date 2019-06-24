@@ -15,4 +15,4 @@ SRC_URI = "\
 
 PR = "r0"
 
-include ${PN}.inc
+include ${BPN}.inc

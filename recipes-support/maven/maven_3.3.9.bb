@@ -29,26 +29,26 @@ python do_install () {
 }
 
 shell_do_install() {
-    install -d ${D}${libdir}/${PN}/bin
-    install -m 0755 ${S}/bin/mvn ${D}${libdir}/${PN}/bin/
-    install -m 0755 ${S}/bin/mvnDebug ${D}${libdir}/${PN}/bin/
-    install -m 0755 ${S}/bin/mvnyjp ${D}${libdir}/${PN}/bin/
-    install -m 0644 ${S}/bin/m2.conf ${D}${libdir}/${PN}/bin/
+    install -d ${D}${libdir}/${BPN}/bin
+    install -m 0755 ${S}/bin/mvn ${D}${libdir}/${BPN}/bin/
+    install -m 0755 ${S}/bin/mvnDebug ${D}${libdir}/${BPN}/bin/
+    install -m 0755 ${S}/bin/mvnyjp ${D}${libdir}/${BPN}/bin/
+    install -m 0644 ${S}/bin/m2.conf ${D}${libdir}/${BPN}/bin/
     
-    install -d ${D}${libdir}/${PN}/boot
-    install -m 0644 ${S}/boot/* ${D}${libdir}/${PN}/boot/
+    install -d ${D}${libdir}/${BPN}/boot
+    install -m 0644 ${S}/boot/* ${D}${libdir}/${BPN}/boot/
 
-    install -d ${D}${libdir}/${PN}/conf
-    install -d ${D}${libdir}/${PN}/conf/logging
-    install -m 0644 ${S}/conf/*.xml ${D}${libdir}/${PN}/conf/
-    install -m 0644 ${S}/conf/logging/* ${D}${libdir}/${PN}/conf/logging/
+    install -d ${D}${libdir}/${BPN}/conf
+    install -d ${D}${libdir}/${BPN}/conf/logging
+    install -m 0644 ${S}/conf/*.xml ${D}${libdir}/${BPN}/conf/
+    install -m 0644 ${S}/conf/logging/* ${D}${libdir}/${BPN}/conf/logging/
 
-    install -d ${D}${libdir}/${PN}/lib
-    install -m 0644 ${S}/lib/*.jar ${D}${libdir}/${PN}/lib/
-    install -m 0644 ${S}/lib/*.license ${D}${libdir}/${PN}/lib/
+    install -d ${D}${libdir}/${BPN}/lib
+    install -m 0644 ${S}/lib/*.jar ${D}${libdir}/${BPN}/lib/
+    install -m 0644 ${S}/lib/*.license ${D}${libdir}/${BPN}/lib/
 
     install -d ${D}${bindir}
-    ln -sf ${D}${libdir}/${PN}/bin/mvn ${D}${bindir}/mvn
+    ln -sf ${D}${libdir}/${BPN}/bin/mvn ${D}${bindir}/mvn
 }
 
 FILES_${PN} = "\
