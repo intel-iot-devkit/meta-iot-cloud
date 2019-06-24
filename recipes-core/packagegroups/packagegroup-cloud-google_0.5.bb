@@ -7,7 +7,7 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "node-red cli"
+PACKAGECONFIG ??= "cli node-red python"
 
 PACKAGECONFIG[node-red] = "\
     , \
@@ -21,4 +21,18 @@ PACKAGECONFIG[cli] = "\
     , \
     , \
     google-cloud-sdk \
+"
+
+PACKAGECONFIG[python] = "\
+    , \
+    , \
+    , \
+    python-google-cloud-pubsub \
+"
+
+PACKAGECONFIG[python3] = "\
+    , \
+    , \
+    , \
+    python3-google-cloud-pubsub \
 "
