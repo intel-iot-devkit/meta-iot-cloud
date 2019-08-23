@@ -9,7 +9,7 @@ PR = "r0"
 
 SRC_URI = "\
     npm://registry.npmjs.org;name=${BPN};version=${PV} \
-    file://node-red.service \
+    file://${BPN}.service \
 "
 
 NPMPN = "${BPN}"
@@ -33,6 +33,5 @@ SYSTEMD_AUTO_ENABLE = "enable"
 SYSTEMD_SERVICE_${PN} = "${BPN}.service"
 
 FILES_${PN} += "\
-    ${bindir} \
     ${systemd_unitdir} \
 "
