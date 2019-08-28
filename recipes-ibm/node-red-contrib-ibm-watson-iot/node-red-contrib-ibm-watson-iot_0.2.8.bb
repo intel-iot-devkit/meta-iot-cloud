@@ -49,6 +49,7 @@ do_compile() {
 do_install() {
     install -d ${D}${NODE_MODULES_DIR}
     cp -r ${S} ${D}${NODE_MODULES_DIR}/${BPN}
+    rm -r ${D}${NODE_MODULES_DIR}/${BPN}/.git/hooks/fsmonitor-watchman.sample
 }
 
 PACKAGES = "${PN}"
