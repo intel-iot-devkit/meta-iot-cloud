@@ -18,14 +18,10 @@ DEPENDS = "\
 "
 
 SRC_URI = "\
-    git://github.com/Azure/azure-iot-sdk-python.git \
-    git://github.com/Azure/azure-iot-sdk-c.git;destsuffix=c;name=c \
-    git://github.com/kgabis/parson.git;destsuffix=parson;name=parson \
+    git://github.com/Azure/azure-iot-sdk-python.git;branch=v1-deprecated;rev=db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8 \
+    git://github.com/Azure/azure-iot-sdk-c.git;rev=7b4f0dfaa100f1774e98d60336a04fec73debddb;destsuffix=c;name=c \
+    git://github.com/kgabis/parson.git;rev=578b25e5909df0ca9fb78d5173a6b247faea0c5a;destsuffix=parson;name=parson \
 "
-
-SRCREV = "db0785dc35aeee45fcc03b8fad2c0ccf57ca24d8"
-SRCREV_c = "7b4f0dfaa100f1774e98d60336a04fec73debddb"
-SRCREV_parson = "578b25e5909df0ca9fb78d5173a6b247faea0c5a"
 
 PR = "r0"
 
