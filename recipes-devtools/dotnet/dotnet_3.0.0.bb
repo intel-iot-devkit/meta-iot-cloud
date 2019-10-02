@@ -4,7 +4,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9fc642ff452b28d62ab19b7eea50dfb9"
 
 
-COMPATIBLE_HOST ?= "aarch64.*-linux"
+COMPATIBLE_HOST ?= "(x86_64|aarch64).*-linux"
 
 DEPENDS += "\
     curl \
