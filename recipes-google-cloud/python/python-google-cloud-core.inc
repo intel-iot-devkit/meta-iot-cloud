@@ -2,7 +2,7 @@ DESCRIPTION = "Google Cloud API client core library"
 HOMEPAGE = "https://github.com/GoogleCloudPlatform/google-cloud-python"
 AUTHOR = "Google LLC"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=2deedbf0e737771f60166811e74a6a92"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 
 PR = "r0"
 
@@ -22,5 +22,6 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-six \
 "
 
-SRC_URI[md5sum] = "c5cf767200f353a7b87ae0466849e1bd"
-SRC_URI[sha256sum] = "7b61a06de4d63780bcf7889cb17f00f5058fdd211ad86c74367408eea37d9f00"
+SRC_URI[md5sum] = "cbc42a01af32bd31323db111e827d3f3"
+SRC_URI[sha256sum] = "10750207c1a9ad6f6e082d91dbff3920443bdaf1c344a782730489a9efa802f1"
+
