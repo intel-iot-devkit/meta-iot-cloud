@@ -24,7 +24,6 @@ do_install_append() {
     # Remove hardware specific files
     rm ${D}${bindir}/${BPN}-pi
     rm -rf ${D}${NPM_INSTALLDIR}/bin
-    rm -rf ${D}${NPM_INSTALLDIR}/node_modules/@${BPN}/nodes/core/hardware
 }
 
 inherit systemd
