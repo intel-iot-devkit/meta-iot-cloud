@@ -2,10 +2,10 @@ DESCRIPTION = "Low-level, data-driven core of boto 3."
 HOMEPAGE = "https://github.com/boto/botocore"
 AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=71a3e14f29ac5c23e1b5b934ca4ddfc9"
+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ee41112a44fe7014dce33e26468ba93"
 
-SRC_URI[md5sum] = "1e3344b1bf2d94ab8f005d2a400de021"
-SRC_URI[sha256sum] = "f802865c2fdffccc47a9843f4439ce0e36bc4e1bafc18fc9e79623212f7fa468"
+SRC_URI[md5sum] = "2f2e4bff034f35005974c88f870c5e7d"
+SRC_URI[sha256sum] = "d789f30a5def264b9d21a917aeadc4e5fc2b6a03a61f222befcfaf80eaba86e5"
 
 inherit pypi
 
