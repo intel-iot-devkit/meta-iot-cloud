@@ -24,6 +24,7 @@ Configuration
 ```bitbake
 	BBLAYERS += "path/to/meta-openembedded/meta-oe"
 	BBLAYERS += "path/to/meta-openembedded/meta-python"
+        BBLAYERS += "path/to/meta-openembedded/meta-networking"
 	BBLAYERS += "path/to/meta-java"
 ```
 
