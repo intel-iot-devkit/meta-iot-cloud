@@ -17,11 +17,14 @@ SRC_URI = "git://github.com/aws/${SRC_NAME}.git;tag=v${PV}"
 
 S = "${WORKDIR}/git"
 
+RDEPENDS_${PN} = "python3"
+
+# Copy sdk into rootfs and run python3 install script
 do_install_append() {
-    # Samples
-    install -d ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}
-    cp -r ${S}/samples/* ${D}${datadir}/awsiotsdk/samples/${PYTHON_PN}/
+    install -d ${D}${datadir}/aws-iot-sdk-python3
+    cp -r ${S}/* ${D}${datadir}/aws-iot-sdk-python3
+    python3 ${D}${datadir}/aws-iot-sdk-python3/setup.py install
 }
 
-## Samples ##
-FILES_${PN}-samples += "${datadir}/awsiotsdk/samples/${PYTHON_PN}"
+# Associate generated files with package
+FILES_${PN} += "${datadir}/aws-iot-sdk-python3/*"
