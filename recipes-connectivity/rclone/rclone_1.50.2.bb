@@ -5,15 +5,16 @@ HOMEPAGE = "https://rclone.org/"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://src/github.com/rclone/rclone/COPYING;md5=bed161b82a1ecab65ff7ba3c3b960439"
 
-RDEPENDS_${PN}-dev = "python \
+RDEPENDS_${PN}-dev = "\
     bash \
+    python3-core \
 "
 
 inherit go
 
 GO_IMPORT = "github.com/rclone/rclone"
 
-SRC_URI = "git://${GO_IMPORT};tag=v${PV}"
+SRC_URI = "git://${GO_IMPORT};branch=v1.50-fixes;tag=v${PV}"
 
 PR = "r0"
 
