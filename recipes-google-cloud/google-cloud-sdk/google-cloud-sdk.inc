@@ -1,8 +1,7 @@
-# Only supports Python 2.x
 RDEPENDS_${PN} = "\
     bash \
-    python \
-    python-grpcio \
+    python3 \
+    python3-grpcio \
 "
 
 # Default packages

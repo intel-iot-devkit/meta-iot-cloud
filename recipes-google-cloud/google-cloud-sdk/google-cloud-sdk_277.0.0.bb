@@ -5,8 +5,8 @@ LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d02c4ee3b2a6ba87eea7b6756fd43895"
 
 SRC_URI = "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${BPN}-${PV}-linux-x86_64.tar.gz"
-SRC_URI[md5sum] = "ce86d11789ed3be8d44e9f5b7d3e915a"
-SRC_URI[sha256sum] = "d39293914b2e969bfe18dd19eb77ba96d283995f8cf1e5d7ba6ac712a3c9479a"
+SRC_URI[md5sum] = "653aa306f499b9bf44beb52655403935"
+SRC_URI[sha256sum] = "b158894c427712d006fac235daf8d288db110ecfbcf649ed11cdf36ac2b2ff2a"
 
 PR = "r0"
 
