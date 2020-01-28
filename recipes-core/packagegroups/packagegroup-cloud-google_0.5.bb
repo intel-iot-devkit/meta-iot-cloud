@@ -27,12 +27,5 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     , \
-    python-google-cloud-pubsub \
-"
-
-PACKAGECONFIG[python3] = "\
-    , \
-    , \
-    , \
     python3-google-cloud-pubsub \
 "

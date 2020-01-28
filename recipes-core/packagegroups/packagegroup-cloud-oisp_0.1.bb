@@ -20,12 +20,5 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     , \
-    python-oisp \
-"
-
-PACKAGECONFIG[python3] = "\
-    , \
-    , \
-    , \
     python3-oisp \
 "

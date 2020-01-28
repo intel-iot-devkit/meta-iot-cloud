@@ -22,13 +22,6 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     , \
-    python-ibmiotf \
-"
-
-PACKAGECONFIG[python3] = "\
-    , \
-    , \
-    , \
     python3-ibmiotf \
 "
 
