@@ -11,10 +11,11 @@ RDEPENDS_${PN} = "\
     node-red \
 "
 
-SRC_URI = "npm://registry.npmjs.org;name=${BPN};version=${PV}"
+SRC_URI = "\
+    npm://registry.npmjs.org;package=${BPN};version=${PV} \
+    npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
+"
 
 PR = "r1"
 
-NPMPN = "${BPN}"
-NPM_LOCKDOWN := "${THISDIR}/${BPN}/package-lock.json"
-NPM_SHRINKWRAP := "${THISDIR}/${BPN}/npm-shrinkwrap.json"
+S = "${WORKDIR}/npm"
