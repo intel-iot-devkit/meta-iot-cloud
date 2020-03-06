@@ -32,7 +32,7 @@ under the License.
  |  2. Global Level. This settings.xml file provides configuration for all Maven
  |                 users on a machine (assuming they're all using the same Maven
  |                 installation). It's normally provided in
- |                 ${maven.home}/conf/settings.xml.
+ |                 ${maven.conf}/settings.xml.
  |
  |                 NOTE: This location can be overridden with the CLI option:
  |
@@ -156,13 +156,6 @@ under the License.
       <url>http://my.repository.com/repo/path</url>
     </mirror>
      -->
-    <mirror>
-        <id>US</id>
-        <name>Central (HTTP)</name>
-        <url>http://repo.maven.apache.org/maven2</url>
-        <mirrorOf>central</mirrorOf>
-    </mirror>
-
   </mirrors>
 
   <!-- profiles
