@@ -156,13 +156,6 @@ under the License.
       <url>http://my.repository.com/repo/path</url>
     </mirror>
      -->
-    <mirror>
-        <id>US</id>
-        <name>Central (HTTP)</name>
-        <url>http://repo.maven.apache.org/maven2</url>
-        <mirrorOf>central</mirrorOf>
-    </mirror>
-
   </mirrors>
 
   <!-- profiles
