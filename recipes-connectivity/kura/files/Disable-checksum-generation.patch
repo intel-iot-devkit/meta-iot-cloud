@@ -1,0 +1,57 @@
+From 2beb318edac57086d581f932ae6d2e736cd949a5 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 12 Mar 2020 12:18:03 +0000
+Subject: [PATCH 2/2] Disable checksum generation
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ kura/distrib/pom.xml | 33 ---------------------------------
+ 1 file changed, 33 deletions(-)
+
+diff --git a/kura/distrib/pom.xml b/kura/distrib/pom.xml
+index 3ac57cd..528656b 100644
+--- a/kura/distrib/pom.xml
++++ b/kura/distrib/pom.xml
+@@ -819,39 +819,6 @@
+                             </target>
+                         </configuration>
+                     </execution>
+-                    <execution>
+-                        <id>calc-checksums</id>
+-                        <phase>install</phase>
+-                        <goals>
+-                            <goal>run</goal>
+-                        </goals>
+-                        <configuration>
+-                            <target>
+-                                <checksum algorithm="md5">
+-                                    <fileset dir="${basedir}/target/">
+-                                        <include name="*.deb" />
+-                                        <include name="*.dp" />
+-                                        <include name="*.zip" />
+-                                        <include name="kura_${project.version}_*.sh" />
+-                                        <include name="kura_${project.version}_*.dp" />
+-                                        <exclude name="kura_${project.version}_*.dp" />
+-                                        <exclude name="kura_${project.version}_*.zip" />
+-                                    </fileset>
+-                                </checksum>
+-                                <checksum algorithm="SHA-1">
+-                                    <fileset dir="${basedir}/target/">
+-                                        <include name="*.deb" />
+-                                        <include name="*.dp" />
+-                                        <include name="*.zip" />
+-                                        <include name="kura_${project.version}_*.sh" />
+-                                        <include name="kura_${project.version}_*.dp" />
+-                                        <exclude name="kura_${project.version}_*.dp" />
+-                                        <exclude name="kura_${project.version}_*.zip" />
+-                                    </fileset>
+-                                </checksum>
+-                            </target>
+-                        </configuration>
+-                    </execution>
+                 </executions>
+             </plugin>
+         </plugins>
+-- 
+2.7.4
+
