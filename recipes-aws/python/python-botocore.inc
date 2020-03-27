@@ -28,3 +28,5 @@ RDEPENDS_${PN} = "\
     ${PYTHON_PN}-urllib3 \
     ${PYTHON_PN}-logging \
 "
+
+BBCLASSEXTEND = "native nativesdk"
