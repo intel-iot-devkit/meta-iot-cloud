@@ -27,6 +27,7 @@ RDEPENDS_${PN} = "\
     ${PYTHON_PN}-html \
     ${PYTHON_PN}-urllib3 \
     ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-unixadmin \
 "
 
 BBCLASSEXTEND = "native nativesdk"
