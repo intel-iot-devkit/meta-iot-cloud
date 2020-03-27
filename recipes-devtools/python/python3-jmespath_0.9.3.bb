@@ -8,3 +8,5 @@ RDEPENDS_${PN} += "\
 ALTERNATIVE_${PN} = "jmespath"
 ALTERNATIVE_LINK_NAME[jmespath] = "${bindir}/jp.py"
 ALTERNATIVE_PRIORITY = "30"
+
+BBCLASSEXTEND = "native nativesdk"
