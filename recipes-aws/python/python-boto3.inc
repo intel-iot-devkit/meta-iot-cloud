@@ -14,3 +14,5 @@ RDEPENDS_${PN} = "\
 "
 
 inherit pypi
+
+BBCLASSEXTEND = "native nativesdk"
