@@ -1,7 +1,7 @@
-From 64517ea1e03e1dd64595f144b2fb90a5d8d6a021 Mon Sep 17 00:00:00 2001
+From b26fc183207b583d5fb7f60015bb46752cd60706 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Thu, 8 Nov 2018 12:20:04 +0000
-Subject: [PATCH] Fix packaging issues
+Date: Tue, 7 Apr 2020 20:55:05 +0100
+Subject: [PATCH 1/2] Fix packaging issues
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6e0dc36..f039481 100644
+index 263974b..5251ffe 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -11,6 +11,9 @@ project(azure_c_shared_utility)
@@ -22,7 +22,7 @@ index 6e0dc36..f039481 100644
  # Include the common build rules for the C SDK
  include(configs/azure_iot_build_rules.cmake)
  
-@@ -406,7 +409,14 @@ if(${build_as_dynamic})
+@@ -487,7 +490,14 @@ if(${build_as_dynamic})
          ${source_h_files}
          ${def_files}
      )

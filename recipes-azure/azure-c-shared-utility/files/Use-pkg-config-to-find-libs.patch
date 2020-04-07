@@ -1,18 +1,18 @@
-From 5fcf5a584df56e7541f481d552fdc3e9c0ea492f Mon Sep 17 00:00:00 2001
+From 03947c2a47bf7458ed093355e71a4f411a725330 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Mon, 14 Jan 2019 15:21:25 +0000
+Date: Tue, 7 Apr 2020 20:59:53 +0100
 Subject: [PATCH 2/2] Use pkg-config to find libs
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
- CMakeLists.txt | 32 +++++++++++---------------------
- 1 file changed, 11 insertions(+), 21 deletions(-)
+ CMakeLists.txt | 31 ++++++++++---------------------
+ 1 file changed, 10 insertions(+), 21 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f039481..0190820 100644
+index 5251ffe..52ab416 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -93,9 +93,14 @@ if(${use_openssl})
+@@ -116,9 +116,13 @@ if(${use_openssl})
      # If OpenSSL::SSL OR OpenSSL::Crypto are not set then you need to run
      # the find package for openssl
      if (NOT TARGET OpenSSL::SSL OR NOT TARGET OpenSSL::Crypto OR NOT ${OPENSSL_INCLUDE_DIR})
@@ -24,13 +24,12 @@ index f039481..0190820 100644
 +        endif()
      endif()
 -    include_directories(${OPENSSL_INCLUDE_DIR})
-+    
 +    include_directories(${OPENSSL_INCLUDE_DIR} ${CRYPTO_INCLUDE_DIR})
  endif()
  
  if(${use_applessl})
-@@ -430,26 +435,11 @@ if(${use_http})
-         endif()
+@@ -511,26 +515,11 @@ if(${use_http})
+         set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 winhttp)
      else()
          if (NOT use_builtin_httpapi)
 -            if (CMAKE_CROSSCOMPILING)
@@ -59,7 +58,7 @@ index f039481..0190820 100644
              include_directories(${CURL_INCLUDE_DIRS})
              set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${CURL_LIBRARIES})
          endif(NOT use_builtin_httpapi)
-@@ -467,7 +457,7 @@ if(${use_schannel})
+@@ -571,7 +560,7 @@ if(${use_bearssl})
  endif()
  
  if(${use_openssl})

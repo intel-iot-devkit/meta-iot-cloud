@@ -1,9 +1,11 @@
 inherit cmake
 
 DEPENDS = "\
+    azure-macro-utils-c \
     curl \
-    util-linux \
     openssl \
+    umock-c \
+    util-linux \
 "
 
 RDEPENDS_${PN} = "\
