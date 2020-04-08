@@ -1,6 +1,10 @@
 inherit cmake
 
-DEPENDS = "azure-c-shared-utility"
+DEPENDS = "\
+    azure-c-shared-utility \
+    azure-macro-utils-c \
+    umock-c \
+"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
