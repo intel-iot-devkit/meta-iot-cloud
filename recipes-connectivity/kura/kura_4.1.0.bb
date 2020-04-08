@@ -125,7 +125,7 @@ do_install() {
 
     # Sysvinit Service
     install -d ${D}/${INIT_D_DIR}
-	install -m 0755 ${B}/install/kura.init.yocto ${D}/${INIT_D_DIR}/kura
+    install -m 0755 ${B}/install/kura.init.yocto ${D}/${INIT_D_DIR}/kura
 
 }
 
