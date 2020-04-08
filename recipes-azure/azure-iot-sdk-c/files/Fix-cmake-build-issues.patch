@@ -12,7 +12,7 @@ diff --git a/iothub_client/CMakeLists.txt b/iothub_client/CMakeLists.txt
 index 99e74dd..20eccd2 100644
 --- a/iothub_client/CMakeLists.txt
 +++ b/iothub_client/CMakeLists.txt
-@@ -325,7 +325,6 @@ if(${use_amqp})
+@@ -332,7 +332,6 @@ if(${use_amqp})
              ${iothub_client_amqp_ws_transport_c_files}
              ${iothub_client_amqp_ws_transport_h_files})
  

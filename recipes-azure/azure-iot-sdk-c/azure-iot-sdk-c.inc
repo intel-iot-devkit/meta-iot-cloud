@@ -5,9 +5,8 @@ DEPENDS = "\
 "
 
 SRC_URI += "\
-    file://Compile-parson-into-main-libs.patch \
     file://Fix-cmake-build-issues.patch \
-    file://Fix-missing-installed-libs.patch \
+    file://Compile-parson-into-main-libs.patch \
 "
 
 S = "${WORKDIR}/git"
