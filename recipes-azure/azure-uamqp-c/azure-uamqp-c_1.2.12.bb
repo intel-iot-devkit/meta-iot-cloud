@@ -4,9 +4,9 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 SRC_URI = "\
-    gitsm://github.com/Azure/azure-uamqp-c.git \
+    git://github.com/Azure/azure-uamqp-c.git \
 "
-SRCREV = "6b84372f6a07e55147f8d591e81f7776f3665d0b"
+SRCREV = "142cfab9d66c6f81ea0cceb635f31e00cfa51c77"
 
 PR = "r0"
 
