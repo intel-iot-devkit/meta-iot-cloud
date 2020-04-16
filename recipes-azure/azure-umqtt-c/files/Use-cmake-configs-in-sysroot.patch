@@ -1,0 +1,63 @@
+From 3c5c47fcd1d5782191178ce539d4078d827e45f2 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 16 Apr 2020 13:40:27 +0100
+Subject: [PATCH] Use cmake configs in sysroot
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt     | 8 --------
+ dependencies.cmake | 5 ++++-
+ 2 files changed, 4 insertions(+), 9 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index eb2b141..1cccd45 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,9 +14,6 @@ FILE(READ ${CMAKE_CURRENT_LIST_DIR}/version.txt UMQTT_VERSION)
+ set(GENERIC_LIB_VERSION ${UMQTT_VERSION})
+ string(SUBSTRING ${UMQTT_VERSION} 0 1 GENERIC_LIB_SOVERSION)
+ 
+-# Include the common build rules for the C SDK
+-include(deps/c-utility/configs/azure_iot_build_rules.cmake)
+-
+ include(ExternalProject)
+ 
+ #the following variables are project-wide and can be used with cmake-gui
+@@ -44,7 +41,6 @@ if (${original_run_e2e_tests} OR ${original_run_unittests})
+ endif ()
+ 
+ set(use_cppunittest ON)
+-set_platform_files(${CMAKE_CURRENT_LIST_DIR}/deps/c-utility)
+ 
+ set(run_e2e_tests ${original_run_e2e_tests})
+ set(run_unittests ${original_run_unittests})
+@@ -82,10 +78,6 @@ endif ()
+ add_library(umqtt ${source_c_files} ${source_h_files})
+ setTargetBuildProperties(umqtt)
+ 
+-set(SHARED_UTIL_ADAPTER_FOLDER "${CMAKE_CURRENT_LIST_DIR}/deps/c-utility/adapters")
+-
+-set_platform_files(${CMAKE_CURRENT_LIST_DIR}/deps/c-utility)
+-
+ target_link_libraries(umqtt aziotsharedutil)
+ if (NOT WIN32)
+     set_target_properties(umqtt
+diff --git a/dependencies.cmake b/dependencies.cmake
+index a3a8170..c4aa90f 100644
+--- a/dependencies.cmake
++++ b/dependencies.cmake
+@@ -3,6 +3,9 @@
+ 
+ if (${use_installed_dependencies})
+     find_package(azure_c_shared_utility REQUIRED CONFIG)
++    include(${azure_c_shared_utility_DIR}/azure_iot_build_rules.cmake)
+ else ()
+     add_subdirectory(deps/c-utility EXCLUDE_FROM_ALL)
+-endif ()
+\ No newline at end of file
++    include(deps/c-utility/configs/azure_iot_build_rules.cmake)
++    set_platform_files(${CMAKE_CURRENT_LIST_DIR}/deps/c-utility)
++endif ()
+-- 
+2.7.4
+

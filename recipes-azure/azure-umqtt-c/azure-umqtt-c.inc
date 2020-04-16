@@ -2,6 +2,10 @@ inherit cmake
 
 DEPENDS = "azure-c-shared-utility"
 
+SRC_URI += "\
+    file://Use-cmake-configs-in-sysroot.patch \
+"
+
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
