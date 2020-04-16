@@ -1,0 +1,61 @@
+From a15d5dbea0ebcdc612f340eaee7673585a6a17ee Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 16 Apr 2020 11:25:06 +0100
+Subject: [PATCH 2/2] Use cmake configs in sysroot
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt     | 9 +++------
+ dependencies.cmake | 3 ++-
+ 2 files changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dd73357..95ab311 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -9,9 +9,6 @@ FILE(READ ${CMAKE_CURRENT_LIST_DIR}/version.txt UAMQP_VERSION)
+ set(GENERIC_LIB_VERSION ${UAMQP_VERSION})
+ string(SUBSTRING ${UAMQP_VERSION} 0 1 GENERIC_LIB_SOVERSION)
+ 
+-# Include the common build rules for the C SDK
+-include(deps/azure-c-shared-utility/configs/azure_iot_build_rules.cmake)
+-
+ option(run_e2e_tests "set run_e2e_tests to ON to run e2e tests (default is OFF) [if possible, they are always built]" OFF)
+ option(run_unittests "set run_unittests to ON to run unittests (default is OFF)" OFF)
+ option(skip_samples "set skip_samples to ON to skip building samples (default is OFF)[if possible, they are always built]" OFF)
+@@ -38,11 +35,11 @@ if(NOT ${use_installed_dependencies})
+         add_subdirectory(deps/umock-c)
+     endif()	
+     add_subdirectory(deps/azure-c-shared-utility)
++    include(deps/azure-c-shared-utility/configs/azure_iot_build_rules.cmake)
++    set_platform_files(${CMAKE_CURRENT_LIST_DIR}/deps/azure-c-shared-utility)
+ endif()
+ include("dependencies.cmake")
+ 
+-set_platform_files(${CMAKE_CURRENT_LIST_DIR}/deps/azure-c-shared-utility)
+-
+ set(run_e2e_tests ${original_run_e2e_tests})
+ set(run_int_tests ${original_run_int_tests})
+ set(run_unittests ${original_run_unittests})
+@@ -291,4 +288,4 @@ else()
+     install(TARGETS ${install_staticlibs} 
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+-endif()
+\ No newline at end of file
++endif()
+diff --git a/dependencies.cmake b/dependencies.cmake
+index 5559306..9e71d52 100644
+--- a/dependencies.cmake
++++ b/dependencies.cmake
+@@ -3,4 +3,5 @@
+ 
+ if(${use_installed_dependencies})
+     find_package(azure_c_shared_utility REQUIRED config)
+-endif()
+\ No newline at end of file
++    include(${azure_c_shared_utility_DIR}/azure_iot_build_rules.cmake)
++endif()
+-- 
+2.7.4
+

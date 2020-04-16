@@ -4,6 +4,7 @@ DEPENDS = "azure-c-shared-utility"
 
 SRC_URI += "\
     file://Fix-packaging-issues.patch \
+    file://Use-cmake-configs-in-sysroot.patch \
 "
 
 S = "${WORKDIR}/git"
