@@ -14,6 +14,7 @@ SRC_URI += "\
     file://Use-pkg-config-to-find-libs.patch \
     file://Fix-packaging-issues.patch \
     file://Fix-for-GCC-8.x.patch \
+    file://Install-missing-cmake-configs.patch \
 "
 
 S = "${WORKDIR}/git"

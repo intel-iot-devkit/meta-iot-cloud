@@ -1,0 +1,25 @@
+From 251be29ddb41c2a1d9583c0ed0f67bbc2685435e Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 16 Apr 2020 10:58:38 +0100
+Subject: [PATCH 2/2] Install missing cmake configs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4d88d90..86856d5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -538,6 +538,7 @@ if(${use_installed_dependencies})
+         FILES
+             "configs/${PROJECT_NAME}Config.cmake"
+             "configs/${PROJECT_NAME}Functions.cmake"
++            "configs/azure_iot_build_rules.cmake"
+             "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}ConfigVersion.cmake"
+         DESTINATION
+             ${package_location}
+-- 
+2.7.4
+
