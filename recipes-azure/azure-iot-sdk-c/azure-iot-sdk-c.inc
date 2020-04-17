@@ -2,11 +2,12 @@ inherit cmake
 
 DEPENDS = "\
     azure-c-shared-utility \
+    parson \
 "
 
 SRC_URI += "\
     file://Fix-cmake-build-issues.patch \
-    file://Compile-parson-into-main-libs.patch \
+    file://Use-provided-parson-lib.patch \
 "
 
 S = "${WORKDIR}/git"
