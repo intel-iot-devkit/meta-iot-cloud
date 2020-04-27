@@ -1,4 +1,5 @@
 DESCRIPTION = "Microsoft Azure IoT SDKs - Macro Utils For C"
+AUTHOR = "Microsoft Corporation"
 HOMEPAGE = "https://github.com/Azure/azure-macro-utils-c"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
