@@ -13,8 +13,10 @@ SRC_URI += "\
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
-PACKAGECONFIG ??= "amqp mqtt"
+PACKAGECONFIG ??= "amqp http mqtt"
 PACKAGECONFIG[amqp] = "-Duse_amqp:BOOL=ON, -Duse_amqp:BOOL=OFF, azure-uamqp-c"
+PACKAGECONFIG[edge] = "-Duse_edge_modules:BOOL=ON, -Duse_edge_modules:BOOL=OFF, azure-uhttp-c"
+PACKAGECONFIG[http] = "-Duse_http:BOOL=ON, -Duse_http:BOOL=OFF, azure-uhttp-c"
 PACKAGECONFIG[mqtt] = "-Duse_mqtt:BOOL=ON, -Duse_mqtt:BOOL=OFF, azure-umqtt-c"
 
 EXTRA_OECMAKE = "\
