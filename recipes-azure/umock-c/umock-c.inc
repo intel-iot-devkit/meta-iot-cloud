@@ -19,7 +19,6 @@ FILES_${PN}-dev += "\
     ${exec_prefix}/cmake \
 "
 
-# main package is empty, but -dev had a hard dependency. enforce creation
 ALLOW_EMPTY_${PN} = "1"
 
 BBCLASSEXTEND = "native nativesdk"
