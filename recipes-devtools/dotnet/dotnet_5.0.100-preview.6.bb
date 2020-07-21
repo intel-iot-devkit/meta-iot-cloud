@@ -3,31 +3,31 @@ HOMEPAGE = "https://www.microsoft.com/net/core"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=9fc642ff452b28d62ab19b7eea50dfb9"
 
-COMPATIBLE_HOST ?= "(x86_64|aarch64).*-linux"
+COMPATIBLE_HOST ?= "(x86_64|aarch64|arm).*-linux"
 
-DEPENDS += "\
-    curl \
+DEPENDS = "\
     zlib \
-    util-linux \
-    icu \
-    openssl \
-    libunwind \
 "
 
 RDEPENDS_${PN}_class-target += "\
-    lttng-ust \
-    libcurl \
-    krb5 \
+    icu \
     libgssapi-krb5 \
-    libicuuc \
-    libicui18n \
+    lttng-ust \
+    zlib \
 "
 
-HOST_FXR = "3.0.0"
-SHARED_FRAMEWORK = "3.0.0"
-SDK = "3.0.100"
+RDEPENDS_${PN}_class-native += "\
+    icu-native \
+    krb5-native \
+    zlib-native \
+"
 
-PR = "r1"
+HOST_FXR = "5.0.0-preview.6.20305.6"
+RUNTIME = "5.0.0-preview.6.20305.6"
+ASP_RUNTIME = "5.0.0-preview.6.20312.15"
+SDK = "5.0.100-preview.6.20318.15"
+
+PR = "r0"
 
 python __anonymous () {
     import re
@@ -35,25 +35,22 @@ python __anonymous () {
     target_arch = d.getVar('TARGET_ARCH')
     
     if re.match('x86_64$', target_arch):
-        d.setVar('SRC_FETCH_ID', '886b4a4c-30af-454b-8bec-81c72b7b4e1f/d1a0c8de9abb36d8535363ede4a15de6')
-        d.setVarFlag('SRC_URI', 'md5sum', '15a8ea8c61b8e3f90968bbfe515ca784')
-        d.setVarFlag('SRC_URI', 'sha256sum', '12098fe29d5c857fd6093b1fd63eda9f91b92798e3748fcedc0e0727f1ac01c2')
+        d.setVar('SRC_FETCH_ID', 'ec4bba83-4586-4705-a6ae-c648861ca284/d9470c2f68161e3c2b8a0785fe7b3329')
+        d.setVarFlag('SRC_URI', 'sha512sum', 'ae68221770e8f199880f00a29d72c624aaedc0c3ca61a7b543a6555acf27eca4c0c24fbd4eddc1322d7dcb4f342325b1d1521c590556bd95c3c2ec653b914dbb')
         d.setVar('DOTNET_ARCH', 'x64')
-    elif re.match('arm64$', target_arch):
-        d.setVar('SRC_FETCH_ID', 'cbc83a0e-895c-4959-99d9-21cd11596e64/b0e59c2ba2bd3ef0f592acbeae7ab27d')
-        d.setVarFlag('SRC_URI', 'md5sum', '3fe1e83251456e7afc6aeb43f44e8740')
-        d.setVarFlag('SRC_URI', 'sha256sum', 'ffcd9db434dab9f068bbf229a4e20f935cab0b48b28e4a83c114c6c1f0f5f6f6')
+    elif re.match('aarch64$', target_arch):
+        d.setVar('SRC_FETCH_ID', '164ecfcc-df44-476f-a161-340201aa6fa8/7200eb764dc9ff546d384e3188f98a53')
+        d.setVarFlag('SRC_URI', 'sha512sum', '2a1039c4a94abd33949176407edee84dbd54053b56c7e2d8b69e7cf28e16f89013036cf662403ea8f2ea593b9b1b702e464762d9670da12507d1c1e06a58c04f')
         d.setVar('DOTNET_ARCH', 'arm64')
+    elif re.match('arm$', target_arch):
+        d.setVar('SRC_FETCH_ID', 'fc54f62e-c7bd-43a3-a27b-4afb08bc4d6f/b01ccacf3d94efc0bbe26f64f7fde9b7')
+        d.setVarFlag('SRC_URI', 'sha512sum', '1dd5c4f90d43983f1b6ccfa7631fd70afe99b26c1111d191dccb860bcfa232052c3589147f730b583b3f498bcd1116a131fae462267b68a00c10d7e7d832e65f')
+        d.setVar('DOTNET_ARCH', 'arm')
 }
 
 SRC_URI = "https://download.visualstudio.microsoft.com/download/pr/${SRC_FETCH_ID}/${BPN}-sdk-${SDK}-linux-${DOTNET_ARCH}.tar.gz"
 
 S = "${WORKDIR}"
-
-PACKAGES = "\
-    ${PN} \
-    ${PN}-dev \
-"
 
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
@@ -69,6 +66,7 @@ shell_do_install() {
     install -d ${D}${datadir}/dotnet/host/fxr
     install -d ${D}${datadir}/dotnet/sdk
     install -d ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
+    install -d ${D}${datadir}/dotnet/shared/Microsoft.AspNetCore.App
 
     install -m 0755 ${S}/dotnet ${D}${datadir}/dotnet
     install -m 0644 ${S}/LICENSE.txt ${D}${datadir}/dotnet
@@ -76,7 +74,8 @@ shell_do_install() {
 
     cp -r ${S}/sdk/${SDK} ${D}${datadir}/dotnet/sdk
     cp -r ${S}/host/fxr/${HOST_FXR} ${D}${datadir}/dotnet/host/fxr
-    cp -r ${S}/shared/Microsoft.NETCore.App/${SHARED_FRAMEWORK} ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
+    cp -r ${S}/shared/Microsoft.NETCore.App/${RUNTIME} ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
+    cp -r ${S}/shared/Microsoft.AspNetCore.App/${ASP_RUNTIME} ${D}${datadir}/dotnet/shared/Microsoft.AspNetCore.App
     cp -r ${S}/templates ${D}${datadir}/dotnet
 
     # Symlinks
@@ -96,10 +95,14 @@ FILES_${PN}-dev = "\
     ${datadir}/dotnet/templates \
 "
 
+FILES_${PN}-dbg = "\
+    ${datadir}/dotnet/.debug \
+"
+
 RRECOMMENDS_dotnet-dev[nodeprrecs] = "1"
 
-INSANE_SKIP_${PN} = "already-stripped staticdev ldflags libdir"
+INSANE_SKIP_${PN} = "already-stripped staticdev ldflags libdir textrel"
 INSANE_SKIP_${PN}-dev = "libdir"
-INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+INSANE_SKIP_${PN}-dbg += "libdir"
 
 BBCLASSEXTEND = "native"
