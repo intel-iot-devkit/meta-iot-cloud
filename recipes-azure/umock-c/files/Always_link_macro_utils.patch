@@ -1,0 +1,22 @@
+-- a/CMakeLists.txt	2020-07-27 17:22:52.879044989 -0400
++++ b/CMakeLists.txt	2020-07-27 17:26:27.151468196 -0400
+@@ -87,8 +87,6 @@
+ set(run_unittests ${original_run_unittests})
+ set(run_perf_tests ${original_run_perf_tests})
+ 
+-include_directories(${MACRO_UTILS_INC_FOLDER})
+-
+ set(umock_c_c_files
+     ./src/umock_c.c
+     ./src/umock_c_negative_tests.c
+@@ -150,9 +148,7 @@
+ 
+ add_library(umock_c ${umock_c_c_files} ${umock_c_h_files} ${umock_c_md_files})
+ 
+-if(${use_installed_dependencies})
+-    target_link_libraries(umock_c azure_macro_utils_c)
+-endif()
++target_link_libraries(umock_c azure_macro_utils_c)
+ 
+ target_include_directories(umock_c
+     PUBLIC
