@@ -1,0 +1,37 @@
+From 7b807ea0cdc8f83ded9a1c3fc4232ebe6c6917ce Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Mon, 12 Oct 2020 21:49:33 +0100
+Subject: [PATCH] Always link macro utils
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dead94d..bc5e6a3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -72,8 +72,6 @@ set(run_e2e_tests ${original_run_e2e_tests})
+ set(run_int_tests ${original_run_int_tests})
+ set(run_unittests ${original_run_unittests})
+ 
+-include_directories(${MACRO_UTILS_INC_FOLDER})
+-
+ set(umock_c_c_files
+     ./src/umock_c.c
+     ./src/umock_c_negative_tests.c
+@@ -127,9 +125,7 @@ SOURCE_GROUP(devdoc FILES ${umock_c_md_files})
+ 
+ add_library(umock_c ${umock_c_c_files} ${umock_c_h_files} ${umock_c_md_files})
+ 
+-if(${use_installed_dependencies})
+-    target_link_libraries(umock_c azure_macro_utils_c)
+-endif()
++target_link_libraries(umock_c azure_macro_utils_c)
+ 
+ target_include_directories(umock_c
+     PUBLIC
+-- 
+2.7.4
+

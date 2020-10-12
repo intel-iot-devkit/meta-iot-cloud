@@ -5,7 +5,7 @@ DEPENDS = "\
 "
 
 SRC_URI += "\
-    file://Always_link_macro_utils.patch \
+    file://Always-link-macro-utils.patch \
 "
 
 S = "${WORKDIR}/git"
