@@ -4,30 +4,29 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ee41112a44fe7014dce33e26468ba93"
 
-SRC_URI[md5sum] = "c7cb165153055aa16168dd3700adb032"
-SRC_URI[sha256sum] = "ee55ce128056c5120680d25c8e8dfa3a08dbe7ac3445dc16997daaa68ae4060e"
+SRC_URI[sha256sum] = "f0616d2c719691b94470307cee8adf89ceb1657b7b6f9aa1bf61f9de5543dbbb"
 
 inherit pypi
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/python-botocore:"
-
-SRC_URI += "\
-    file://Allow-python-dateutil-2.8.1.patch \
+RDEPENDS_${PN} = "\
+    ${PYTHON_PN}-crypt \
+    ${PYTHON_PN}-datetime \
+    ${PYTHON_PN}-email \
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-json \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-netclient \
+    ${PYTHON_PN}-netserver \
+    ${PYTHON_PN}-numbers \
+    ${PYTHON_PN}-pprint \
+    ${PYTHON_PN}-shell \
+    ${PYTHON_PN}-unixadmin \
 "
 
 RDEPENDS_${PN} = "\
     ${PYTHON_PN}-jmespath \
     ${PYTHON_PN}-dateutil \
-    ${PYTHON_PN}-docutils \
-    ${PYTHON_PN}-shell \
-    ${PYTHON_PN}-netserver \
-    ${PYTHON_PN}-email \
-    ${PYTHON_PN}-json \
-    ${PYTHON_PN}-numbers \
-    ${PYTHON_PN}-html \
     ${PYTHON_PN}-urllib3 \
-    ${PYTHON_PN}-logging \
-    ${PYTHON_PN}-unixadmin \
 "
 
 BBCLASSEXTEND = "native nativesdk"

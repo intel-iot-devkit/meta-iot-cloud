@@ -4,7 +4,15 @@ AUTHOR = "Amazon Web Services"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b1e01b26bacfc2232046c90a330332b3"
 
-SRC_URI[md5sum] = "8ca74015d9dc58af26c68276a8867eca"
-SRC_URI[sha256sum] = "6efc926738a3cd576c2a79725fed9afde92378aa5c6a957e3af010cb019fac9d"
+SRC_URI[sha256sum] = "921a37e2aefc64145e7b73d50c71bb4f26f46e4c9f414dc648c6245ff92cf7db"
 
 inherit pypi
+
+RDEPENDS_${PN} += "\
+    ${PYTHON_PN}-io \
+    ${PYTHON_PN}-logging \
+    ${PYTHON_PN}-math \
+    ${PYTHON_PN}-multiprocessing \
+"
+
+BBCLASSEXTEND = "native nativesdk"
