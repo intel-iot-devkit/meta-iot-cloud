@@ -1,0 +1,92 @@
+From f0fe8d604b13e8f0955c1301105b15e8de928b97 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Fri, 16 Oct 2020 16:31:20 +0100
+Subject: [PATCH] Add library versioning
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ discovery/CMakeLists.txt | 3 ++-
+ identity/CMakeLists.txt  | 3 ++-
+ jobs/CMakeLists.txt      | 3 ++-
+ shadow/CMakeLists.txt    | 3 ++-
+ 4 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/discovery/CMakeLists.txt b/discovery/CMakeLists.txt
+index 9733a1b..fc86e62 100644
+--- a/discovery/CMakeLists.txt
++++ b/discovery/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(Discovery-cpp CXX)
++project(Discovery-cpp VERSION 1.8.4 LANGUAGES CXX)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(Discovery-cpp ${AWS_DISCOVERY_CPP_SRC})
+ 
+ set_target_properties(Discovery-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(Discovery-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/identity/CMakeLists.txt b/identity/CMakeLists.txt
+index d9ff8b8..f6d178f 100644
+--- a/identity/CMakeLists.txt
++++ b/identity/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotIdentity-cpp CXX)
++project(IotIdentity-cpp VERSION 1.8.4 LANGUAGES CXX)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotIdentity-cpp ${AWS_IOTIDENTITY_CPP_SRC})
+ 
+ set_target_properties(IotIdentity-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotIdentity-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/jobs/CMakeLists.txt b/jobs/CMakeLists.txt
+index 2ab2615..03687d2 100644
+--- a/jobs/CMakeLists.txt
++++ b/jobs/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotJobs-cpp CXX)
++project(IotJobs-cpp VERSION 1.8.4 LANGUAGES CXX)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotJobs-cpp ${AWS_IOTJOBS_CPP_SRC})
+ 
+ set_target_properties(IotJobs-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotJobs-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/shadow/CMakeLists.txt b/shadow/CMakeLists.txt
+index 010e4a2..34fabff 100644
+--- a/shadow/CMakeLists.txt
++++ b/shadow/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotShadow-cpp CXX)
++project(IotShadow-cpp VERSION 1.8.4 LANGUAGES CXX)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotShadow-cpp ${AWS_IOTSHADOW_CPP_SRC})
+ 
+ set_target_properties(IotShadow-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotShadow-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+-- 
+2.7.4
+
