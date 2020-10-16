@@ -17,7 +17,6 @@ RDEPENDS_${PN} += " \
 RDEPENDS_${PN} += " \
     ${PYTHON_PN}-boto3 \
     ${PYTHON_PN}-fire \
-    ${PYTHON_PN}-setuptools \
 "
 
 do_configure_prepend() {
