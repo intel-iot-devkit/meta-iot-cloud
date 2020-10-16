@@ -21,6 +21,6 @@ PACKAGECONFIG[cpp] = "\
     , \
     , \
     , \
-    aws-iot-device-sdk-cpp \
-    aws-iot-device-sdk-cpp-dev \
+    aws-iot-device-sdk-cpp-v2 \
+    aws-iot-device-sdk-cpp-v2-dev \
 "
