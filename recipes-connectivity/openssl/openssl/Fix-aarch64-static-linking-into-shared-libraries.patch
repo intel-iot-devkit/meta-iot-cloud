@@ -1,0 +1,92 @@
+From 1497bd322a1b799c525eb576b09eb33909165b6d Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 20 Oct 2020 11:35:58 +0100
+Subject: [PATCH] Fix aarch64 static linking into shared libraries
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ crypto/chacha/asm/chacha-armv8.pl     |  1 +
+ crypto/poly1305/asm/poly1305-armv8.pl | 10 +++++++---
+ crypto/sha/asm/sha1-armv8.pl          |  2 +-
+ crypto/sha/asm/sha512-armv8.pl        |  7 +------
+ 4 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/crypto/chacha/asm/chacha-armv8.pl b/crypto/chacha/asm/chacha-armv8.pl
+index 2265574..84c9801 100755
+--- a/crypto/chacha/asm/chacha-armv8.pl
++++ b/crypto/chacha/asm/chacha-armv8.pl
+@@ -125,6 +125,7 @@ $code.=<<___;
+ .text
+ 
+ .extern	OPENSSL_armcap_P
++.hidden	OPENSSL_armcap_P
+ 
+ .align	5
+ .Lsigma:
+diff --git a/crypto/poly1305/asm/poly1305-armv8.pl b/crypto/poly1305/asm/poly1305-armv8.pl
+index 9bfee27..613c89f 100755
+--- a/crypto/poly1305/asm/poly1305-armv8.pl
++++ b/crypto/poly1305/asm/poly1305-armv8.pl
+@@ -57,10 +57,14 @@ $code.=<<___;
+ 
+ // forward "declarations" are required for Apple
+ .extern	OPENSSL_armcap_P
+-.globl	poly1305_blocks
+-.globl	poly1305_emit
++.hidden	OPENSSL_armcap_P
++.globl		poly1305_init
++.hidden 	poly1305_init
++.globl		poly1305_blocks
++.hidden	poly1305_blocks
++.globl		poly1305_emit
++.hidden	poly1305_emit
+ 
+-.globl	poly1305_init
+ .type	poly1305_init,%function
+ .align	5
+ poly1305_init:
+diff --git a/crypto/sha/asm/sha1-armv8.pl b/crypto/sha/asm/sha1-armv8.pl
+index aa44feb..e5dc83f 100644
+--- a/crypto/sha/asm/sha1-armv8.pl
++++ b/crypto/sha/asm/sha1-armv8.pl
+@@ -176,6 +176,7 @@ $code.=<<___;
+ .text
+ 
+ .extern	OPENSSL_armcap_P
++.hidden 	OPENSSL_armcap_P
+ .globl	sha1_block_data_order
+ .type	sha1_block_data_order,%function
+ .align	6
+@@ -329,7 +330,6 @@ $code.=<<___;
+ #endif
+ .asciz	"SHA1 block transform for ARMv8, CRYPTOGAMS by <appro\@openssl.org>"
+ .align	2
+-.comm	OPENSSL_armcap_P,4,4
+ ___
+ }}}
+ 
+diff --git a/crypto/sha/asm/sha512-armv8.pl b/crypto/sha/asm/sha512-armv8.pl
+index 07dcba4..3188c90 100644
+--- a/crypto/sha/asm/sha512-armv8.pl
++++ b/crypto/sha/asm/sha512-armv8.pl
+@@ -193,6 +193,7 @@ $code.=<<___;
+ .text
+ 
+ .extern	OPENSSL_armcap_P
++.hidden	OPENSSL_armcap_P
+ .globl	$func
+ .type	$func,%function
+ .align	6
+@@ -840,12 +841,6 @@ $code.=<<___;
+ ___
+ }
+ 
+-$code.=<<___;
+-#ifndef	__KERNEL__
+-.comm	OPENSSL_armcap_P,4,4
+-#endif
+-___
+-
+ {   my  %opcode = (
+ 	"sha256h"	=> 0x5e004000,	"sha256h2"	=> 0x5e005000,
+ 	"sha256su0"	=> 0x5e282800,	"sha256su1"	=> 0x5e006000	);
