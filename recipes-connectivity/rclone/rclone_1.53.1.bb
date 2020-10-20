@@ -10,16 +10,20 @@ RDEPENDS_${PN}-dev = "\
     python3-core \
 "
 
-inherit go
+inherit go-mod
 
 GO_IMPORT = "github.com/rclone/rclone"
 
-SRC_URI = "git://${GO_IMPORT};branch=v1.50-fixes;tag=v${PV}"
+SRC_URI = "git://${GO_IMPORT};branch=v1.53-stable;tag=v${PV}"
 
 PR = "r0"
 
 do_install_prepend(){
+    rm -f ${B}/${GO_BUILD_BINDIR}/bin
+    rm -f ${B}/${GO_BUILD_BINDIR}/build_csv
     rm -f ${B}/${GO_BUILD_BINDIR}/gen
     rm -f ${B}/${GO_BUILD_BINDIR}/test_all
     rm -f ${B}/${GO_BUILD_BINDIR}/test_vfs
 }
+
+INSANE_SKIP_${PN}-staticdev += "arch ldflags"
