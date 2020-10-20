@@ -8,10 +8,7 @@ inherit cmake
 
 DEPENDS += "\
     aws-c-common \
-"
-
-RDEPENDS_${PN} += "\
-    libcrypto \
+    openssl \
 "
 
 SRC_URI = "\

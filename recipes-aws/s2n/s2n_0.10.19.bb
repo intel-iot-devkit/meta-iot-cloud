@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=26d85861cd0c0d05ab56ebff38882975"
 
 inherit cmake
 
-RDEPENDS_${PN} += "\
-    libcrypto \
+DEPENDS += "\
+    openssl \
 "
 
 SRC_URI = "\
@@ -22,4 +22,5 @@ S = "${WORKDIR}/git"
 EXTRA_OECMAKE += "\
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
+    -DCMAKE_PREFIX_PATH=${RECIPE_SYSROOT}/usr \
 "
