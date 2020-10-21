@@ -7,7 +7,7 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "c python node-red"
+PACKAGECONFIG ??= "c python"
 
 PACKAGECONFIG[c] = "\
     , \
@@ -23,11 +23,4 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     python3-ibmiotf \
-"
-
-PACKAGECONFIG[node-red] = "\
-    , \
-    , \
-    , \
-    node-red-contrib-ibm-watson-iot \
 "

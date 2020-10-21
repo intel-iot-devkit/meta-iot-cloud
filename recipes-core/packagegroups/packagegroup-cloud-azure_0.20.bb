@@ -7,7 +7,7 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "c node-red python"
+PACKAGECONFIG ??= "c python"
 
 PACKAGECONFIG[c] = "\
     , \
@@ -15,13 +15,6 @@ PACKAGECONFIG[c] = "\
     , \
     azure-iot-sdk-c \
     azure-iot-sdk-c-dev \
-"
-
-PACKAGECONFIG[node-red] = "\
-    , \
-    , \
-    , \
-    node-red-contrib-azureiothubnode \
 "
 
 PACKAGECONFIG[python] = "\
