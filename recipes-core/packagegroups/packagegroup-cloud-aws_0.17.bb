@@ -13,7 +13,7 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     , \
-    python3-aws-iot-device-sdk-python \
+    python3-awsiotsdk \
     python3-awscli \
 "
 
