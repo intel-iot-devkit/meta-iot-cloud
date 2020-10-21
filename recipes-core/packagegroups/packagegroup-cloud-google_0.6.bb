@@ -7,14 +7,7 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "cli python"
-
-PACKAGECONFIG[cli] = "\
-    , \
-    , \
-    , \
-    google-cloud-sdk \
-"
+PACKAGECONFIG ??= "python"
 
 PACKAGECONFIG[python] = "\
     , \
