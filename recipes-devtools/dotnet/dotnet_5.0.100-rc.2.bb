@@ -22,10 +22,10 @@ RDEPENDS_${PN}_class-native += "\
     zlib-native \
 "
 
-HOST_FXR = "5.0.0-preview.6.20305.6"
-RUNTIME = "5.0.0-preview.6.20305.6"
-ASP_RUNTIME = "5.0.0-preview.6.20312.15"
-SDK = "5.0.100-preview.6.20318.15"
+HOST_FXR = "5.0.0-rc.2.20475.5"
+RUNTIME = "5.0.0-rc.2.20475.5"
+ASP_RUNTIME = "5.0.0-rc.2.20475.17"
+SDK = "5.0.100-rc.2.20479.15"
 
 PR = "r0"
 
@@ -35,16 +35,16 @@ python __anonymous () {
     target_arch = d.getVar('TARGET_ARCH')
     
     if re.match('x86_64$', target_arch):
-        d.setVar('SRC_FETCH_ID', 'ec4bba83-4586-4705-a6ae-c648861ca284/d9470c2f68161e3c2b8a0785fe7b3329')
-        d.setVarFlag('SRC_URI', 'sha512sum', 'ae68221770e8f199880f00a29d72c624aaedc0c3ca61a7b543a6555acf27eca4c0c24fbd4eddc1322d7dcb4f342325b1d1521c590556bd95c3c2ec653b914dbb')
+        d.setVar('SRC_FETCH_ID', '69cb8922-7bb0-4d3a-aa92-8cb885fdd0a6/2fd4da9e026f661caf8db9c1602e7b2f')
+        d.setVarFlag('SRC_URI', 'sha512sum', 'e705043cdec53827695567eed021c76b100d77416f10cc18d4f5d02950f85bf9ccd7e2c22643f00a883e11b253fb8aa098e4dce008008a0796f913496f97e362')
         d.setVar('DOTNET_ARCH', 'x64')
     elif re.match('aarch64$', target_arch):
-        d.setVar('SRC_FETCH_ID', '164ecfcc-df44-476f-a161-340201aa6fa8/7200eb764dc9ff546d384e3188f98a53')
-        d.setVarFlag('SRC_URI', 'sha512sum', '2a1039c4a94abd33949176407edee84dbd54053b56c7e2d8b69e7cf28e16f89013036cf662403ea8f2ea593b9b1b702e464762d9670da12507d1c1e06a58c04f')
+        d.setVar('SRC_FETCH_ID', 'b416bc12-1478-4241-bc31-6fe68f8b73b6/582f018a97172f4975973390cf3f58e7')
+        d.setVarFlag('SRC_URI', 'sha512sum', '1aab49b2c328c4de8c40e790df99aa327a3aeba5d904696fa151acbfb7b5620ebf3d1e2e9726895d92b6146295840ffe3f2fb7208a81c7b73d2c92c9fcf50dbf')
         d.setVar('DOTNET_ARCH', 'arm64')
     elif re.match('arm$', target_arch):
-        d.setVar('SRC_FETCH_ID', 'fc54f62e-c7bd-43a3-a27b-4afb08bc4d6f/b01ccacf3d94efc0bbe26f64f7fde9b7')
-        d.setVarFlag('SRC_URI', 'sha512sum', '1dd5c4f90d43983f1b6ccfa7631fd70afe99b26c1111d191dccb860bcfa232052c3589147f730b583b3f498bcd1116a131fae462267b68a00c10d7e7d832e65f')
+        d.setVar('SRC_FETCH_ID', '068ebc6e-4a1d-45ec-a766-733a142f2839/e0da4c731c943ca2b267c15edb565108')
+        d.setVarFlag('SRC_URI', 'sha512sum', '22e97c15393a4f986563f5e8b031b49983eb55531170b86594d7caab819b41032393a9b3db4ee96cb88fae3971ba243bb64187606e3a00fc64d2e434d906a637')
         d.setVar('DOTNET_ARCH', 'arm')
 }
 
