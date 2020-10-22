@@ -1,16 +1,18 @@
 DESCRIPTION = "Google API client core library"
-HOMEPAGE = "https://github.com/GoogleCloudPlatform/google-cloud-python"
+HOMEPAGE = "https://github.com/googleapis/python-api-core"
 AUTHOR = "Google LLC"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=7b7e367c7e1664e6565ee7d16cccc58a"
+
+inherit pypi
 
 PR = "r0"
 
 RDEPENDS_${PN} += "\
+    ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-math \
-    ${PYTHON_PN}-pkgutil \
 "
 
 RDEPENDS_${PN} += "\
@@ -19,9 +21,8 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-grpcio \
     ${PYTHON_PN}-protobuf \
     ${PYTHON_PN}-pytz \
+    ${PYTHON_PN}-requests \
     ${PYTHON_PN}-six \
 "
 
-SRC_URI[md5sum] = "a23d02db3f49f350bcf530fa52713cf1"
-SRC_URI[sha256sum] = "f45d74aef41e1de49ceadebf382e1291ddcbe431a8b533aff8a1140a35531465"
-
+SRC_URI[sha256sum] = "1bb3c485c38eacded8d685b1759968f6cf47dd9432922d34edb90359eaa391e2"
