@@ -13,5 +13,6 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     , \
+    python3-google-cloud-iot \
     python3-google-cloud-pubsub \
 "
