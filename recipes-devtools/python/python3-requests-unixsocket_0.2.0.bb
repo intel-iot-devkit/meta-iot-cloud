@@ -1,5 +1,6 @@
-SUMMARY = "Use requests to talk HTTP via a UNIX domain socket"
+DESCRIPTION = "Use requests to talk HTTP via a UNIX domain socket"
 HOMEPAGE = "https://github.com/msabramo/requests-unixsocket"
+AUTHOR = "Marc Abramowitz"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 

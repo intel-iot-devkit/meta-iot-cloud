@@ -1,4 +1,4 @@
-SUMMARY = "Mixed sync-async queue to interoperate between asyncio tasks and classic threads"
+DESCRIPTION = "Mixed sync-async queue to interoperate between asyncio tasks and classic threads"
 AUTHOR = "Andrew Svetlov"
 HOMEPAGE = "https://github.com/aio-libs/janus/"
 LICENSE = "Apache-2.0"
