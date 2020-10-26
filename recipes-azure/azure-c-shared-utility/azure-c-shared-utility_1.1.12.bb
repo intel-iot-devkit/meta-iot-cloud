@@ -8,8 +8,8 @@ SRC_URI = "\
     git://github.com/Azure/azure-c-shared-utility.git \
 "
 
-SRCREV = "48f7a556865731f0e96c47eb5e9537361f24647c"
+SRCREV = "65c27eb4ab9a8bbe36b4d7c5a0e9ad305becb8b4"
 
-PR = "r0"
+PR = "r1"
 
 require ${BPN}.inc
