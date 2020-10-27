@@ -7,14 +7,7 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "cli python"
-
-PACKAGECONFIG[cli] = "\
-    , \
-    , \
-    , \
-    oisp-cli \
-"
+PACKAGECONFIG ??= "python"
 
 PACKAGECONFIG[python] = "\
     , \
