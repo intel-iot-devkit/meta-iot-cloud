@@ -22,5 +22,5 @@ PACKAGECONFIG[python] = "\
     , \
     , \
     , \
-    python3-ibmiotf \
+    python3-wiotp-sdk \
 "
