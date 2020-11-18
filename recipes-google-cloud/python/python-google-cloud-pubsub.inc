@@ -16,7 +16,6 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-math \
     ${PYTHON_PN}-netclient \
-    ${PYTHON_PN}-typing \
 "
 
 RDEPENDS_${PN} += "\

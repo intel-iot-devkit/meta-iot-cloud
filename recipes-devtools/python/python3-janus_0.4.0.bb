@@ -10,7 +10,6 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-threading \
-    ${PYTHON_PN}-typing \
 "
 
 PR = "r0"

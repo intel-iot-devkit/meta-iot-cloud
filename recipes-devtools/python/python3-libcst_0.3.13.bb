@@ -11,7 +11,6 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-multiprocessing \
     ${PYTHON_PN}-threading \
-    ${PYTHON_PN}-typing \
 "
 
 RDEPENDS_${PN} += "\

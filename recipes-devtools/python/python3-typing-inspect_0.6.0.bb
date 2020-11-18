@@ -7,10 +7,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=38939e40df14ccacab135b023198167a"
 inherit pypi setuptools3
 
 RDEPENDS_${PN} += "\
-    ${PYTHON_PN}-typing \
-"
-
-RDEPENDS_${PN} += "\
     ${PYTHON_PN}-mypy-extensions \
     ${PYTHON_PN}-typing-extensions \
 "

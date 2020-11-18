@@ -9,7 +9,6 @@ PR = "r0"
 RDEPENDS_${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-io \
-    ${PYTHON_PN}-typing \
     ${PYTHON_PN}-xml \
 "
 

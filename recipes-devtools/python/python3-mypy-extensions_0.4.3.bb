@@ -7,8 +7,4 @@ PYPI_PACKAGE = "mypy_extensions"
 
 inherit pypi setuptools3
 
-RDEPENDS_${PN} += "\
-    ${PYTHON_PN}-typing \
-"
-
 SRC_URI[sha256sum] = "2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"

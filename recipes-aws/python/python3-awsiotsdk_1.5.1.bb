@@ -10,7 +10,6 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-json \
-    ${PYTHON_PN}-typing \
 "
 
 RDEPENDS_${PN} += "\
