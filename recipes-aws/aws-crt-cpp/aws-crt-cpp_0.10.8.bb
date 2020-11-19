@@ -18,7 +18,7 @@ DEPENDS += "\
 "
 
 SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=master;rev=d97577093330e9f1d429cd08e33dc97efc4b7006 \
+    git://github.com/awslabs/${BPN}.git;branch=main;rev=d97577093330e9f1d429cd08e33dc97efc4b7006 \
     file://Add-library-versioning.patch \
 "
 
