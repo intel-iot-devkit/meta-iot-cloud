@@ -22,6 +22,6 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-six \
 "
 
-SRC_URI[md5sum] = "a23d02db3f49f350bcf530fa52713cf1"
-SRC_URI[sha256sum] = "f45d74aef41e1de49ceadebf382e1291ddcbe431a8b533aff8a1140a35531465"
+SRC_URI[md5sum] = "95043476d63d28edb6f88fc42d05b19a"
+SRC_URI[sha256sum] = "ae9e76295a268e27a829a752cc2d0e58a529daeecf9be8ff7a981f0325452671"
 
