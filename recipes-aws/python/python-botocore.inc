@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "f0616d2c719691b94470307cee8adf89ceb1657b7b6f9aa1bf61f9de55
 
 inherit pypi
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-email \
@@ -23,7 +23,7 @@ RDEPENDS_${PN} = "\
     ${PYTHON_PN}-unixadmin \
 "
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
     ${PYTHON_PN}-jmespath \
     ${PYTHON_PN}-dateutil \
     ${PYTHON_PN}-urllib3 \
