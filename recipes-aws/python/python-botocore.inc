@@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "d789f30a5def264b9d21a917aeadc4e5fc2b6a03a61f222befcfaf80ea
 
 inherit pypi
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
     ${PYTHON_PN}-jmespath \
     ${PYTHON_PN}-dateutil \
     ${PYTHON_PN}-docutils \
