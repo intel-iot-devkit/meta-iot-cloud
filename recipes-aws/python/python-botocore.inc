@@ -15,7 +15,7 @@ SRC_URI += "\
     file://Allow-python-dateutil-2.8.1.patch \
 "
 
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
     ${PYTHON_PN}-jmespath \
     ${PYTHON_PN}-dateutil \
     ${PYTHON_PN}-docutils \
