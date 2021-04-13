@@ -16,13 +16,11 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-datetime \
 "
 
-PR = "r0"
-
 SRC_URI += "\
     file://Do-not-override-libcrypto-location.patch \
 "
 
-SRC_URI[sha256sum] = "cb85ab61529947d595c56f60691552db91bbdee9ab8941d4c97a8dffc6f23e61"
+SRC_URI[sha256sum] = "c6859e35c57922f175b587e02bfb662ce30a06c9aa688a7303112c91e25265c6"
 
 do_configure_prepend() {
     sed -i \

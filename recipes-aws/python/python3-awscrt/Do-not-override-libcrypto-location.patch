@@ -1,23 +1,45 @@
-From 93fbedadeba467482d79d3b526a5dd838ce2219a Mon Sep 17 00:00:00 2001
-From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 20 Oct 2020 11:06:46 +0100
-Subject: [PATCH] Do not override libcrypto location
-
-Signed-off-by: Scott Ware <scott.r.ware@intel.com>
----
- setup.py                 | 2 --
- 1 files changed, 2 deletions(-)
-
-diff --git a/setup.py b/setup.py
-index a4196dd..c0098b1 100644
+Index: setup.py
+===================================================================
 --- a/setup.py
 +++ b/setup.py
-@@ -111,8 +111,6 @@ DEP_BUILD_DIR = os.path.join(PROJECT_DIR, 'build', 'deps')
+@@ -148,9 +148,10 @@ PROJECT_DIR = os.path.dirname(os.path.re
+ DEP_BUILD_DIR = os.path.join(PROJECT_DIR, 'build', 'deps')
  DEP_INSTALL_PATH = os.environ.get('AWS_C_INSTALL', os.path.join(DEP_BUILD_DIR, 'install'))
  
- AWS_LIBCRYPTO_INSTALL = None
--if sys.platform != 'darwin' and sys.platform != 'win32':
--    AWS_LIBCRYPTO_INSTALL = os.environ.get('AWS_LIBCRYPTO_INSTALL', os.path.join(DEP_BUILD_DIR, 'libcrypto'))
- 
++AWS_LIBCRYPTO_INSTALL = None 
  
  class awscrt_build_ext(setuptools.command.build_ext.build_ext):
+-    def _build_dependency(self, aws_lib, libcrypto_paths):
++    def _build_dependency(self, aws_lib):
+         cmake = get_cmake_path()
+ 
+         prev_cwd = os.getcwd()  # restore cwd at end of function
+@@ -185,9 +186,10 @@ class awscrt_build_ext(setuptools.comman
+             cmake_args.append('-DCMAKE_INCLUDE_PATH="{}"'.format(';'.join(self.include_dirs)))
+         if self.library_dirs:
+             cmake_args.append('-DCMAKE_LIBRARY_PATH="{}"'.format(';'.join(self.library_dirs)))
+-        if libcrypto_paths:
+-            cmake_args.append('-DLibCrypto_INCLUDE_DIR={}'.format(libcrypto_paths['include_dir']))
+-            cmake_args.append('-DLibCrypto_STATIC_LIBRARY={}'.format(libcrypto_paths['static_library']))
++        if AWS_LIBCRYPTO_INSTALL:
++            cmake_args.append('-DLibCrypto_INCLUDE_DIR={}/include'.format(AWS_LIBCRYPTO_INSTALL))
++            cmake_args.append('-DLibCrypto_STATIC_LIBRARY={}/lib/libcrypto.a'.format(AWS_LIBCRYPTO_INSTALL))
++            self.library_dirs.append('{}/lib'.format(AWS_LIBCRYPTO_INSTALL))
+         cmake_args.extend(aws_lib.extra_cmake_args)
+         cmake_args.append(lib_source_dir)
+ 
+@@ -207,13 +209,9 @@ class awscrt_build_ext(setuptools.comman
+         os.chdir(prev_cwd)
+ 
+     def run(self):
+-        libcrypto_paths = get_libcrypto_paths()
+-        if libcrypto_paths:
+-            self.library_dirs.append(os.path.dirname(libcrypto_paths['static_library']))
+-
+         # build dependencies
+         for lib in AWS_LIBS:
+-            self._build_dependency(lib, libcrypto_paths)
++            self._build_dependency(lib)
+ 
+         # update paths so awscrt_ext can access dependencies
+         self.include_dirs.append(os.path.join(DEP_INSTALL_PATH, 'include'))

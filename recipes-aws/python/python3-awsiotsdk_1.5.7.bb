@@ -18,4 +18,4 @@ RDEPENDS_${PN} += "\
 
 PR = "r0"
 
-SRC_URI[sha256sum] = "4ea6386fe5870ecbb0af46dccff30e30f22abe5bca255305bf35d00820a175d1"
+SRC_URI[sha256sum] = "fe9a699cecfe41ee8993c2f3fa9dfa5f0cc89e3976fafac85a8f9d7c23a3890a"
