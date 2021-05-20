@@ -10,19 +10,18 @@ DEPENDS += "\
     aws-c-io \
 "
 
-SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+           file://Build-static-and-shared-libs.patch \
 "
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 
-PACKAGECONFIG ??= "websocket"
-PACKAGECONFIG[websocket] = "-DMQTT_WITH_WEBSOCKETS:BOOL=ON, -DMQTT_WITH_WEBSOCKETS:BOOL=OFF, aws-c-http"
+PACKAGECONFIG ??= "websockets"
+PACKAGECONFIG[websockets] = "-DMQTT_WITH_WEBSOCKETS:BOOL=ON, -DMQTT_WITH_WEBSOCKETS:BOOL=OFF, aws-c-http"
 
 EXTRA_OECMAKE += "\
-    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
     -DCMAKE_PREFIX_PATH=${RECIPE_SYSROOT}/usr \
 "

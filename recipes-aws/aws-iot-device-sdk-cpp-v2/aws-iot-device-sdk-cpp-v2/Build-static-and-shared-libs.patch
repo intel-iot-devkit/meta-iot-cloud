@@ -1,0 +1,937 @@
+From 26dfadde393d906ab7e94825aec356b7d4b4fb82 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 27 Apr 2021 14:39:10 +0100
+Subject: [PATCH] Build static and shared libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ devicedefender/CMakeLists.txt                      | 74 +++++++++++-----------
+ .../cmake/iotdevicedefender-cpp-config.cmake       |  6 +-
+ discovery/CMakeLists.txt                           | 74 +++++++++++-----------
+ discovery/cmake/discovery-cpp-config.cmake         |  6 +-
+ identity/CMakeLists.txt                            | 72 ++++++++++-----------
+ identity/cmake/iotidentity-cpp-config.cmake        |  6 +-
+ iotdevicecommon/CMakeLists.txt                     | 74 +++++++++++-----------
+ .../cmake/iotdevicecommon-cpp-config.cmake         |  6 +-
+ jobs/CMakeLists.txt                                | 73 +++++++++++----------
+ jobs/cmake/iotjobs-cpp-config.cmake                |  6 +-
+ secure_tunneling/CMakeLists.txt                    | 74 +++++++++++-----------
+ .../cmake/iotsecuretunneling-cpp-config.cmake      |  6 +-
+ shadow/CMakeLists.txt                              | 74 +++++++++++-----------
+ shadow/cmake/iotshadow-cpp-config.cmake            |  6 +-
+ 14 files changed, 264 insertions(+), 293 deletions(-)
+
+diff --git a/devicedefender/CMakeLists.txt b/devicedefender/CMakeLists.txt
+index d6369c0..5610372 100644
+--- a/devicedefender/CMakeLists.txt
++++ b/devicedefender/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(IotDeviceDefender-cpp ${AWS_IOTDEVICEDEFENDER_CPP_SRC})
++add_library(IotDeviceDefender-cpp SHARED ${AWS_IOTDEVICEDEFENDER_CPP_SRC})
++add_library(IotDeviceDefender-cpp_static STATIC ${AWS_IOTDEVICEDEFENDER_CPP_SRC})
+ 
+ set_target_properties(IotDeviceDefender-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(IotDeviceDefender-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(IotDeviceDefender-cpp_static PROPERTIES OUTPUT_NAME IotDeviceDefender-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,45 +53,48 @@ if (MSVC)
+     target_compile_options(IotDeviceDefender-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(IotDeviceDefender-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++    target_compile_options(IotDeviceDefender-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(IotDeviceDefender-cpp PRIVATE "-DDEBUG_BUILD")
++    target_compile_definitions(IotDeviceDefender-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(IotDeviceDefender-cpp PUBLIC "-DAWS_IOTDEVICEDEFENDER_USE_IMPORT_EXPORT")
+-    target_compile_definitions(IotDeviceDefender-cpp PRIVATE "-DAWS_IOTDEVICEDEFENDER_EXPORTS")
+-
+-    install(TARGETS IotDeviceDefender-cpp
+-            EXPORT IotDeviceDefender-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS IotDeviceDefender-cpp
+-            EXPORT IotDeviceDefender-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
+-            COMPONENT Development)
+-else()
+-    install(TARGETS IotDeviceDefender-cpp
+-            EXPORT IotDeviceDefender-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development)
+-endif()
++target_compile_definitions(IotDeviceDefender-cpp PUBLIC "-DAWS_IOTDEVICEDEFENDER_USE_IMPORT_EXPORT")
++target_compile_definitions(IotDeviceDefender-cpp PRIVATE "-DAWS_IOTDEVICEDEFENDER_EXPORTS")
++
++install(TARGETS IotDeviceDefender-cpp
++        EXPORT IotDeviceDefender-cpp-targets
++        ARCHIVE
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}
++        COMPONENT Development
++        LIBRARY
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}
++        NAMELINK_SKIP
++        COMPONENT Runtime
++        RUNTIME
++        DESTINATION ${RUNTIME_DIRECTORY}
++        COMPONENT Runtime)
++
++install(TARGETS IotDeviceDefender-cpp
++        EXPORT IotDeviceDefender-cpp-targets
++        LIBRARY
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}
++        NAMELINK_ONLY
++        COMPONENT Development)
++
++install(TARGETS IotDeviceDefender-cpp_static
++        EXPORT IotDeviceDefender-cpp-targets
++        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++        COMPONENT Development)
+ 
+ target_include_directories(IotDeviceDefender-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(IotDeviceDefender-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+@@ -102,17 +107,12 @@ if (BUILD_TESTING)
+ endif()
+ 
+ target_link_libraries(IotDeviceDefender-cpp ${DEP_AWS_LIBS})
++target_link_libraries(IotDeviceDefender-cpp_static ${DEP_AWS_LIBS})
+ 
+ install(FILES ${AWS_IOTDEVICEDEFENDER_HEADERS} DESTINATION "include/aws/iotdevicedefender/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set(TARGET_DIR "shared")
+-else()
+-    set(TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "IotDeviceDefender-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotDeviceDefender-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotDeviceDefender-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/devicedefender/cmake/iotdevicedefender-cpp-config.cmake b/devicedefender/cmake/iotdevicedefender-cpp-config.cmake
+index fd8eef9..cf1e434 100644
+--- a/devicedefender/cmake/iotdevicedefender-cpp-config.cmake
++++ b/devicedefender/cmake/iotdevicedefender-cpp-config.cmake
+@@ -3,8 +3,4 @@ include(CMakeFindDependencyMacro)
+ find_dependency(aws-crt-cpp)
+ find_dependency(aws-c-iot)
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
+\ No newline at end of file
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+\ No newline at end of file
+diff --git a/discovery/CMakeLists.txt b/discovery/CMakeLists.txt
+index cee0de9..494add7 100644
+--- a/discovery/CMakeLists.txt
++++ b/discovery/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(Discovery-cpp ${AWS_DISCOVERY_CPP_SRC})
++add_library(Discovery-cpp SHARED ${AWS_DISCOVERY_CPP_SRC})
++add_library(Discovery-cpp_static STATIC ${AWS_DISCOVERY_CPP_SRC})
+ 
+ set_target_properties(Discovery-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(Discovery-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(Discovery-cpp_static PROPERTIES OUTPUT_NAME Discovery-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,62 +53,60 @@ if (MSVC)
+     target_compile_options(Discovery-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(Discovery-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++    target_compile_options(Discovery-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(Discovery-cpp PRIVATE "-DDEBUG_BUILD")
++    target_compile_definitions(Discovery-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(Discovery-cpp PUBLIC "-DAWS_DISCOVERY_USE_IMPORT_EXPORT")
+-    target_compile_definitions(Discovery-cpp PRIVATE "-DAWS_DISCOVERY_EXPORTS")
+-
+-    install(TARGETS Discovery-cpp
+-            EXPORT Discovery-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS Discovery-cpp
+-            EXPORT Discovery-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
+-            COMPONENT Development)
+-else()
+-    install(TARGETS Discovery-cpp
+-            EXPORT Discovery-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development)
+-endif()
++target_compile_definitions(Discovery-cpp PUBLIC "-DAWS_DISCOVERY_USE_IMPORT_EXPORT")
++target_compile_definitions(Discovery-cpp PRIVATE "-DAWS_DISCOVERY_EXPORTS")
++
++install(TARGETS Discovery-cpp
++		EXPORT Discovery-cpp-targets
++		ARCHIVE
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_SKIP
++		COMPONENT Runtime
++		RUNTIME
++		DESTINATION ${RUNTIME_DIRECTORY}
++		COMPONENT Runtime)
++
++install(TARGETS Discovery-cpp
++		EXPORT Discovery-cpp-targets
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_ONLY
++		COMPONENT Development)
++
++install(TARGETS Discovery-cpp_static
++		EXPORT Discovery-cpp-targets
++		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development)
+ 
+ target_include_directories(Discovery-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(Discovery-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+ endif()
+ 
+ target_link_libraries(Discovery-cpp ${DEP_AWS_LIBS})
++target_link_libraries(Discovery-cpp_static ${DEP_AWS_LIBS})
+ 
+ install(FILES ${AWS_DISCOVERY_HEADERS} DESTINATION "include/aws/discovery/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set (TARGET_DIR "shared")
+-else()
+-    set (TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "Discovery-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/Discovery-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/Discovery-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/discovery/cmake/discovery-cpp-config.cmake b/discovery/cmake/discovery-cpp-config.cmake
+index ab79f0d..1697c81 100644
+--- a/discovery/cmake/discovery-cpp-config.cmake
++++ b/discovery/cmake/discovery-cpp-config.cmake
+@@ -2,8 +2,4 @@ include(CMakeFindDependencyMacro)
+ 
+ find_dependency(aws-crt-cpp)
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else ()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+diff --git a/identity/CMakeLists.txt b/identity/CMakeLists.txt
+index 336f40b..4d4fcc6 100644
+--- a/identity/CMakeLists.txt
++++ b/identity/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(IotIdentity-cpp ${AWS_IOTIDENTITY_CPP_SRC})
++add_library(IotIdentity-cpp SHARED ${AWS_IOTIDENTITY_CPP_SRC})
++add_library(IotIdentity-cpp_static STATIC ${AWS_IOTIDENTITY_CPP_SRC})
+ 
+ set_target_properties(IotIdentity-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(IotIdentity-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(IotIdentity-cpp_static PROPERTIES OUTPUT_NAME IotIdentity-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,62 +53,60 @@ if (MSVC)
+     target_compile_options(IotIdentity-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(IotIdentity-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++    target_compile_options(IotIdentity-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(IotIdentity-cpp PRIVATE "-DDEBUG_BUILD")
++    target_compile_definitions(IotIdentity-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(IotIdentity-cpp PUBLIC "-DAWS_IOTIDENTITY_USE_IMPORT_EXPORT")
+-    target_compile_definitions(IotIdentity-cpp PRIVATE "-DAWS_IOTIDENTITY_EXPORTS")
+-
+-    install(TARGETS IotIdentity-cpp
+-            EXPORT IotIdentity-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS IotIdentity-cpp
+-            EXPORT IotIdentity-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
++target_compile_definitions(IotIdentity-cpp PUBLIC "-DAWS_IOTIDENTITY_USE_IMPORT_EXPORT")
++target_compile_definitions(IotIdentity-cpp PRIVATE "-DAWS_IOTIDENTITY_EXPORTS")
++
++install(TARGETS IotIdentity-cpp
++		EXPORT IotIdentity-cpp-targets
++		ARCHIVE
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_SKIP
++		COMPONENT Runtime
++		RUNTIME
++		DESTINATION ${RUNTIME_DIRECTORY}
++		COMPONENT Runtime)
++
++install(TARGETS IotIdentity-cpp
++		EXPORT IotIdentity-cpp-targets
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_ONLY
++		COMPONENT Development)
++
++install(TARGETS IotIdentity-cpp_static
++		EXPORT IotIdentity-cpp-targets
++		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+             COMPONENT Development)
+-else()
+-    install(TARGETS IotIdentity-cpp
+-            EXPORT IotIdentity-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development)
+-endif()
+ 
+ target_include_directories(IotIdentity-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(IotIdentity-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+ endif()
+ 
+ target_link_libraries(IotIdentity-cpp ${DEP_AWS_LIBS})
++target_link_libraries(IotIdentity-cpp_static ${DEP_AWS_LIBS})
+ 
+ install(FILES ${AWS_IOTIDENTITY_HEADERS} DESTINATION "include/aws/iotidentity/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set(TARGET_DIR "shared")
+-else()
+-    set(TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "IotIdentity-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotIdentity-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotIdentity-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/identity/cmake/iotidentity-cpp-config.cmake b/identity/cmake/iotidentity-cpp-config.cmake
+index 8e68cfb..3fa4470 100644
+--- a/identity/cmake/iotidentity-cpp-config.cmake
++++ b/identity/cmake/iotidentity-cpp-config.cmake
+@@ -2,8 +2,4 @@ include(CMakeFindDependencyMacro)
+ 
+ find_dependency(aws-crt-cpp)
+ 
+-if (BUILD_SHARED_LIBS)
+-   include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-   include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+\ No newline at end of file
+diff --git a/iotdevicecommon/CMakeLists.txt b/iotdevicecommon/CMakeLists.txt
+index 6e24d69..2fa3058 100644
+--- a/iotdevicecommon/CMakeLists.txt
++++ b/iotdevicecommon/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(IotDeviceCommon-cpp ${AWS_IOTDEVICECOMMON_CPP_SRC})
++add_library(IotDeviceCommon-cpp SHARED ${AWS_IOTDEVICECOMMON_CPP_SRC})
++add_library(IotDeviceCommon-cpp_static STATIC ${AWS_IOTDEVICECOMMON_CPP_SRC})
+ 
+ set_target_properties(IotDeviceCommon-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(IotDeviceCommon-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(IotDeviceCommon-cpp_static PROPERTIES OUTPUT_NAME IotDeviceCommon-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,45 +53,48 @@ if (MSVC)
+     target_compile_options(IotDeviceCommon-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(IotDeviceCommon-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++    target_compile_options(IotDeviceCommon-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(IotDeviceCommon-cpp PRIVATE "-DDEBUG_BUILD")
++	target_compile_definitions(IotDeviceCommon-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(IotDeviceCommon-cpp PUBLIC "-DAWS_IOTDEVICECOMMON_USE_IMPORT_EXPORT")
+-    target_compile_definitions(IotDeviceCommon-cpp PRIVATE "-DAWS_IOTDEVICECOMMON_EXPORTS")
+-
+-    install(TARGETS IotDeviceCommon-cpp
+-            EXPORT IotDeviceCommon-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS IotDeviceCommon-cpp
+-            EXPORT IotDeviceCommon-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
+-            COMPONENT Development)
+-else()
+-    install(TARGETS IotDeviceCommon-cpp
+-            EXPORT IotDeviceCommon-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development)
+-endif()
++target_compile_definitions(IotDeviceCommon-cpp PUBLIC "-DAWS_IOTDEVICECOMMON_USE_IMPORT_EXPORT")
++target_compile_definitions(IotDeviceCommon-cpp PRIVATE "-DAWS_IOTDEVICECOMMON_EXPORTS")
++
++install(TARGETS IotDeviceCommon-cpp
++		EXPORT IotDeviceCommon-cpp-targets
++		ARCHIVE
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_SKIP
++		COMPONENT Runtime
++		RUNTIME
++		DESTINATION ${RUNTIME_DIRECTORY}
++		COMPONENT Runtime)
++
++install(TARGETS IotDeviceCommon-cpp
++		EXPORT IotDeviceCommon-cpp-targets
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_ONLY
++		COMPONENT Development)
++
++install(TARGETS IotDeviceCommon-cpp_static
++		EXPORT IotDeviceCommon-cpp-targets
++		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development)
+ 
+ target_include_directories(IotDeviceCommon-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(IotDeviceCommon-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+@@ -98,17 +103,12 @@ endif()
+ aws_use_package(aws-c-iot)
+ 
+ target_link_libraries(IotDeviceCommon-cpp ${DEP_AWS_LIBS})
++target_link_libraries(IotDeviceCommon-cpp_static ${DEP_AWS_LIBS})
+ 
+ install(FILES ${AWS_IOTDEVICECOMMON_HEADERS} DESTINATION "include/aws/iotdevicecommon/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set(TARGET_DIR "shared")
+-else()
+-    set(TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "IotDeviceCommon-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotDeviceCommon-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotDeviceCommon-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/iotdevicecommon/cmake/iotdevicecommon-cpp-config.cmake b/iotdevicecommon/cmake/iotdevicecommon-cpp-config.cmake
+index fd8eef9..ec62035 100644
+--- a/iotdevicecommon/cmake/iotdevicecommon-cpp-config.cmake
++++ b/iotdevicecommon/cmake/iotdevicecommon-cpp-config.cmake
+@@ -3,8 +3,4 @@ include(CMakeFindDependencyMacro)
+ find_dependency(aws-crt-cpp)
+ find_dependency(aws-c-iot)
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
+\ No newline at end of file
++include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+\ No newline at end of file
+diff --git a/jobs/CMakeLists.txt b/jobs/CMakeLists.txt
+index d410c5a..8210474 100644
+--- a/jobs/CMakeLists.txt
++++ b/jobs/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(IotJobs-cpp ${AWS_IOTJOBS_CPP_SRC})
++add_library(IotJobs-cpp SHARED ${AWS_IOTJOBS_CPP_SRC})
++add_library(IotJobs-cpp_static STATIC ${AWS_IOTJOBS_CPP_SRC})
+ 
+ set_target_properties(IotJobs-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(IotJobs-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(IotJobs-cpp_static PROPERTIES OUTPUT_NAME IotJobs-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,45 +53,48 @@ if (MSVC)
+     target_compile_options(IotJobs-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(IotJobs-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++	target_compile_options(IotJobs-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(IotJobs-cpp PRIVATE "-DDEBUG_BUILD")
++	target_compile_definitions(IotJobs-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(IotJobs-cpp PUBLIC "-DAWS_IOTJOBS_USE_IMPORT_EXPORT")
+-    target_compile_definitions(IotJobs-cpp PRIVATE "-DAWS_IOTJOBS_EXPORTS")
+-
+-    install(TARGETS IotJobs-cpp
+-            EXPORT IotJobs-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS IotJobs-cpp
+-            EXPORT IotJobs-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
+-            COMPONENT Development)
+-else()
+-    install(TARGETS IotJobs-cpp
+-            EXPORT IotJobs-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development)
+-endif()
++target_compile_definitions(IotJobs-cpp PUBLIC "-DAWS_IOTJOBS_USE_IMPORT_EXPORT")
++target_compile_definitions(IotJobs-cpp PRIVATE "-DAWS_IOTJOBS_EXPORTS")
++
++install(TARGETS IotJobs-cpp
++		EXPORT IotJobs-cpp-targets
++		ARCHIVE
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_SKIP
++		COMPONENT Runtime
++		RUNTIME
++		DESTINATION ${RUNTIME_DIRECTORY}
++		COMPONENT Runtime)
++
++install(TARGETS IotJobs-cpp
++		EXPORT IotJobs-cpp-targets
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_ONLY
++		COMPONENT Development)
++
++install(TARGETS IotJobs-cpp_static
++		EXPORT IotJobs-cpp-targets
++		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development)
+ 
+ target_include_directories(IotJobs-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(IotJobs-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+@@ -99,14 +104,8 @@ target_link_libraries(IotJobs-cpp ${DEP_AWS_LIBS})
+ 
+ install(FILES ${AWS_IOTJOBS_HEADERS} DESTINATION "include/aws/iotjobs/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set(TARGET_DIR "shared")
+-else()
+-    set(TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "IotJobs-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotJobs-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotJobs-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/jobs/cmake/iotjobs-cpp-config.cmake b/jobs/cmake/iotjobs-cpp-config.cmake
+index 8e68cfb..3fa4470 100644
+--- a/jobs/cmake/iotjobs-cpp-config.cmake
++++ b/jobs/cmake/iotjobs-cpp-config.cmake
+@@ -2,8 +2,4 @@ include(CMakeFindDependencyMacro)
+ 
+ find_dependency(aws-crt-cpp)
+ 
+-if (BUILD_SHARED_LIBS)
+-   include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-   include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+\ No newline at end of file
+diff --git a/secure_tunneling/CMakeLists.txt b/secure_tunneling/CMakeLists.txt
+index 6d8b692..70d3584 100644
+--- a/secure_tunneling/CMakeLists.txt
++++ b/secure_tunneling/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(IotSecureTunneling-cpp ${AWS_IOTSECURETUNNELING_CPP_SRC})
++add_library(IotSecureTunneling-cpp SHARED ${AWS_IOTSECURETUNNELING_CPP_SRC})
++add_library(IotSecureTunneling-cpp_static STATIC ${AWS_IOTSECURETUNNELING_CPP_SRC})
+ 
+ set_target_properties(IotSecureTunneling-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(IotSecureTunneling-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(IotSecureTunneling-cpp_static PROPERTIES OUTPUT_NAME IotSecureTunneling-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,45 +53,48 @@ if (MSVC)
+     target_compile_options(IotSecureTunneling-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(IotSecureTunneling-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++	target_compile_options(IotSecureTunneling-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(IotSecureTunneling-cpp PRIVATE "-DDEBUG_BUILD")
++	target_compile_definitions(IotSecureTunneling-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(IotSecureTunneling-cpp PUBLIC "-DAWS_IOTSECURETUNNELING_USE_IMPORT_EXPORT")
+-    target_compile_definitions(IotSecureTunneling-cpp PRIVATE "-DAWS_IOTSECURETUNNELING_EXPORTS")
+-
+-    install(TARGETS IotSecureTunneling-cpp
+-            EXPORT IotSecureTunneling-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS IotSecureTunneling-cpp
+-            EXPORT IotSecureTunneling-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
+-            COMPONENT Development)
+-else()
+-    install(TARGETS IotSecureTunneling-cpp
+-            EXPORT IotSecureTunneling-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development)
+-endif()
++target_compile_definitions(IotSecureTunneling-cpp PUBLIC "-DAWS_IOTSECURETUNNELING_USE_IMPORT_EXPORT")
++target_compile_definitions(IotSecureTunneling-cpp PRIVATE "-DAWS_IOTSECURETUNNELING_EXPORTS")
++
++install(TARGETS IotSecureTunneling-cpp
++		EXPORT IotSecureTunneling-cpp-targets
++		ARCHIVE
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_SKIP
++		COMPONENT Runtime
++		RUNTIME
++		DESTINATION ${RUNTIME_DIRECTORY}
++		COMPONENT Runtime)
++
++install(TARGETS IotSecureTunneling-cpp
++		EXPORT IotSecureTunneling-cpp-targets
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_ONLY
++		COMPONENT Development)
++
++install(TARGETS IotSecureTunneling-cpp_static
++		EXPORT IotSecureTunneling-cpp-targets
++		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development)
+ 
+ target_include_directories(IotSecureTunneling-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(IotSecureTunneling-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+@@ -102,17 +107,12 @@ if (BUILD_TESTING)
+ endif()
+ 
+ target_link_libraries(IotSecureTunneling-cpp ${DEP_AWS_LIBS} dl)
++target_link_libraries(IotSecureTunneling-cpp_static ${DEP_AWS_LIBS} dl)
+ 
+ install(FILES ${AWS_IOTSECURETUNNELING_HEADERS} DESTINATION "include/aws/iotsecuretunneling/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set(TARGET_DIR "shared")
+-else()
+-    set(TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "IotSecureTunneling-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotSecureTunneling-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotSecureTunneling-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/secure_tunneling/cmake/iotsecuretunneling-cpp-config.cmake b/secure_tunneling/cmake/iotsecuretunneling-cpp-config.cmake
+index fd8eef9..cf1e434 100644
+--- a/secure_tunneling/cmake/iotsecuretunneling-cpp-config.cmake
++++ b/secure_tunneling/cmake/iotsecuretunneling-cpp-config.cmake
+@@ -3,8 +3,4 @@ include(CMakeFindDependencyMacro)
+ find_dependency(aws-crt-cpp)
+ find_dependency(aws-c-iot)
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
+\ No newline at end of file
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+\ No newline at end of file
+diff --git a/shadow/CMakeLists.txt b/shadow/CMakeLists.txt
+index 6323bec..b03e236 100644
+--- a/shadow/CMakeLists.txt
++++ b/shadow/CMakeLists.txt
+@@ -39,10 +39,12 @@ if (WIN32)
+     endif ()
+ endif()
+ 
+-add_library(IotShadow-cpp ${AWS_IOTSHADOW_CPP_SRC})
++add_library(IotShadow-cpp SHARED ${AWS_IOTSHADOW_CPP_SRC})
++add_library(IotShadow-cpp_static STATIC ${AWS_IOTSHADOW_CPP_SRC})
+ 
+ set_target_properties(IotShadow-cpp PROPERTIES LINKER_LANGUAGE CXX)
+ set_target_properties(IotShadow-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
++set_target_properties(IotShadow-cpp_static PROPERTIES OUTPUT_NAME IotShadow-cpp)
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+@@ -51,62 +53,60 @@ if (MSVC)
+     target_compile_options(IotShadow-cpp PRIVATE /W4 /WX)
+ else ()
+     target_compile_options(IotShadow-cpp PRIVATE -Wall -Wno-long-long -pedantic -Werror)
++	target_compile_options(IotShadow-cpp_static PRIVATE -Wall -Wno-long-long -pedantic -Werror)
+ endif ()
+ 
+ if (CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE MATCHES Debug)
+     target_compile_definitions(IotShadow-cpp PRIVATE "-DDEBUG_BUILD")
++	target_compile_definitions(IotShadow-cpp_static PRIVATE "-DDEBUG_BUILD")
+ endif ()
+ 
+-if (BUILD_SHARED_LIBS)
+-    target_compile_definitions(IotShadow-cpp PUBLIC "-DAWS_IOTSHADOW_USE_IMPORT_EXPORT")
+-    target_compile_definitions(IotShadow-cpp PRIVATE "-DAWS_IOTSHADOW_EXPORTS")
+-
+-    install(TARGETS IotShadow-cpp
+-            EXPORT IotShadow-cpp-targets
+-            ARCHIVE
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            COMPONENT Development
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_SKIP
+-            COMPONENT Runtime
+-            RUNTIME
+-            DESTINATION ${RUNTIME_DIRECTORY}
+-            COMPONENT Runtime)
+-
+-    install(TARGETS IotShadow-cpp
+-            EXPORT IotShadow-cpp-targets
+-            LIBRARY
+-            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-            NAMELINK_ONLY
+-            COMPONENT Development)
+-else()
+-    install(TARGETS IotShadow-cpp
+-            EXPORT IotShadow-cpp-targets
+-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} 
+-            COMPONENT Development)
+-endif()
++target_compile_definitions(IotShadow-cpp PUBLIC "-DAWS_IOTSHADOW_USE_IMPORT_EXPORT")
++target_compile_definitions(IotShadow-cpp PRIVATE "-DAWS_IOTSHADOW_EXPORTS")
++
++install(TARGETS IotShadow-cpp
++		EXPORT IotShadow-cpp-targets
++		ARCHIVE
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		COMPONENT Development
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_SKIP
++		COMPONENT Runtime
++		RUNTIME
++		DESTINATION ${RUNTIME_DIRECTORY}
++		COMPONENT Runtime)
++
++install(TARGETS IotShadow-cpp
++		EXPORT IotShadow-cpp-targets
++		LIBRARY
++		DESTINATION ${CMAKE_INSTALL_LIBDIR}
++		NAMELINK_ONLY
++		COMPONENT Development)
++
++install(TARGETS IotShadow-cpp_static
++		EXPORT IotShadow-cpp-targets
++		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} 
++		COMPONENT Development)
+ 
+ target_include_directories(IotShadow-cpp PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(IotShadow-cpp_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ if (NOT IS_SUBDIRECTORY_INCLUDE)
+     aws_use_package(aws-crt-cpp)
+ endif()
+ 
+ target_link_libraries(IotShadow-cpp ${DEP_AWS_LIBS})
++target_link_libraries(IotShadow-cpp_static ${DEP_AWS_LIBS})
+ 
+ install(FILES ${AWS_IOTSHADOW_HEADERS} DESTINATION "include/aws/iotshadow/" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-    set(TARGET_DIR "shared")
+-else()
+-    set(TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "IotShadow-cpp-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotShadow-cpp/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotShadow-cpp/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/shadow/cmake/iotshadow-cpp-config.cmake b/shadow/cmake/iotshadow-cpp-config.cmake
+index 8e68cfb..3fa4470 100644
+--- a/shadow/cmake/iotshadow-cpp-config.cmake
++++ b/shadow/cmake/iotshadow-cpp-config.cmake
+@@ -2,8 +2,4 @@ include(CMakeFindDependencyMacro)
+ 
+ find_dependency(aws-crt-cpp)
+ 
+-if (BUILD_SHARED_LIBS)
+-   include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-   include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+\ No newline at end of file
+-- 
+2.7.4
+

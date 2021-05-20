@@ -8,11 +8,12 @@ inherit cmake
 
 DEPENDS += "\
     aws-crt-cpp \
+    aws-c-iot \
 "
 
-SRC_URI = "\
-    git://github.com/aws/${BPN}.git;branch=main;tag=v${PV} \
-    file://Add-library-versioning.patch \
+SRC_URI = "git://github.com/aws/${BPN}.git;branch=main;tag=v${PV} \
+           file://Add-library-versioning-to-fix-packaging-issues.patch \
+           file://Build-static-and-shared-libs.patch \
 "
 
 PR = "r0"
@@ -22,7 +23,6 @@ S = "${WORKDIR}/git"
 EXTRA_OECMAKE += "\
     -DBUILD_DEPS=OFF \
     -DBUILD_SAMPLES=OFF \
-    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
     -DCMAKE_PREFIX_PATH=${RECIPE_SYSROOT}/usr \
 "

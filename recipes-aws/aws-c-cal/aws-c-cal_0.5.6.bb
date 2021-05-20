@@ -11,16 +11,22 @@ DEPENDS += "\
     openssl \
 "
 
+RDEPENDS_${PN} += " \
+    libcrypto \
+"
+
 SRC_URI = "\
     git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+    file://Build-static-and-shared-libs.patch \
 "
 
 PR = "r0"
 
 S = "${WORKDIR}/git"
 
+TARGET_CFLAGS += "-Wno-error=address"
+
 EXTRA_OECMAKE += "\
-    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
     -DCMAKE_PREFIX_PATH=${RECIPE_SYSROOT}/usr \
 "

@@ -1,0 +1,165 @@
+From c189d4d4963e0998738e96946ebe46e4e37d849b Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 18 May 2021 22:17:32 +0100
+Subject: [PATCH] Build shared and static libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt         | 48 ++++++++++++++++++++++++++++++------------
+ cmake/s2n-config.cmake |  6 +-----
+ 2 files changed, 36 insertions(+), 18 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 08526763..6183e1e8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -191,21 +191,25 @@ file(GLOB S2N_SRC
+     ${UTILS_SRC}
+ )
+ 
+-add_library(${PROJECT_NAME} ${S2N_HEADERS} ${S2N_SRC})
++add_library(${PROJECT_NAME} SHARED ${S2N_HEADERS} ${S2N_SRC})
+ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
++add_library(${PROJECT_NAME}_static STATIC ${S2N_HEADERS} ${S2N_SRC})
++set_target_properties(${PROJECT_NAME}_static PROPERTIES LINKER_LANGUAGE C OUTPUT_NAME ${PROJECT_NAME})
++
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+ target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts
+         -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
+         -Wno-missing-braces -Wa,--noexecstack
+ )
++target_compile_options(${PROJECT_NAME}_static PRIVATE -pedantic -std=gnu99 -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts
++        -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
++        -Wno-missing-braces -Wa,--noexecstack
++)
+ 
+-if(BUILD_TESTING AND BUILD_SHARED_LIBS)
+-    target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=default)
+-else()
+-    target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
+-endif()
++target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
++target_compile_options(${PROJECT_NAME}_static PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
+ 
+ if(NOT APPLE)
+     set(CMAKE_SHARED_LINKER_FLAGS -Wl,-z,noexecstack,-z,relro,-z,now)
+@@ -213,58 +217,74 @@ endif()
+ 
+ if(S2N_NO_PQ)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_NO_PQ)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_NO_PQ)
+ endif()
+ 
+ if(SIKEP434R2_ASM_SUPPORTED)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_SIKEP434R2_ASM)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_SIKEP434R2_ASM)
+     message(STATUS "Enabling SIKEP434R2 assembly code")
+ endif()
+ 
+ if(ADX_SUPPORTED)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_ADX)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_ADX)
+     message(STATUS "Support for ADX assembly instructions detected")
+ endif()
+ 
+ if(S2N_HAVE_EXECINFO)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_HAVE_EXECINFO)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_HAVE_EXECINFO)
+ endif()
+ 
+ if(S2N_CPUID_AVAILABLE)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_CPUID_AVAILABLE)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_CPUID_AVAILABLE)
+ endif()
+ 
+ target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
++target_compile_options(${PROJECT_NAME}_static PUBLIC -fPIC)
+ 
+ target_compile_definitions(${PROJECT_NAME} PRIVATE -D_POSIX_C_SOURCE=200809L)
++target_compile_definitions(${PROJECT_NAME}_static PRIVATE -D_POSIX_C_SOURCE=200809L)
+ if(CMAKE_BUILD_TYPE MATCHES Release)
+     target_compile_definitions(${PROJECT_NAME} PRIVATE -D_FORTIFY_SOURCE=2)
++    target_compile_definitions(${PROJECT_NAME}_static PRIVATE -D_FORTIFY_SOURCE=2)
+ endif()
+ 
+ if(NO_STACK_PROTECTOR)
+     target_compile_options(${PROJECT_NAME} PRIVATE -Wstack-protector -fstack-protector-all)
++    target_compile_options(${PROJECT_NAME}_static PRIVATE -Wstack-protector -fstack-protector-all)
+ endif()
+ 
+ if(S2N_UNSAFE_FUZZING_MODE)
+     target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize-coverage=trace-pc-guard -fsanitize=address,undefined,leak -fuse-ld=gold -DS2N_ADDRESS_SANITIZER=1)
++    target_compile_options(${PROJECT_NAME}_static PRIVATE -fsanitize-coverage=trace-pc-guard -fsanitize=address,undefined,leak -fuse-ld=gold -DS2N_ADDRESS_SANITIZER=1)
+ endif()
+ 
+ if (FALL_THROUGH_SUPPORTED)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_FALL_THROUGH_SUPPORTED)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_FALL_THROUGH_SUPPORTED)
+ endif()
+ 
+ if (__RESTRICT__SUPPORTED)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N___RESTRICT__SUPPORTED)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N___RESTRICT__SUPPORTED)
+ endif()
+ 
+ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+ 
+ find_package(LibCrypto REQUIRED)
+ target_link_libraries(${PROJECT_NAME} PUBLIC LibCrypto::Crypto ${OS_LIBS} m)
++target_link_libraries(${PROJECT_NAME}_static PUBLIC LibCrypto::Crypto ${OS_LIBS} m)
+ 
+ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+ target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api> $<INSTALL_INTERFACE:include>)
++target_include_directories(${PROJECT_NAME}_static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
++target_include_directories(${PROJECT_NAME}_static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api> $<INSTALL_INTERFACE:include>)
+ 
+ target_include_directories(${PROJECT_NAME} PRIVATE $<TARGET_PROPERTY:LibCrypto::Crypto,INTERFACE_INCLUDE_DIRECTORIES>)
++target_include_directories(${PROJECT_NAME}_static PRIVATE $<TARGET_PROPERTY:LibCrypto::Crypto,INTERFACE_INCLUDE_DIRECTORIES>)
+ 
+ if (BUILD_TESTING)
+     enable_testing()
+@@ -360,18 +380,20 @@ install(
+         RUNTIME DESTINATION bin COMPONENT Runtime
+ )
+ 
++install(
++        TARGETS ${PROJECT_NAME}_static
++        EXPORT ${PROJECT_NAME}-targets
++        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Development
++        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Runtime
++        RUNTIME DESTINATION bin COMPONENT Runtime
++)
++
+ configure_file("cmake/${PROJECT_NAME}-config.cmake"
+         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+         @ONLY)
+ 
+-if (BUILD_SHARED_LIBS)
+-   set (TARGET_DIR "shared")
+-else()
+-   set (TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "${PROJECT_NAME}-targets"
+-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake/${TARGET_DIR}"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/cmake/s2n-config.cmake b/cmake/s2n-config.cmake
+index 09d1c3aa..298c5b85 100644
+--- a/cmake/s2n-config.cmake
++++ b/cmake/s2n-config.cmake
+@@ -8,9 +8,5 @@ endif()
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
+ find_dependency(LibCrypto)
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+ 

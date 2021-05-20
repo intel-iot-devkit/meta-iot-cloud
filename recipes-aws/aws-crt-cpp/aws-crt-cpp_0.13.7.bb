@@ -17,10 +17,11 @@ DEPENDS += "\
     aws-checksums \
 "
 
-SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main;rev=d97577093330e9f1d429cd08e33dc97efc4b7006 \
-    file://Add-library-versioning.patch \
-"
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;rev=318ff472a659f5e832812e1567697f9c43aedf13 \
+           file://Add-library-versioning.patch \
+           file://Build-static-and-shared-libs.patch \
+           file://Update-cmake-config-file.patch \
+           "
 
 PR = "r0"
 
@@ -28,7 +29,6 @@ S = "${WORKDIR}/git"
 
 EXTRA_OECMAKE += "\
     -DBUILD_DEPS=OFF \
-    -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
     -DCMAKE_PREFIX_PATH=${RECIPE_SYSROOT}/usr \
 "

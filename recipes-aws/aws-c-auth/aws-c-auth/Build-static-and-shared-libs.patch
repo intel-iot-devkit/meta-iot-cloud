@@ -1,0 +1,91 @@
+From dddc43c24b610080865795c88129f5c94a3bc3a6 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 27 Apr 2021 12:13:18 +0100
+Subject: [PATCH] Build static and shared libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt                | 24 ++++++++++++++++--------
+ cmake/aws-c-auth-config.cmake |  7 ++-----
+ 2 files changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6a00afa..989a70d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -82,43 +82,51 @@ file(GLOB AUTH_SRC
+         ${AWS_AUTH_EXTERNAL_SRC}
+         )
+ 
+-add_library(${PROJECT_NAME} ${LIBTYPE} ${AUTH_HEADERS} ${AUTH_SRC})
++add_library(${PROJECT_NAME} SHARED ${AUTH_HEADERS} ${AUTH_SRC})
++add_library(${PROJECT_NAME}_static STATIC ${AUTH_HEADERS} ${AUTH_SRC})
++
+ aws_set_common_properties(${PROJECT_NAME})
+ aws_prepare_symbol_visibility_args(${PROJECT_NAME} "AWS_AUTH")
+ aws_check_headers(${PROJECT_NAME} ${AUTH_HEADERS})
++aws_set_common_properties(${PROJECT_NAME}_static)
++aws_prepare_symbol_visibility_args(${PROJECT_NAME}_static "AWS_AUTH")
++aws_check_headers(${PROJECT_NAME}_static ${AUTH_HEADERS})
+ 
+ aws_add_sanitizers(${PROJECT_NAME})
++aws_add_sanitizers(${PROJECT_NAME}_static)
+ 
+ # We are not ABI stable yet
+ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.0.0)
++set_target_properties(${PROJECT_NAME}_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+ 
+ target_compile_definitions(${PROJECT_NAME} PRIVATE -DCJSON_HIDE_SYMBOLS)
++target_compile_definitions(${PROJECT_NAME}_static PRIVATE -DCJSON_HIDE_SYMBOLS)
+ 
+ if (BUILD_RELOCATABLE_BINARIES)
+     target_compile_definitions(${PROJECT_NAME} PRIVATE "-DCOMPAT_MODE")
++    target_compile_definitions(${PROJECT_NAME}_static PRIVATE "-DCOMPAT_MODE")
+ endif()
+ 
+ target_include_directories(${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(${PROJECT_NAME}_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ 
+ aws_use_package(aws-c-cal)
+ aws_use_package(aws-c-http)
+ 
+ target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_AWS_LIBS} ${PLATFORM_LIBS})
++target_link_libraries(${PROJECT_NAME}_static PUBLIC ${DEP_AWS_LIBS} ${PLATFORM_LIBS})
+ 
+ aws_prepare_shared_lib_exports(${PROJECT_NAME})
++aws_prepare_shared_lib_exports(${PROJECT_NAME}_static)
+ 
+ install(FILES ${AWS_AUTH_ROOT_HEADERS} DESTINATION "include/aws/auth" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-   set (TARGET_DIR "shared")
+-else()
+-   set (TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "${PROJECT_NAME}-targets"
+-        DESTINATION "${LIBRARY_DIRECTORY}/${PROJECT_NAME}/cmake/${TARGET_DIR}/"
++        DESTINATION "${LIBRARY_DIRECTORY}/${PROJECT_NAME}/cmake"
+         NAMESPACE AWS::
+         COMPONENT Development)
+ 
+diff --git a/cmake/aws-c-auth-config.cmake b/cmake/aws-c-auth-config.cmake
+index 430c1d7..a2962db 100644
+--- a/cmake/aws-c-auth-config.cmake
++++ b/cmake/aws-c-auth-config.cmake
+@@ -5,9 +5,6 @@ find_dependency(aws-c-cal)
+ find_dependency(aws-c-io)
+ find_dependency(aws-c-http)
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
++
+ 

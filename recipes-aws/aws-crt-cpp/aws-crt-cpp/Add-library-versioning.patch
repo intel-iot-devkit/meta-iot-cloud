@@ -12,7 +12,7 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index a073042..598de8a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -218,6 +218,7 @@ endif()
+@@ -248,6 +248,7 @@ endif()
  
  set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
  set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD})

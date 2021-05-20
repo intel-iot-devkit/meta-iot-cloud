@@ -1,0 +1,94 @@
+From 59e5f68b9bff280eb45632da3ac408e36460aa99 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Fri, 14 May 2021 14:29:17 +0100
+Subject: [PATCH] Build static and shared libs
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ CMakeLists.txt               | 24 ++++++++++++++++--------
+ cmake/aws-c-cal-config.cmake |  6 +-----
+ 2 files changed, 17 insertions(+), 13 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cdb7e6e..b6b15fa 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -106,32 +106,46 @@ file(GLOB CAL_SRC
+         ${AWS_CAL_OS_SRC}
+ )
+ 
+-add_library(${PROJECT_NAME} ${CAL_SRC})
++add_library(${PROJECT_NAME} SHARED ${CAL_SRC})
++add_library(${PROJECT_NAME}_static STATIC ${CAL_SRC})
++
+ aws_set_common_properties(${PROJECT_NAME} NO_WEXTRA)
+ aws_prepare_symbol_visibility_args(${PROJECT_NAME} "AWS_CAL")
+ aws_add_sanitizers(${PROJECT_NAME} BLACKLIST "sanitizer-blacklist.txt")
++aws_set_common_properties(${PROJECT_NAME}_static NO_WEXTRA)
++aws_prepare_symbol_visibility_args(${PROJECT_NAME}_static "AWS_CAL")
++aws_add_sanitizers(${PROJECT_NAME}_static BLACKLIST "sanitizer-blacklist.txt")
+ 
+ aws_use_package(aws-c-common)
+ target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_AWS_LIBS} ${PLATFORM_LIBS})
++target_link_libraries(${PROJECT_NAME}_static PUBLIC ${DEP_AWS_LIBS} ${PLATFORM_LIBS})
+ 
+ if (BYO_CRYPTO)
+     target_compile_definitions(${PROJECT_NAME} PRIVATE -DBYO_CRYPTO)
+ elseif (NOT WIN32 AND NOT APPLE)
+     target_include_directories(${PROJECT_NAME} PRIVATE ${CRYPTO_INCLUDE_DIR})
++    target_include_directories(${PROJECT_NAME}_static PRIVATE ${CRYPTO_INCLUDE_DIR})
+ endif()
+ 
+ # Our ABI is not yet stable
+ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.0.0)
++set_target_properties(${PROJECT_NAME}_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+ 
+ target_include_directories(${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:include>)
++target_include_directories(${PROJECT_NAME}_static PUBLIC
++        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
++        $<INSTALL_INTERFACE:include>)
+ # When we install, the generated header will be at the INSTALL_INTERFACE:include location,
+ # but at build time we need to explicitly include this here
+ target_include_directories(${PROJECT_NAME} PUBLIC
+         $<BUILD_INTERFACE:${GENERATED_INCLUDE_DIR}>)
++target_include_directories(${PROJECT_NAME}_static PUBLIC
++        $<BUILD_INTERFACE:${GENERATED_INCLUDE_DIR}>)
+ 
+ aws_prepare_shared_lib_exports(${PROJECT_NAME})
++aws_prepare_shared_lib_exports(${PROJECT_NAME}_static)
+ 
+ configure_file("cmake/${PROJECT_NAME}-config.cmake"
+   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+@@ -140,14 +154,8 @@ configure_file("cmake/${PROJECT_NAME}-config.cmake"
+ aws_check_headers(${PROJECT_NAME} ${AWS_CAL_HEADERS})
+ install(FILES ${AWS_CAL_HEADERS} DESTINATION "include/aws/cal" COMPONENT Development)
+ 
+-if (BUILD_SHARED_LIBS)
+-   set (TARGET_DIR "shared")
+-else()
+-   set (TARGET_DIR "static")
+-endif()
+-
+ install(EXPORT "${PROJECT_NAME}-targets"
+-    DESTINATION "${LIBRARY_DIRECTORY}/${PROJECT_NAME}/cmake/${TARGET_DIR}/"
++    DESTINATION "${LIBRARY_DIRECTORY}/${PROJECT_NAME}/cmake/"
+     NAMESPACE AWS::
+     COMPONENT Development)
+ 
+diff --git a/cmake/aws-c-cal-config.cmake b/cmake/aws-c-cal-config.cmake
+index 73e7311..4ff54a6 100644
+--- a/cmake/aws-c-cal-config.cmake
++++ b/cmake/aws-c-cal-config.cmake
+@@ -7,9 +7,5 @@ if (NOT BYO_CRYPTO AND NOT WIN32 AND NOT APPLE)
+     find_dependency(LibCrypto)
+ endif()
+ 
+-if (BUILD_SHARED_LIBS)
+-    include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
+-else()
+-    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
+-endif()
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
+ 

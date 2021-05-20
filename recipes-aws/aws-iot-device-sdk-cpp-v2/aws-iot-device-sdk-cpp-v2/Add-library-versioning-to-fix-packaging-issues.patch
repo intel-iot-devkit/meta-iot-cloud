@@ -1,0 +1,149 @@
+From 1bf813f378195939aa331282f823f0c8d3e5dd77 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Tue, 20 Apr 2021 22:33:31 +0100
+Subject: [PATCH] Add library versioning to fix packaging issues
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ devicedefender/CMakeLists.txt   | 3 ++-
+ discovery/CMakeLists.txt        | 3 ++-
+ identity/CMakeLists.txt         | 3 ++-
+ iotdevicecommon/CMakeLists.txt  | 3 ++-
+ jobs/CMakeLists.txt             | 3 ++-
+ secure_tunneling/CMakeLists.txt | 3 ++-
+ shadow/CMakeLists.txt           | 3 ++-
+ 7 files changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/devicedefender/CMakeLists.txt b/devicedefender/CMakeLists.txt
+index 0ab5728..d6369c0 100644
+--- a/devicedefender/CMakeLists.txt
++++ b/devicedefender/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotDeviceDefender-cpp CXX C)
++project(IotDeviceDefender-cpp LANGUAGES CXX C VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotDeviceDefender-cpp ${AWS_IOTDEVICEDEFENDER_CPP_SRC})
+ 
+ set_target_properties(IotDeviceDefender-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotDeviceDefender-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/discovery/CMakeLists.txt b/discovery/CMakeLists.txt
+index e2a02b3..cee0de9 100644
+--- a/discovery/CMakeLists.txt
++++ b/discovery/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(Discovery-cpp CXX)
++project(Discovery-cpp LANGUAGES CXX VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(Discovery-cpp ${AWS_DISCOVERY_CPP_SRC})
+ 
+ set_target_properties(Discovery-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(Discovery-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/identity/CMakeLists.txt b/identity/CMakeLists.txt
+index a84ffbc..336f40b 100644
+--- a/identity/CMakeLists.txt
++++ b/identity/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotIdentity-cpp CXX)
++project(IotIdentity-cpp LANGUAGES CXX VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotIdentity-cpp ${AWS_IOTIDENTITY_CPP_SRC})
+ 
+ set_target_properties(IotIdentity-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotIdentity-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/iotdevicecommon/CMakeLists.txt b/iotdevicecommon/CMakeLists.txt
+index 90b1de4..6e24d69 100644
+--- a/iotdevicecommon/CMakeLists.txt
++++ b/iotdevicecommon/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotDeviceCommon-cpp CXX C)
++project(IotDeviceCommon-cpp LANGUAGES CXX C VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotDeviceCommon-cpp ${AWS_IOTDEVICECOMMON_CPP_SRC})
+ 
+ set_target_properties(IotDeviceCommon-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotDeviceCommon-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/jobs/CMakeLists.txt b/jobs/CMakeLists.txt
+index a32dc29..d410c5a 100644
+--- a/jobs/CMakeLists.txt
++++ b/jobs/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotJobs-cpp CXX)
++project(IotJobs-cpp LANGUAGES CXX VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotJobs-cpp ${AWS_IOTJOBS_CPP_SRC})
+ 
+ set_target_properties(IotJobs-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotJobs-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/secure_tunneling/CMakeLists.txt b/secure_tunneling/CMakeLists.txt
+index 67c42da..6d8b692 100644
+--- a/secure_tunneling/CMakeLists.txt
++++ b/secure_tunneling/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotSecureTunneling-cpp CXX C)
++project(IotSecureTunneling-cpp LANGUAGES CXX C VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotSecureTunneling-cpp ${AWS_IOTSECURETUNNELING_CPP_SRC})
+ 
+ set_target_properties(IotSecureTunneling-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotSecureTunneling-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
+diff --git a/shadow/CMakeLists.txt b/shadow/CMakeLists.txt
+index 2496ff0..6323bec 100644
+--- a/shadow/CMakeLists.txt
++++ b/shadow/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ cmake_minimum_required(VERSION 3.1)
+-project(IotShadow-cpp CXX)
++project(IotShadow-cpp LANGUAGES CXX VERSION 1.12.3)
+ 
+ set(RUNTIME_DIRECTORY bin)
+ 
+@@ -42,6 +42,7 @@ endif()
+ add_library(IotShadow-cpp ${AWS_IOTSHADOW_CPP_SRC})
+ 
+ set_target_properties(IotShadow-cpp PROPERTIES LINKER_LANGUAGE CXX)
++set_target_properties(IotShadow-cpp PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR} VERSION ${PROJECT_VERSION})
+ 
+ set(CMAKE_C_FLAGS_DEBUGOPT "")
+ 
