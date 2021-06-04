@@ -4,10 +4,6 @@ DEPENDS = "\
     azure-macro-utils-c \
 "
 
-SRC_URI += "\
-    file://Always-link-macro-utils.patch \
-"
-
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
