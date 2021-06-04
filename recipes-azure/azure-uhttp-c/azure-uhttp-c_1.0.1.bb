@@ -5,8 +5,10 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b98fddd052bb2f5ddbcdbd417ffb26a8"
 
 SRC_URI = "\
-    git://github.com/Azure/azure-uhttp-c.git;branch=master;rev=ef8ba1591b0f825315b78380331ff9290197db02 \
+    git://github.com/Azure/azure-uhttp-c.git;branch=lts_07_2020 \
 "
+
+SRCREV = "6f18cb8e7f98dc875f37906aec3feeb3b5b9ef5f"
 
 PR = "r1"
 
