@@ -1,0 +1,36 @@
+From 88078326d1548f499e87c820edbc788f5efa640c Mon Sep 17 00:00:00 2001
+From: Saul Wold <saul.wold@windriver.com>
+Date: Wed, 2 Jun 2021 18:43:22 -0700
+Subject: [PATCH] hmac.c: fix compile error for digest pointer vs array
+
+<snip>/git/src/hmac.c:211:43: error: argument 2 of type 'uint8_t *' {aka 'unsigned char *'} declared as a pointer [-Werror=array-parameter=]
+  211 | int hmacResult(HMACContext *ctx, uint8_t *digest)
+      |                                  ~~~~~~~~~^~~~~~
+In file included from <snip>/git/src/hmac.c:13:
+<snip>/git/inc/azure_c_shared_utility/sha.h:252:42: note: previously declared as an array 'uint8_t[64]' {aka 'unsigned char[64]'}
+  252 | int hmacResult(HMACContext *ctx, uint8_t digest[USHAMaxHashSize]);
+      |                                  ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+
+Issue reported: https://github.com/Azure/azure-c-shared-utility/issues/535
+Upstream-Status: Pending
+
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ src/hmac.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/hmac.c b/src/hmac.c
+index 53f2411f..557d98a1 100644
+--- a/src/hmac.c
++++ b/src/hmac.c
+@@ -208,7 +208,8 @@ int hmacFinalBits(HMACContext *ctx,
+ *   sha Error Code.
+ *
+ */
+-int hmacResult(HMACContext *ctx, uint8_t *digest)
++int hmacResult(HMACContext *ctx,
++    uint8_t digest[USHAMaxHashSize])
+ {
+     if (!ctx) return shaNull;
+ 

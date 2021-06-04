@@ -5,10 +5,10 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 SRC_URI = "\
-    git://github.com/Azure/azure-c-shared-utility.git \
+    git://github.com/Azure/azure-c-shared-utility.git;branch=lts_07_2020 \
 "
 
-SRCREV = "65c27eb4ab9a8bbe36b4d7c5a0e9ad305becb8b4"
+SRCREV = "85fe8977e98cc0e84609e9250ba34b0d455b96df"
 
 PR = "r1"
 
