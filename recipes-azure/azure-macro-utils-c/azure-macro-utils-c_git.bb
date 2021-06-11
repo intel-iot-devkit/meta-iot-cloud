@@ -8,8 +8,8 @@ SRC_URI = "\
     git://github.com/Azure/azure-macro-utils-c.git \
 "
 
-SRCREV = "5926caf4e42e98e730e6d03395788205649a3ada"
+SRCREV = "3572824c55a1ad3634dd32c1f1dd729e59bbdedc"
 
-PR = "r0"
+PV = "1.1.0+git${SRCPV}"
 
 require ${BPN}.inc
