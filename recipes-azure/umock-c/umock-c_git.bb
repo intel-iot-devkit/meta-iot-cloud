@@ -7,8 +7,8 @@ SRC_URI = "\
     git://github.com/Azure/umock-c.git \
 "
 
-SRCREV = "504193e65d1c2f6eb50c15357167600a296df7ff"
+SRCREV = "062f7e5c34f7eb9a7e10c352364f4057fd67607a"
 
-PR = "r0"
+PV = "1.1.19+git${SRCPV}"
 
 require ${BPN}.inc
