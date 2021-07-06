@@ -11,8 +11,11 @@ DEPENDS += "\
 "
 
 SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+    git://github.com/awslabs/${BPN}.git;branch=main \
 "
+
+# v0.5.0
+SRCREV = "f4634671e6ef7674dde2fe3ae4f3dffacc1e87dc"
 
 PR = "r0"
 

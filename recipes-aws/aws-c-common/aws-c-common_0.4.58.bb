@@ -7,8 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 inherit cmake
 
 SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+    git://github.com/awslabs/${BPN}.git;branch=main \
 "
+
+# v0.4.58
+SRCREV = "d52cd2ff062ed68e2b551f6763abbc5f7d2d3b36"
 
 PR = "r0"
 

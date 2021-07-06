@@ -11,9 +11,12 @@ DEPENDS += "\
 "
 
 SRC_URI = "\
-    git://github.com/aws/${BPN}.git;branch=main;tag=v${PV} \
+    git://github.com/aws/${BPN}.git;branch=main \
     file://Add-library-versioning.patch \
 "
+
+# v1.8.4
+SRCREV = "f34823176ea3077d8436476318d78347caaca902"
 
 PR = "r0"
 
