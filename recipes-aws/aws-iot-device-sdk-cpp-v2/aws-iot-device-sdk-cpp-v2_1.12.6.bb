@@ -11,10 +11,13 @@ DEPENDS += "\
     aws-c-iot \
 "
 
-SRC_URI = "git://github.com/aws/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/aws/${BPN}.git;branch=main \
            file://Add-library-versioning-to-fix-packaging-issues.patch \
            file://Build-static-and-shared-libs.patch \
 "
+
+# v1.12.6
+SRCREV = "df16ccb07cc303e2f7f9b01d8ecb511214025612"
 
 PR = "r0"
 

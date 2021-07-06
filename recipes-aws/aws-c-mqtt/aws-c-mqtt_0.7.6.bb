@@ -10,9 +10,12 @@ DEPENDS += "\
     aws-c-io \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
            file://Build-static-and-shared-libs.patch \
 "
+
+# v0.7.6
+SRCREV = "0a70bf814845e487b7e4862af7ad9e4a1199b5f4"
 
 PR = "r0"
 

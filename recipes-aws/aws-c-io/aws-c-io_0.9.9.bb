@@ -12,9 +12,12 @@ DEPENDS += "\
     s2n \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
            file://Build-static-and-shared-libs.patch \
            "
+
+# v0.9.9
+SRCREV = "977065a455158fffa1c33214b33aa2b7fc273416"
 
 PR = "r0"
 
