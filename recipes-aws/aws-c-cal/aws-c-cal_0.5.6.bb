@@ -16,9 +16,12 @@ RDEPENDS_${PN} += " \
 "
 
 SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+    git://github.com/awslabs/${BPN}.git;branch=main \
     file://Build-static-and-shared-libs.patch \
 "
+
+# v0.5.6
+SRCREV = "936ec2c9c5ef9f2eff3fea37b5a83fd15924c4b4"
 
 PR = "r0"
 

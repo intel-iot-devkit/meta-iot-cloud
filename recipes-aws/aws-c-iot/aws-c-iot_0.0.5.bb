@@ -10,9 +10,12 @@ DEPENDS += "\
     aws-c-mqtt \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
            file://Build-static-and-shared-libs.patch \
 "
+
+# v0.0.5
+SRCREV = "f2057934f5ea9072c47d42babe77e8d241982c90"
 
 PR = "r0"
 

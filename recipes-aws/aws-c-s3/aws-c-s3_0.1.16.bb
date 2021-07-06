@@ -10,9 +10,12 @@ DEPENDS += "\
     aws-c-auth \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
            file://Build-static-and-shared-libs.patch \
 "
+
+# v0.1.16
+SRCREV = "cab7afd181c22029f3d0a9a3675c597c12c2aa8d"
 
 PR = "r0"
 

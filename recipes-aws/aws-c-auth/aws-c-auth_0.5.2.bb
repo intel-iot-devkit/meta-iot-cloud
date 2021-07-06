@@ -11,9 +11,12 @@ DEPENDS += "\
     aws-c-http \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
            file://Build-static-and-shared-libs.patch \
 "
+
+# v0.5.2
+SRCREV = "c74534c13264868bbbd14b419c291580d3dd9141"
 
 PR = "r0"
 
