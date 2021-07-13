@@ -11,4 +11,6 @@ FILES_${PN}-dev += "\
     ${exec_prefix}/cmake \
 "
 
+ALLOW_EMPTY_${PN} = "1"
+
 BBCLASSEXTEND = "native nativesdk"
