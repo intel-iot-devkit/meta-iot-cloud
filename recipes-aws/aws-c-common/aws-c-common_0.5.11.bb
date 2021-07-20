@@ -8,6 +8,7 @@ inherit cmake
 
 SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
            file://Build-static-and-shared-libs.patch \
+           file://0001-priority_queue.c-fix-compile-error-with-Og.patch \
 "
 
 # v0.5.11
