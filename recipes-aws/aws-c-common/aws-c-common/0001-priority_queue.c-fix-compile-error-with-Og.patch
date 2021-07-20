@@ -1,0 +1,36 @@
+priority_queue.c: fix compile error with -Og
+
+It fails to compile with gcc option '-Og':
+
+| aws-c-common/0.5.11-r0/git/source/priority_queue.c:116:13:
+   error: 'parent_item' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|   116 |         if (queue->pred(parent_item, child_item) > 0) {
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| cc1: all warnings being treated as errors
+
+Initialize variables with NULL to fix the issue.
+
+Upstream-Status: Submitted [https://github.com/awslabs/aws-c-common/pull/828]
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ source/priority_queue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/source/priority_queue.c b/source/priority_queue.c
+index 14ff421..f7d0f54 100644
+--- a/source/priority_queue.c
++++ b/source/priority_queue.c
+@@ -100,7 +100,7 @@ static bool s_sift_up(struct aws_priority_queue *queue, size_t index) {
+ 
+     bool did_move = false;
+ 
+-    void *parent_item, *child_item;
++    void *parent_item = NULL, *child_item = NULL;
+     size_t parent = PARENT_OF(index);
+     while (index) {
+         /*
+-- 
+2.17.1
+
