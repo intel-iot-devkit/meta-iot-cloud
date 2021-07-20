@@ -1,0 +1,29 @@
+From 09e1b29ac4fecedc50e442d6d535ac76db364d95 Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 20 Jul 2021 19:43:31 +0000
+Subject: [PATCH] samples/CMakeLists.txt: Add it to build samples
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ samples/CMakeLists.txt | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 samples/CMakeLists.txt
+
+diff --git a/samples/CMakeLists.txt b/samples/CMakeLists.txt
+new file mode 100644
+index 0000000..d3f9573
+--- /dev/null
++++ b/samples/CMakeLists.txt
+@@ -0,0 +1,9 @@
++project(aws-iot-device-sdk-cpp-v2-samples)
++
++add_subdirectory(shadow/shadow_sync)
++add_subdirectory(identity/fleet_provisioning)
++add_subdirectory(jobs/describe_job_execution)
++add_subdirectory(mqtt/basic_pub_sub)
++add_subdirectory(mqtt/raw_pub_sub)
++add_subdirectory(greengrass/basic_discovery)
++add_subdirectory(secure_tunneling)
+-- 
+2.29.2
+
