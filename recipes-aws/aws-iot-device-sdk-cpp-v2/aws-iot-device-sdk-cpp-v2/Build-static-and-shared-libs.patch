@@ -541,7 +541,7 @@ index fd8eef9..ec62035 100644
 -    include(${CMAKE_CURRENT_LIST_DIR}/static/@PROJECT_NAME@-targets.cmake)
 -endif()
 \ No newline at end of file
-+include(${CMAKE_CURRENT_LIST_DIR}/shared/@PROJECT_NAME@-targets.cmake)
++include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
 \ No newline at end of file
 diff --git a/jobs/CMakeLists.txt b/jobs/CMakeLists.txt
 index d410c5a..8210474 100644
