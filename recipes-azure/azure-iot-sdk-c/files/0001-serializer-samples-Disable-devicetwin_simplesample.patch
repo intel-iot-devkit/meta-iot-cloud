@@ -1,0 +1,36 @@
+From 0b25c187e9fbe8b1cf88ad7d91cd5292b5b9f868 Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Wed, 28 Jul 2021 10:24:45 +0000
+Subject: [PATCH] serializer/samples: Disable devicetwin_simplesample
+
+There is a wild error when compile it:
+$ $CC devicetwin_simplesample.c
+devicetwin_simplesample.c:54:1: error: macro "MU_IF1" requires 2 arguments, but only 1 given
+devicetwin_simplesample.c:54:1: error: macro "MU_IF1" passed 5 arguments, but takes just 2
+
+It reports two different errors in the same line with one compile command, I
+used "gcc -E", but can't figure out the reason, the macro definitions are very
+complicated which may make it not work for cross compiling, so disable it.
+
+Upstream-Statu : Inappropriate [OE-Specific]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ serializer/samples/CMakeLists.txt | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/serializer/samples/CMakeLists.txt b/serializer/samples/CMakeLists.txt
+index 991eb283..d442e77a 100644
+--- a/serializer/samples/CMakeLists.txt
++++ b/serializer/samples/CMakeLists.txt
+@@ -30,7 +30,3 @@ if(${use_mqtt} AND (NOT DEFINED use_mqtt_kit OR NOT ${use_mqtt_kit}))
+    add_sample_directory(simplesample_mqtt)
+    add_sample_directory(devicemethod_simplesample)
+ endif()
+-
+-if((${use_mqtt} AND (NOT DEFINED use_mqtt_kit OR NOT ${use_mqtt_kit})) AND (${use_amqp} AND (NOT DEFINED use_amqp_kit OR NOT ${use_amqp_kit})))
+-   add_sample_directory(devicetwin_simplesample)
+-endif()
+-- 
+2.29.2
+

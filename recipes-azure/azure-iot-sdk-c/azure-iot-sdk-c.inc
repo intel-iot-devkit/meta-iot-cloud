@@ -8,6 +8,7 @@ DEPENDS = "\
 SRC_URI += "\
     file://Fix-cmake-build-issues.patch \
     file://Use-provided-parson-lib.patch \
+    file://0001-serializer-samples-Disable-devicetwin_simplesample.patch \
 "
 
 S = "${WORKDIR}/git"
