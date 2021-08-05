@@ -8,7 +8,7 @@ inherit pypi
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-json \
@@ -17,7 +17,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-netclient \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-aiohttp \
     ${PYTHON_PN}-google-crc32c \
     ${PYTHON_PN}-six \

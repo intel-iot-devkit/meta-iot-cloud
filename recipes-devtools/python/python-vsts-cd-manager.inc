@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/${BPN}-${PV}-license;md5=27e94c0280987ab29
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-netclient \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-msrest \
 "
 

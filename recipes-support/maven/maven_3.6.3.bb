@@ -54,7 +54,7 @@ shell_do_install() {
     ln -sf ${D}${libdir}/${BPN}/bin/mvn ${D}${bindir}/mvn
 }
 
-FILES_${PN} = "\
+FILES:${PN} = "\
     ${libdir} \
     ${bindir} \
 "

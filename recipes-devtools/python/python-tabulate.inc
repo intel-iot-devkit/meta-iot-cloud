@@ -4,7 +4,7 @@ HOMEPAGE = "https://bitbucket.org/astanin/python-tabulate"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d66f6ca88dd4fcb1818a28e3c63c1d2e"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-wcwidth \
 "
 

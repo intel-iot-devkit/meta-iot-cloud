@@ -9,7 +9,7 @@ DEPENDS += "\
     ${PYTHON_PN}-setuptools-scm-git-archive-native \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-email \
     ${PYTHON_PN}-fcntl \
     ${PYTHON_PN}-io \
@@ -17,7 +17,7 @@ RDEPENDS_${PN} += " \
     ${PYTHON_PN}-unixadmin \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-pyopenssl \
     ${PYTHON_PN}-six \
 "

@@ -11,7 +11,7 @@ DEPENDS += "\
     openssl \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     libcrypto \
 "
 

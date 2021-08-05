@@ -18,6 +18,6 @@ EXTRA_OECMAKE = "\
     -DBUILD_SHARED_LIBS:BOOL=ON \
 "
 
-FILES_${PN}-dev += "\
+FILES:${PN}-dev += "\
     ${libdir}/cmake \
 "

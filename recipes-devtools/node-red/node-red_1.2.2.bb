@@ -15,7 +15,7 @@ SRC_URI = "\
 
 S = "${WORKDIR}/npm"
 
-do_install_append() {
+do_install:append() {
     # Service
     install -d ${D}${systemd_unitdir}/system/
     install -m 0644 ${WORKDIR}/${BPN}.service ${D}${systemd_unitdir}/system/
@@ -28,8 +28,8 @@ do_install_append() {
 inherit systemd
 
 SYSTEMD_AUTO_ENABLE = "enable"
-SYSTEMD_SERVICE_${PN} = "${BPN}.service"
+SYSTEMD_SERVICE:${PN} = "${BPN}.service"
 
-FILES_${PN} += "\
+FILES:${PN} += "\
     ${systemd_unitdir} \
 "

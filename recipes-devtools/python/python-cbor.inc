@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://setup.py;beginline=2;endline=14;md5=1298a5e04a7217757
 
 PR = "r0"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-logging \

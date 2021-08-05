@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "921a37e2aefc64145e7b73d50c71bb4f26f46e4c9f414dc648c6245ff9
 
 inherit pypi
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-math \

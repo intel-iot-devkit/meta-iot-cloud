@@ -8,13 +8,13 @@ DEPENDS += "\
     ${PYTHON_PN}-setuptools-scm-native \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-math \
     ${PYTHON_PN}-numbers \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-jaraco-functools \
     ${PYTHON_PN}-pytz \
     ${PYTHON_PN}-six \

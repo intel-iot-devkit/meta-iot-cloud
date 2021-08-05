@@ -4,7 +4,7 @@ AUTHOR = "James Bardin"
 LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=fc264c65fb17b7db5237cf7ce1780769"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-io \
 "
 

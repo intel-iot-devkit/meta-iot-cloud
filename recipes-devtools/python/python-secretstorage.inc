@@ -4,13 +4,13 @@ HOMEPAGE = "https://github.com/mitya57/secretstorage"
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-math \
     ${PYTHON_PN}-netclient \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-cryptography \
 "
 

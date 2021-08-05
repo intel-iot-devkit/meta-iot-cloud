@@ -8,13 +8,13 @@ SRC_URI[sha256sum] = "9736a16227c3d469e5d2d296bce5b4d8fa8d7851e953bda327a455fc29
 
 inherit pypi
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-shell \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-six \
     ${PYTHON_PN}-termcolor \
 "

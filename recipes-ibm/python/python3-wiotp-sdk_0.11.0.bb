@@ -8,7 +8,7 @@ inherit pypi setuptools3
 
 PR = "r0"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-io \
@@ -18,7 +18,7 @@ RDEPENDS_${PN} = "\
     ${PYTHON_PN}-netclient \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-iso8601 \
     ${PYTHON_PN}-paho-mqtt \
     ${PYTHON_PN}-pytz \

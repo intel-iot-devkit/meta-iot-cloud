@@ -8,7 +8,7 @@ inherit pypi
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-io \
@@ -18,7 +18,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-numbers \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-aiohttp \
     ${PYTHON_PN}-cachetools \
     ${PYTHON_PN}-pyasn1-modules \

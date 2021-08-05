@@ -1,7 +1,7 @@
 inherit pypi setuptools3 update-alternatives
 require python-argcomplete.inc
 
-ALTERNATIVE_${PN} = "\
+ALTERNATIVE:${PN} = "\
     activate-global-python-argcomplete \
     python-argcomplete-check-easy-install-script \
     register-python-argcomplete \

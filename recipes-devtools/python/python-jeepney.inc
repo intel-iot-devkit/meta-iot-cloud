@@ -6,13 +6,13 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aad69c93f605003e3342b174d9b0708c"
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-xml \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-tornado \
 "
 

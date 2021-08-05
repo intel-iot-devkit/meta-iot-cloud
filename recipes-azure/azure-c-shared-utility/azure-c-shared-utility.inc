@@ -8,7 +8,7 @@ DEPENDS = "\
     util-linux \
 "
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     util-linux-libuuid \
 "
 
@@ -28,11 +28,11 @@ EXTRA_OECMAKE = "\
     -Drun_unittests:BOOL=OFF \
 "
 
-sysroot_stage_all_append () {
+sysroot_stage_all:append () {
     sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 }
 
-FILES_${PN}-dev += "\
+FILES:${PN}-dev += "\
     ${exec_prefix}/cmake \
 "
 

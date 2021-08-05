@@ -1,6 +1,6 @@
 inherit update-alternatives
 
-ALTERNATIVE_${PN} = "\
+ALTERNATIVE:${PN} = "\
     rst2html \
     rst2html4 \
     rst2html5 \
