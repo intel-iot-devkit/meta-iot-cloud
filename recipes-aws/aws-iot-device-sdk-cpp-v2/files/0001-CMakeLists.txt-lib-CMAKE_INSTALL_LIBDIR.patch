@@ -1,0 +1,63 @@
+From ebb24b827158002c65da8393a05923774049f64d Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 5 Aug 2021 07:38:26 +0000
+Subject: [PATCH] CMakeLists.txt: lib -> CMAKE_INSTALL_LIBDIR
+
+Fix the hard code of lib.
+
+Upstream-Status: Backport
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ discovery/CMakeLists.txt |    2 +-
+ identity/CMakeLists.txt  |    2 +-
+ jobs/CMakeLists.txt      |    2 +-
+ shadow/CMakeLists.txt    |    2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+
+diff --git a/discovery/CMakeLists.txt b/discovery/CMakeLists.txt
+index 9733a1b..28cc5e6 100644
+--- a/discovery/CMakeLists.txt
++++ b/discovery/CMakeLists.txt
+@@ -114,6 +114,6 @@ configure_file("cmake/Discovery-cpp-config.cmake"
+         @ONLY)
+ 
+ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/Discovery-cpp-config.cmake"
+-        DESTINATION "lib/Discovery-cpp/cmake/"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/Discovery-cpp/cmake/"
+         COMPONENT Development)
+ 
+diff --git a/identity/CMakeLists.txt b/identity/CMakeLists.txt
+index d9ff8b8..40126e9 100644
+--- a/identity/CMakeLists.txt
++++ b/identity/CMakeLists.txt
+@@ -114,5 +114,5 @@ configure_file("cmake/IotIdentity-cpp-config.cmake"
+         @ONLY)
+ 
+ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/IotIdentity-cpp-config.cmake"
+-        DESTINATION "lib/IotIdentity-cpp/cmake/"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotIdentity-cpp/cmake/"
+         COMPONENT Development)
+diff --git a/jobs/CMakeLists.txt b/jobs/CMakeLists.txt
+index 2ab2615..73b94a6 100644
+--- a/jobs/CMakeLists.txt
++++ b/jobs/CMakeLists.txt
+@@ -114,5 +114,5 @@ configure_file("cmake/IotJobs-cpp-config.cmake"
+         @ONLY)
+ 
+ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/IotJobs-cpp-config.cmake"
+-        DESTINATION "lib/IotJobs-cpp/cmake/"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotJobs-cpp/cmake/"
+         COMPONENT Development)
+diff --git a/shadow/CMakeLists.txt b/shadow/CMakeLists.txt
+index 010e4a2..a51adc6 100644
+--- a/shadow/CMakeLists.txt
++++ b/shadow/CMakeLists.txt
+@@ -114,5 +114,5 @@ configure_file("cmake/IotShadow-cpp-config.cmake"
+         @ONLY)
+ 
+ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/IotShadow-cpp-config.cmake"
+-        DESTINATION "lib/IotShadow-cpp/cmake/"
++        DESTINATION "${CMAKE_INSTALL_LIBDIR}/IotShadow-cpp/cmake/"
+         COMPONENT Development)

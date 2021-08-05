@@ -13,6 +13,7 @@ DEPENDS += "\
 SRC_URI = "\
     git://github.com/aws/${BPN}.git;branch=main \
     file://Add-library-versioning.patch \
+    file://0001-CMakeLists.txt-lib-CMAKE_INSTALL_LIBDIR.patch \
 "
 
 # v1.8.4
@@ -24,10 +25,26 @@ S = "${WORKDIR}/git"
 
 EXTRA_OECMAKE += "\
     -DBUILD_DEPS=OFF \
-    -DBUILD_SAMPLES=OFF \
+    -DBUILD_SAMPLES=ON \
     -DBUILD_SHARED_LIBS=ON \
     -DBUILD_TESTING=OFF \
     -DCMAKE_PREFIX_PATH=${RECIPE_SYSROOT}/usr \
+"
+
+PACKAGE_BEFORE_PN += "${PN}-samples"
+
+do_install_append() {
+    # Install samples
+    for sample in `find ${B} -perm 0755 -type f -path '*/samples/*'`; do
+        if [ ! -e ${D}${bindir} ]; then
+            install -m 0755 -d ${D}${bindir}
+        fi
+        install -m 0755 $sample ${D}${bindir}
+    done
+}
+
+FILES_${PN}-samples += " \
+    ${bindir} \
 "
 
 FILES_${PN} += "\
