@@ -16,7 +16,7 @@ SRCREV = "c69134d01746dcf551dd7724b4edb12f922eb0d1"
 
 S = "${WORKDIR}/git"
 
-FILES_${PN}-dev += "\
+FILES:${PN}-dev += "\
     ${libdir}/cmake \
 "
 

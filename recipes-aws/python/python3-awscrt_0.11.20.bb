@@ -21,7 +21,7 @@ DEPENDS += "\
     s2n \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-netclient \

@@ -10,7 +10,7 @@ DEPENDS += "\
     ${PYTHON_PN}-setuptools-scm-native \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-setuptools-scm \
 "
 

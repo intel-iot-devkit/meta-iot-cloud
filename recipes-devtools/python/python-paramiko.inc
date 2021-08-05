@@ -4,7 +4,7 @@ AUTHOR = "Jeff Forcier"
 LICENSE = "LGPL-2.1"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-fcntl \
     ${PYTHON_PN}-io \
@@ -15,7 +15,7 @@ RDEPENDS_${PN} += "\
 "
 
 # No support for GSS-API / SSPI and Ed25519 keys
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-cryptography \
 "
 

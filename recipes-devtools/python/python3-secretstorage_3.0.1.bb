@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c49a7ec562572351456ea021b15dc882"
 inherit setuptools3
 require python-secretstorage.inc
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-jeepney \
 "
 

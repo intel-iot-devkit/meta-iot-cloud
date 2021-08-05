@@ -8,7 +8,7 @@ inherit pypi
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-email \
@@ -17,7 +17,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-netclient \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-google-auth \
     ${PYTHON_PN}-google-cloud-core \
     ${PYTHON_PN}-google-resumable-media \

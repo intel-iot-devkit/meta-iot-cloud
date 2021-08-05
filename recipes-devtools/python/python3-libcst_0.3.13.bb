@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=acf9a070872c4bc6e8cffc2e9fbd4b8e"
 
 inherit pypi setuptools3
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-difflib \
     ${PYTHON_PN}-distutils \
     ${PYTHON_PN}-json \
@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-threading \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-pyyaml \
     ${PYTHON_PN}-typing-extensions \
     ${PYTHON_PN}-typing-inspect \

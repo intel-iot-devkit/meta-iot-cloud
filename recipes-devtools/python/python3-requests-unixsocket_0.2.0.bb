@@ -10,12 +10,12 @@ DEPENDS += "\
     python3-pbr-native \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     python3-requests \
     python3-urllib3 \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     python3-io \
 "
 

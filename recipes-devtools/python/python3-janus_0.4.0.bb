@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=23878c357ebb4c8ce1109be365043349"
 
 inherit pypi setuptools3
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-threading \

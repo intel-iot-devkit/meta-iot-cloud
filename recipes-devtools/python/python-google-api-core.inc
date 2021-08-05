@@ -8,14 +8,14 @@ inherit pypi
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-math \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-googleapis-common-protos \
     ${PYTHON_PN}-google-auth \
     ${PYTHON_PN}-grpcio \

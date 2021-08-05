@@ -5,18 +5,18 @@ SECTION = "devel/python"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=90976c1a0e3029278f882cfe2e84a6ae"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-six \
     ${PYTHON_PN}-repoze-lru \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-webob \
 "
 
-RPROVIDES_${PN} += "routes"
-RREPLACES_${PN} += "routes"
-RCONFLICTS_${PN} += "routes"
+RPROVIDES:${PN} += "routes"
+RREPLACES:${PN} += "routes"
+RCONFLICTS:${PN} += "routes"
 
 PR = "r2"
 

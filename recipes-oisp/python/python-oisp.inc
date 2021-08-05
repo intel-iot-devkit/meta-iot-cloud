@@ -4,13 +4,13 @@ HOMEPAGE = "https://github.com/Open-IoT-Service-Platform/oisp-sdk-python"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://setup.py;beginline=1;endline=26;md5=de80b0f7718e1ddbed2ace2fe1f1c8ff"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-cbor \
     ${PYTHON_PN}-requests \
     ${PYTHON_PN}-termcolor \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-datetime \
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-logging \

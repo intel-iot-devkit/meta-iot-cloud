@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7970352423db76abb33cbe303884afbf"
 
 inherit pypi
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-compression \
     ${PYTHON_PN}-ctypes \
     ${PYTHON_PN}-datetime \
@@ -24,7 +24,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-xml \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     groff \
     less \
     ${PYTHON_PN}-botocore \

@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/${BPN}-${PV}-license;md5=56e5e931172b6164b
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-compression \
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-datetime \

@@ -8,7 +8,7 @@ inherit pypi
 
 PR = "r0"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-google-api-core \
     ${PYTHON_PN}-grpc-google-iam-v1 \
     ${PYTHON_PN}-libcst \

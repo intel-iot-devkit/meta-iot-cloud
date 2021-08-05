@@ -5,7 +5,7 @@ HOMEPAGE = "https://rclone.org/"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://src/github.com/rclone/rclone/COPYING;md5=bed161b82a1ecab65ff7ba3c3b960439"
 
-RDEPENDS_${PN}-dev = "\
+RDEPENDS:${PN}-dev = "\
     bash \
     python3-core \
 "
@@ -18,7 +18,7 @@ SRC_URI = "git://${GO_IMPORT};branch=v1.53-stable;tag=v${PV}"
 
 PR = "r0"
 
-do_install_prepend(){
+do_install:prepend(){
     rm -f ${B}/${GO_BUILD_BINDIR}/bin
     rm -f ${B}/${GO_BUILD_BINDIR}/build_csv
     rm -f ${B}/${GO_BUILD_BINDIR}/gen
@@ -26,4 +26,4 @@ do_install_prepend(){
     rm -f ${B}/${GO_BUILD_BINDIR}/test_vfs
 }
 
-INSANE_SKIP_${PN}-staticdev += "arch ldflags"
+INSANE_SKIP:${PN}-staticdev += "arch ldflags"

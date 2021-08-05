@@ -12,9 +12,9 @@ SRC_URI = "git://${GO_IMPORT};tag=v${PV}"
 
 PR = "r0"
 
-do_install_prepend(){
+do_install:prepend(){
     rm -f ${B}/${GO_BUILD_BINDIR}/build-release-binaries
     rm -f ${B}/${GO_BUILD_BINDIR}/prepare-release
 }
 
-INSANE_SKIP_${PN}-staticdev += "arch ldflags"
+INSANE_SKIP:${PN}-staticdev += "arch ldflags"

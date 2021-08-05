@@ -4,7 +4,7 @@ AUTHOR = "Pahaz Blinov"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=099ee2b925d98c72f52684df6fa3ac9f"
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-io \
     ${PYTHON_PN}-logging \
     ${PYTHON_PN}-netserver \
@@ -12,7 +12,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-unixadmin \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
     ${PYTHON_PN}-paramiko \
 "
 

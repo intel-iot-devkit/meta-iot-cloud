@@ -30,7 +30,7 @@ EXTRA_OECMAKE = "\
     -Dbuild_provisioning_service_client:BOOL=OFF \
 "
 
-do_install_append() {
+do_install:append() {
     # Install samples
     for sample in `find ${B} -perm 0755 -type f -path '*/samples/*'`; do
         if [ ! -e ${D}${bindir} ]; then
@@ -40,15 +40,15 @@ do_install_append() {
     done
 }
 
-sysroot_stage_all_append () {
+sysroot_stage_all:append () {
     sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
 }
 
-FILES_${PN}-dev += "\
+FILES:${PN}-dev += "\
     ${exec_prefix}/cmake \
 "
 
-FILES_${PN}-samples += " \
+FILES:${PN}-samples += " \
     ${bindir} \
 "
 

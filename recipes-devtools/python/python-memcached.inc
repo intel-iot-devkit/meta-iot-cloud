@@ -7,12 +7,12 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/${BPN}-${PV}-license;md5=7dd786e8594f1e787
 
 PYPI_PACKAGE = "python-memcached"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-doctest \
     ${PYTHON_PN}-io \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-six \
 "
 

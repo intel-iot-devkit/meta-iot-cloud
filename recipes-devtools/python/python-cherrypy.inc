@@ -10,7 +10,7 @@ DEPENDS += "\
     ${PYTHON_PN}-setuptools-scm-native \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-compression \
     ${PYTHON_PN}-crypt \
     ${PYTHON_PN}-datetime \
@@ -28,7 +28,7 @@ RDEPENDS_${PN} += " \
     ${PYTHON_PN}-unixadmin \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PYTHON_PN}-cheroot \
     ${PYTHON_PN}-contextlib2 \
     ${PYTHON_PN}-memcached \
