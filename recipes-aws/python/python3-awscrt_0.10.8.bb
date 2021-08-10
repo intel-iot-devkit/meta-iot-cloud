@@ -25,6 +25,8 @@ SRC_URI[sha256sum] = "c6859e35c57922f175b587e02bfb662ce30a06c9aa688a7303112c91e2
 do_configure_prepend() {
     sed -i \
         -e 's:AWS_LIBCRYPTO_INSTALL = None:AWS_LIBCRYPTO_INSTALL = "${RECIPE_SYSROOT}/usr":' \
-        -e 's:/lib/:${base_libdir}/:' \
         ${S}/setup.py
+    if !${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','false',d)}; then
+        sed -i -e 's:/lib/:${libdir}/:' ${S}/setup.py
+    fi
 }
