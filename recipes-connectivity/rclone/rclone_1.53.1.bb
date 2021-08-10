@@ -14,9 +14,9 @@ inherit go-mod
 
 GO_IMPORT = "github.com/rclone/rclone"
 
-SRC_URI = "git://${GO_IMPORT};branch=v1.53-stable;tag=v${PV}"
+SRC_URI = "git://${GO_IMPORT};branch=v1.53-stable"
 
-PR = "r0"
+SRCREV = "043016318039f1aea3f004147c996e38db33d9c3"
 
 do_install_prepend(){
     rm -f ${B}/${GO_BUILD_BINDIR}/bin

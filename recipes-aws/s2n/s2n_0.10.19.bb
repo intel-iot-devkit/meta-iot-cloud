@@ -11,11 +11,11 @@ DEPENDS += "\
 "
 
 SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main;tag=v${PV} \
+    git://github.com/awslabs/${BPN}.git;branch=main \
     file://Fix-packaging-issues.patch \
 "
 
-PR = "r0"
+SRCREV = "bf2db43b5ac5cc11d536bb8547c1a88bbb474360"
 
 S = "${WORKDIR}/git"
 

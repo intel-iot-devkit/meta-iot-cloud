@@ -8,9 +8,9 @@ inherit go-mod
 
 GO_IMPORT = "github.com/restic/restic"
 
-SRC_URI = "git://${GO_IMPORT};tag=v${PV}"
+SRC_URI = "git://${GO_IMPORT}"
 
-PR = "r0"
+SRCREV = "40832b2927ab441f8b46561379e6e58b565db4dd"
 
 do_install_prepend(){
     rm -f ${B}/${GO_BUILD_BINDIR}/build-release-binaries
