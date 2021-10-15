@@ -20,10 +20,8 @@ SRC_URI = "\
     file://Build-static-and-shared-libs.patch \
 "
 
-# v0.5.6
-SRCREV = "936ec2c9c5ef9f2eff3fea37b5a83fd15924c4b4"
-
-PR = "r0"
+# v0.5.12
+SRCREV = "c4c5b175e05f2affe5e3f0203ca6c8bc5cdd8f51"
 
 S = "${WORKDIR}/git"
 

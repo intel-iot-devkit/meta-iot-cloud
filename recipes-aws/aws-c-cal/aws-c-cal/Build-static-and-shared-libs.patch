@@ -1,4 +1,4 @@
-From 59e5f68b9bff280eb45632da3ac408e36460aa99 Mon Sep 17 00:00:00 2001
+From 261af767b9a2041d3e1bcb9bbe4c887f50ef850e Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 14 May 2021 14:29:17 +0100
 Subject: [PATCH] Build static and shared libs
@@ -10,10 +10,10 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  2 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index cdb7e6e..b6b15fa 100644
+index d1bd9f6..af50925 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -106,32 +106,46 @@ file(GLOB CAL_SRC
+@@ -117,32 +117,46 @@ file(GLOB CAL_SRC
          ${AWS_CAL_OS_SRC}
  )
  
@@ -35,8 +35,8 @@ index cdb7e6e..b6b15fa 100644
  if (BYO_CRYPTO)
      target_compile_definitions(${PROJECT_NAME} PRIVATE -DBYO_CRYPTO)
  elseif (NOT WIN32 AND NOT APPLE)
-     target_include_directories(${PROJECT_NAME} PRIVATE ${CRYPTO_INCLUDE_DIR})
-+    target_include_directories(${PROJECT_NAME}_static PRIVATE ${CRYPTO_INCLUDE_DIR})
+     target_include_directories(${PROJECT_NAME} PRIVATE $<TARGET_PROPERTY:crypto,INTERFACE_INCLUDE_DIRECTORIES>)
++    target_include_directories(${PROJECT_NAME}_static PRIVATE $<TARGET_PROPERTY:crypto,INTERFACE_INCLUDE_DIRECTORIES>)
  endif()
  
  # Our ABI is not yet stable
@@ -61,7 +61,7 @@ index cdb7e6e..b6b15fa 100644
  
  configure_file("cmake/${PROJECT_NAME}-config.cmake"
    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
-@@ -140,14 +154,8 @@ configure_file("cmake/${PROJECT_NAME}-config.cmake"
+@@ -151,14 +165,8 @@ configure_file("cmake/${PROJECT_NAME}-config.cmake"
  aws_check_headers(${PROJECT_NAME} ${AWS_CAL_HEADERS})
  install(FILES ${AWS_CAL_HEADERS} DESTINATION "include/aws/cal" COMPONENT Development)
  
@@ -92,3 +92,6 @@ index 73e7311..4ff54a6 100644
 -endif()
 +include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
  
+-- 
+2.17.1
+
