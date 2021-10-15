@@ -24,7 +24,7 @@ SRCREV = "4513f8d707a68388990886d353e7cfe46cc6454b"
 S = "${WORKDIR}/git"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
-TARGET_CFLAGS += "-Wno-error=array-parameter"
+TARGET_CFLAGS += "-Wno-error=array-parameter -Wno-error=discarded-qualifiers"
 
 EXTRA_OECMAKE += "\
     -DBUILD_TESTING=OFF \
