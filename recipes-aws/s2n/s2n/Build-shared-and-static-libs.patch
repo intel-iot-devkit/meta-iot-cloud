@@ -1,19 +1,20 @@
-From c189d4d4963e0998738e96946ebe46e4e37d849b Mon Sep 17 00:00:00 2001
+From abb47f580402430a59a6091b6540cc77e4570776 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Tue, 18 May 2021 22:17:32 +0100
 Subject: [PATCH] Build shared and static libs
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+
 ---
- CMakeLists.txt         | 48 ++++++++++++++++++++++++++++++------------
+ CMakeLists.txt         | 49 +++++++++++++++++++++++++++++++++++-------
  cmake/s2n-config.cmake |  6 +-----
- 2 files changed, 36 insertions(+), 18 deletions(-)
+ 2 files changed, 42 insertions(+), 13 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 08526763..6183e1e8 100644
+index d43dc480..f6d334d7 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -191,21 +191,25 @@ file(GLOB S2N_SRC
+@@ -275,24 +275,34 @@ file(GLOB S2N_SRC
      ${UTILS_SRC}
  )
  
@@ -26,7 +27,7 @@ index 08526763..6183e1e8 100644
 +
  set(CMAKE_C_FLAGS_DEBUGOPT "")
  
- target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts
+ target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Wimplicit -Wunused -Wcomment -Wchar-subscripts
          -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
          -Wno-missing-braces -Wa,--noexecstack
  )
@@ -35,27 +36,69 @@ index 08526763..6183e1e8 100644
 +        -Wno-missing-braces -Wa,--noexecstack
 +)
  
--if(BUILD_TESTING AND BUILD_SHARED_LIBS)
--    target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=default)
--else()
--    target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
--endif()
-+target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
-+target_compile_options(${PROJECT_NAME}_static PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
+ if (UNSAFE_TREAT_WARNINGS_AS_ERRORS)
+     target_compile_options(${PROJECT_NAME} PRIVATE -Werror )
++    target_compile_options(${PROJECT_NAME}_static PRIVATE -Werror )
+ endif ()
+ 
+ if(BUILD_TESTING AND BUILD_SHARED_LIBS)
+     target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=default)
++    target_compile_options(${PROJECT_NAME}_static PRIVATE -fvisibility=default)
+ else()
+     target_compile_options(${PROJECT_NAME} PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
++    target_compile_options(${PROJECT_NAME}_static PRIVATE -fvisibility=hidden -DS2N_EXPORTS)
+ endif()
  
  if(NOT APPLE)
-     set(CMAKE_SHARED_LINKER_FLAGS -Wl,-z,noexecstack,-z,relro,-z,now)
-@@ -213,58 +217,74 @@ endif()
+@@ -301,10 +311,12 @@ endif()
  
  if(S2N_NO_PQ)
      target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_NO_PQ)
 +    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_NO_PQ)
  endif()
  
- if(SIKEP434R2_ASM_SUPPORTED)
-     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_SIKEP434R2_ASM)
-+    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_SIKEP434R2_ASM)
-     message(STATUS "Enabling SIKEP434R2 assembly code")
+ if(SIKEP434R3_ASM_SUPPORTED)
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_SIKE_P434_R3_ASM)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_SIKE_P434_R3_ASM)
+     message(STATUS "Enabling SIKEP434R3 assembly code")
+ endif()
+ 
+@@ -316,24 +328,28 @@ if(BIKE_R3_X86_64_OPT_SUPPORTED)
+         FILE(GLOB BIKE_R3_AVX2_SRCS "pq-crypto/bike_r3/*_avx2.c")
+         set_source_files_properties(${BIKE_R3_AVX2_SRCS} PROPERTIES COMPILE_FLAGS -mavx2)
+         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_AVX2)
++	target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_BIKE_R3_AVX2)
+     endif()
+ 
+     if(BIKE_R3_AVX512_SUPPORTED)
+         FILE(GLOB BIKE_R3_AVX512_SRCS "pq-crypto/bike_r3/*_avx512.c")
+         set_source_files_properties(${BIKE_R3_AVX512_SRCS} PROPERTIES COMPILE_FLAGS ${BIKE_R3_AVX512_FLAGS})
+         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_AVX512)
++	target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_BIKE_R3_AVX512)
+     endif()
+ 
+     if(BIKE_R3_PCLMUL_SUPPORTED)
+         FILE(GLOB BIKE_R3_PCLMUL_SRCS "pq-crypto/bike_r3/*_pclmul.c")
+         set_source_files_properties(${BIKE_R3_PCLMUL_SRCS} PROPERTIES COMPILE_FLAGS ${BIKE_R3_PCLMUL_FLAGS})
+         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_PCLMUL)
++	target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_BIKE_R3_PCLMUL)
+     endif()
+ 
+     if(BIKE_R3_VPCLMUL_SUPPORTED)
+         FILE(GLOB BIKE_R3_VPCLMUL_SRCS "pq-crypto/bike_r3/*_vpclmul.c")
+         set_source_files_properties(${BIKE_R3_VPCLMUL_SRCS} PROPERTIES COMPILE_FLAGS ${BIKE_R3_VPCLMUL_FLAGS})
+         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_VPCLMUL)
++	target_compile_options(${PROJECT_NAME}_static PUBLIC -DS2N_BIKE_R3_VPCLMUL)
+     endif()
+ 
+     message(STATUS "Enabling BIKE_R3 x86_64 optimizations")
+@@ -343,44 +359,55 @@ if(KYBER512R3_AVX2_BMI2_OPT_SUPPORTED)
+     FILE(GLOB KYBER512R3_AVX2_BMI2_SRCS "pq-crypto/kyber_r3/*.c")
+     set_source_files_properties(${KYBER512R3_AVX2_BMI2_SRCS} PROPERTIES COMPILE_FLAGS ${KYBER512R3_AVX2_BMI2_FLAGS})
+     target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_KYBER512R3_AVX2_BMI2)
++    target_compile_options(${PROJECT_NAME}_static PUBLIC -DDS2N_KYBER512R3_AVX2_BMI2)
+ 
+     message(STATUS "Enabling Kyber_R3 x86_64 optimizations")
  endif()
  
  if(ADX_SUPPORTED)
@@ -105,22 +148,23 @@ index 08526763..6183e1e8 100644
  endif()
  
  set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+@@ -455,11 +482,15 @@ else()
+ endif()
  
- find_package(LibCrypto REQUIRED)
- target_link_libraries(${PROJECT_NAME} PUBLIC LibCrypto::Crypto ${OS_LIBS} m)
-+target_link_libraries(${PROJECT_NAME}_static PUBLIC LibCrypto::Crypto ${OS_LIBS} m)
+ target_link_libraries(${PROJECT_NAME} PUBLIC ${OS_LIBS} m)
++target_link_libraries(${PROJECT_NAME}_static PUBLIC ${OS_LIBS} m)
  
  target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
  target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api> $<INSTALL_INTERFACE:include>)
 +target_include_directories(${PROJECT_NAME}_static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 +target_include_directories(${PROJECT_NAME}_static PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/api> $<INSTALL_INTERFACE:include>)
  
- target_include_directories(${PROJECT_NAME} PRIVATE $<TARGET_PROPERTY:LibCrypto::Crypto,INTERFACE_INCLUDE_DIRECTORIES>)
-+target_include_directories(${PROJECT_NAME}_static PRIVATE $<TARGET_PROPERTY:LibCrypto::Crypto,INTERFACE_INCLUDE_DIRECTORIES>)
+ target_include_directories(${PROJECT_NAME} PRIVATE $<TARGET_PROPERTY:crypto,INTERFACE_INCLUDE_DIRECTORIES>)
++target_include_directories(${PROJECT_NAME}_static PRIVATE $<TARGET_PROPERTY:crypto,INTERFACE_INCLUDE_DIRECTORIES>)
  
  if (BUILD_TESTING)
      enable_testing()
-@@ -360,18 +380,20 @@ install(
+@@ -573,18 +604,20 @@ install(
          RUNTIME DESTINATION bin COMPONENT Runtime
  )
  

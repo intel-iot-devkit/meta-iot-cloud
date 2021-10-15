@@ -19,9 +19,7 @@ SRC_URI = "git://github.com/aws/s2n-tls.git;branch=main \
            file://Build-shared-and-static-libs.patch \
            "
 # v1.0.5
-SRCREV = "423dbf15aa63488e0789f681d37a186182c9cb93"
-
-PR = "r0"
+SRCREV = "4513f8d707a68388990886d353e7cfe46cc6454b"
 
 S = "${WORKDIR}/git"
 
