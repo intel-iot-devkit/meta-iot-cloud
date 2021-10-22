@@ -16,7 +16,7 @@ index f58303a6..d43dc480 100644
 @@ -1,5 +1,5 @@
  cmake_minimum_required (VERSION 3.0)
 -project (s2n C)
-+project (s2n VERSION 1.0.4 LANGUAGES C)
++project (s2n VERSION 1.1.0 LANGUAGES C)
  
  if(POLICY CMP0077)
      cmake_policy(SET CMP0077 NEW) #option does nothing when a normal variable of the same name exists.
