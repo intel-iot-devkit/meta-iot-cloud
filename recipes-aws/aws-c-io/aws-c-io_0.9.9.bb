@@ -12,7 +12,7 @@ DEPENDS += "\
     s2n \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;protocol=https;branch=main \
            file://Build-static-and-shared-libs.patch \
            "
 

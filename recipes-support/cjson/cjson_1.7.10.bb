@@ -9,7 +9,7 @@ inherit cmake pkgconfig
 PR = "r0"
 
 SRC_URI = "\
-    git://github.com/DaveGamble/cJSON.git \
+    git://github.com/DaveGamble/cJSON.git;protocol=https;branch=master \
 "
 
 SRCREV = "c69134d01746dcf551dd7724b4edb12f922eb0d1"

@@ -27,7 +27,7 @@ RDEPENDS:${PN} += "\
     ${PYTHON_PN}-netclient \
 "
 
-SRC_URI = "git://github.com/awslabs/aws-crt-python.git;branch=main"
+SRC_URI = "git://github.com/awslabs/aws-crt-python.git;protocol=https;branch=main"
 
 # v0.11.20
 SRCREV = "aa2cf25e5e4bd163e6e88844c8dadc65888b1d10"

@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 BRANCH = "lts_07_2020"
 SRC_URI = "\
-    git://github.com/Azure/azure-uamqp-c.git;branch=${BRANCH} \
+    git://github.com/Azure/azure-uamqp-c.git;protocol=https;branch=${BRANCH} \
 "
 
 SRCREV = "038b7e32d70bec2b9108f3e3ec999795729ec6fe"

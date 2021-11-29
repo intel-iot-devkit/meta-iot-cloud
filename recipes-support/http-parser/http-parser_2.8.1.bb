@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/nodejs/http-parser"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE-MIT;md5=9bfa835d048c194ab30487af8d7b3778"
 
-SRC_URI = "git://github.com/nodejs/http-parser.git"
+SRC_URI = "git://github.com/nodejs/http-parser.git;protocol=https;branch=main"
 SRCREV = "54f55a2f02a823e5f5c87abe853bb76d1170718d"
 
 PR = "r0"

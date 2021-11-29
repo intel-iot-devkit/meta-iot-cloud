@@ -20,7 +20,7 @@ RCONFLICTS:${PN} += "routes"
 
 PR = "r2"
 
-SRC_URI = "git://github.com/bbangert/routes.git"
+SRC_URI = "git://github.com/bbangert/routes.git;protocol=https;branch=main"
 SRCREV = "0900d346e5569018644dcee850d679de3c915efb"
 
 S = "${WORKDIR}/git"
