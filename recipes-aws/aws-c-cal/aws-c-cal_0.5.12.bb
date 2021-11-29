@@ -16,7 +16,7 @@ RDEPENDS:${PN} += " \
 "
 
 SRC_URI = "\
-    git://github.com/awslabs/${BPN}.git;branch=main \
+    git://github.com/awslabs/${BPN}.git;protocol=https;branch=main \
     file://Build-static-and-shared-libs.patch \
 "
 

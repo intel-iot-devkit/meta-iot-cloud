@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.txt;md5=8c6f370c9073badc24ad75afa6822bcb"
 
 PR = "r0"
 
-SRC_URI = "git://github.com/quandyfactory/dicttoxml.git"
+SRC_URI = "git://github.com/quandyfactory/dicttoxml.git;protocol=https;branch=master"
 SRCREV = "2016fe9817ad03b26aa5f1a475f5b79ad6757b96"
 
 S = "${WORKDIR}/git"

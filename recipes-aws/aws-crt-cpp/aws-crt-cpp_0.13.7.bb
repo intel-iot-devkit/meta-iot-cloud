@@ -17,7 +17,7 @@ DEPENDS += "\
     aws-checksums \
 "
 
-SRC_URI = "git://github.com/awslabs/${BPN}.git;branch=main;rev=318ff472a659f5e832812e1567697f9c43aedf13 \
+SRC_URI = "git://github.com/awslabs/${BPN}.git;protocol=https;branch=main;rev=318ff472a659f5e832812e1567697f9c43aedf13 \
            file://Add-library-versioning.patch \
            file://Build-static-and-shared-libs.patch \
            file://Update-cmake-config-file.patch \

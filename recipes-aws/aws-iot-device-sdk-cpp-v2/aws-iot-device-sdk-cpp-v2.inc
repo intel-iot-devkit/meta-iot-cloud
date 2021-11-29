@@ -11,7 +11,7 @@ DEPENDS += "\
     aws-c-iot \
 "
 
-SRC_URI = "git://github.com/aws/aws-iot-device-sdk-cpp-v2.git;branch=main \
+SRC_URI = "git://github.com/aws/aws-iot-device-sdk-cpp-v2.git;protocol=https;branch=main \
            file://Add-library-versioning-to-fix-packaging-issues.patch \
            file://Build-static-and-shared-libs.patch \
            file://0001-samples-mqtt-Install-binary-files.patch \

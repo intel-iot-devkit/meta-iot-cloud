@@ -14,7 +14,7 @@ RDEPENDS:${PN} += "\
     libcrypto \
 "
 
-SRC_URI = "git://github.com/aws/s2n-tls.git;branch=main \
+SRC_URI = "git://github.com/aws/s2n-tls.git;protocol=https;branch=main \
            file://Fix-packaging-issues.patch \
            file://Build-shared-and-static-libs.patch \
            "

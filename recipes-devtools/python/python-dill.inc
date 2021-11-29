@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=ca6e0344ddc8af7ac5897ed5f5cc0cc2"
 
 PR = "r0"
 
-SRC_URI = "git://github.com/uqfoundation/dill.git"
+SRC_URI = "git://github.com/uqfoundation/dill.git;protocol=https;branch=master"
 SRCREV = "afaeb815ecae56e9de6fe19f376deecdc272e32f"
 
 S = "${WORKDIR}/git"

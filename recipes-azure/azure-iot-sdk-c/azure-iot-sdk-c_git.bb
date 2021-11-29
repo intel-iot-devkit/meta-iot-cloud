@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 BRANCH = "lts_07_2020"
 SRC_URI = "\
-    git://github.com/Azure/azure-iot-sdk-c.git;branch=${BRANCH} \
+    git://github.com/Azure/azure-iot-sdk-c.git;protocol=https;branch=${BRANCH} \
 "
 
 SRCREV = "0528d52fc15767f4b3ba535ff35453d4e6b78f07"
