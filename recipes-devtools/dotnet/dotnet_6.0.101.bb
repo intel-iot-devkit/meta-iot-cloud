@@ -19,16 +19,16 @@ RDEPENDS:${PN}:remove:class-native = "libgssapi-krb5 lttng-ust"
 PR = "r0"
 
 SRC_ARCH:aarch64 = "arm64"
-SRC_FETCH_ID:aarch64 = "50c2990a-2b62-4a51-b3db-8dab334f81c9/e0edfb3905b31ab030a97fa64f48cc8e"
-SRC_SHA512SUM:aarch64 = "654e625627b35d9b8e4e5967c76485d0ff91769f5bb5429c99e0554c601426de1b26a5c37d32ab4bc227a15409c134757d5422944cf52c945b351c5927a28393"
+SRC_FETCH_ID:aarch64 = "d43345e2-f0d7-4866-b56e-419071f30ebe/68debcece0276e9b25a65ec5798cf07b"
+SRC_SHA512SUM:aarch64 = "04cd89279f412ae6b11170d1724c6ac42bb5d4fae8352020a1f28511086dd6d6af2106dd48ebe3b39d312a21ee8925115de51979687a9161819a3a29e270a954"
 
 SRC_ARCH:arm = "arm"
-SRC_FETCH_ID:arm = "4bbb3a8d-e32a-4822-81d8-b2c570414f0a/aa7659eac0f0c52316a0fa7aa7c2081a"
-SRC_SHA512SUM:arm = "9e507eac7d6598188766d6281ee8102c8f2b738611a4050cc7cbce7723591dce4b6e8d35588561741852f46a6f9af4fd4b715c328007a461cc5fb468d7ab0d8c"
+SRC_FETCH_ID:arm = "72888385-910d-4ef3-bae2-c08c28e42af0/59be90572fdcc10766f1baf5ac39529a"
+SRC_SHA512SUM:arm = "f9e212dc4cccbe665d9aac23da6bdddce4957ae4e4d407cf3f1d6da7e79784ebd408c3a59b3ecc6ceaa930b37cf01a4a91c6b38517970d49227e96e50658cc46"
 
 SRC_ARCH:x86-64 = "x64"
-SRC_FETCH_ID:x86-64 = "98563846-f949-4dc7-81a0-77016735bf08/56d5882a2046382fccb7db032f7d2a02"
-SRC_SHA512SUM:x86-64 = "724a8e6ed77d2d3b957b8e5eda82ca8c99152d8691d1779b4a637d9ff781775f983468ee46b0bc8ad0ddbfd9d537dd8decb6784f43edae72c9529a90767310d2"
+SRC_FETCH_ID:x86-64 = "ede8a287-3d61-4988-a356-32ff9129079e/bdb47b6b510ed0c4f0b132f7f4ad9d5a"
+SRC_SHA512SUM:x86-64 = "ca21345400bcaceadad6327345f5364e858059cfcbc1759f05d7df7701fec26f1ead297b6928afa01e46db6f84e50770c673146a10b9ff71e4c7f7bc76fbf709"
 
 SRC_URI[vardeps] += "SRC_FETCH_ID SRC_ARCH"
 SRC_URI[sha512sum] = "${SRC_SHA512SUM}"
@@ -38,7 +38,8 @@ SRC_URI = "https://download.visualstudio.microsoft.com/download/pr/${SRC_FETCH_I
 do_configure[noexec] = "1"
 do_compile[noexec] = "1"
 
-RUNTIME = "5.0.6"
+DOTNET_RUNTIME = "6.0.1"
+MANIFEST_VERSION = "6.0.100" 
 do_install[vardeps] += "RUNTIME"
 
 do_install() {
@@ -52,16 +53,19 @@ do_install() {
     install -m 0644 ${S}/ThirdPartyNotices.txt ${D}${datadir}/dotnet
 
     install -d ${D}${datadir}/dotnet/host/fxr
-    cp -r --no-preserve=ownership ${S}/host/fxr/${RUNTIME} ${D}${datadir}/dotnet/host/fxr
+    cp -r --no-preserve=ownership ${S}/host/fxr/${DOTNET_RUNTIME} ${D}${datadir}/dotnet/host/fxr
 
     install -d ${D}${datadir}/dotnet/sdk
     cp -r --no-preserve=ownership ${S}/sdk/${PV} ${D}${datadir}/dotnet/sdk
 
+    install -d ${D}${datadir}/dotnet/sdk-manifests
+    cp -r --no-preserve=ownership ${S}/sdk-manifests/${MANIFEST_VERSION} ${D}${datadir}/dotnet/sdk-manifests
+
     install -d ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
-    cp -r --no-preserve=ownership ${S}/shared/Microsoft.NETCore.App/${RUNTIME} ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
+    cp -r --no-preserve=ownership ${S}/shared/Microsoft.NETCore.App/${DOTNET_RUNTIME} ${D}${datadir}/dotnet/shared/Microsoft.NETCore.App
 
     install -d ${D}${datadir}/dotnet/shared/Microsoft.AspNetCore.App
-    cp -r --no-preserve=ownership ${S}/shared/Microsoft.AspNetCore.App/${RUNTIME} ${D}${datadir}/dotnet/shared/Microsoft.AspNetCore.App
+    cp -r --no-preserve=ownership ${S}/shared/Microsoft.AspNetCore.App/${DOTNET_RUNTIME} ${D}${datadir}/dotnet/shared/Microsoft.AspNetCore.App
 }
 
 FILES:${PN} += "\
@@ -85,3 +89,4 @@ RRECOMMENDS:dotnet-dev[nodeprrecs] = "1"
 INSANE_SKIP:${PN} = "already-stripped libdir staticdev textrel"
 
 BBCLASSEXTEND = "native"
+
