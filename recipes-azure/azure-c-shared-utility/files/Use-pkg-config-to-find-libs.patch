@@ -1,15 +1,28 @@
-From 03947c2a47bf7458ed093355e71a4f411a725330 Mon Sep 17 00:00:00 2001
+From fea2b8280b0889b5c03f628c498cae7125f2a64c Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Tue, 7 Apr 2020 20:59:53 +0100
-Subject: [PATCH 2/2] Use pkg-config to find libs
+Subject: [PATCH] Use pkg-config to find libs
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+
+Add link options to cmake configs. Other package (such as
+azure-iot-sdk-c) link library of azure-c-shared-utility
+with these options to avoid the following error
+...
+ld: iothub_client/libiothub_client.so.1.4.1: undefined reference to `ERR_load_BIO_strings'
+collect2: error: ld returned 1 exit status
+...
+
+Upstream-Status: Inappropriate [oe specific]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- CMakeLists.txt | 31 ++++++++++---------------------
- 1 file changed, 10 insertions(+), 21 deletions(-)
+ CMakeLists.txt                      | 31 ++++++++++-------------------
+ configs/azure_iot_build_rules.cmake |  5 +++++
+ 2 files changed, 15 insertions(+), 21 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 5251ffe..52ab416 100644
+index e7078fee..c8c0f9d5 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -116,9 +116,13 @@ if(${use_openssl})
@@ -67,6 +80,22 @@ index 5251ffe..52ab416 100644
      if (WIN32)
          set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 ws2_32 secur32)
      endif()
+diff --git a/configs/azure_iot_build_rules.cmake b/configs/azure_iot_build_rules.cmake
+index be3e14fe..4f85a2b8 100644
+--- a/configs/azure_iot_build_rules.cmake
++++ b/configs/azure_iot_build_rules.cmake
+@@ -76,6 +76,11 @@ elseif(UNIX) #LINUX OR APPLE
+     if(NOT (IN_OPENWRT OR APPLE))
+         set (CMAKE_C_FLAGS "-D_POSIX_C_SOURCE=200112L ${CMAKE_C_FLAGS}")
+     endif()
++
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lssl -lcrypto")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lssl -lcrypto")
++    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lcurl")
++    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lcurl")
+ endif()
+ 
+ enable_testing()
 -- 
-2.7.4
+2.27.0
 
