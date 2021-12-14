@@ -16,6 +16,7 @@ SRC_URI += "\
     file://Fix-packaging-issues.patch \
     file://Use-pkg-config-to-find-libs.patch \
     file://0001-hmac.c-fix-compile-error-for-digest-pointer-vs-array.patch \
+    file://0001-Fix-openssl-3.x-compatibility.patch \
 "
 
 S = "${WORKDIR}/git"
