@@ -1,6 +1,8 @@
 DESCRIPTION = "Packages for Microsoft Azure IoT."
 LICENSE = "MIT"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 
 PR = "r0"
@@ -23,3 +25,4 @@ PACKAGECONFIG[python] = "\
     , \
     python3-azure-iot-device \
 "
+
