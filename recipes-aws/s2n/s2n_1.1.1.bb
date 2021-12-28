@@ -16,6 +16,7 @@ RDEPENDS:${PN} += "\
 
 SRC_URI = "git://github.com/aws/s2n-tls.git;protocol=https;branch=main \
            file://Fix-packaging-issues.patch \
+           file://0001-Workaround-gcc-11-errors.patch \
            file://Build-shared-and-static-libs.patch \
            "
 # v1.0.5
@@ -24,7 +25,6 @@ SRCREV = "4513f8d707a68388990886d353e7cfe46cc6454b"
 S = "${WORKDIR}/git"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
-TARGET_CFLAGS += "-Wno-error=array-parameter -Wno-error=discarded-qualifiers"
 
 EXTRA_OECMAKE += "\
     -DBUILD_TESTING=OFF \
