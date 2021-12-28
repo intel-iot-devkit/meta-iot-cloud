@@ -1,20 +1,22 @@
-From abb47f580402430a59a6091b6540cc77e4570776 Mon Sep 17 00:00:00 2001
+From 03d0127bf99d6799276e1d6fbde0374bc368ee32 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 18 May 2021 22:17:32 +0100
+Date: Tue, 28 Dec 2021 15:38:34 +0800
 Subject: [PATCH] Build shared and static libs
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 
+Upstream-Status: Inappropriate [oe specific]
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- CMakeLists.txt         | 49 +++++++++++++++++++++++++++++++++++-------
- cmake/s2n-config.cmake |  6 +-----
- 2 files changed, 42 insertions(+), 13 deletions(-)
+ CMakeLists.txt         | 53 +++++++++++++++++++++++++++++++++++-------
+ cmake/s2n-config.cmake |  6 +----
+ 2 files changed, 46 insertions(+), 13 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d43dc480..f6d334d7 100644
+index e47219c5..9cbec456 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -275,24 +275,34 @@ file(GLOB S2N_SRC
+@@ -275,9 +275,12 @@ file(GLOB S2N_SRC
      ${UTILS_SRC}
  )
  
@@ -28,14 +30,18 @@ index d43dc480..f6d334d7 100644
  set(CMAKE_C_FLAGS_DEBUGOPT "")
  
  target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Wimplicit -Wunused -Wcomment -Wchar-subscripts
-         -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
+@@ -288,14 +291,25 @@ target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -std=gnu99 -Wall -Wimpl
          -Wno-missing-braces -Wa,--noexecstack
  )
-+target_compile_options(${PROJECT_NAME}_static PRIVATE -pedantic -std=gnu99 -Wall -Werror -Wimplicit -Wunused -Wcomment -Wchar-subscripts
+ 
++target_compile_options(${PROJECT_NAME}_static PRIVATE -pedantic -std=gnu99 -Wall -Wimplicit -Wunused -Wcomment -Wchar-subscripts
 +        -Wuninitialized -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings -Wno-deprecated-declarations -Wno-unknown-pragmas -Wformat-security
++        -Wno-error=array-parameter -Wno-error=discarded-qualifiers -Wno-error=analyzer-null-dereference
++        -Wno-error=analyzer-file-leak -Wno-error=analyzer-malloc-leak -Wno-error=analyzer-possible-null-dereference
++        -Wno-error=stringop-overflow -Wno-error=stringop-overread
 +        -Wno-missing-braces -Wa,--noexecstack
 +)
- 
++
  if (UNSAFE_TREAT_WARNINGS_AS_ERRORS)
      target_compile_options(${PROJECT_NAME} PRIVATE -Werror )
 +    target_compile_options(${PROJECT_NAME}_static PRIVATE -Werror )
@@ -50,7 +56,7 @@ index d43dc480..f6d334d7 100644
  endif()
  
  if(NOT APPLE)
-@@ -301,10 +311,12 @@ endif()
+@@ -304,10 +318,12 @@ endif()
  
  if(S2N_NO_PQ)
      target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_NO_PQ)
@@ -63,7 +69,7 @@ index d43dc480..f6d334d7 100644
      message(STATUS "Enabling SIKEP434R3 assembly code")
  endif()
  
-@@ -316,24 +328,28 @@ if(BIKE_R3_X86_64_OPT_SUPPORTED)
+@@ -319,24 +335,28 @@ if(BIKE_R3_X86_64_OPT_SUPPORTED)
          FILE(GLOB BIKE_R3_AVX2_SRCS "pq-crypto/bike_r3/*_avx2.c")
          set_source_files_properties(${BIKE_R3_AVX2_SRCS} PROPERTIES COMPILE_FLAGS -mavx2)
          target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_AVX2)
@@ -92,7 +98,7 @@ index d43dc480..f6d334d7 100644
      endif()
  
      message(STATUS "Enabling BIKE_R3 x86_64 optimizations")
-@@ -343,44 +359,55 @@ if(KYBER512R3_AVX2_BMI2_OPT_SUPPORTED)
+@@ -346,44 +366,55 @@ if(KYBER512R3_AVX2_BMI2_OPT_SUPPORTED)
      FILE(GLOB KYBER512R3_AVX2_BMI2_SRCS "pq-crypto/kyber_r3/*.c")
      set_source_files_properties(${KYBER512R3_AVX2_BMI2_SRCS} PROPERTIES COMPILE_FLAGS ${KYBER512R3_AVX2_BMI2_FLAGS})
      target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_KYBER512R3_AVX2_BMI2)
@@ -148,7 +154,7 @@ index d43dc480..f6d334d7 100644
  endif()
  
  set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
-@@ -455,11 +482,15 @@ else()
+@@ -458,11 +489,15 @@ else()
  endif()
  
  target_link_libraries(${PROJECT_NAME} PUBLIC ${OS_LIBS} m)
@@ -164,7 +170,7 @@ index d43dc480..f6d334d7 100644
  
  if (BUILD_TESTING)
      enable_testing()
-@@ -573,18 +604,20 @@ install(
+@@ -576,18 +611,20 @@ install(
          RUNTIME DESTINATION bin COMPONENT Runtime
  )
  
@@ -207,3 +213,6 @@ index 09d1c3aa..298c5b85 100644
 -endif()
 +include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
  
+-- 
+2.27.0
+
