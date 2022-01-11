@@ -14,7 +14,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-azure-mgmt-storage \
 "
 
-SRC_URI = "git://github.com/Azure/azure-batch-cli-extensions.git"
+SRC_URI = "git://github.com/Azure/azure-batch-cli-extensions.git;protocol=https"
 SRCREV = "49ceebfec6d8beb60e447328f869a65e102d1881"
 
 S = "${WORKDIR}/git"

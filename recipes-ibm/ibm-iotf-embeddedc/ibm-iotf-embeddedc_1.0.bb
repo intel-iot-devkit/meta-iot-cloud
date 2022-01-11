@@ -11,7 +11,7 @@ DEPENDS = "\
 "
 
 SRC_URI = "\
-    git://github.com/ibm-watson-iot/iot-embeddedc.git \
+    git://github.com/ibm-watson-iot/iot-embeddedc.git;protocol=https \
     file://Fix-dependencies.patch \
     file://Fix-cjson-library.patch \
     file://Remove-host-library-paths.patch \
@@ -20,7 +20,7 @@ SRC_URI = "\
 SRCREV = "809af3b63294d0c5302cc15e3652c65843907cf2"
 
 # MQTT Library
-SRC_URI += "git://github.com/eclipse/paho.mqtt.embedded-c.git;destsuffix=git-mqtt;name=mqtt"
+SRC_URI += "git://github.com/eclipse/paho.mqtt.embedded-c.git;protocol=https;destsuffix=git-mqtt;name=mqtt"
 SRCREV_mqtt = "5714645c762177ff08086224a7a9ce0b9d541316"
 
 PR = "r1"

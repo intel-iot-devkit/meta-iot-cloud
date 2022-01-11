@@ -11,7 +11,7 @@ RDEPENDS_${PN} = "\
     node-red \
 "
 
-SRC_URI = "git://github.com/GoogleCloudPlatform/${PN}.git;branch=master"
+SRC_URI = "git://github.com/GoogleCloudPlatform/${PN}.git;protocol=https;branch=master"
 SRCREV = "2e646aaf897da0d54a7ee5df55c4de3ac2eac86c"
 
 PR = "r3"
