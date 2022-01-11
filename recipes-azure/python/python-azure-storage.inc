@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-requests \
 "
 
-SRC_URI = "git://github.com/Azure/azure-storage-python.git"
+SRC_URI = "git://github.com/Azure/azure-storage-python.git;protocol=https"
 SRCREV = "11d0f03790423ae1e9fc8f6dc7b44383bc03febc"
 
 S = "${WORKDIR}/git"

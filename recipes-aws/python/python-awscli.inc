@@ -23,7 +23,7 @@ PR = "r0"
 
 SRC_NAME = "aws-cli"
 
-SRC_URI = "git://github.com/aws/${SRC_NAME}.git"
+SRC_URI = "git://github.com/aws/${SRC_NAME}.git;protocol=https"
 SRCREV = "59338c88372e5e15b57b438061d007dfeb0fbc3f"
 
 S = "${WORKDIR}/git"

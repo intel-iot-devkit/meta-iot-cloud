@@ -13,7 +13,7 @@ PACKAGES = "\
 
 SRC_NAME = "aws-iot-device-sdk-python"
 
-SRC_URI = "git://github.com/aws/${SRC_NAME}.git;tag=v${PV}"
+SRC_URI = "git://github.com/aws/${SRC_NAME}.git;protocol=https;tag=v${PV}"
 
 S = "${WORKDIR}/git"
 

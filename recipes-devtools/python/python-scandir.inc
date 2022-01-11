@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=482ee62da51806409d432a80eed4e3ea"
 
 PR = "r0"
 
-SRC_URI = "git://github.com/benhoyt/scandir.git"
+SRC_URI = "git://github.com/benhoyt/scandir.git;protocol=https"
 SRCREV = "edbae30f83f370f9d2f1e43d02e3793081e1cd25"
 
 S = "${WORKDIR}/git"
