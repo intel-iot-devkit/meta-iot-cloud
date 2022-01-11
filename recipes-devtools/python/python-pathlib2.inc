@@ -14,7 +14,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-scandir \
 "
 
-SRC_URI = "git://github.com/mcmtroffaes/pathlib2.git;branch=develop"
+SRC_URI = "git://github.com/mcmtroffaes/pathlib2.git;protocol=https;branch=develop"
 SRCREV = "d9bb60c754137d5914ac275ffe66e1976e06bd2d"
 
 S = "${WORKDIR}/git"

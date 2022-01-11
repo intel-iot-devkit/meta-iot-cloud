@@ -4,7 +4,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
 SRC_URI = "\
-    git://github.com/Azure/azure-c-shared-utility.git \
+    git://github.com/Azure/azure-c-shared-utility.git;protocol=https \
 "
 
 SRCREV = "4deb950a4154e9baa39c87d75dd323dd58e239b7"

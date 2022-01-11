@@ -24,7 +24,7 @@ RDEPENDS_${PN} += "\
     ${PYTHON_PN}-xmltodict \
 "
 
-SRC_URI = "git://github.com/ibm-watson-iot/iot-python.git"
+SRC_URI = "git://github.com/ibm-watson-iot/iot-python.git;protocol=https"
 SRCREV = "d334fe9a61823054ba9c200fdd56e0ee050d5b1e"
 
 S = "${WORKDIR}/git"
