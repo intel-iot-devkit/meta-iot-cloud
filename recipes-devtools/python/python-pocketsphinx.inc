@@ -11,7 +11,7 @@ DEPENDS += "\
 
 PR = "r0"
 
-SRC_URI = "gitsm://github.com/bambocher/pocketsphinx-python.git"
+SRC_URI = "gitsm://github.com/bambocher/pocketsphinx-python.git;protocol=https"
 SRCREV = "8d666f03e2124e107bafc8ee43bceefd0058e5f0"
 
 S = "${WORKDIR}/git"
