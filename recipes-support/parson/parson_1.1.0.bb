@@ -9,7 +9,7 @@ inherit cmake pkgconfig
 PR = "r0"
 
 SRC_URI = "\
-    git://github.com/kgabis/parson.git;protocol=https;rev=102a4467e10c77ffcfde1d233798780acd719cc5 \
+    git://github.com/kgabis/parson.git;protocol=https;branch=master;rev=102a4467e10c77ffcfde1d233798780acd719cc5 \
 "
 
 S = "${WORKDIR}/git"
