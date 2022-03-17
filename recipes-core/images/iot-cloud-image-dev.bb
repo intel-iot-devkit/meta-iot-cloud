@@ -12,7 +12,6 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-cloud-oisp \
     node-red \
     rclone \
-    restic \
 "
 
 CORE_IMAGE_EXTRA_INSTALL:x86_64 += "\
