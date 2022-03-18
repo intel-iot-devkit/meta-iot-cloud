@@ -14,14 +14,17 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     rclone \
 "
 
-CORE_IMAGE_EXTRA_INSTALL:x86_64 += "\
+CORE_IMAGE_EXTRA_INSTALL:append:x86-64 = " \
     dotnet \
+    dotnet-dev \
 "
 
-CORE_IMAGE_EXTRA_INSTALL:aarch64 += "\
+CORE_IMAGE_EXTRA_INSTALL:append:aarch64 = " \
     dotnet \
+    dotnet-dev \
 "
 
-CORE_IMAGE_EXTRA_INSTALL:arm += "\
+CORE_IMAGE_EXTRA_INSTALL:append:arm = " \
     dotnet \
+    dotnet-dev \
 "
