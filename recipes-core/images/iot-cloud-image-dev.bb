@@ -15,7 +15,7 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     restic \
 "
 
-CORE_IMAGE_EXTRA_INSTALL:x86_64 += "\
+CORE_IMAGE_EXTRA_INSTALL:x86-64 += "\
     dotnet \
 "
 
