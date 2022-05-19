@@ -38,3 +38,5 @@ SYSTEMD_SERVICE:${PN} = "${BPN}.service"
 FILES:${PN} += "\
     ${systemd_unitdir} \
 "
+
+INSANE_SKIP:${PN} += "staticdev"
