@@ -18,6 +18,7 @@ SRC_URI = "git://github.com/aws/s2n-tls.git;protocol=https;branch=main \
            file://Fix-packaging-issues.patch \
            file://0001-Workaround-gcc-11-errors.patch \
            file://Build-shared-and-static-libs.patch \
+           file://0001-Changed-function-declarations-to-match-their-definit.patch \
            "
 # v1.0.5
 SRCREV = "4513f8d707a68388990886d353e7cfe46cc6454b"
