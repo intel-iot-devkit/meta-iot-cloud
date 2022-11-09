@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/Azure/azure-iot-sdk-c"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
-BRANCH = "lts_07_2020"
+BRANCH = "lts_02"
 SRC_URI = "\
     git://github.com/Azure/azure-iot-sdk-c.git;branch=${BRANCH} \
 "
