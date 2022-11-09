@@ -4,7 +4,6 @@ OpenEmbedded layer to add support for multiple cloud service provider solutions.
 
 ## Supported Platforms
 * [IBM Cloud](https://www.ibm.com/cloud/)
-* [Amazon Web Services](https://aws.amazon.com/)
 * [Microsoft Azure](https://azure.microsoft.com/)
 * [Google Cloud Platform](https://cloud.google.com/)
 
@@ -32,11 +31,6 @@ To build packages related to IBM Cloud:
 ```shell
 	bitbake packagegroup-cloud-ibm
 ```
-	
-To build packages related to Amazon Web Services:
-```shell
-	bitbake packagegroup-cloud-aws
-```
 
 To build packages related to Microsoft Azure:
 ```shell
@@ -52,7 +46,6 @@ Alternatively to add support for a given platform into your image add the follow
 
 ```bitbake
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-ibm"
-    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-aws"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-azure"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-google"
 ```
