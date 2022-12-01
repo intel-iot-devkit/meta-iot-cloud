@@ -49,3 +49,12 @@ Alternatively to add support for a given platform into your image add the follow
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-azure"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-google"
 ```
+
+Patches
+=======
+
+Please submit any patches against the meta-iot-cloud layer to the
+maintainer:
+
+Maintainer: Scott Ware <scott.r.ware@intel.com>
+
