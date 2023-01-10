@@ -16,6 +16,8 @@ RDEPENDS:${PN} += "\
 
 PR = "r0"
 
+SRC_URI += "file://Fix-wheel-build-issue.patch"
+
 SRC_URI[md5sum] = "cb4ca99e97edea548117fe0d80cbd089"
 SRC_URI[sha256sum] = "52425f905518247c685fc64c5fdba6e1e74443c8562e141c8de56059be0e31da"
 
