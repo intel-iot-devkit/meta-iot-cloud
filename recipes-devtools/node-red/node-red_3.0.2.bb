@@ -1,24 +1,21 @@
 DESCRIPTION = "Node-RED"
 HOMEPAGE = "http://nodered.org"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=d6f37569f5013072e9490d2194d10ae6"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=014f1a23c3da49aa929b21a96808ab22"
 
 inherit npm
 
 PR = "r0"
 
 SRC_URI = "\
-    git://github.com/node-red/node-red.git;protocol=https;branch=master \
+    https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.zip \
     npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json \
     file://${BPN}.service \
-    file://Fixup-dependencies-for-newer-npm-versions.patch \
 "
 
-SRCREV = "173e75175eb1c40e7b11c8da4bccba8f2eb22937"
+SRC_URI[sha256sum] = "6c452646648f9e86622148eff2208fb45d2311b5339481f86b445e9e2fa215c5"
 
-S = "${WORKDIR}/git/packages/node_modules/${BPN}"
-
-EXTRA_OENPM = "--offline=false --proxy=false"
+S = "${WORKDIR}/${BPN}"
 
 do_install:append() {
     # Service
@@ -28,6 +25,10 @@ do_install:append() {
     # Remove hardware specific files
     rm ${D}/${bindir}/${BPN}-pi
     rm -rf ${D}/${libdir}/node_modules/${BPN}/bin
+
+    # Remove tmp files
+    rm -rf ${D}/${libdir}/node_modules/${BPN}/node_modules/bcrypt/build-tmp-napi-v3
+    rm -rf ${D}/${libdir}/node_modules/${BPN}/node_modules/bcrypt/node-addon-api
 }
 
 inherit systemd
@@ -39,4 +40,4 @@ FILES:${PN} += "\
     ${systemd_unitdir} \
 "
 
-INSANE_SKIP:${PN} += "staticdev"
+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
