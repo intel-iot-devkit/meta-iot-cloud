@@ -12,18 +12,3 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     node-red \
     rclone \
 "
-
-CORE_IMAGE_EXTRA_INSTALL:append:x86-64 = " \
-    dotnet \
-    dotnet-dev \
-"
-
-CORE_IMAGE_EXTRA_INSTALL:append:aarch64 = " \
-    dotnet \
-    dotnet-dev \
-"
-
-CORE_IMAGE_EXTRA_INSTALL:append:arm = " \
-    dotnet \
-    dotnet-dev \
-"
