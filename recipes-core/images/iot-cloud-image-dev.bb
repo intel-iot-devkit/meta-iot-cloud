@@ -8,7 +8,6 @@ CORE_IMAGE_EXTRA_INSTALL = "\
     packagegroup-cloud-aws \
     packagegroup-cloud-azure \
     packagegroup-cloud-google \
-    packagegroup-cloud-ibm \
     node-red \
     rclone \
 "

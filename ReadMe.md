@@ -3,7 +3,6 @@ meta-iot-cloud
 OpenEmbedded layer to add support for multiple cloud service provider solutions.
 
 ## Supported Platforms
-* [IBM Cloud](https://www.ibm.com/cloud/)
 * [Microsoft Azure](https://azure.microsoft.com/)
 * [Google Cloud Platform](https://cloud.google.com/)
 
@@ -27,10 +26,6 @@ Configuration
 
 Usage
 =====
-To build packages related to IBM Cloud:
-```shell
-	bitbake packagegroup-cloud-ibm
-```
 
 To build packages related to Microsoft Azure:
 ```shell
@@ -45,7 +40,6 @@ To build packages related to Google Cloud Platform:
 Alternatively to add support for a given platform into your image add the following to your distro config or `conf/auto.conf`
 
 ```bitbake
-    CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-ibm"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-azure"
     CORE_IMAGE_EXTRA_INSTALL += "packagegroup-cloud-google"
 ```
