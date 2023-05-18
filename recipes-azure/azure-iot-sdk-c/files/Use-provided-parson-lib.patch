@@ -3,6 +3,8 @@ From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 17 Apr 2020 17:52:08 +0100
 Subject: [PATCH 2/2] Use provided parson lib
 
+Upstream-Status: Inappropriate [OE-Specific]
+
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  CMakeLists.txt     | 26 --------------------------

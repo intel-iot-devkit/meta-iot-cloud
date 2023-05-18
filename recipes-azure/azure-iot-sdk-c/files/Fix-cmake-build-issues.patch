@@ -3,6 +3,8 @@ From: Scott Ware <scott.r.ware@intel.com>
 Date: Thu, 8 Nov 2018 14:08:34 +0000
 Subject: [PATCH 2/3] Fix cmake build issues
 
+Upstream-Status: Pending
+
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---

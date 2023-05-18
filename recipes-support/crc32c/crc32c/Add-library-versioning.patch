@@ -2,6 +2,7 @@ From d8ffa2188757338e10ec3a003b8b0fc3be9b6382 Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
 Date: Fri, 23 Oct 2020 12:14:53 +0100
 Subject: [PATCH] Add library versioning
+Upstream-Status: Pending
 
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---

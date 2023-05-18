@@ -3,6 +3,8 @@ From: Scott Ware <scott.r.ware@intel.com>
 Date: Thu, 8 Nov 2018 12:34:23 +0000
 Subject: [PATCH] Fix packaging issues
 
+Upstream-Status: Pending
+
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  CMakeLists.txt | 11 +++++++++++

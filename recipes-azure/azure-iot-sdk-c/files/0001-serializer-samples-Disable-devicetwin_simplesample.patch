@@ -12,7 +12,7 @@ It reports two different errors in the same line with one compile command, I
 used "gcc -E", but can't figure out the reason, the macro definitions are very
 complicated which may make it not work for cross compiling, so disable it.
 
-Upstream-Statu : Inappropriate [OE-Specific]
+Upstream-Status: Inappropriate [OE-Specific]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---

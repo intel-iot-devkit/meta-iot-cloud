@@ -9,9 +9,9 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "c python"
+PACKAGECONFIG ??= "c99 python"
 
-PACKAGECONFIG[c] = "\
+PACKAGECONFIG[c99] = "\
     , \
     , \
     , \
