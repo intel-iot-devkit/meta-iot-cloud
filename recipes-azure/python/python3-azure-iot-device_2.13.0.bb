@@ -6,8 +6,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit pypi setuptools3
 
-SRC_URI += "file://0001-setup.py-fit-new-setuptools.patch"
-
 RDEPENDS:${PN} += "\
     ${PYTHON_PN}-asyncio \
     ${PYTHON_PN}-crypt \
@@ -31,4 +29,4 @@ RDEPENDS:${PN} += "\
 
 PR = "r0"
 
-SRC_URI[sha256sum] = "223975a07c3c9dcc732f904f3c40e6589f8b33bf277a3906b84611bbbe5e6300"
+SRC_URI[sha256sum] = "e03594497e35ba9020b50546e1346b51c492629b970e4e2c5e0ddc5c41c54cbe"
