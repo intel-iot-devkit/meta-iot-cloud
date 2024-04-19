@@ -13,18 +13,7 @@ RDEPENDS:${PN}-dev = "\
 inherit go-mod
 
 GO_IMPORT = "github.com/rclone/rclone"
+GO_INSTALL = "${GO_IMPORT}"
 
-SRC_URI = "git://${GO_IMPORT};branch=master;protocol=https"
-SRCREV = "f8073a7b63b6c98b9fcc5ff1f6b1415ad1a22581"
+SRC_URI = "git://${GO_IMPORT}.git;branch=master;protocol=https;tag=v${PV}"
 
-PV = "1.58.0+git${SRCPV}"
-
-do_install:prepend(){
-    rm -f ${B}/${GO_BUILD_BINDIR}/bin
-    rm -f ${B}/${GO_BUILD_BINDIR}/build_csv
-    rm -f ${B}/${GO_BUILD_BINDIR}/gen
-    rm -f ${B}/${GO_BUILD_BINDIR}/test_all
-    rm -f ${B}/${GO_BUILD_BINDIR}/test_vfs
-}
-
-INSANE_SKIP:${PN}-staticdev += "arch ldflags"
