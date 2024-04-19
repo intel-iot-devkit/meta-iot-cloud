@@ -9,8 +9,7 @@ inherit cmake
 PR = "r0"
 
 SRC_URI = "\
-    git://github.com/google/crc32c.git;protocol=https;branch=master;tag=${PV} \
-    file://Add-library-versioning.patch \
+    git://github.com/google/crc32c.git;protocol=https;branch=main;tag=${PV} \
 "
 
 S = "${WORKDIR}/git"
