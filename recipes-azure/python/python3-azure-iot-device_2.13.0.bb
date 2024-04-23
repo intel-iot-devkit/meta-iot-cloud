@@ -7,24 +7,15 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 inherit pypi setuptools3
 
 RDEPENDS:${PN} += "\
-    ${PYTHON_PN}-asyncio \
-    ${PYTHON_PN}-crypt \
-    ${PYTHON_PN}-datetime \
-    ${PYTHON_PN}-io \
-    ${PYTHON_PN}-json \
-    ${PYTHON_PN}-logging \
-    ${PYTHON_PN}-netclient \
-"
-
-RDEPENDS:${PN} += "\
-    ${PYTHON_PN}-deprecation \
-    ${PYTHON_PN}-janus \
-    ${PYTHON_PN}-paho-mqtt \
-    ${PYTHON_PN}-pysocks \
-    ${PYTHON_PN}-requests \
-    ${PYTHON_PN}-requests-unixsocket \
-    ${PYTHON_PN}-six \
-    ${PYTHON_PN}-urllib3 \
+    python3-deprecation \
+    python3-janus \
+    python3-paho-mqtt \
+    python3-pysocks \
+    python3-requests \
+    python3-requests-unixsocket \
+    python3-six \
+    python3-urllib3 \
+    python3-typing-extensions \
 "
 
 PR = "r0"
