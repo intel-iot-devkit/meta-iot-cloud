@@ -7,7 +7,6 @@ inherit pypi setuptools3
 
 RDEPENDS:${PN} += "\
     ${PYTHON_PN}-difflib \
-    ${PYTHON_PN}-distutils \
     ${PYTHON_PN}-json \
     ${PYTHON_PN}-multiprocessing \
     ${PYTHON_PN}-threading \
