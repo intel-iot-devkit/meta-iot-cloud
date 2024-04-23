@@ -4,13 +4,13 @@ HOMEPAGE = "https://github.com/Azure/azure-c-shared-utility"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
-BRANCH = "lts_07_2020"
+BRANCH = "master"
 SRC_URI = "\
     git://github.com/Azure/azure-c-shared-utility.git;protocol=https;branch=${BRANCH} \
 "
 
-SRCREV = "85fe8977e98cc0e84609e9250ba34b0d455b96df"
+SRCREV = "ceeafc67441b5b6a6d3ea32cf4bf3bcb3fa760af"
 
-PV = "${BRANCH}+git${SRCPV}"
+PV = "1.1.12+git${SRCPV}"
 
 require ${BPN}.inc

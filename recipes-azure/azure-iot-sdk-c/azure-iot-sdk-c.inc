@@ -7,11 +7,10 @@ DEPENDS = "\
     parson \
 "
 
-SRC_URI += "\
-    file://Fix-cmake-build-issues.patch \
-    file://Use-provided-parson-lib.patch \
-    file://0001-serializer-samples-Disable-devicetwin_simplesample.patch \
-"
+#SRC_URI += "\
+#    file://Fix-cmake-build-issues.patch \
+#    file://Use-provided-parson-lib.patch \
+#"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
@@ -24,21 +23,13 @@ PACKAGECONFIG[mqtt] = "-Duse_mqtt:BOOL=ON, -Duse_mqtt:BOOL=OFF, azure-umqtt-c"
 
 EXTRA_OECMAKE = "\
     -Dbuild_as_dynamic:BOOL=ON \
-    -Dskip_samples:BOOL=OFF \
+    -Dskip_samples:BOOL=ON \
     -Duse_installed_dependencies:BOOL=ON \
     -Dbuild_service_client:BOOL=OFF \
     -Dbuild_provisioning_service_client:BOOL=OFF \
+    -Drun_e2e_tests:BOOL=OFF \
+    -Dhsm_type_sastoken:BOOL=OFF \
 "
-
-do_install:append() {
-    # Install samples
-    for sample in `find ${B} -perm 0755 -type f -path '*/samples/*'`; do
-        if [ ! -e ${D}${bindir} ]; then
-            install -m 0755 -d ${D}${bindir}
-        fi
-        install -m 0755 $sample ${D}${bindir}
-    done
-}
 
 sysroot_stage_all:append () {
     sysroot_stage_dir ${D}${exec_prefix}/cmake ${SYSROOT_DESTDIR}${exec_prefix}/cmake
@@ -46,10 +37,6 @@ sysroot_stage_all:append () {
 
 FILES:${PN}-dev += "\
     ${exec_prefix}/cmake \
-"
-
-FILES:${PN}-samples += " \
-    ${bindir} \
 "
 
 BBCLASSEXTEND = "native nativesdk"

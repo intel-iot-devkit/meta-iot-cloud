@@ -1,31 +1,21 @@
-From fea2b8280b0889b5c03f628c498cae7125f2a64c Mon Sep 17 00:00:00 2001
+From 3fe99f466679a9876cd264f7a07f1ca37fe6c15f Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Tue, 7 Apr 2020 20:59:53 +0100
+Date: Mon, 22 Apr 2024 09:33:47 +0100
 Subject: [PATCH] Use pkg-config to find libs
 
+Upstream-Status: Pending
+
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
-
-Add link options to cmake configs. Other package (such as
-azure-iot-sdk-c) link library of azure-c-shared-utility
-with these options to avoid the following error
-...
-ld: iothub_client/libiothub_client.so.1.4.1: undefined reference to `ERR_load_BIO_strings'
-collect2: error: ld returned 1 exit status
-...
-
-Upstream-Status: Inappropriate [oe specific]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- CMakeLists.txt                      | 31 ++++++++++-------------------
+ CMakeLists.txt                      | 30 ++++++++++-------------------
  configs/azure_iot_build_rules.cmake |  5 +++++
- 2 files changed, 15 insertions(+), 21 deletions(-)
+ 2 files changed, 15 insertions(+), 20 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e7078fee..c8c0f9d5 100644
+index 00e79a95..eef28e29 100755
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -116,9 +116,13 @@ if(${use_openssl})
+@@ -126,7 +126,11 @@ if(${use_openssl})
      # If OpenSSL::SSL OR OpenSSL::Crypto are not set then you need to run
      # the find package for openssl
      if (NOT TARGET OpenSSL::SSL OR NOT TARGET OpenSSL::Crypto OR NOT ${OPENSSL_INCLUDE_DIR})
@@ -36,30 +26,35 @@ index e7078fee..c8c0f9d5 100644
 +            pkg_check_modules(CRYPTO libcrypto)
 +        endif()
      endif()
+ 
+     # The block below enables the v1 back-compatibility layer in OpenSSL 3,
+@@ -136,7 +140,7 @@ if(${use_openssl})
+         add_definitions(-DOPENSSL_API_COMPAT=0x10101000L)
+     endif()
+ 
 -    include_directories(${OPENSSL_INCLUDE_DIR})
 +    include_directories(${OPENSSL_INCLUDE_DIR} ${CRYPTO_INCLUDE_DIR})
  endif()
  
  if(${use_applessl})
-@@ -511,26 +515,11 @@ if(${use_http})
+@@ -543,25 +547,11 @@ if(${use_http})
          set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 winhttp)
      else()
          if (NOT use_builtin_httpapi)
--            if (CMAKE_CROSSCOMPILING)
--                # As mentioned at https://cmake.org/Wiki/CMake_Cross_Compiling the
--                # pkg-config tool can not be used by cmake while cross compiling.
--                message(STATUS "Cross compiling not using pkg-config")
--            else()
--                # try pkg-config first
--                find_package(PkgConfig)
--                if(PKG_CONFIG_FOUND)
--                    pkg_check_modules(CURL libcurl)
--                endif()
--            endif()
 -
--            # if that didn't work, try CMake find_package
--            if(NOT CURL_FOUND)
--                find_package(CURL)
+-            # try CMake find_package first
+-            find_package(CURL)
+-
+-            # As mentioned at https://cmake.org/Wiki/CMake_Cross_Compiling the
+-            # pkg-config tool can not be used by cmake while cross compiling.
+-            if (NOT CMAKE_CROSSCOMPILING)
+-                # if find_package didn't work, try pkg-config
+-                if(NOT CURL_FOUND)
+-                    find_package(PkgConfig)
+-                    if(PKG_CONFIG_FOUND)
+-                        pkg_check_modules(CURL libcurl)
+-                    endif()
+-                endif()
 +            find_package(PkgConfig)
 +            if(PKG_CONFIG_FOUND)
 +                pkg_check_modules(CURL libcurl)
@@ -71,7 +66,7 @@ index e7078fee..c8c0f9d5 100644
              include_directories(${CURL_INCLUDE_DIRS})
              set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} ${CURL_LIBRARIES})
          endif(NOT use_builtin_httpapi)
-@@ -571,7 +560,7 @@ if(${use_bearssl})
+@@ -602,7 +592,7 @@ if(${use_bearssl})
  endif()
  
  if(${use_openssl})
@@ -81,12 +76,12 @@ index e7078fee..c8c0f9d5 100644
          set(aziotsharedutil_target_libs ${aziotsharedutil_target_libs} crypt32 ws2_32 secur32)
      endif()
 diff --git a/configs/azure_iot_build_rules.cmake b/configs/azure_iot_build_rules.cmake
-index be3e14fe..4f85a2b8 100644
+index 655b7f01..747fd256 100644
 --- a/configs/azure_iot_build_rules.cmake
 +++ b/configs/azure_iot_build_rules.cmake
-@@ -76,6 +76,11 @@ elseif(UNIX) #LINUX OR APPLE
-     if(NOT (IN_OPENWRT OR APPLE))
-         set (CMAKE_C_FLAGS "-D_POSIX_C_SOURCE=200112L ${CMAKE_C_FLAGS}")
+@@ -77,6 +77,11 @@ elseif(UNIX) #LINUX OR APPLE
+         # _XOPEN_SOURCE=500 is required for glibc to expose random and srandom.
+         set (CMAKE_C_FLAGS "-D_POSIX_C_SOURCE=200112L -D_XOPEN_SOURCE=500 ${CMAKE_C_FLAGS}")
      endif()
 +
 +    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lssl -lcrypto")
@@ -96,6 +91,3 @@ index be3e14fe..4f85a2b8 100644
  endif()
  
  enable_testing()
--- 
-2.27.0
-

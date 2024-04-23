@@ -4,13 +4,11 @@ HOMEPAGE = "https://github.com/Azure/azure-uamqp-c"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4283671594edec4c13aeb073c219237a"
 
-BRANCH = "lts_07_2020"
-SRC_URI = "\
-    git://github.com/Azure/azure-uamqp-c.git;protocol=https;branch=${BRANCH} \
-"
+BRANCH = "master"
+SRC_URI = "git://github.com/Azure/azure-uamqp-c.git;protocol=https;branch=${BRANCH}"
 
-SRCREV = "038b7e32d70bec2b9108f3e3ec999795729ec6fe"
+SRCREV = "4971d3795f48290893f9155deef5a5ae9563bd57"
 
-PV = "${BRANCH}+git${SRCPV}"
+PV = "1.2.12+git${SRCPV}"
 
 include ${BPN}.inc

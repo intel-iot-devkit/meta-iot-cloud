@@ -4,13 +4,13 @@ HOMEPAGE = "https://github.com/Azure/azure-umqtt-c"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6e1bb384cedd6442b3a2b9a5b531e005"
 
-BRANCH = "lts_07_2020"
+BRANCH = "master"
 SRC_URI = "\
     git://github.com/Azure/azure-umqtt-c.git;protocol=https;branch=${BRANCH} \
 "
 
-SRCREV="0c9cd1b323e58816fafe8d4db303b17ac2101b19"
+SRCREV="b4e16beaaa2a025d18a95a665e2784dd9284c066"
 
-PV = "${BRANCH}+git${SRCPV}"
+PV = "1.1.12+git${SRCPV}"
 
 require ${BPN}.inc

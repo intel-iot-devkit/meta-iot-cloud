@@ -1,6 +1,6 @@
-From 2124dbef79f97e785a3cc75acf636e20e0845661 Mon Sep 17 00:00:00 2001
+From dbdae077972df94b9d9e223784dcc9c3cd32886f Mon Sep 17 00:00:00 2001
 From: Scott Ware <scott.r.ware@intel.com>
-Date: Thu, 8 Nov 2018 12:34:23 +0000
+Date: Mon, 22 Apr 2024 13:42:03 +0100
 Subject: [PATCH] Fix packaging issues
 
 Upstream-Status: Pending
@@ -11,7 +11,7 @@ Signed-off-by: Scott Ware <scott.r.ware@intel.com>
  1 file changed, 11 insertions(+)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 96a2692..46ba016 100644
+index 8fc93c0..bb7944b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -6,6 +6,9 @@ project(uamqp)
@@ -39,6 +39,3 @@ index 96a2692..46ba016 100644
  if (NOT ${skip_samples})
      add_subdirectory(samples)
  endif()
--- 
-2.7.4
-

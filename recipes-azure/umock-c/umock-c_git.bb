@@ -7,7 +7,7 @@ SRC_URI = "\
     git://github.com/Azure/umock-c.git;protocol=https;branch=master \
 "
 
-SRCREV = "062f7e5c34f7eb9a7e10c352364f4057fd67607a"
+SRCREV = "504193e65d1c2f6eb50c15357167600a296df7ff"
 
 PV = "1.1.19+git${SRCPV}"
 

@@ -1,4 +1,4 @@
-inherit cmake
+inherit cmake pkgconfig
 
 DEPENDS = "\
     azure-c-shared-utility \
@@ -7,7 +7,7 @@ DEPENDS = "\
 "
 
 SRC_URI += "\
-    file://Fix-packaging-issues.patch \
+    file://0001-Fix-packaging-issues.patch \
 "
 
 S = "${WORKDIR}/git"
