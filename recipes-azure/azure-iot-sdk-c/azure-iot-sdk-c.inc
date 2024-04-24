@@ -1,7 +1,5 @@
 inherit cmake
 
-PACKAGE_BEFORE_PN += "${PN}-samples"
-
 DEPENDS = "\
     azure-c-shared-utility \
     parson \
