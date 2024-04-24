@@ -5,11 +5,6 @@ DEPENDS = "\
     parson \
 "
 
-#SRC_URI += "\
-#    file://Fix-cmake-build-issues.patch \
-#    file://Use-provided-parson-lib.patch \
-#"
-
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
