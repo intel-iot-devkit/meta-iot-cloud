@@ -20,3 +20,6 @@ EXTRA_OECMAKE += "\
     -DCRC32C_USE_GLOG=OFF \
     -DBUILD_SHARED_LIBS=ON \
 "
+
+BBCLASSEXTEND = "native nativesdk"
+

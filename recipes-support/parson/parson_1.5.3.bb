@@ -21,3 +21,5 @@ EXTRA_OECMAKE = "\
 FILES:${PN}-dev += "\
     ${libdir}/cmake \
 "
+
+BBCLASSEXTEND = "native nativesdk"
