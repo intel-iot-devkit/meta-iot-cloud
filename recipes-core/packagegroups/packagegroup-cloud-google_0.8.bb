@@ -7,7 +7,7 @@ PR = "r0"
 
 PACKAGES = "${PN}"
 
-PACKAGECONFIG ??= "python"
+PACKAGECONFIG ??= "cpp python"
 
 PACKAGECONFIG[python] = "\
     , \
@@ -15,4 +15,12 @@ PACKAGECONFIG[python] = "\
     , \
     python3-google-cloud-iot \
     python3-google-cloud-pubsub \
+"
+
+PACKAGECONFIG[cpp] = "\
+    , \
+    , \
+    , \
+    google-cloud-cpp \
+    google-cloud-cpp-dev \
 "
