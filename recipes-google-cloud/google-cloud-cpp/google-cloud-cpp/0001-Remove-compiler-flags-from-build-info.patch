@@ -1,0 +1,23 @@
+From 5ab93dd54bc3739e769a2a60e4a4f9dbf010fc67 Mon Sep 17 00:00:00 2001
+From: Scott Ware <scott.r.ware@intel.com>
+Date: Thu, 25 Apr 2024 19:52:43 +0000
+Subject: [PATCH] Remove compiler flags from build info
+
+Signed-off-by: Scott Ware <scott.r.ware@intel.com>
+---
+ google/cloud/internal/build_info.cc.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/google/cloud/internal/build_info.cc.in b/google/cloud/internal/build_info.cc.in
+index 3251870130..409e9e08c7 100644
+--- a/google/cloud/internal/build_info.cc.in
++++ b/google/cloud/internal/build_info.cc.in
+@@ -30,7 +30,7 @@ std::string compiler() {
+ // NOLINTNEXTLINE(readability-identifier-naming)
+ std::string compiler_flags() {
+   static char const kCompilerFlags[] =
+-      R"""(@CMAKE_CXX_FLAGS@ ${CMAKE_CXX_FLAGS_${GOOGLE_CLOUD_CPP_BUILD_TYPE_UPPER}})""";
++      R"""(@GOOGLE_CLOUD_CPP_BUILD_TYPE_UPPER@)""";
+   return kCompilerFlags;
+ }
+ 
