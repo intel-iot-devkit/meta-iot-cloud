@@ -2,7 +2,7 @@ DESCRIPTION = "A python wrapper of the C library Google CRC32C"
 HOMEPAGE = "https://github.com/googleapis/python-crc32c"
 AUTHOR = "Google LLC"
 LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=75b3827ef914c0cd0b544360c97fb0df"
 
 inherit pypi setuptools3
 
@@ -13,4 +13,4 @@ DEPENDS += "\
     crc32c \
 "
 
-SRC_URI[sha256sum] = "9439b960b6ecd847557675d130fc3626d762bf535da595c20a6949a705fb3eae"
+SRC_URI[sha256sum] = "89284716bc6a5a415d4eaa11b1726d2d60a0cd12aadf5439828353662ede9dd7"

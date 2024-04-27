@@ -7,10 +7,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
 inherit setuptools3 pypi
 
 RDEPENDS:${PN} += "\
-    python3-datetime \
-"
-
-RDEPENDS:${PN} += "\
     python3-packaging \
 "
 
