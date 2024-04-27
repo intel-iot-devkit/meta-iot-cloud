@@ -10,3 +10,4 @@ SRC_URI = "\
 "
 
 include ${BPN}.inc
+
