@@ -15,8 +15,10 @@ require ${BPN}-crates.inc
 PR = "r0"
 
 SRC_URI += "\
-    git://github.com/Instagram/LibCST.git;protocol=https;branch=main;tag=v${PV} \
+    git://github.com/Instagram/LibCST.git;protocol=https;branch=main \
 "
+
+SRCREV = "9f54920d9d32a519aa1702485ed56c55d8189a0c"
 
 S = "${WORKDIR}/git"
 
