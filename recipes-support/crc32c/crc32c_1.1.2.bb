@@ -9,8 +9,10 @@ inherit cmake
 PR = "r0"
 
 SRC_URI = "\
-    git://github.com/google/crc32c.git;protocol=https;branch=main;tag=${PV} \
+    git://github.com/google/crc32c.git;protocol=https;branch=main \
 "
+
+SRCREV = "02e65f4fd3065d27b2e29324800ca6d04df16126"
 
 S = "${WORKDIR}/git"
 
@@ -22,4 +24,3 @@ EXTRA_OECMAKE += "\
 "
 
 BBCLASSEXTEND = "native nativesdk"
-
