@@ -3,6 +3,8 @@ From: Scott Ware <scott.r.ware@intel.com>
 Date: Thu, 25 Apr 2024 19:52:43 +0000
 Subject: [PATCH] Remove compiler flags from build info
 
+Upstream-Status: Pending
+
 Signed-off-by: Scott Ware <scott.r.ware@intel.com>
 ---
  google/cloud/internal/build_info.cc.in | 2 +-
