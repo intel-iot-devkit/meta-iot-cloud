@@ -299,6 +299,3 @@ FILES:${PN} += "\
     ${systemd_unitdir} \
 "
 
-
-INSANE_SKIP:${PN} += "already-stripped"
-
