@@ -12,7 +12,6 @@ PR = "r0"
 RDEPENDS:${PN} += "\
     python3-google-api-core \
     python3-grpc-google-iam-v1 \
-    python3-libcst \
     python3-proto-plus \
 "
 
