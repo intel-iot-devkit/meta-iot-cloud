@@ -14,6 +14,7 @@ inherit go-mod
 
 GO_IMPORT = "github.com/rclone/rclone"
 GO_INSTALL = "${GO_IMPORT}"
+GO_LINKSHARED = ""
 
 SRC_URI = "git://${GO_IMPORT}.git;branch=master;protocol=https"
 
