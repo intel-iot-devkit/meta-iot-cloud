@@ -27,9 +27,6 @@
             },
             "engines": {
                 "node": ">=12"
-            },
-            "optionalDependencies": {
-                "bcrypt": "5.0.1"
             }
         },
         "node_modules/@babel/runtime": {
@@ -85,9 +82,6 @@
                 "passport-http-bearer": "1.0.1",
                 "passport-oauth2-client-password": "0.1.2",
                 "ws": "7.5.1"
-            },
-            "optionalDependencies": {
-                "bcrypt": "5.0.1"
             }
         },
         "node_modules/@node-red/editor-client": {
@@ -431,20 +425,6 @@
             },
             "engines": {
                 "node": ">= 0.8"
-            }
-        },
-        "node_modules/bcrypt": {
-            "version": "5.0.1",
-            "resolved": "https://registry.npmjs.org/bcrypt/-/bcrypt-5.0.1.tgz",
-            "integrity": "sha512-9BTgmrhZM2t1bNuDtrtIMVSmmxZBrJ71n8Wg+YgdjHuIWYF7SjjmCPZFB+/5i/o/PIeRpwVJR3P+NrpIItUjqw==",
-            "hasInstallScript": true,
-            "optional": true,
-            "dependencies": {
-                "@mapbox/node-pre-gyp": "^1.0.0",
-                "node-addon-api": "^3.1.0"
-            },
-            "engines": {
-                "node": ">= 10.0.0"
             }
         },
         "node_modules/bcryptjs": {
@@ -2106,9 +2086,6 @@
             },
             "engines": {
                 "node": ">=12"
-            },
-            "optionalDependencies": {
-                "bcrypt": "5.0.1"
             }
         },
         "node_modules/nopt": {
@@ -3020,7 +2997,6 @@
             "requires": {
                 "@node-red/editor-client": "2.1.6",
                 "@node-red/util": "2.1.6",
-                "bcrypt": "5.0.1",
                 "bcryptjs": "2.4.3",
                 "body-parser": "1.19.1",
                 "clone": "2.1.2",
@@ -3316,16 +3292,6 @@
             "integrity": "sha512-NF+epuEdnUYVlGuhaxbbq+dvJttwLnGY+YixlXlME5KpQ5W3CnXA5cVTneY3SPbPDRkcjMbifrwmFYcClgOZeg==",
             "requires": {
                 "safe-buffer": "5.1.2"
-            }
-        },
-        "bcrypt": {
-            "version": "5.0.1",
-            "resolved": "https://registry.npmjs.org/bcrypt/-/bcrypt-5.0.1.tgz",
-            "integrity": "sha512-9BTgmrhZM2t1bNuDtrtIMVSmmxZBrJ71n8Wg+YgdjHuIWYF7SjjmCPZFB+/5i/o/PIeRpwVJR3P+NrpIItUjqw==",
-            "optional": true,
-            "requires": {
-                "@mapbox/node-pre-gyp": "^1.0.0",
-                "node-addon-api": "^3.1.0"
             }
         },
         "bcryptjs": {
@@ -4558,7 +4524,6 @@
             "requires": {
                 "ansi-colors": "^4.1.1",
                 "axios": "0.22.0",
-                "bcrypt": "5.0.1",
                 "bcryptjs": "^2.4.3",
                 "cli-table": "^0.3.4",
                 "enquirer": "^2.3.6",

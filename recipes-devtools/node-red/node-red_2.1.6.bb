@@ -18,7 +18,7 @@ SRCREV = "173e75175eb1c40e7b11c8da4bccba8f2eb22937"
 
 S = "${WORKDIR}/git/packages/node_modules/${BPN}"
 
-EXTRA_OENPM = "--offline=false --proxy=false"
+EXTRA_OENPM = "--offline=true --proxy=false"
 
 do_install:append() {
     # Service
@@ -39,4 +39,3 @@ FILES:${PN} += "\
     ${systemd_unitdir} \
 "
 
-INSANE_SKIP:${PN} += "staticdev"
