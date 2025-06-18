@@ -1,0 +1,29 @@
+From b766506b29ad86c9cef85e1b0d4e1b2cf1afd068 Mon Sep 17 00:00:00 2001
+From: Soumya Sambu <soumya.sambu@windriver.com>
+Date: Mon, 26 May 2025 18:46:13 +0530
+Subject: [PATCH] fix version specifier in python_requires
+
+Upstream-Status: Inactive-Upstream [lastcommit: 2020-09-30]
+https://github.com/Azure/azure-iot-sdk-python/blob/2020-09-30/azure-iot-device/.bumpverion.cfg
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index 33c5b74..9b9acc3 100644
+--- a/setup.py
++++ b/setup.py
+@@ -93,7 +93,7 @@ setup(
+         "win-inet-pton;python_version == '2.7'",
+     ],
+     extras_require={":python_version<'3.0'": ["azure-iot-nspkg>=1.0.1"]},
+-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3*, <4",
++    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4",
+     packages=find_packages(
+         exclude=[
+             "tests",
+-- 
+2.40.0
+
