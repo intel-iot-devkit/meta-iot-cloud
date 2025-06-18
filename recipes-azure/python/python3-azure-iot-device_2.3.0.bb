@@ -29,4 +29,7 @@ RDEPENDS:${PN} += "\
 
 PR = "r0"
 
+SRC_URI += "\
+            file://0001-fix-version-specifier-in-python_requires.patch"
+
 SRC_URI[sha256sum] = "223975a07c3c9dcc732f904f3c40e6589f8b33bf277a3906b84611bbbe5e6300"
